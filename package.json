@@ -1,0 +1,17 @@
+{
+  "name": "mangarackjs",
+  "version": "3.0.0",
+  "description": "MangaRack is an application capable of synchronizing manga series from popular online manga scan and scanlation sites.",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Roel van Uden",
+  "dependencies": {
+    "async" : "0.9.x", // core
+    "cheerio": "0.16.x", // engine
+    "commander": "2.2.x", // cli
+    "request": "2.36.x" // engine
+  },
+  "license": "MIT"
+}
