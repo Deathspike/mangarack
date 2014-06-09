@@ -27,20 +27,15 @@ var regex = new RegExp('\\s*' +
 module.exports = function (input) {
 	// Initialize the match.
 	var match = input.match(regex);
-	// Check if the match is valid.
-	if (match) {
-		// Return the result ...
-		return {
-			// ... with the number ...
-			number: parseNumber(match[2], match[3]),
-			// ... with the title ...
-			title: (match[4] || '').trim(),
-			// ... with the volume ...
-			volume: parseFloat(match[1])
-		};
-	}
-	// Return undefined.
-	return undefined;
+	// Return the result ...
+	return !match ? undefined : {
+		// ... with the number ...
+		number: parseNumber(match[2], match[3]),
+		// ... with the title ...
+		title: (match[4] || '').trim(),
+		// ... with the volume ...
+		volume: parseFloat(match[1])
+	};
 };
 
 // ==================================================
@@ -48,9 +43,9 @@ module.exports = function (input) {
 // --------------------------------------------------
 parseNumber = function (chapter, part) {
 	// Initialize the addition.
-	var addition = 0,
-		// Initialize the match.
-		match = chapter.match(/([a-u])$/i);
+	var addition = 0;
+	// Initialize the match.
+	var match = chapter.match(/([a-u])$/i);
 	// Check if the match is valid.
 	if (match) {
 		// Initialize the addition.

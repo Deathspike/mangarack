@@ -13,14 +13,12 @@ var mangafox = require('./mangafox');
 // Export the function.
 // --------------------------------------------------
 module.exports = function (location) {
-	// Initialize the populate function.
-	var populate,
-		// Initialize the series.
-		series = batoto(location) || kissmanga(location) || mangafox(location);
+	// Initialize the series.
+	var series = batoto(location) || kissmanga(location) || mangafox(location);
 	// Check if the series is valid.
 	if (series) {
 		// Initialize the populate function.
-		populate = series.children;
+		var populate = series.children;
 		// Initialize the children alterant.
 		series.children = function ($) {
 			// Initialize each child.

@@ -1,4 +1,4 @@
-/*jslint node: true*/
+// Enable restricted mode.
 'use strict';
 // Initialize the page module.
 var Page = require('./page');
@@ -25,19 +25,19 @@ function Chapter(identifier, location, number, title, volume) {
 Chapter.prototype.children = function ($) {
 	// Initialize the location ...
 	var location = /[0-9]+\.html$/i.test(this.location) ?
-			// ... with the current location ...
-			this.location :
-			// ... or the location with a suffix.
-			this.location + '1.html';
+		// ... with the current location ...
+		this.location :
+		// ... or the location with a suffix.
+		this.location + '1.html';
 	// Find each page option.
 	return $('select.m').first().find('option').filter(function (i, el) {
 		// Filter each invalid page.
 		return parseInt($(el).text(), 10) > 0;
 	}).map(function (i, el) {
 		// Initialize the next number.
-		var nextNumber = $(el).text() + '.html',
-			// Initialize the page.
-			page = new Page(location.replace(/[0-9]+\.html$/i, nextNumber));
+		var nextNumber = $(el).text() + '.html';
+		// Initialize the page.
+		var page = new Page(location.replace(/[0-9]+\.html$/i, nextNumber));
 		// Check if this is the first page.
 		if (i === 0) {
 			// Update the image location.

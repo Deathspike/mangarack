@@ -1,4 +1,4 @@
-/*jslint node: true*/
+// Enable restricted mode.
 'use strict';
 // Initialize the chapter module.
 var Chapter = require('./chapter');
@@ -44,11 +44,11 @@ Series.prototype.children = function ($) {
 	// Search for each chapter.
 	$('tr.lang_English').find('a[href*=\'/read/\']').map(function (i, el) {
 		// Initialize the scan.
-		var scan = scanner($(el).text()),
-			// Initialize the location.
-			location = ($(el).attr('href') || '').trim(),
-			// Initialize the identifier.
-			identifier = location.match(/_\/([0-9]+)\//i);
+		var scan = scanner($(el).text());
+		// Initialize the location.
+		var location = ($(el).attr('href') || '').trim();
+		// Initialize the identifier.
+		var identifier = location.match(/_\/([0-9]+)\//i);
 		// Check if the location, scan and unique identifier are valid.
 		if (location && scan && identifier) {
 			// Push the chapter ...

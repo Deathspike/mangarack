@@ -1,4 +1,4 @@
-/*jslint node: true*/
+// Enable restricted mode.
 'use strict';
 // Initialize the page module.
 var Page = require('./page');
@@ -28,9 +28,9 @@ Chapter.prototype.children = function ($) {
 	// Find each page option.
 	return select.find('option[value*=\'/read/\']').map(function (i, el) {
 		// Initialize the value.
-		var value = $(el).attr('value'),
-			// Initialize the page.
-			page = value ? new Page(value) : undefined;
+		var value = $(el).attr('value');
+		// Initialize the page.
+		var page = value ? new Page(value) : undefined;
 		// Check if this is the first page and is valid.
 		if (i === 0 && page) {
 			// Update the image location.

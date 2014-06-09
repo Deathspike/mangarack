@@ -5,48 +5,30 @@
 // Export the function.
 // --------------------------------------------------
 module.exports = function (children) {
-	// Initialize the best.
-	var best,
-		// Initialize the count.
-		count,
-		// Initialize the difference.
-		difference,
-		// Initialize the differences.
-		differences,
-		// Initialize the first iterator.
-		i,
-		// Initialize the second iterator.
-		j,
-		// Initialize the next.
-		next,
-		// Initialize the number of differences.
-		numberOfDifferences,
-		// Initialize the previous.
-		previous,
-		// Initialize the source.
-		source;
 	// Iterate through each child.
-	for (i = 0; i < children.length; i += 1) {
+	for (var i = 0; i < children.length; i += 1) {
 		// Initialize the source.
-		source = children[i];
+		var source = children[i];
 		// Check if the number is invalid.
 		if (isNaN(source.number)) {
+			// Initialize the difference.
+			var difference;
 			// Initialize the differences.
-			differences = {};
+			var differences = {};
 			// Initialize the number of differences.
-			numberOfDifferences = 0;
+			var numberOfDifferences = 0;
 			// Initialize the previous child.
-			previous = undefined;
+			var previous;
 			// Iterate through each child.
-			for (j = 0; j < children.length; j += 1) {
+			for (var j = 0; j < children.length; j += 1) {
 				// Initialize the next child.
-				next = children[j];
+				var next = children[j];
 				// Check if the next child differs from the source child ...
 				if (next !== source &&
-						// ... and the next child has an valid number ...
-						!isNaN(next.number) &&
-						// ... and the next child matches the source volume.
-						next.volume === source.volume) {
+					// ... and the next child has an valid number ...
+					!isNaN(next.number) &&
+					// ... and the next child matches the source volume.
+					next.volume === source.volume) {
 					// Check if the previous child is available.
 					if (previous) {
 						// Initialize the difference.
@@ -69,13 +51,13 @@ module.exports = function (children) {
 			// Check if differences are available.
 			if (numberOfDifferences) {
 				// Initialize the best.
-				best = undefined;
+				var best;
 				// Iterate through each difference.
 				for (difference in differences) {
 					// Check if the difference is owned.
 					if (differences.hasOwnProperty(difference)) {
 						// Initialize the count.
-						count = differences[differences];
+						var count = differences[differences];
 						// Check if difference exceeds the best.
 						if (!best || count > best.count) {
 							// Set the best.
