@@ -1,4 +1,4 @@
-/*jslint node: true*/
+// Enable restricted mode.
 'use strict';
 
 // ==================================================

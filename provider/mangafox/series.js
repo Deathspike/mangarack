@@ -1,4 +1,4 @@
-/*jslint node: true*/
+// Enable restricted mode.
 'use strict';
 // Initialize the chapter module.
 var Chapter = require('./chapter');
@@ -38,9 +38,9 @@ Series.prototype.authors = function ($) {
 // --------------------------------------------------
 Series.prototype.children = function ($) {
 	// Initialize the regular expression.
-	var regex = /id=([0-9]+)/i,
-		// Initialize each result.
-		results = [];
+	var regex = /id=([0-9]+)/i;
+	// Initialize each result.
+	var results = [];
 	// Search for each volume.
 	$('h3.volume').map(function (i, el) {
 		// Initialize the match.
@@ -95,9 +95,9 @@ Series.prototype.imageLocation = function ($) {
 // --------------------------------------------------
 Series.prototype.summary = function ($) {
 	// Initialize the complete state.
-	var isComplete,
-		// Initialize the result.
-		result = '';
+	var isComplete;
+	// Initialize the result.
+	var result = '';
 	// Split the text.
 	$('p.summary').text().split('\n').filter(function (piece) {
 		// Filter pieces ending with a colon ...

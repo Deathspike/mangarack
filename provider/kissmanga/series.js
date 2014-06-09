@@ -1,4 +1,4 @@
-/*jslint node: true*/
+// Enable restricted mode.
 'use strict';
 // Initialize the chapter module.
 var Chapter = require('./chapter');
@@ -11,10 +11,10 @@ var scanner = require('../scanner');
 function Series(location) {
 	// Set the location ...
 	this.location = /\?confirm=yes$/i.test(location) ?
-			// ... with the existing confirmation ...
-			location :
-			// ... with an appended confirmation.
-			location + '?confirm=yes';
+		// ... with the existing confirmation ...
+		location :
+		// ... with an appended confirmation.
+		location + '?confirm=yes';
 }
 
 // ==================================================
@@ -37,11 +37,11 @@ Series.prototype.children = function ($) {
 	// Search for each chapter.
 	$('a[href*=\'/Manga/\'][title*=\'Read\']').map(function (i, el) {
 		// Initialize the scan.
-		var scan = scanner($(el).text().replace(/\.0+/, '.')),
-			// Initialize the location.
-			location = ($(el).attr('href') || '').trim(),
-			// Initialize the identifier.
-			identifier = location.match(/id=([0-9]+)$/i);
+		var scan = scanner($(el).text().replace(/\.0+/, '.'));
+		// Initialize the location.
+		var location = ($(el).attr('href') || '').trim();
+		// Initialize the identifier.
+		var identifier = location.match(/id=([0-9]+)$/i);
 		// Check if the location, scan and identifier are valid.
 		if (location && scan && identifier) {
 			// Push the chapter ...

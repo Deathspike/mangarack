@@ -1,4 +1,4 @@
-/*jslint node: true*/
+// Enable restricted mode.
 'use strict';
 // Initialize the page module.
 var Page = require('./page');
@@ -24,13 +24,13 @@ function Chapter(identifier, location, number, title, volume) {
 // --------------------------------------------------
 Chapter.prototype.children = function ($) {
 	// Initialize the match.
-	var match,
-		// Initialize the regular expression.
-		regex = /lstImages\.push\("([\w\W]+?)"\)/gi,
-		// Initialize each result.
-		results = [],
-		// Initialize the text.
-		text = $('script:contains(lstImages)').text();
+	var match;
+	// Initialize the regular expression.
+	var regex = /lstImages\.push\("([\w\W]+?)"\)/gi;
+	// Initialize each result.
+	var results = [];
+	// Initialize the text.
+	var text = $('script:contains(lstImages)').text();
 	// Iterate through the text.
 	while ((match = regex.exec(text)) !== null) {
 		// Push the image to the results.

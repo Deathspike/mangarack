@@ -1,4 +1,4 @@
-/*jslint node: true*/
+// Enable restricted mode.
 'use strict';
 // Initialize the regular expression.
 var regex = /^http:\/\/www\.batoto\.net\/comic\/_\/comics\/([\w\W]*)-r([0-9]+)/i;
