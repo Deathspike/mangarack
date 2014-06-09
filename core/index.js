@@ -1,78 +1,67 @@
-/*jslint node: true*/
+// Enable restricted mode.
 'use strict';
-// Initialize the async module.
-var async = require('async');
-// Initialize the engine module.
-var engine = require('../engine');
+// Initialize the page function.
+var processPage;
+// Initialize the preview image function.
+var processPreviewImage;
 
 // ==================================================
-// Populate the chapter.
+// Export the function.
 // --------------------------------------------------
-module.exports.chapter = function (chapter, done) {
-	// Populate the chapter.
-	engine.populate(chapter, function () {
-		// Iterate over each page.
-		async.eachSeries(chapter.children, module.exports.page, done);
-	}.error(done));
-};
-
-// ==================================================
-// Populate the series.
-// --------------------------------------------------
-module.exports.series = function (series, done) {
+module.exports = function* (engine, publish, series, chapter) {
 	// Populate the series.
-	engine.populate(series, function () {
-		// Initialize the image location.
-		var imageLocation = series.imageLocation;
-		// Check if the image location is valid.
-		if (imageLocation) {
-			// Populate the image.
-			engine.populate(imageLocation, 'binary', function (error, image) {
-				// Check if no error occurred.
-				if (!error) {
-					// Set the image.
-					series.image = image;
-				}
-				// Iterate over each chapter.
-				async.eachSeries(series.children, module.exports.chapter, done);
-			});
-		} else {
-			// Iterate over each chapter.
-			async.eachSeries(series.children, module.exports.chapter, done);
-		}
-	}.error(done));
+	yield engine.populate(series);
+	// Process the preview image.
+	yield processPreviewImage(engine, publish, series);
+	// Populate the chapter.
+	yield engine.populate(chapter);
+	// Iterate through each page.
+	for (var i = 0; i < chapter.children.length; i += 1) {
+		// Initialize the page.
+		var page = chapter.children[i];
+		// Populate the page.
+		yield engine.populate(page);
+		// Process the page.
+		yield processPage(engine, publish, page, i + 1);
+	}
 };
 
 // ==================================================
-// Populate the page.
+// Process the preview image.
 // --------------------------------------------------
-module.exports.page = function (page, done) {
-	// Populate the page.
-	engine.populate(page, function () {
+processPreviewImage = function* (engine, publish, series) {
+	// Check if the image should be requested.
+	if (!series.image && series.imageLocation) {
+		// Request the image.
+		series.image = yield engine.request(series.imageLocation, 'binary');
+	}
+	// Check if the series has a valid image.
+	if (series.image) {
+		// Publish the image.
+		yield publish(0, series.imageLocation, series.image);
+	}
+};
+
+// ==================================================
+// Process the preview image.
+// --------------------------------------------------
+processPage = function *(engine, publish, page, number) {
+	// Initialize each image location.
+	var imageLocations = [].concat(page.imageLocation);
+	// Iterate through each image location.
+	for (var i = 0; i < imageLocations.length; i += 1) {
 		// Initialize the image location.
-		var imageLocation = page.imageLocation,
-			// Initialize the array state.
-			isArray = Array.isArray(imageLocation),
-			// Initialize the array
-			array = isArray ? imageLocation : [imageLocation];
-		// Iterate over each image location.
-		async.eachSeries(array, function (imageLocation, next) {
-			// Check if the image is set.
-			if (page.image) {
-				// Invoke the next callback.
-				next();
-				// Stop the function.
-				return;
-			}
-			engine.populate(imageLocation, 'binary', function (error, image) {
-				// Check if no error occurred.
-				if (!error) {
-					// Set the image.
-					page.image = image;
-				}
-				// Invoke the next callback.
-				next();
-			});
-		}, done);
-	}.error(done));
+		var imageLocation = imageLocations[i];
+		// Initialize the image.
+		var image = yield engine.request(imageLocation, 'binary');
+		// Check if the image is valid.
+		if (image) {
+			// Publish the image.
+			yield publish(number, imageLocation, image);
+			// Stop the function.
+			return;
+		}
+	}
+	// Publish the invalid image.
+	yield publish(number);
 };
