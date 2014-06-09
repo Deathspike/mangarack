@@ -96,7 +96,7 @@ Series.prototype.summary = function ($) {
 	// Initialize the summary.
 	var html = $('td:contains(Description:)').next().html() || '';
 	// Return the summary.
-	return $("<div />").html(html.replace(/<br\s*\/?>/g, '\n')).text();
+	return $('<div />').html(html.replace(/<br\s*\/?>/g, '\n')).text();
 };
 
 // ==================================================

@@ -1,7 +1,5 @@
 /*jslint node: true*/
 'use strict';
-// Initialize the core module.
-var core = require('./core');
 // Initialize the commander module.
 var commander = require('commander');
 // Initialize the provider module.
@@ -17,52 +15,51 @@ commander.version('3.0.0')
 	.option('-m, --meta', 'Disable embedded meta-information.')
 	.option('-p, --persistent', 'Enable persistent synchronization')
 	.option('-r, --repair', 'Disable repair and error tracking.')
+
 	// with option
-	.option('-e, --extension <s>', 'The file extension for each file. (Default: cbz)')
+	.option('-e, --extension <s>', 'The file extension for each file. (cbz)')
 	.option('-c, --chapter <n>', 'The chapter filter.')
 	.option('-v, --volume <n>', 'The volume filter.')
-	.option('-w --worker <n>', 'The maximum parallel workers. (Default: # cores)')
-	.option('-s, --source <s>', 'The batch-mode source file. (Default: cli.txt)')
+	.option('-w, --worker <n>', 'The maximum parallel workers. (# cores)')
+	.option('-s, --source <s>', 'The batch-mode source file. (cli.txt)')
+
 	// parse
 	.parse(process.argv);
 
-Function.prototype.error = function (fn) {
-	return function (err) {
-		if (err) {
-			fn.apply(this, arguments);
-			return;
-		}
-		this.apply(this, Array.prototype.slice.call(arguments, 1));
-	}.bind(this);
-};
 
-(function () {
-	var queue = commander.args,
-		next;
-	
-	next = function () {
-		if (!queue || !queue.length) {
-			console.log('Done!');
-		} else {
-			var begin = new Date().getTime(),
-				location = queue.pop(),
-				series = provider(location);
-			if (!series) {
-				console.log('Unknown series: ' + location);
-				return next();
+// Initialize the co module.
+var co = require('co');
+// Initialize the core module.
+var core = require('./core');
+// Initialize the engine module.
+var engine = require('./runtime/engine');
+// Initialize the Publisher module.
+var Publisher = require('./runtime/publisher');
+
+co(function *() {
+	// Initialize each location.
+	var locations = commander.args;
+	// Iterate through each location.
+	for (var i = 0; i < locations.length; i += 1) {
+		// Initialize the series.
+		var series = provider(locations[i]);
+		// Check if the series is valid.
+		if (series) {
+			// Populate the series.
+			yield engine.populate(series);
+			// Iterate through each chapter.
+			for (var j = 0; j < series.children.length; j += 1) {
+				// Initialize the chapter.
+				var chapter = series.children[j];
+				// Initialize the publisher.
+				var publisher = new Publisher('test.zip');
+				// Synchronize~
+				yield core(engine, publisher.publish, series, chapter);
+				// Finalize the publisher.
+				yield publisher.finalize();
+				console.log('Written. Breaking now!');
+				break;
 			}
-			console.log('Fetching: ' + location);
-			core.series(series, function (error) {
-				if (error) {
-					console.log(error);
-					return;
-				}
-				console.log('Finished: ' + location);
-				console.log('Time: ' + (new Date().getTime() - begin) + 'ms');
-				next();
-			});
 		}
-	};
-	
-	next();
-}());
+	}
+})();

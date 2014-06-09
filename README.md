@@ -14,3 +14,11 @@ MangaRack.js is in development, and is based on https://github.com/Deathspike/ma
 * JavaScript is cool.
 
 If you want to get involved, leave me an e-mail and we can discuss contact/things to do!
+
+## Basic Instructions
+
+> npm install
+
+> node cli http://mangafox.me/manga/girl_friends/
+
+Test mode currently writes one comic archive without additional checks.
