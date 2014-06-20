@@ -45,7 +45,7 @@ processPreviewImage = function* (engine, publish, series) {
 // ==================================================
 // Process the preview image.
 // --------------------------------------------------
-processPage = function *(engine, publish, page, number) {
+processPage = function* (engine, publish, page, number) {
 	// Initialize each image location.
 	var imageLocations = [].concat(page.imageLocation);
 	// Iterate through each image location.
