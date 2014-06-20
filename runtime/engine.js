@@ -4,17 +4,17 @@
 var agent = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)';
 // Initialize the cheerio module.
 var cheerio = require('cheerio');
+// Initialize the promisifier module.
+var promisifier = require('promisifier.js');
 // Initialize the request module.
-var request = require('request');
-// Initialize the thunkify module.
-var thunkify = require('thunkify');
+var request = promisifier(require('request'));
 
 // ==================================================
 // Export the request function.
 // --------------------------------------------------
 module.exports.request = function* (url, encoding) {
 	// Request the resource ...
-	var result = yield thunkify(request)({
+	var result = yield request({
 		// ... with the user agent ...
 		headers: {'User-Agent': agent},
 		// ... with the encoding ...
