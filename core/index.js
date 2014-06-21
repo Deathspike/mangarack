@@ -8,11 +8,11 @@ var processPreviewImage;
 // ==================================================
 // Export the function.
 // --------------------------------------------------
-module.exports = function* (engine, publish, series, chapter) {
+module.exports = function* (engine, publisher, series, chapter) {
 	// Populate the series.
 	yield engine.populate(series);
 	// Process the preview image.
-	yield processPreviewImage(engine, publish, series);
+	yield processPreviewImage(engine, publisher, series);
 	// Populate the chapter.
 	yield engine.populate(chapter);
 	// Iterate through each page.
@@ -22,14 +22,14 @@ module.exports = function* (engine, publish, series, chapter) {
 		// Populate the page.
 		yield engine.populate(page);
 		// Process the page.
-		yield processPage(engine, publish, page, i + 1);
+		yield processPage(engine, publisher, page, i + 1);
 	}
 };
 
 // ==================================================
 // Process the preview image.
 // --------------------------------------------------
-processPreviewImage = function* (engine, publish, series) {
+processPreviewImage = function* (engine, publisher, series) {
 	// Check if the image should be requested.
 	if (!series.image && series.imageLocation) {
 		// Request the image.
@@ -38,14 +38,14 @@ processPreviewImage = function* (engine, publish, series) {
 	// Check if the series has a valid image.
 	if (series.image) {
 		// Publish the image.
-		yield publish(0, series.imageLocation, series.image);
+		yield publisher.publish(0, series.imageLocation, series.image);
 	}
 };
 
 // ==================================================
 // Process the preview image.
 // --------------------------------------------------
-processPage = function* (engine, publish, page, number) {
+processPage = function* (engine, publisher, page, number) {
 	// Initialize each image location.
 	var imageLocations = [].concat(page.imageLocation);
 	// Iterate through each image location.
@@ -57,11 +57,11 @@ processPage = function* (engine, publish, page, number) {
 		// Check if the image is valid.
 		if (image) {
 			// Publish the image.
-			yield publish(number, imageLocation, image);
+			yield publisher.publish(number, imageLocation, image);
 			// Stop the function.
 			return;
 		}
 	}
 	// Publish the invalid image.
-	yield publish(number);
+	yield publisher.publish(number);
 };

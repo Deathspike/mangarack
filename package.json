@@ -9,7 +9,7 @@
   "author": "Roel van Uden",
   "dependencies": {
     "archiver": "0.10.x",
-    "cheerio": "0.16.x",
+    "cheerio": "0.17.x",
     "commander": "2.2.x",
     "co": "3.0.x",
     "promisifier.js": "1.0.x",

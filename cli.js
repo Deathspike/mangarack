@@ -54,7 +54,7 @@ co(function *() {
 				// Initialize the publisher.
 				var publisher = new Publisher('test.zip');
 				// Synchronize~
-				yield core(engine, publisher.publish, series, chapter);
+				yield core(engine, publisher, series, chapter);
 				// Finalize the publisher.
 				yield publisher.finalize();
 				console.log('Written. Breaking now!');
