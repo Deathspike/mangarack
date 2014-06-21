@@ -17,11 +17,6 @@ function Publisher(filePath) {
 	this.archive = archiver.create('zip' , {store: true});
 	// Initialize the stream to pipe to.
 	this.archive.pipe(fs.createWriteStream(filePath));
-	
-	// meh.
-	this.finalize = this.finalize.bind(this);
-	this.publish = this.publish.bind(this);
-	// end meh.
 }
 
 // ==================================================
