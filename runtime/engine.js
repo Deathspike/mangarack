@@ -14,16 +14,16 @@ var request = promisifier(require('request'));
 // --------------------------------------------------
 module.exports.request = function* (url, encoding) {
 	// Request the resource ...
-	var result = yield request({
+	var response = yield request({
 		// ... with the user agent ...
 		headers: {'User-Agent': agent},
 		// ... with the encoding ...
 		encoding: encoding || 'utf8',
 		// ... with the location ...
 		url: url
-	});
+	}).first();
 	// Return the result.
-	return result[0].statusCode === 200 ? result[1] : undefined;
+	return response.statusCode === 200 ? response.body : '';
 };
 
 // ==================================================
