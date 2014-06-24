@@ -22,10 +22,14 @@ function Publisher(filePath) {
 // ==================================================
 // Finalize the publisher.
 // --------------------------------------------------
-Publisher.prototype.finalize = function* () {
+Publisher.prototype.finalize = function () {
 	// Finalize the publisher
 	this.archive.finalize();
 };
+
+var promisifier = require('promisifier.js');
+
+var gm = require('gm');
 
 // ==================================================
 // Publish the image.
@@ -39,6 +43,14 @@ Publisher.prototype.publish = function* (number, imageLocation, image) {
 	if (image) {
 		// Initialize the buffer.
 		var buffer = new Buffer(image, 'binary');
+		
+		console.log('going for the image processing...');
+		var imageGm = promisifier(gm(buffer));
+		var size = yield imageGm.size().first();
+		console.log(imageLocation + ': ' + JSON.stringify(size));
+		console.log('done!...');
+		
+
 		// Initialize the file name.
 		var fileName = number.toString();
 		// Iterate while the file name length is invalid.

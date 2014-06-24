@@ -1,7 +1,7 @@
 // Enable restricted mode.
 'use strict';
 // Initialize the regular expression.
-var regex = /^http:\/\/www\.batoto\.net\/comic\/_\/comics\/([\w\W]*)-r([0-9]+)/i;
+var regex = /^http:\/\/www\.batoto\.net\/comic\/_\/comics\/(.*)-r([0-9]+)/i;
 // Initialize the series module.
 var Series = require('./series');
 

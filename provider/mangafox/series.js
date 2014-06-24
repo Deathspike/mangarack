@@ -42,30 +42,30 @@ Series.prototype.children = function ($) {
 	// Initialize each result.
 	var results = [];
 	// Search for each volume.
-	$('h3.volume').map(function (i, el) {
+	$('h3.volume').each(function (i, el) {
 		// Initialize the match.
-		var match = $(el).text().match(/^Volume\s([\w\W]+)$/i);
+		var match = $(el).text().match(/^Volume\s(.+)$/i);
 		// Check if the match is invalid.
-		if (!match) {
-			// Stop the function.
-			return;
+		if (match) {
+			// Initialize the parent.
+			var parent = $(el).parent();
+			// Find each chapter block ...
+			parent.next().find('a[href*=\'/manga/\']').each(function (i, el) {
+				// Push the chapter ...
+				results.push(new Chapter(
+					// ... with the identifier ...
+					(parent.prev('a.edit').attr('href') || '').match(regex),
+					// ... with the location ...
+					($(el).attr('href') || '').trim(),
+					// ... with the number ...
+					parseFloat($(el).text().match(/[0-9\.]+$/)),
+					// ... with the title ...
+					$(el).next('span.title').text().trim(),
+					// ... with the volume.
+					parseFloat(match[1])
+				));
+			});
 		}
-		// Find each chapter block ...
-		$(el).parent().next().find('a[href*=\'/manga/\']').map(function (i, el) {
-			// Push the chapter ...
-			results.push(new Chapter(
-				// ... with the identifier ...
-				($(el).parent().prev('a.edit').attr('href') || '').match(regex),
-				// ... with the location ...
-				($(el).attr('href') || '').trim(),
-				// ... with the number ...
-				parseFloat($(el).text().match(/[0-9\.]+$/)),
-				// ... with the title ...
-				$(el).next('span.title').text().trim(),
-				// ... with the volume.
-				parseFloat(match[1])
-			));
-		});
 	});
 	// Return each result in reverse.
 	return results.reverse();
@@ -103,9 +103,9 @@ Series.prototype.summary = function ($) {
 		// Filter pieces ending with a colon ...
 		return !/:$/i.test(piece) &&
 			// ... or a from piece ...
-			!/^From\s+([\w\W]+)$/i.test(piece) &&
+			!/^From\s+(.+)$/i.test(piece) &&
 			// ... or a source piece.
-			!/^\(Source:\s+([\w\W]+)\)/i.test(piece);
+			!/^\(Source:\s+(.+)\)/i.test(piece);
 	}).forEach(function (piece) {
 		// Check if the text is blank after valid pieces.
 		if (isComplete || (!piece.trim() && result)) {
@@ -129,7 +129,7 @@ Series.prototype.summary = function ($) {
 // --------------------------------------------------
 Series.prototype.title = function ($) {
 	// Initialize the match.
-	var match = $('title').text().match(/^([\w\W]+)\s+Manga\s+-/i);
+	var match = $('title').text().match(/^(.+)\s+Manga\s+-/i);
 	// Return the title.
 	return match ? match[1].trim() : undefined;
 };
