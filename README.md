@@ -19,6 +19,6 @@ If you want to get involved, leave me an e-mail and we can discuss contact/thing
 
 > npm install
 
-> node cli http://mangafox.me/manga/girl_friends/
+> node --harmony cli http://mangafox.me/manga/girl_friends/
 
 Test mode currently writes one comic archive without additional checks.
