@@ -26,7 +26,7 @@ Chapter.prototype.children = function ($) {
 	// Initialize the match.
 	var match;
 	// Initialize the regular expression.
-	var regex = /lstImages\.push\("([\w\W]+?)"\)/gi;
+	var regex = /lstImages\.push\("(.+?)"\)/gi;
 	// Initialize each result.
 	var results = [];
 	// Initialize the text.

@@ -56,10 +56,12 @@ co(function *() {
 				// Synchronize~
 				yield core(engine, publisher, series, chapter);
 				// Finalize the publisher.
-				yield publisher.finalize();
+				publisher.finalize();
 				console.log('Written. Breaking now!');
 				break;
 			}
 		}
 	}
-})();
+})(function (error) {
+	console.log(error);
+});

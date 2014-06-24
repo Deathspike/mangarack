@@ -95,7 +95,7 @@ Series.prototype.summary = function ($) {
 // --------------------------------------------------
 Series.prototype.title = function ($) {
 	// Initialize the match.
-	var match = $('title').text().match(/^([\w\W]+)\s+Manga\s+\|/i);
+	var match = $('title').text().match(/^(.+)\s+Manga\s+\|/i);
 	// Return the title.
 	return match && match[1] ? match[1].trim() : undefined;
 };
