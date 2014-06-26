@@ -1,9 +1,11 @@
 /*jslint node: true*/
 'use strict';
+// Initialize the clamp function.
+var clamp;
 // Initialize the compute function.
 var compute;
-// Initialize the compute best function.
-var computeBest;
+// Initialize the prioritize function.
+var prioritize;
 
 // ==================================================
 // Export the function.
@@ -21,18 +23,24 @@ module.exports = function (children) {
 			var previous = computed.previous;
 			// Check if differences are available.
 			if (computed.count) {
-				// Initialize the best.
-				var best = computeBest(computed);
+				// Initialize the clamped priority.
+				var clampedPriority = clamp(prioritize(computed), 0, 1);
 				// Set the source number.
-				source.number = previous.number;
-				// Add the shift to the source number.
-				source.number += Math.min(Math.max(best, 0), 1) / 2;
+				source.number = previous.number + clampedPriority / 2;
 			} else {
 				// Set the source number.
 				source.Number = previous ? previous.Number + 0.5 : 0.5;
 			}
 		}
 	}
+};
+
+// ==================================================
+// Clamp the value to the specified minimum/maximum.
+// --------------------------------------------------
+clamp = function (current, minimum, maximum) {
+	// Clamp the value to the specified minimum/maximum.
+	return Math.min(Math.max(current, minimum), maximum) || maximum;
 };
 
 // ==================================================
@@ -81,11 +89,11 @@ compute = function (children, source) {
 };
 
 // ==================================================
-// Compute the best difference.
+// Prioritize the best difference.
 // --------------------------------------------------
-computeBest = function (computed) {
+prioritize = function (computed) {
 	// Initialize the best.
-	var best;
+	var best = {count: NaN, value: NaN};
 	// Iterate through each difference.
 	for (var difference in computed.differences) {
 		// Check if the difference is owned.
@@ -93,7 +101,7 @@ computeBest = function (computed) {
 			// Initialize the count.
 			var count = computed.differences[computed.differences];
 			// Check if difference exceeds the best.
-			if (!best || count > best.count) {
+			if (isNaN(best.count) || count > best.count) {
 				// Set the best.
 				best = {count: count, value: parseFloat(difference)};
 			}
