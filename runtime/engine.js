@@ -23,7 +23,7 @@ module.exports.request = function* (url, encoding) {
 		url: url
 	}).first();
 	// Return the result.
-	return response.statusCode === 200 ? response.body : '';
+	return response.statusCode === 200 ? response.body : undefined;
 };
 
 // ==================================================
@@ -33,7 +33,7 @@ module.exports.populate = function* (resource) {
 	// Check if the location is valid.
 	if (resource.location) {
 		// Initialize the document.
-		var $ = cheerio.load(yield this.request(resource.location));
+		var $ = cheerio.load((yield this.request(resource.location)) || '');
 		// Iterate through each key.
 		for (var key in resource) {
 			// Check if the property is a function.
