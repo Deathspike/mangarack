@@ -26,7 +26,7 @@ module.exports = function (children) {
 				// Set the source number.
 				source.number = previous.number;
 				// Add the shift to the source number.
-				source.number += (Math.min(Math.max(best, 0), 1) || 1) / 2;
+				source.number += Math.min(Math.max(best, 0), 1) / 2;
 			} else {
 				// Set the source number.
 				source.Number = previous ? previous.Number + 0.5 : 0.5;

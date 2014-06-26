@@ -25,9 +25,9 @@
     "strict"        : true,
     "trailing"      : true,
     "maxparams"     : 5,
-    "maxdepth"      : 10,
-    "maxstatements" : 50,
-    "maxcomplexity" : 10,
+    "maxdepth"      : 5,
+    "maxstatements" : 25,
+    "maxcomplexity" : 5,
     "maxlen"        : 80,
 
     // Relaxing
