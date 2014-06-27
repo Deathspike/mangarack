@@ -15,10 +15,22 @@ MangaRack.js is in development, and is based on https://github.com/Deathspike/ma
 
 If you want to get involved, leave me an e-mail and we can discuss contact/things to do!
 
+## Recommended Environment
+
+If you do not have a preference for an editor, I recommend [http://brackets.io/](brackets.io) with:
+
+* [https://github.com/lkcampbell/brackets-ruler](Column Ruler) - For character limit visualization.
+* [https://github.com/cfjedimaster/brackets-csslint](CSSLint) - For CSS validation.
+* [https://github.com/fdecampredon/brackets-epic-linter](Epic Linter) - For active in-editor validation.
+* [https://github.com/cfjedimaster/brackets-htmlhint](HTMLHint) - For HTML validation.
+* [https://github.com/globexdesigns/brackets-jscs](JSCS) - For code style validation.
+* [https://github.com/cfjedimaster/brackets-jshint](JSHint) - For JavaScript validation.
+* [https://github.com/dsbonev/whitespace-normalizer](Whitespace Normalizer) - For whitespace normalization.
+
 ## Basic Instructions
 
 > npm install
 
-> node --harmony cli http://mangafox.me/manga/girl_friends/
+> node --harmony src/cli http://mangafox.me/manga/girl_friends/
 
 Test mode currently writes one comic archive without additional checks.
