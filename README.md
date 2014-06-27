@@ -17,15 +17,23 @@ If you want to get involved, leave me an e-mail and we can discuss contact/thing
 
 ## Recommended Environment
 
-If you do not have a preference for an editor, I recommend [http://brackets.io/](brackets.io) with:
+If you do not have a preference for an editor, I recommend [brackets.io](http://brackets.io/) with:
 
-* [https://github.com/lkcampbell/brackets-ruler](Column Ruler) - For character limit visualization.
-* [https://github.com/cfjedimaster/brackets-csslint](CSSLint) - For CSS validation.
-* [https://github.com/fdecampredon/brackets-epic-linter](Epic Linter) - For active in-editor validation.
-* [https://github.com/cfjedimaster/brackets-htmlhint](HTMLHint) - For HTML validation.
-* [https://github.com/globexdesigns/brackets-jscs](JSCS) - For code style validation.
-* [https://github.com/cfjedimaster/brackets-jshint](JSHint) - For JavaScript validation.
-* [https://github.com/dsbonev/whitespace-normalizer](Whitespace Normalizer) - For whitespace normalization.
+* [Column Ruler](https://github.com/lkcampbell/brackets-ruler) - For character limit visualization.
+* [CSSLint](https://github.com/cfjedimaster/brackets-csslint) - For CSS validation.
+* [Epic Linter](https://github.com/fdecampredon/brackets-epic-linter) - For active in-editor validation.
+* [HTMLHint](https://github.com/cfjedimaster/brackets-htmlhint) - For HTML validation.
+* [JSCS](https://github.com/globexdesigns/brackets-jscs) - For code style validation.
+* [JSHint](https://github.com/cfjedimaster/brackets-jshint) - For JavaScript validation.
+* [Whitespace Normalizer](https://github.com/dsbonev/whitespace-normalizer) - For whitespace normalization.
+
+## Requirements
+
+You need to have git installed and:
+
+> npm install -g grunt-cli
+
+To run grunt tasks.
 
 ## Basic Instructions
 
