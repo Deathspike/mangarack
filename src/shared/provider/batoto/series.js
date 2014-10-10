@@ -1,114 +1,95 @@
-// Enable restricted mode.
 'use strict';
-// Initialize the chapter module.
 var Chapter = require('./chapter');
-// Initialize the scanner module.
 var scanner = require('../scanner');
 
-// ==================================================
-// Represents the series.
-// --------------------------------------------------
+/**
+ * Represents a series.
+ * @param {string} location
+ */
 function Series(location) {
-    // Set the location.
     this.location = location;
 }
 
-// ==================================================
-// Contains each artist.
-// --------------------------------------------------
+/**
+ * Retrieves each artist.
+ * @returns {!Array.<string>}
+ */
 Series.prototype.artists = function ($) {
-    // Search for each artist.
-    return $('td:contains(Artist:)').next().find('a').map(function (i, el) {
-        // Return the text.
+    return $('td:contains(Artist:)+ > a').map(function (i, el) {
         return $(el).text().trim() || undefined;
     }).get();
 };
 
-// ==================================================
-// Contains each author.
-// --------------------------------------------------
+/**
+ * Retrieves each author.
+ * @returns {!Array.<string>}
+ */
 Series.prototype.authors = function ($) {
-    // Search for each artist.
-    return $('td:contains(Author:)').next().find('a').map(function (i, el) {
-        // Return the text.
+    return $('td:contains(Author:)+ > a').map(function (i, el) {
         return $(el).text().trim() || undefined;
     }).get();
 };
 
-// ==================================================
-// Contains each child.
-// --------------------------------------------------
+/**
+ * Retrieves each child.
+ * @returns {!Array.<Chapter>}
+ */
 Series.prototype.children = function ($) {
-    // Initialize each result.
     var results = [];
-    // Search for each chapter.
     $('tr.lang_English').find('a[href*=\'/read/\']').map(function (i, el) {
-        // Initialize the scan.
         var scan = scanner($(el).text());
-        // Initialize the location.
         var location = ($(el).attr('href') || '').trim();
-        // Initialize the identifier.
         var identifier = location.match(/_\/([0-9]+)\//i);
-        // Check if the location, scan and unique identifier are valid.
         if (location && scan && identifier) {
-            // Push the chapter ...
             results.push(new Chapter(
-                // ... with the identifier ...
                 identifier,
-                // ... with the location ...
                 location,
-                // ... with the number ...
                 scan.number,
-                // ... with the title ...
-                scan.title,
-                // ... with the volume.
+                scan.title || undefined,
                 scan.volume
             ));
         }
     });
-    // Return each result in reverse.
     return results.reverse();
 };
 
-// ==================================================
-// Contains each genre.
-// --------------------------------------------------
+/**
+ * Retrieves each genre.
+ * @returns {!Array.<string>}
+ */
 Series.prototype.genres = function ($) {
-    // Search for each genre.
-    return $('td:contains(Genres:)').next().find('a').map(function (i, el) {
-        // Return the text.
+    return $('td:contains(Genres:)+ > a').map(function (i, el) {
         return $(el).text().trim() || undefined;
     }).get();
 };
 
-// ==================================================
-// Contains the image location.
-// --------------------------------------------------
+/**
+ * Retrieves the image location.
+ * @returns {?string}
+ */
 Series.prototype.imageLocation = function ($) {
-    // Return the image address.
-    return ($('img[src*=\'/uploads/\']').first().attr('src') || '').trim();
+    var location = $('img[src*=\'/uploads/\']').first().attr('src');
+    return location ? location.trim() : undefined;
 };
 
-// ==================================================
-// Contains the summary.
-// --------------------------------------------------
+/**
+ * Retrieves the summary.
+ * @returns {?string}
+ */
 Series.prototype.summary = function ($) {
-    // Initialize the summary.
     var html = $('td:contains(Description:)').next().html() || '';
-    // Return the summary.
-    return $('<div />').html(html.replace(/<br\s*\/?>/g, '\n')).text();
+    var text = $('<div />').html(html.replace(/<br\s*\/?>/g, '\n')).text();
+    return text || undefined;
 };
 
-// ==================================================
-// Contains the title.
-// --------------------------------------------------
+/**
+ * Retrieves the title.
+ * @returns {?string}
+ */
 Series.prototype.title = function ($) {
-    // Return the title.
     return $('h1.ipsType_pagetitle').text().trim() || undefined;
 };
 
-// Check if the module is availabe.
 if (typeof module !== 'undefined') {
-    // Export the function.
     module.exports = Series;
 }

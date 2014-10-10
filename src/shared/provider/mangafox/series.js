@@ -1,141 +1,109 @@
-// Enable restricted mode.
 'use strict';
-// Initialize the chapter module.
 var Chapter = require('./chapter');
 
-// ==================================================
-// Represents the series.
-// --------------------------------------------------
+/**
+ * Represents a series.
+ * @param {string} location
+ */
 function Series(location) {
-    // Set the location.
     this.location = location;
 }
 
-// ==================================================
-// Contains each artist.
-// --------------------------------------------------
+/**
+ * Retrieves each artist.
+ * @returns {!Array.<string>}
+ */
 Series.prototype.artists = function ($) {
-    // Search for each artist.
     return $('a[href*=\'/search/artist/\']').map(function (i, el) {
-        // Return the text.
         return $(el).text().trim() || undefined;
     }).get();
 };
 
-// ==================================================
-// Contains each author.
-// --------------------------------------------------
+/**
+ * Retrieves each author.
+ * @returns {!Array.<string>}
+ */
 Series.prototype.authors = function ($) {
-    // Search for each artist.
     return $('a[href*=\'/search/author/\']').map(function (i, el) {
-        // Return the text.
         return $(el).text().trim() || undefined;
     }).get();
 };
 
-// ==================================================
-// Contains each child.
-// --------------------------------------------------
+/**
+ * Retrieves each child.
+ * @returns {!Array.<Chapter>}
+ */
 Series.prototype.children = function ($) {
-    // Initialize the regular expression.
     var regex = /id=([0-9]+)/i;
-    // Initialize each result.
     var results = [];
-    // Search for each volume.
     $('h3.volume').each(function (i, el) {
-        // Initialize the match.
         var match = $(el).text().match(/^Volume\s(.+)$/i);
-        // Check if the match is invalid.
         if (match) {
-            // Initialize the parent.
             var parent = $(el).parent();
-            // Find each chapter block ...
             parent.next().find('a[href*=\'/manga/\']').each(function (i, el) {
-                // Push the chapter ...
                 results.push(new Chapter(
-                    // ... with the identifier ...
                     (parent.prev('a.edit').attr('href') || '').match(regex),
-                    // ... with the location ...
                     ($(el).attr('href') || '').trim(),
-                    // ... with the number ...
                     parseFloat($(el).text().match(/[0-9\.]+$/)),
-                    // ... with the title ...
-                    $(el).next('span.title').text().trim(),
-                    // ... with the volume.
+                    $(el).next('span.title').text().trim() || undefined,
                     parseFloat(match[1])
                 ));
             });
         }
     });
-    // Return each result in reverse.
     return results.reverse();
 };
 
-// ==================================================
-// Contains each genre.
-// --------------------------------------------------
+/**
+ * Retrieves each genre.
+ * @returns {!Array.<string>}
+ */
 Series.prototype.genres = function ($) {
-    // Search for each artist.
     return $('a[href*=\'/search/genres/\']').map(function (i, el) {
-        // Return the text.
         return $(el).text().trim() || undefined;
     }).get();
 };
 
-// ==================================================
-// Contains the image location.
-// --------------------------------------------------
+/**
+ * Retrieves the image location.
+ * @returns {?string}
+ */
 Series.prototype.imageLocation = function ($) {
-    // Return the image address.
-    return ($('img[src*=\'cover.jpg\']').attr('src') || '').trim();
+    var location = $('img[src*=\'cover.jpg\']').attr('src');
+    return location ? location.trim() : undefined;
 };
 
-// ==================================================
-// Contains the summary.
-// --------------------------------------------------
+/**
+ * Retrieves the summary.
+ * @returns {?string}
+ */
 Series.prototype.summary = function ($) {
-    // Initialize the complete state.
     var isComplete;
-    // Initialize the result.
     var result = '';
-    // Split the text.
     $('p.summary').text().split('\n').filter(function (piece) {
-        // Filter pieces ending with a colon ...
         return !/:$/i.test(piece) &&
-            // ... or a from piece ...
             !/^From\s+(.+)$/i.test(piece) &&
-            // ... or a source piece.
             !/^\(Source:\s+(.+)\)/i.test(piece);
     }).forEach(function (piece) {
-        // Check if the text is blank after valid pieces.
         if (isComplete || (!piece.trim() && result)) {
-            // Set the complete state.
             isComplete = true;
-            // Return false.
             return false;
-        } else {
-            // Add the piece to the result.
-            result += piece.trim();
-            // Return true.
-            return true;
         }
+        result += piece.trim();
+        return true;
     });
-    // Return the result.
     return result;
 };
 
-// ==================================================
-// Contains the title.
-// --------------------------------------------------
+/**
+ * Retrieves the title.
+ * @returns {?string}
+ */
 Series.prototype.title = function ($) {
-    // Initialize the match.
     var match = $('title').text().match(/^(.+)\s+Manga\s+-/i);
-    // Return the title.
     return match ? match[1].trim() : undefined;
 };
 
-// Check if the module is availabe.
 if (typeof module !== 'undefined') {
-    // Export the function.
     module.exports = Series;
 }
