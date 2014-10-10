@@ -1,24 +1,22 @@
-// Enable restricted mode.
 'use strict';
 
-// ==================================================
-// Represents the page.
-// --------------------------------------------------
+/**
+ * Represents a page.
+ * @class
+ * @param {string} location
+ */
 function Page(location) {
-    // Set the location.
     this.location = location + '?supress_webtoon=t';
 }
 
-// ==================================================
-// Contains the image location.
-// --------------------------------------------------
+/**
+ * Retrieves the image location.
+ * @returns {?string}
+ */
 Page.prototype.imageLocation = function ($) {
-    // Return the image.
-    return $('img[alt*=\'Batoto!\']').attr('src') || undefined;
+    return $('img[alt*=\'Batoto!\']').attr('src');
 };
 
-// Check if the module is availabe.
 if (typeof module !== 'undefined') {
-    // Export the function.
     module.exports = Page;
 }

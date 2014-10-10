@@ -1,107 +1,86 @@
-// Enable restricted mode.
 'use strict';
-// Initialize the chapter module.
 var Chapter = require('./chapter');
-// Initialize the scanner module.
 var scanner = require('../scanner');
 
-// ==================================================
-// Represents the series.
-// --------------------------------------------------
+/**
+ * Represents a series.
+ * @param {string} location
+ */
 function Series(location) {
-    // Set the location ...
     this.location = /\?confirm=yes$/i.test(location) ?
-        // ... with the existing confirmation ...
         location :
-        // ... with an appended confirmation.
         location + '?confirm=yes';
 }
 
-// ==================================================
-// Contains each author.
-// --------------------------------------------------
+/**
+ * Retrieves each author.
+ * @returns {!Array.<string>}
+ */
 Series.prototype.authors = function ($) {
-    // Search for each artist.
     return $('a[href*=\'/AuthorArtist/\']').map(function (i, el) {
-        // Return the text.
         return $(el).text().trim() || undefined;
     }).get();
 };
 
-// ==================================================
-// Contains each child.
-// --------------------------------------------------
+/**
+ * Retrieves each child.
+ * @returns {!Array.<Chapter>}
+ */
 Series.prototype.children = function ($) {
-    // Initialize each result.
     var results = [];
-    // Search for each chapter.
     $('a[href*=\'/Manga/\'][title*=\'Read\']').map(function (i, el) {
-        // Initialize the scan.
         var scan = scanner($(el).text().replace(/\.0+/, '.'));
-        // Initialize the location.
         var location = ($(el).attr('href') || '').trim();
-        // Initialize the identifier.
         var identifier = location.match(/id=([0-9]+)$/i);
-        // Check if the location, scan and identifier are valid.
         if (location && scan && identifier) {
-            // Push the chapter ...
             results.push(new Chapter(
-                // ... with the identifier ...
                 identifier,
-                // ... with the location ...
                 'http://kissmanga.com/' + location.replace(/^\//, ''),
-                // ... with the number ...
                 scan.number,
-                // ... with the title ...
-                scan.title,
-                // ... with the volume.
+                scan.title || undefined,
                 scan.volume
             ));
         }
     });
-    // Return each result in reverse.
     return results.reverse();
 };
 
-// ==================================================
-// Contains each genre.
-// --------------------------------------------------
+/**
+ * Retrieves each genre.
+ * @returns {!Array.<string>}
+ */
 Series.prototype.genres = function ($) {
-    // Search for each artist.
     return $('a[href*=\'/Genre/\']').map(function (i, el) {
-        // Return the text.
         return $(el).text().trim() || undefined;
     }).get();
 };
 
-// ==================================================
-// Contains the image location.
-// --------------------------------------------------
+/**
+ * Retrieves the image location.
+ * @returns {?string}
+ */
 Series.prototype.imageLocation = function ($) {
-    // Return the image address.
-    return ($('img[src*=\'/Uploads/\']').attr('src') || '').trim();
+    return ($('img[src*=\'/Uploads/\']').attr('src') || '').trim() || undefined;
 };
 
-// ==================================================
-// Contains the summary.
-// --------------------------------------------------
+/**
+ * Retrieves the summary.
+ * @returns {?string}
+ */
 Series.prototype.summary = function ($) {
-    // Return the summary.
-    return ($('span:contains(Summary:)').parent().next().text() || '').trim();
+    var text = $('span:contains(Summary:)').parent().next().text();
+    return text ? text.trim() : undefined;
 };
 
-// ==================================================
-// Contains the title.
-// --------------------------------------------------
+/**
+ * Retrieves the title.
+ * @returns {?string}
+ */
 Series.prototype.title = function ($) {
-    // Initialize the match.
     var match = $('title').text().match(/^(.+)\s+Manga\s+\|/i);
-    // Return the title.
     return match && match[1] ? match[1].trim() : undefined;
 };
 
-// Check if the module is availabe.
 if (typeof module !== 'undefined') {
-    // Export the function.
     module.exports = Series;
 }

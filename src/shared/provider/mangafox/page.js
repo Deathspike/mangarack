@@ -1,33 +1,27 @@
-// Enable restricted mode.
 'use strict';
 
-// ==================================================
-// Represents the page.
-// --------------------------------------------------
+/**
+ * Represents a page.
+ * @class
+ * @param {string} location
+ */
 function Page(location) {
-    // Set the location.
     this.location = location;
 }
 
-// ==================================================
-// Contains the image location.
-// --------------------------------------------------
+/**
+ * Retrieves the image location.
+ * @returns {Array.<string>}
+ */
 Page.prototype.imageLocation = function ($) {
-    // Initialize the image.
-    var image = $('meta[property=\'og:image\']').attr('content');
-    // Check if the image is valid.
-    if (image) {
-        // Replace the thumbnail with full size .
-        image = image.replace('thumbnails/mini.', 'compressed/');
-        // Return each available image.
+    var thumbnail = $('meta[property=\'og:image\']').attr('content');
+    if (thumbnail) {
+        var image = thumbnail.replace('thumbnails/mini.', 'compressed/');
         return [image, image.replace('http://l.', 'http://z.')];
     }
-    // Return undefined.
     return undefined;
 };
 
-// Check if the module is availabe.
 if (typeof module !== 'undefined') {
-    // Export the function.
     module.exports = Page;
 }
