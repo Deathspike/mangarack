@@ -20,7 +20,8 @@ function Chapter(identifier, location, number, title, volume) {
 
 /**
  * Retrieves each child.
- * @returns {!Array.<Page>}
+ * @param {?} $
+ * @return {!Array.<Page>}
  */
 Chapter.prototype.children = function ($) {
     var match;

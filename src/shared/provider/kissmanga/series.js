@@ -14,7 +14,8 @@ function Series(location) {
 
 /**
  * Retrieves each author.
- * @returns {!Array.<string>}
+ * @param {?} $
+ * @return {!Array.<string>}
  */
 Series.prototype.authors = function ($) {
     return $('a[href*=\'/AuthorArtist/\']').map(function (i, el) {
@@ -24,7 +25,8 @@ Series.prototype.authors = function ($) {
 
 /**
  * Retrieves each child.
- * @returns {!Array.<Chapter>}
+ * @param {?} $
+ * @return {!Array.<Chapter>}
  */
 Series.prototype.children = function ($) {
     var results = [];
@@ -47,7 +49,8 @@ Series.prototype.children = function ($) {
 
 /**
  * Retrieves each genre.
- * @returns {!Array.<string>}
+ * @param {?} $
+ * @return {!Array.<string>}
  */
 Series.prototype.genres = function ($) {
     return $('a[href*=\'/Genre/\']').map(function (i, el) {
@@ -57,7 +60,8 @@ Series.prototype.genres = function ($) {
 
 /**
  * Retrieves the image location.
- * @returns {?string}
+ * @param {?} $
+ * @return {?string}
  */
 Series.prototype.imageLocation = function ($) {
     return ($('img[src*=\'/Uploads/\']').attr('src') || '').trim() || undefined;
@@ -65,7 +69,8 @@ Series.prototype.imageLocation = function ($) {
 
 /**
  * Retrieves the summary.
- * @returns {?string}
+ * @param {?} $
+ * @return {?string}
  */
 Series.prototype.summary = function ($) {
     var text = $('span:contains(Summary:)').parent().next().text();
@@ -74,7 +79,8 @@ Series.prototype.summary = function ($) {
 
 /**
  * Retrieves the title.
- * @returns {?string}
+ * @param {?} $
+ * @return {?string}
  */
 Series.prototype.title = function ($) {
     var match = $('title').text().match(/^(.+)\s+Manga\s+\|/i);

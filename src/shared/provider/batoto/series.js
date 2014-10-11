@@ -12,7 +12,8 @@ function Series(location) {
 
 /**
  * Retrieves each artist.
- * @returns {!Array.<string>}
+ * @param {?} $
+ * @return {!Array.<string>}
  */
 Series.prototype.artists = function ($) {
     return $('td:contains(Artist:)+ > a').map(function (i, el) {
@@ -22,7 +23,8 @@ Series.prototype.artists = function ($) {
 
 /**
  * Retrieves each author.
- * @returns {!Array.<string>}
+ * @param {?} $
+ * @return {!Array.<string>}
  */
 Series.prototype.authors = function ($) {
     return $('td:contains(Author:)+ > a').map(function (i, el) {
@@ -32,7 +34,8 @@ Series.prototype.authors = function ($) {
 
 /**
  * Retrieves each child.
- * @returns {!Array.<Chapter>}
+ * @param {?} $
+ * @return {!Array.<Chapter>}
  */
 Series.prototype.children = function ($) {
     var results = [];
@@ -55,7 +58,8 @@ Series.prototype.children = function ($) {
 
 /**
  * Retrieves each genre.
- * @returns {!Array.<string>}
+ * @param {?} $
+ * @return {!Array.<string>}
  */
 Series.prototype.genres = function ($) {
     return $('td:contains(Genres:)+ > a').map(function (i, el) {
@@ -65,7 +69,8 @@ Series.prototype.genres = function ($) {
 
 /**
  * Retrieves the image location.
- * @returns {?string}
+ * @param {?} $
+ * @return {?string}
  */
 Series.prototype.imageLocation = function ($) {
     var location = $('img[src*=\'/uploads/\']').first().attr('src');
@@ -74,7 +79,8 @@ Series.prototype.imageLocation = function ($) {
 
 /**
  * Retrieves the summary.
- * @returns {?string}
+ * @param {?} $
+ * @return {?string}
  */
 Series.prototype.summary = function ($) {
     var html = $('td:contains(Description:)').next().html() || '';
@@ -84,7 +90,8 @@ Series.prototype.summary = function ($) {
 
 /**
  * Retrieves the title.
- * @returns {?string}
+ * @param {?} $
+ * @return {?string}
  */
 Series.prototype.title = function ($) {
     return $('h1.ipsType_pagetitle').text().trim() || undefined;

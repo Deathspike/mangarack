@@ -11,7 +11,8 @@ function Page(location) {
 
 /**
  * Retrieves the image location.
- * @returns {?string}
+ * @param {?} $
+ * @return {?string}
  */
 Page.prototype.imageLocation = function ($) {
     return $('img[alt*=\'Batoto!\']').attr('src');
