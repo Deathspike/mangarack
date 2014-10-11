@@ -20,10 +20,12 @@ function Chapter(identifier, location, number, title, volume) {
 
 /**
  * Retrieves each child.
- * @returns {!Array.<Page>}
+ * @param {?} $
+ * @return {!Array.<Page>}
  */
 Chapter.prototype.children = function ($) {
-    return $('select[name=page_select]:first > option').map(function (i, el) {
+    var select = $('select[name=page_select]').first();
+    return select.find('option').map(function (i, el) {
         var value = $(el).attr('value');
         var page = value ? new Page(value) : undefined;
         if (i === 0 && page) {

@@ -1,59 +1,55 @@
-// Enable restricted mode.
 'use strict';
-// Initialize the parse number function.
-var parseNumber;
-// Initialize the regular expression ...
-var regex = new RegExp('\\s*' +
-    // ... with the volume expression [1] ...
+
+/**
+ * The regular expression.
+ * @const
+ * @type RegExp
+ */
+var expression = new RegExp('\\s*' +
+    // The volume expression [1].
     '(?:Vol\\.?\\s*([0-9\\.]+)\\s*)?' +
-    // ... with the chapter expression [2] ...
+    // The chapter expression [2].
     '(?:Ch\\.?)?[a-z]*\\s*((?:[0-9\\.]+[a-u]?)\\s*(?:Extra)?\\s*(?:Omake)?)' +
-    // ... with the dash versioning skip expression ...
+    // The dash versioning skip expression.
     '(?:\\s*-\\s*[0-9\\.]+)?' +
-    // ... with the versioning skip expression ...
+    // The versioning skip expression.
     '(?:\\s*v\\.?[0-9]+)?' +
-    // ... with the part expression [3] ...
+    // The part expression [3].
     '(?:\\s*\\(?Part\\s*([0-9]+)\\)?)?' +
-    // ... with the dash/plus skip expression ...
+    // The dash/plus skip expression.
     '(?:\\s*(?:-|\\+))?' +
-    // ... with the title expression [4] ...
+    // The title expression [4].
     '(?:\\s*\\:?\\s*(?:Read Onl?ine|([\\w\\W]*)))?' +
-    // ... with the whitespace expression.
+    // The whitespace expression.
     '\\s*$', 'i');
 
-// ==================================================
-// Export the function.
-// --------------------------------------------------
+/**
+ * Scan the input for chapter details.
+ * @param {string} input
+ * @return {{number: number, title: ?string, volume: number}}
+ */
 module.exports = function (input) {
-    // Initialize the match.
-    var match = input.match(regex);
-    // Return the result ...
+    var match = input.match(expression);
     return !match ? undefined : {
-        // ... with the number ...
         number: parseNumber(match[2], match[3]),
-        // ... with the title ...
-        title: (match[4] || '').trim(),
-        // ... with the volume ...
+        title: (match[4] || '').trim() || undefined,
         volume: parseFloat(match[1])
     };
 };
 
-// ==================================================
-// Parse the number.
-// --------------------------------------------------
-parseNumber = function (chapter, part) {
-    // Initialize the addition.
-    var addition = 0;
-    // Initialize the match.
-    var match = chapter.match(/([a-u])$/i);
-    // Check if the match is valid.
+/**
+ * Parses the chapter and part to a number.
+ * @param {string} chapter
+ * @param {string} part
+ * @returns {number}
+ */
+function parseNumber(chapter, part) {
+    var match = chapter.match(/([a-u])$/);
+    var mutation = 0;
     if (match) {
-        // Initialize the addition.
-        addition = (match[1].charCodeAt(0) - 96) / 10;
+        mutation = (match[1].charCodeAt(0) - 96) / 10;
     } else if (part) {
-        // Initialize the addition.
-        addition = parseFloat(part) / 10;
+        mutation = parseFloat(part) / 10;
     }
-    // Return the chapter.
-    return parseFloat(chapter) + addition;
-};
+    return parseFloat(chapter) + mutation;
+}

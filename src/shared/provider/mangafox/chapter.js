@@ -20,13 +20,15 @@ function Chapter(identifier, location, number, title, volume) {
 
 /**
  * Retrieves each child.
- * @returns {!Array.<Page>}
+ * @param {?} $
+ * @return {!Array.<Page>}
  */
 Chapter.prototype.children = function ($) {
     var location = /[0-9]+\.html$/i.test(this.location) ?
         this.location :
         this.location + '1.html';
-    return $('select.m:first option:not(:last-child)').map(function (i, el) {
+    var select = $('select.m').first();
+    return select.find('option:not(:last-child)').map(function (i, el) {
         var next = $(el).text() + '.html';
         var page = new Page(location.replace(/[0-9]+\.html$/i, next));
         if (i === 0) {

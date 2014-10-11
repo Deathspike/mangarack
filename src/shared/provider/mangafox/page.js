@@ -11,7 +11,8 @@ function Page(location) {
 
 /**
  * Retrieves the image location.
- * @returns {Array.<string>}
+ * @param {?} $
+ * @return {Array.<string>}
  */
 Page.prototype.imageLocation = function ($) {
     var thumbnail = $('meta[property=\'og:image\']').attr('content');
