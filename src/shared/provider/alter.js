@@ -2,7 +2,7 @@
 
 /**
  * Alter numbering to fill in the blanks.
- * @param {Array.<{number: number}>} children
+ * @param {!Array.<{number: number}>} children
  */
 module.exports = function (children) {
     for (var i = 0; i < children.length; i += 1) {
@@ -34,7 +34,7 @@ function clamp(current, minimum, maximum) {
 
 /**
  * Compute the differences.
- * @param {Array.<{number: number}>} children
+ * @param {!Array.<{number: number}>} children
  * @param {{number: number}} source
  * @return {!{differences: Object.<number, number>, previous: {number: number}}}
  */

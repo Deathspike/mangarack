@@ -4,7 +4,7 @@ var Page = require('./page');
 /**
  * Represents a chapter.
  * @class
- * @param {Array.<string>} identifier
+ * @param {!Array.<string>} identifier
  * @param {string} location
  * @param {number} number
  * @param {?string} title

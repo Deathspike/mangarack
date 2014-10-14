@@ -1,12 +1,10 @@
-// Enable restricted mode.
 'use strict';
 
-// ==================================================
-// Export the object.
-// --------------------------------------------------
+/**
+ * The core and provider.
+ * @const
+ */
 module.exports = {
-    // Initialize the core module.
     core: require('./core'),
-    // Initialize the provider module.
     provider: require('./provider')
 };
