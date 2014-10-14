@@ -98,7 +98,7 @@ Series.prototype.summary = function ($) {
         result += piece.trim();
         return true;
     });
-    return result;
+    return result || undefined;
 };
 
 /**

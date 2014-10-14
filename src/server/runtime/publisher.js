@@ -45,6 +45,7 @@ Publisher.prototype.publish = function* (number, imageLocation, image) {
         var buffer = new Buffer(image, 'binary');
 
         console.log('going for the image processing...');
+        return;
         var imageGm = promisifier(gm(buffer));
         var size = yield imageGm.size().first();
         console.log(imageLocation + ': ' + JSON.stringify(size));
