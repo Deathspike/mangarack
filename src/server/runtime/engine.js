@@ -6,6 +6,7 @@ var agent = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)';
 var cheerio = require('cheerio');
 var http = require('http');
 var url = require('url');
+var zlib = require('zlib');
 
 // ==================================================
 // Export the request function.
@@ -53,6 +54,13 @@ function request(path, encoding) {
         obj.headers = {'User-Agent': agent};
         http.get(obj, function (res) {
             var data = '';
+
+            if (res.headers['content-encoding'] === 'gzip') {
+                res.pipe(zlib.createGunzip());
+            } else if (res.headers['content-encoding'] === 'deflate') {
+                res.pipe(zlib.createInflate());
+            }
+
             res.setEncoding(encoding || 'utf8');
             res.on('data', function (chunk) {
                 data += chunk;
