@@ -27,18 +27,22 @@ If you do not have a preference for an editor, I recommend [brackets.io](http://
 * [JSHint](https://github.com/cfjedimaster/brackets-jshint) - For JavaScript validation.
 * [Whitespace Normalizer](https://github.com/dsbonev/whitespace-normalizer) - For whitespace normalization.
 
-## Requirements
-
-You need to have git installed and:
-
-> npm install -g grunt-cli
-
-To run grunt tasks.
-
 ## Basic Instructions
 
-> npm install
+> npm install --production
 
 > node --harmony src/cli http://mangafox.me/manga/girl_friends/
 
 Test mode currently writes one comic archive without additional checks.
+
+## Grunt
+
+> npm install
+
+Grunt tasks are now available. To validate once, run:
+
+> npm run prepublish
+
+Or to have a watcher observe as you code, run:
+
+> npm run watch

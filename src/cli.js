@@ -5,6 +5,9 @@ var commander = require('commander');
 // Initialize the shared module.
 var shared = require('./shared');
 
+// todo: kissmanga uses domain full name inside series.js
+// todo: rename 'location'?
+
 commander.version('3.0.0')
     // disables
     .option('-a, --animation', 'Disable animation framing')
@@ -32,25 +35,15 @@ var co = require('co');
 var runtime = require('./server/runtime');
 
 co(function *() {
-    // Initialize each location.
     var locations = commander.args;
-    // Iterate through each location.
     for (var i = 0; i < locations.length; i += 1) {
-        // Initialize the series.
         var series = shared.provider(locations[i]);
-        // Check if the series is valid.
         if (series) {
-            // Populate the series.
             yield runtime.engine.populate(series);
-            // Iterate through each chapter.
             for (var j = 0; j < series.children.length; j += 1) {
-                // Initialize the chapter.
                 var chapter = series.children[j];
-                // Initialize the publisher.
                 var publisher = new runtime.Publisher('tmp/test.zip');
-                // Synchronize the chapter.
                 yield shared.core(runtime.engine, publisher, series, chapter);
-                // Finalize the publisher.
                 publisher.finalize();
                 console.log('Written. Breaking now!');
                 break;

@@ -1,21 +1,23 @@
 {
-  "name": "mangarack.js",
-  "version": "3.0.0",
-  "description": "MangaRack is an application capable of synchronizing manga series from popular online manga scan and scanlation sites.",
   "author": "Roel van Uden",
+  "description": "MangaRack is an application capable of synchronizing manga series from popular online manga scan and scanlation sites.",
+  "name": "mangarack.js",
+  "repository": "git://github.com/Deathspike/mangarack.js.git",
+  "version": "3.0.0",
   "dependencies": {
-    "archiver": "0.10.x",
-    "cheerio": "0.17.x",
-    "commander": "2.2.x",
-    "co": "3.0.x",
-    "gm": "1.16.x",
-    "promisifier.js": "1.0.3",
-    "request": "2.36.x"
+    "archiver": "^0.11.0",
+    "co": "^3.1.0",
+    "commander": "^2.4.0"
   },
   "devDependencies": {
-    "grunt": "~0.4.x",
-    "grunt-contrib-jshint": "~0.x",
-    "grunt-contrib-watch": "~0.x",
-    "grunt-jscs-checker": "~0.x"
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-jscs": "^0.1.8",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-watch": "^0.6.1"
+  },
+  "scripts": {
+    "prepublish": "./node_modules/.bin/grunt",
+    "watch": "./node_modules/.bin/grunt watch"
   }
 }

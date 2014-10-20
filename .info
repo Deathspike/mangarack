@@ -1,2 +1,2 @@
-JSCS: 1.6.1
-JSHint: 2.5.5 (Pending browserify setting)
+JSCS: 1.6.1 => 1.7.3 (only added esnext, did not check options)
+JSHint: 2.5.6 (Source-validation @2.5.6)
