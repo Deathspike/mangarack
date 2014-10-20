@@ -1,5 +1,5 @@
 'use strict';
-var regex = /^http:\/\/www\.batoto\.net\/comic\/_\/comics\/(.*)-r([0-9]+)/i;
+var regex = /^http:\/\/bato\.to\/comic\/_\/comics\/(.*)-r([0-9]+)/i;
 var Series = require('./series');
 
 /**
