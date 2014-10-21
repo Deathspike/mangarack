@@ -20,10 +20,10 @@ module.exports.request = function* (url, encoding) {
 // Export the populate function.
 // --------------------------------------------------
 module.exports.populate = function* (resource) {
-    // Check if the location is valid.
-    if (resource.location) {
+    // Check if the address is valid.
+    if (resource.address) {
         // Initialize the document.
-        var $ = cheerio.load((yield this.request(resource.location)) || '');
+        var $ = cheerio.load((yield this.request(resource.address)) || '');
         // Iterate through each key.
         for (var key in resource) {
             // Check if the property is a function.
@@ -32,8 +32,8 @@ module.exports.populate = function* (resource) {
                 resource[key] = resource[key]($);
             }
         }
-        // Delete the location.
-        delete resource.location;
+        // Delete the address.
+        delete resource.address;
     }
 };
 
@@ -45,7 +45,6 @@ module.exports.populate = function* (resource) {
  */
 function request(path, encoding) {
     return function (fn) {
-        console.log(path);
         if (typeof encoding === 'function') {
             fn = encoding;
             encoding = 'utf8';

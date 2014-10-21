@@ -4,15 +4,15 @@ var Page = require('./page');
 /**
  * Represents a chapter.
  * @class
+ * @param {string} address
  * @param {!Array.<string>} identifier
- * @param {string} location
  * @param {number} number
  * @param {?string} title
  * @param {number} volume
  */
-function Chapter(identifier, location, number, title, volume) {
+function Chapter(address, identifier, number, title, volume) {
+    this.address = address;
     this.identifier = identifier ? parseInt(identifier[1], 10) : undefined;
-    this.location = location;
     this.number = number;
     this.title = title;
     this.volume = volume;

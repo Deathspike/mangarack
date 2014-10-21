@@ -18,11 +18,11 @@ module.exports = function* (engine, publisher, series, chapter) {
 // Process the preview image.
 // --------------------------------------------------
 function* previewImage(engine, publisher, series) {
-    if (!series.image && series.imageLocation) {
-        series.image = yield engine.request(series.imageLocation, 'binary');
+    if (!series.image && series.imageAddress) {
+        series.image = yield engine.request(series.imageAddress, 'binary');
     }
     if (series.image) {
-        yield publisher.publish(0, series.imageLocation, series.image);
+        yield publisher.publish(0, series.imageAddress, series.image);
     }
 }
 
@@ -30,12 +30,13 @@ function* previewImage(engine, publisher, series) {
  * Process the page
  */
 function* processPage(engine, publisher, page, number) {
-    var imageLocations = [].concat(page.imageLocation);
-    for (var i = 0; i < imageLocations.length; i += 1) {
-        var imageLocation = imageLocations[i];
-        var image = yield engine.request(imageLocation, 'binary');
+    console.log(page);
+    var imageAddresses = [].concat(page.imageAddress);
+    for (var i = 0; i < imageAddresses.length; i += 1) {
+        var imageAddress = imageAddresses[i];
+        var image = yield engine.request(imageAddress, 'binary');
         if (image) {
-            yield publisher.publish(number, imageLocation, image);
+            yield publisher.publish(number, imageAddress, image);
             return;
         }
     }

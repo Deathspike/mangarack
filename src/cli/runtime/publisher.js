@@ -30,11 +30,11 @@ Publisher.prototype.finalize = function () {
 // ==================================================
 // Publish the image.
 // --------------------------------------------------
-Publisher.prototype.publish = function* (number, imageLocation, image) {
-    // Initialize the parsed image location.
-    var parsedImageLocation = url.parse(imageLocation);
+Publisher.prototype.publish = function* (number, imageAddress, image) {
+    // Initialize the parsed image address.
+    var parsedImageAddress = url.parse(imageAddress);
     // Initialize the extension.
-    var extension = path.extname(parsedImageLocation.pathname);
+    var extension = path.extname(parsedImageAddress.pathname);
     // Check if the image is valid.
     if (image) {
         // Initialize the buffer.

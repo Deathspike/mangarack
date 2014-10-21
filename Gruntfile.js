@@ -1,6 +1,8 @@
+/*jshint node: true*/
 'use strict';
 
 module.exports = function (grunt) {
+    // Initialize the configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         jscs: {
@@ -29,9 +31,11 @@ module.exports = function (grunt) {
         }
     });
 
+    // Initialize the tasks.
     grunt.loadNpmTasks('grunt-contrib-jscs');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
+    // Register the task.
     grunt.registerTask('default', ['jshint', 'jscs']);
 };

@@ -3,10 +3,10 @@
 /**
  * Represents a page.
  * @class
- * @param {string} imageLocation
+ * @param {string} address
  */
-function Page(imageLocation) {
-    this.imageLocation = imageLocation;
+function Page(address) {
+    this.imageAddress = address;
 }
 
 if (typeof module !== 'undefined') {

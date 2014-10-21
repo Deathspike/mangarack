@@ -4,15 +4,15 @@ var Page = require('./page');
 /**
  * Represents a chapter.
  * @class
+ * @param {string} address
  * @param {!Array.<string>} identifier
- * @param {string} location
  * @param {number} number
  * @param {?string} title
  * @param {number} volume
  */
-function Chapter(identifier, location, number, title, volume) {
+function Chapter(address, identifier, number, title, volume) {
+    this.address = address + '?supress_webtoon=t';
     this.identifier = identifier ? parseInt(identifier[1], 10) : undefined;
-    this.location = location + '?supress_webtoon=t';
     this.number = number;
     this.title = title;
     this.volume = volume;
@@ -29,8 +29,8 @@ Chapter.prototype.children = function ($) {
         var value = $(el).attr('value');
         var page = value ? new Page(value) : undefined;
         if (i === 0 && page) {
-            page.imageLocation = page.imageLocation($);
-            delete page.location;
+            page.imageAddress = page.imageAddress($);
+            delete page.address;
         }
         return page;
     }).get();

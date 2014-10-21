@@ -4,15 +4,15 @@ var Page = require('./page');
 /**
  * Represents a chapter.
  * @class
+ * @param {string} address
  * @param {!Array.<string>} identifier
- * @param {string} location
  * @param {number} number
  * @param {?string} title
  * @param {number} volume
  */
-function Chapter(identifier, location, number, title, volume) {
+function Chapter(address, identifier, number, title, volume) {
+    this.address = address;
     this.identifier = identifier ? parseInt(identifier[1], 10) : undefined;
-    this.location = location;
     this.number = number;
     this.title = title;
     this.volume = volume;
@@ -24,16 +24,16 @@ function Chapter(identifier, location, number, title, volume) {
  * @return {!Array.<Page>}
  */
 Chapter.prototype.children = function ($) {
-    var location = /[0-9]+\.html$/i.test(this.location) ?
-        this.location :
-        this.location + '1.html';
+    var address = /[0-9]+\.html$/i.test(this.address) ?
+        this.address :
+        this.address + '1.html';
     var select = $('select.m').first();
     return select.find('option:not(:last-child)').map(function (i, el) {
         var next = $(el).text() + '.html';
-        var page = new Page(location.replace(/[0-9]+\.html$/i, next));
+        var page = new Page(address.replace(/[0-9]+\.html$/i, next));
         if (i === 0) {
-            page.imageLocation = page.imageLocation($);
-            delete page.location;
+            page.imageAddress = page.imageAddress($);
+            delete page.address;
         }
         return page;
     }).get();

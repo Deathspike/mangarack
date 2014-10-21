@@ -4,9 +4,9 @@ var Series = require('./series');
 
 /**
  * Retrieves a series.
- * @param {string} location
+ * @param {string} address
  * @return {Series}
  */
-module.exports = function (location) {
-    return regex.test(location) ? new Series(location) : undefined;
+module.exports = function (address) {
+    return regex.test(address) ? new Series(address) : undefined;
 };

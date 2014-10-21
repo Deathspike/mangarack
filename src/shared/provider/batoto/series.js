@@ -4,10 +4,10 @@ var scanner = require('../scanner');
 
 /**
  * Represents a series.
- * @param {string} location
+ * @param {string} address
  */
-function Series(location) {
-    this.location = location;
+function Series(address) {
+    this.address = address;
 }
 
 /**
@@ -40,13 +40,13 @@ Series.prototype.authors = function ($) {
 Series.prototype.children = function ($) {
     var results = [];
     $('tr.lang_English').find('a[href*=\'/read/\']').map(function (i, el) {
+        var address = ($(el).attr('href') || '').trim();
         var scan = scanner($(el).text());
-        var location = ($(el).attr('href') || '').trim();
-        var identifier = location.match(/_\/([0-9]+)\//i);
-        if (location && scan && identifier) {
+        var identifier = address.match(/_\/([0-9]+)\//i);
+        if (address && scan && identifier) {
             results.push(new Chapter(
+                address,
                 identifier,
-                location,
                 scan.number,
                 scan.title || undefined,
                 scan.volume
@@ -68,13 +68,13 @@ Series.prototype.genres = function ($) {
 };
 
 /**
- * Retrieves the image location.
+ * Retrieves the image address.
  * @param {?} $
  * @return {?string}
  */
-Series.prototype.imageLocation = function ($) {
-    var location = $('img[src*=\'/uploads/\']').first().attr('src');
-    return location ? location.trim() : undefined;
+Series.prototype.imageAddress = function ($) {
+    var address = $('img[src*=\'/uploads/\']').first().attr('src');
+    return address ? address.trim() : undefined;
 };
 
 /**
