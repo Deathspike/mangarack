@@ -76,7 +76,6 @@ function hasDifference(differences) {
     return false;
 }
 
-
 /**
  * Prioritize the best difference.
  * @param {!{Object.<number, number>} differences
