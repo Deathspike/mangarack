@@ -41,7 +41,7 @@ Test mode currently writes one comic archive without additional checks.
 
 Grunt tasks are now available. To validate once, run:
 
-> npm run prepublish
+> npm run grunt
 
 Or to have a watcher observe as you code, run:
 
