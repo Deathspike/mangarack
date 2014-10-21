@@ -3,6 +3,7 @@
   "description": "MangaRack is an application capable of synchronizing manga series from popular online manga scan and scanlation sites.",
   "name": "mangarack.js",
   "repository": "git://github.com/Deathspike/mangarack.js.git",
+  "private": true,
   "version": "3.0.0",
   "dependencies": {
     "archiver": "^0.11.0",
@@ -13,12 +14,12 @@
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
-    "grunt-contrib-jscs": "^0.1.8",
     "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-watch": "^0.6.1"
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-jscs": "^0.8.0"
   },
   "scripts": {
-    "prepublish": "./node_modules/.bin/grunt",
+    "grunt": "./node_modules/.bin/grunt",
     "watch": "./node_modules/.bin/grunt watch"
   }
 }
