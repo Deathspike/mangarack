@@ -3,18 +3,18 @@
 /**
  * Represents a page.
  * @class
- * @param {string} location
+ * @param {string} address
  */
-function Page(location) {
-    this.location = location + '?supress_webtoon=t';
+function Page(address) {
+    this.address = address + '?supress_webtoon=t';
 }
 
 /**
- * Retrieves the image location.
+ * Retrieves the image address.
  * @param {?} $
  * @return {?string}
  */
-Page.prototype.imageLocation = function ($) {
+Page.prototype.imageAddress = function ($) {
     return $('img[alt*=\'Batoto!\']').attr('src');
 };
 

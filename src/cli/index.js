@@ -1,12 +1,9 @@
-// Enable restricted mode.
 'use strict';
-// Initialize the commander module.
 var commander = require('commander');
-// Initialize the shared module.
-var shared = require('./shared');
-
-// todo: kissmanga uses domain full name inside series.js
-// todo: rename 'location'?
+var co = require('co');
+var core = require('./core');
+var runtime = require('./runtime');
+var shared = require('../shared');
 
 commander.version('3.0.0')
     // disables
@@ -29,27 +26,21 @@ commander.version('3.0.0')
     // parse
     .parse(process.argv);
 
-// Initialize the co module.
-var co = require('co');
-// Initialize the runtime module.
-var runtime = require('./server/runtime');
 
 co(function *() {
-    var locations = commander.args;
-    for (var i = 0; i < locations.length; i += 1) {
-        var series = shared.provider(locations[i]);
+    var addresses = commander.args;
+    for (var i = 0; i < addresses.length; i += 1) {
+        var series = shared.provider(addresses[i]);
         if (series) {
             yield runtime.engine.populate(series);
             for (var j = 0; j < series.children.length; j += 1) {
                 var chapter = series.children[j];
                 var publisher = new runtime.Publisher('tmp/test.zip');
-                yield shared.core(runtime.engine, publisher, series, chapter);
+                yield core(runtime.engine, publisher, series, chapter);
                 publisher.finalize();
                 console.log('Written. Breaking now!');
                 break;
             }
         }
     }
-})(function (error) {
-    console.log(error);
-});
+})();

@@ -4,12 +4,12 @@ var scanner = require('../scanner');
 
 /**
  * Represents a series.
- * @param {string} location
+ * @param {string} address
  */
-function Series(location) {
-    this.location = /\?confirm=yes$/i.test(location) ?
-        location :
-        location + '?confirm=yes';
+function Series(address) {
+    this.address = /\?confirm=yes$/i.test(address) ?
+        address :
+        address + '?confirm=yes';
 }
 
 /**
@@ -31,13 +31,13 @@ Series.prototype.authors = function ($) {
 Series.prototype.children = function ($) {
     var results = [];
     $('a[href*=\'/Manga/\'][title*=\'Read\']').map(function (i, el) {
+        var address = ($(el).attr('href') || '').trim();
         var scan = scanner($(el).text().replace(/\.0+/, '.'));
-        var location = ($(el).attr('href') || '').trim();
-        var identifier = location.match(/id=([0-9]+)$/i);
-        if (location && scan && identifier) {
+        var identifier = address.match(/id=([0-9]+)$/i);
+        if (address && scan && identifier) {
             results.push(new Chapter(
+                'http://kissmanga.com/' + address.replace(/^\//, ''),
                 identifier,
-                'http://kissmanga.com/' + location.replace(/^\//, ''),
                 scan.number,
                 scan.title || undefined,
                 scan.volume
@@ -59,11 +59,11 @@ Series.prototype.genres = function ($) {
 };
 
 /**
- * Retrieves the image location.
+ * Retrieves the image address.
  * @param {?} $
  * @return {?string}
  */
-Series.prototype.imageLocation = function ($) {
+Series.prototype.imageAddress = function ($) {
     return ($('img[src*=\'/Uploads/\']').attr('src') || '').trim() || undefined;
 };
 

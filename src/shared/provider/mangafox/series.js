@@ -3,10 +3,10 @@ var Chapter = require('./chapter');
 
 /**
  * Represents a series.
- * @param {string} location
+ * @param {string} address
  */
-function Series(location) {
-    this.location = location;
+function Series(address) {
+    this.address = address;
 }
 
 /**
@@ -45,8 +45,8 @@ Series.prototype.children = function ($) {
             var parent = $(el).parent();
             parent.next().find('a[href*=\'/manga/\']').each(function (i, el) {
                 results.push(new Chapter(
-                    (parent.prev('a.edit').attr('href') || '').match(regex),
                     ($(el).attr('href') || '').trim(),
+                    (parent.prev('a.edit').attr('href') || '').match(regex),
                     parseFloat($(el).text().match(/[0-9\.]+$/)),
                     $(el).next('span.title').text().trim() || undefined,
                     parseFloat(match[1])
@@ -69,13 +69,13 @@ Series.prototype.genres = function ($) {
 };
 
 /**
- * Retrieves the image location.
+ * Retrieves the image address.
  * @param {?} $
  * @return {?string}
  */
-Series.prototype.imageLocation = function ($) {
-    var location = $('img[src*=\'cover.jpg\']').attr('src');
-    return location ? location.trim() : undefined;
+Series.prototype.imageAddress = function ($) {
+    var address = $('img[src*=\'cover.jpg\']').attr('src');
+    return address ? address.trim() : undefined;
 };
 
 /**

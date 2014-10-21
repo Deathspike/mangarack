@@ -6,11 +6,11 @@ var mangafox = require('./mangafox');
 
 /**
  * Retrieves a series.
- * @param {string} location
+ * @param {string} address
  * @return {Series}
  */
-module.exports = function (location) {
-    var series = batoto(location) || kissmanga(location) || mangafox(location);
+module.exports = function (address) {
+    var series = batoto(address) || kissmanga(address) || mangafox(address);
     if (series) {
         var populate = series.children;
         series.children = function ($) {

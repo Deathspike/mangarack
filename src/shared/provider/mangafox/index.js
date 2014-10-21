@@ -3,11 +3,11 @@ var Series = require('./series');
 
 /**
  * Retrieves a series.
- * @param {string} location
+ * @param {string} address
  * @return {Series}
  */
-module.exports = function (location) {
-    return (/^http:\/\/mangafox\.(com|me)\/manga\//i).test(location) ?
-        new Series(location) :
+module.exports = function (address) {
+    return (/^http:\/\/mangafox\.(com|me)\/manga\//i).test(address) ?
+        new Series(address) :
         undefined;
 };

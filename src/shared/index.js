@@ -1,10 +1,9 @@
 'use strict';
 
 /**
- * The core and provider.
+ * The shared implementation.
  * @const
  */
 module.exports = {
-    core: require('./core'),
     provider: require('./provider')
 };
