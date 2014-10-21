@@ -1,7 +1,4 @@
 {
-  "excludeFiles": ["node_modules/**"],
-  "esnext": true,
-
   "disallowEmptyBlocks": true,
   "disallowImplicitTypeConversion": [
     "binary",
