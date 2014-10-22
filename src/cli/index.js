@@ -15,17 +15,14 @@ commander.version('3.0.0')
     .option('-m, --meta', 'Disable embedded meta-information.')
     .option('-p, --persistent', 'Enable persistent synchronization')
     .option('-r, --repair', 'Disable repair and error tracking.')
-
     // with option
     .option('-e, --extension <s>', 'The file extension for each file. (cbz)')
     .option('-c, --chapter <n>', 'The chapter filter.')
     .option('-v, --volume <n>', 'The volume filter.')
     .option('-w, --worker <n>', 'The maximum parallel workers. (# cores)')
     .option('-s, --source <s>', 'The batch-mode source file. (cli.txt)')
-
     // parse
     .parse(process.argv);
-
 
 co(function *() {
     var addresses = commander.args;

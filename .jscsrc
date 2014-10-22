@@ -1,4 +1,6 @@
 {
+  "esnext": true,
+
   "disallowEmptyBlocks": true,
   "disallowImplicitTypeConversion": [
     "binary",

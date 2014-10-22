@@ -11,7 +11,7 @@ var zlib = require('zlib');
 // ==================================================
 // Export the request function.
 // --------------------------------------------------
-module.exports.request = function* (url, encoding) {
+module.exports.request = function *(url, encoding) {
     var response = yield request(url, encoding || 'utf8');
     return response;
 };
@@ -19,7 +19,7 @@ module.exports.request = function* (url, encoding) {
 // ==================================================
 // Export the populate function.
 // --------------------------------------------------
-module.exports.populate = function* (resource) {
+module.exports.populate = function *(resource) {
     // Check if the address is valid.
     if (resource.address) {
         // Initialize the document.
