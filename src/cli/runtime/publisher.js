@@ -30,7 +30,7 @@ Publisher.prototype.finalize = function () {
 // ==================================================
 // Publish the image.
 // --------------------------------------------------
-Publisher.prototype.publish = function* (number, imageAddress, image) {
+Publisher.prototype.publish = function *(number, imageAddress, image) {
     // Initialize the parsed image address.
     var parsedImageAddress = url.parse(imageAddress);
     // Initialize the extension.
