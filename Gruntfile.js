@@ -32,7 +32,6 @@ module.exports = function (grunt) {
 
     // Initialize the tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-jscs');
 
     // Register the task.

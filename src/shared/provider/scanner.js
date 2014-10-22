@@ -3,6 +3,7 @@
 /**
  * The regular expression.
  * @const
+ * @type {RegExp}
  */
 var expression = new RegExp('\\s*' +
     // The volume expression [1].
