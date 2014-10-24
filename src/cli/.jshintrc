@@ -1,5 +1,5 @@
 {
-  "extends"       : "../../.jshintrc",
-  "esnext"       : true,
-  "noyield"      : true
+  "extends": "../../.jshintrc",
+  "esnext": true,
+  "noyield": true
 }

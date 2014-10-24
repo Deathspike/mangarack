@@ -1,2 +1,5 @@
-JSCS: 1.6.1 => 1.7.3 (only added esnext, did not check options)
-JSHint: 2.5.6 (source-validation @2.5.6)
+JSHint: 2.5.6 (source-validation)
+JSCS: 1.7.3 (ignored disallowDanglingUnderscores & requireAlignedObjectValues)
+JSCS-JSDoc: ?.?.?
+
+JSCS: I didn't quite get the function expression/declaration rules. Look at it.
