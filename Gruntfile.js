@@ -6,21 +6,29 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         jscs: {
             main: {
-                options: {config: true},
+                options: {
+                    config: true
+                },
                 src: ['Gruntfile.js']
             },
             src: {
-                options: {config: true},
+                options: {
+                    config: true
+                },
                 src: ['src/**/*.js', '!src/**.min.js']
             }
         },
         jshint: {
             main: {
-                options: {jshintrc: true},
+                options: {
+                    jshintrc: true
+                },
                 src: ['Gruntfile.js']
             },
             src: {
-                options: {jshintrc: true},
+                options: {
+                    jshintrc: true
+                },
                 src: ['src/**/*.js', '!src/**.min.js']
             }
         },
