@@ -14,6 +14,7 @@
   "disallowSpaceAfterPrefixUnaryOperators": true,
   "disallowSpaceBeforePostfixUnaryOperators": true,
   "disallowSpacesInCallExpression": true,
+  "disallowSpacesInFunctionDeclaration": {"beforeOpeningRoundBrace": true},
   "disallowSpacesInsideArrayBrackets": true,
   "disallowSpacesInsideObjectBrackets": true,
   "disallowSpacesInsideParentheses": true,
@@ -22,7 +23,6 @@
   "disallowYodaConditions": true,
   "esnext": true,
   "maximumLineLength": 80,
-  "requireAnonymousFunctions": true,
   "requireBlocksOnNewline": true,
   "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
   "requireCapitalizedComments": true,
@@ -33,7 +33,6 @@
   "requireFunctionDeclarations": true,
   "requireLineFeedAtFileEnd": true,
   "requireOperatorBeforeLineBreak": true,
-  "requirePaddingNewLinesInObjects": true,
   "requireParenthesesAroundIIFE": true,
   "requireSpaceAfterBinaryOperators": true,
   "requireSpaceAfterKeywords": true,
@@ -44,7 +43,7 @@
   "requireSpacesInConditionalExpression": true,
   "safeContextKeyword": ["that"],
   "validateIndentation": 4,
-  "validateLineBreaks": "CRLF",
+  "validateLineBreaks": "LF",
   "validateParameterSeparator": ", ",
   "validateQuoteMarks": "'"
 }
