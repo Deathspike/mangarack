@@ -1,5 +1,10 @@
 JSHint: 2.5.6 (source-validation)
-JSCS: 1.7.3 (ignored disallowDanglingUnderscores & requireAlignedObjectValues)
+JSCS: 1.7.3
 JSCS-JSDoc: ?.?.?
 
-JSCS: I didn't quite get the function expression/declaration rules. Look at it.
+JSCS: Ignored:
+- function rules
+- (disallow|require)AnonymousFunctions
+- (disallow|require)PaddingNewLinesInObjects
+- disallowDanglingUnderscores
+- requireAlignedObjectValues
