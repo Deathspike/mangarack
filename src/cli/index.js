@@ -1,41 +1,54 @@
 'use strict';
 var co = require('co');
-var commander = require('commander');
+var fs = require('co-fs');
 var mirror = require('./mirror');
+var options = require('./options');
 var path = require('path');
 var provider = require('../shared').provider;
 var utilities = require('./utilities');
 
-// TODO: `batch mode`
-
-commander.version(require('../../package').version)
-    // Enables/disables.
-    // X.option('-a, --animation', 'Disable animation framing')
-    .option('-d, --duplication', 'Disable duplication prevention')
-    // X.option('-f, --footer', 'Disable footer incision')
-    // X.option('-g, --grayscale', 'Disable grayscale size comparison+save.')
-    // X.option('-i, --image', 'Disable image processing.')
-    // X.option('-m, --meta', 'Disable embedded meta-information.')
-    // X.option('-p, --persistent', 'Enable persistent synchronization')
-    // X.option('-r, --repair', 'Disable repair and error tracking.')
-    // Filters and options.
-    .option('-e, --extension <s>', 'The file extension for each file. (cbz)')
-    .option('-c, --chapter <n>', 'The chapter filter.')
-    .option('-v, --volume <n>', 'The volume filter.')
-    // X.option('-w, --worker <n>', 'The maximum parallel workers. (# cores)')
-    // X.option('-s, --source <s>', 'The batch-mode source file. (cli.txt)')
-    .parse(process.argv);
-
+/**
+ * Run the command line application.
+ */
 co(function *(options) {
-    console.log(commander.args);
-    var addresses = commander.args;
+    return options.args.length === 0 ?
+        yield processBatch('MangaRack.txt') :
+        yield processAddresses(options, options.args);
+})(options().parse(process.argv));
+
+/**
+ * Process each address.
+ * @param {!Options} options
+ * @param {!Array.<string>} addresses
+ */
+function *processAddresses(options, addresses) {
     for (var i = 0; i < addresses.length; i += 1) {
-        var series = provider(addresses[i]);
+        var address = addresses[i];
+        var series = provider(address);
         if (series) {
             yield processSeries(options, series);
+        } else {
+            console.log('Ignoring ' + address);
         }
     }
-})(commander);
+}
+
+/**
+ * Process the batch file.
+ * @param {string} file
+ */
+function *processBatch(file) {
+    if (yield fs.exists(file)) {
+        var lines = (yield fs.readFile(file, 'utf8')).split('\n');
+        for (var i = 0; i < lines.length; i += 1) {
+            var line = lines[i];
+            if (line) {
+                var lineOptions = options().parse(lines[i].split(' '));
+                yield processAddresses(lineOptions, lineOptions.args);
+            }
+        }
+    }
+}
 
 /**
  * Process the chapter.
@@ -50,7 +63,7 @@ function *processChapter(options, series, chapter) {
         var book = path.basename(pathToBook, '.cbz');
         console.log('Fetching ' + book);
         yield utilities.request(chapter);
-        yield mirror(series, chapter, commander.extension);
+        yield mirror(series, chapter, options.extension);
         console.log('Finished ' + book);
     }
 }
