@@ -3,8 +3,11 @@ JSCS: 1.7.3
 JSCS-JSDoc: ?.?.?
 
 JSCS: Ignored:
-- function rules
+- Quite some function rules that I do not need.
 - (disallow|require)AnonymousFunctions
 - (disallow|require)PaddingNewLinesInObjects
 - disallowDanglingUnderscores
 - requireAlignedObjectValues
+
+TODO:
+- Have some kind of "extends" for JSCS
