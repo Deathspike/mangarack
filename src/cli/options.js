@@ -10,5 +10,6 @@ module.exports = function () {
         .option('-d, --duplication', 'Disable duplication prevention')
         .option('-e, --extension <s>', 'The file extension. (Default: cbz)')
         .option('-c, --chapter <n>', 'The chapter filter.')
-        .option('-v, --volume <n>', 'The volume filter.');
+        .option('-v, --volume <n>', 'The volume filter.')
+        .option('-s, --source <s>', 'The source file. (MangaRack.txt)');
 };

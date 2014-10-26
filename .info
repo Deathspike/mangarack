@@ -22,4 +22,3 @@ TODO Options:
 .option('-p, --persistent', 'Enable persistent synchronization')
 .option('-r, --repair', 'Disable repair and error tracking.')
 .option('-w, --worker <n>', 'The maximum parallel workers. (# cores)')
-.option('-s, --source <s>', 'The batch-mode source file. (cli.txt)')
