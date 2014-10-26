@@ -1,4 +1,6 @@
 'use strict';
+var fs = require('co-fs');
+var path = require('./path');
 var request = require('./request');
 var Writer = require('./writer');
 
@@ -9,9 +11,16 @@ var Writer = require('./writer');
  * @param {!Chapter} chapter
  */
 module.exports = function *(options, series, chapter) {
-    var writer = new Writer('tmp/test.zip');
-    yield publish(writer, series, chapter);
-    writer.publish();
+    var file = yield path(series, chapter, options.extension);
+    if (file && (options.duplication || !(yield fs.exists(file)))) {
+        console.log('Fetching ' + file);
+        var writer = new Writer(file);
+        yield request(series);
+        yield request(chapter);
+        yield publish(writer, series, chapter);
+        writer.publish();
+        console.log('Finished ' + file);
+    }
 };
 
 /**

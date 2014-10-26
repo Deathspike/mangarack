@@ -3,7 +3,6 @@
 module.exports = function (grunt) {
     // Initialize the configuration.
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
         jscs: {
             main: {options: {config: true}, src: 'Gruntfile.js'},
             src: {options: {config: true}, src: 'src/**/*.js'}
@@ -11,10 +10,6 @@ module.exports = function (grunt) {
         jshint: {
             main: {options: {jshintrc: true}, src: 'Gruntfile.js'},
             src: {options: {jshintrc: true}, src: 'src/**/*.js'}
-        },
-        watch: {
-            files: ['src/**/*.js'],
-            tasks: ['jshint', 'jscs']
         }
     });
 
