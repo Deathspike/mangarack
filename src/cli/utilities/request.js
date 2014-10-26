@@ -6,16 +6,15 @@ var url = require('url');
 var zlib = require('zlib');
 
 /**
- * Request or populate from a HTTP resource
+ * Request or populate from a HTTP resource.
  * @param {string|!{address: string}} resource
  * @param {string=} encoding
  * @return {?string|!{address: ?string}}
  */
 module.exports = function *(resource, encoding) {
-    if (typeof resource === 'object') {
-        return yield populate(resource, encoding);
-    }
-    return yield request(resource, encoding);
+    return typeof resource === 'string' ?
+        yield request(resource, encoding) :
+        yield populate(resource, encoding);
 };
 
 /**
