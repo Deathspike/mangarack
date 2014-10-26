@@ -12,7 +12,7 @@ var utilities = require('./utilities');
  */
 co(function *(options) {
     return options.args.length === 0 ?
-        yield processBatch('MangaRack.txt') :
+        yield processBatch(options.source || 'MangaRack.txt') :
         yield processAddresses(options, options.args);
 })(options().parse(process.argv));
 
