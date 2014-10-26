@@ -1,6 +1,6 @@
 'use strict';
-var commander = require('commander');
 var co = require('co');
+var commander = require('commander');
 var mirror = require('./mirror');
 var provider = require('../shared').provider;
 var request = require('./request');
@@ -33,8 +33,6 @@ co(function *() {
                 var chapter = series.children[j];
                 yield request(chapter);
                 yield mirror(commander, series, chapter);
-                console.log('Ending now.');
-                return;
             }
         }
     }

@@ -64,8 +64,6 @@ function request(path, encoding) {
             res.on('end', function () {
                 fn(undefined, data || undefined);
             });
-        }).on('error', function (err) {
-            fn(err);
-        });
+        }).on('error', fn);
     };
 }
