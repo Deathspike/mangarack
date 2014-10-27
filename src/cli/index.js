@@ -14,7 +14,7 @@ co(function *(options) {
     return options.args.length === 0 ?
         yield processBatch(options.source || 'MangaRack.txt') :
         yield processAddresses(options, options.args);
-})(options().parse(process.argv));
+})(options(process.argv));
 
 /**
  * Process each address.
@@ -43,7 +43,7 @@ function *processBatch(file) {
         for (var i = 0; i < lines.length; i += 1) {
             var line = lines[i];
             if (line) {
-                var lineOptions = options().parse(lines[i].split(' '));
+                var lineOptions = options(lines[i].split(' '));
                 yield processAddresses(lineOptions, lineOptions.args);
             }
         }
