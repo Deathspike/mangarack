@@ -13,6 +13,17 @@ function Series(address) {
 }
 
 /**
+ * Retrieves each artist.
+ * @return {!Array.<string>}
+ */
+Series.prototype.artists = function () {
+    // This function has been made available to enable a standard contract on
+    // each provider implementation. In turn, this enables the caller to
+    // interact with each provider without having to accommodate edge cases.
+    return [];
+};
+
+/**
  * Retrieves each author.
  * @param {?} $
  * @return {!Array.<string>}
