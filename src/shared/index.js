@@ -5,5 +5,7 @@
  * @const
  */
 module.exports = {
-    provider: require('./provider')
+    common: require('./common'),
+    provider: require('./provider'),
+    publisher: require('./publisher')
 };

@@ -1,6 +1,0 @@
-{
-  "extends": "../../.jshintrc",
-  "es3": false,
-  "esnext": true,
-  "noyield": true
-}

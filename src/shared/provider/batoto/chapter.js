@@ -30,7 +30,7 @@ Chapter.prototype.children = function ($) {
         var page = value ? new Page(value) : undefined;
         if (i === 0 && page) {
             page.imageAddress = page.imageAddress($);
-            delete page.address;
+            page.address = undefined;
         }
         return page;
     }).get();

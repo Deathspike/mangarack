@@ -8,12 +8,9 @@ JSCS: Ignored:
 - (disallow|require)PaddingNewLinesInObjects
 - disallowDanglingUnderscores
 - requireAlignedObjectValues
-
-TODO:
-- Have some kind of "extends" for JSCS
+- requireCapitalizedComments
 
 TODO Options:
-// Enables/disables.
 .option('-a, --animation', 'Disable animation framing')
 .option('-f, --footer', 'Disable footer incision')
 .option('-g, --grayscale', 'Disable grayscale size comparison+save.')

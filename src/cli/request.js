@@ -6,7 +6,7 @@ var url = require('url');
 var zlib = require('zlib');
 
 /**
- * Request or populate from a HTTP resource.
+ * Requests or populate the resource from a HTTP resource.
  * @param {string|!{address: string}} resource
  * @param {string=} encoding
  * @return {?string|!{address: ?string}}
@@ -18,7 +18,7 @@ module.exports = function *(resource, encoding) {
 };
 
 /**
- * Populate from a HTTP resource.
+ * Populates the resource from a HTTP resource.
  * @param {!{address: ?string}} resource
  * @param {string=} encoding
  * @return !{address: ?string}
@@ -40,7 +40,7 @@ function *populate(resource, encoding) {
 }
 
 /**
- * Request a HTTP resource.
+ * Requests a HTTP resource.
  * @param {string} path
  * @param {string=} encoding
  * @return {function(function(?string, ?string))}
