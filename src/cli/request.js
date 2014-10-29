@@ -1,5 +1,6 @@
 'use strict';
 var agent = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)';
+var Bluebird = require('bluebird');
 var cheerio = require('cheerio');
 var http = require('http');
 var url = require('url');
@@ -46,7 +47,7 @@ function *populate(resource, encoding) {
  * @return {function(function(?string, ?string))}
  */
 function request(path, encoding) {
-    return function (fn) {
+    return new Bluebird(function (resolve, reject) {
         var options = url.parse(path);
         options.headers = {'User-Agent': agent};
         http.get(options, function (res) {
@@ -61,8 +62,8 @@ function request(path, encoding) {
                 data += chunk;
             });
             res.on('end', function () {
-                fn(undefined, data || undefined);
+                resolve(data || undefined);
             });
-        }).on('error', fn);
-    };
+        }).on('error', reject);
+    });
 }

@@ -1,7 +1,7 @@
 'use strict';
 var Agent = require('./agent');
-var co = require('co');
-var fs = require('co-fs');
+var Bluebird = require('bluebird');
+var fs = require('./fs');
 var options = require('./options');
 var path = require('path');
 var request = require('./request');
@@ -11,7 +11,15 @@ var utilities = require('./utilities');
 /**
  * Run the command line application.
  */
-co(function *(options) {
+Bluebird.coroutine.addYieldHandler(function (n) {
+    if (n && typeof n.next === 'function' &&  typeof n.throw === 'function') {
+        return Bluebird.coroutine(function *() {
+            return yield *n;
+        })();
+    }
+});
+
+Bluebird.coroutine(function *(options) {
     return options.args.length === 0 ?
         yield handleBatch(options.source || 'MangaRack.txt') :
         yield handleAddresses(options, options.args);
@@ -39,8 +47,8 @@ function *handleAddresses(options, addresses) {
  * @param {string} file
  */
 function *handleBatch(file) {
-    if (yield fs.exists(file)) {
-        var lines = (yield fs.readFile(file, 'utf8')).split('\n');
+    if (yield fs.existsAsync(file)) {
+        var lines = (yield fs.readFileAsync(file, 'utf8')).split('\n');
         for (var i = 0; i < lines.length; i += 1) {
             var line = lines[i];
             if (line) {
