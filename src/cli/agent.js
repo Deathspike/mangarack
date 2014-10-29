@@ -1,15 +1,10 @@
 'use strict';
 var affix = require('../shared').common.affix;
 var archiver = require('archiver');
-var cofs = require('co-fs');
-var fs = require('fs');
+var fs = require('./fs');
 var path = require('path');
 var request = require('./request');
 var suffix = '.mrtmp';
-
-// TODO: co and co-fs have introduced some nasty double-references, and,
-// hacks.. to accomplish something that is supposed to be quite simple. Find a
-// better/simpler solution; look into using Bluebird and promises.
 
 /**
  * Represents an agent.
@@ -63,7 +58,7 @@ Agent.prototype.populate = function *(resource, encoding) {
 Agent.prototype.publish = function *() {
     if (this._initialized) {
         this._archive.finalize();
-        yield cofs.rename(this._alias + suffix, this._alias);
+        yield fs.renameAsync(this._alias + suffix, this._alias);
         return true;
     }
     return false;
@@ -99,8 +94,8 @@ function *initialize(agent) {
     if (agent._initialized) {
         return;
     }
-    if (!(yield cofs.exists(agent._path))) {
-        yield cofs.mkdir(agent._path);
+    if (!(yield fs.existsAsync(agent._path))) {
+        yield fs.mkdirAsync(agent._path);
     }
     agent._archive.pipe(fs.createWriteStream(agent._alias + suffix));
     agent._initialized = true;
