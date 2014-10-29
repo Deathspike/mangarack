@@ -9,7 +9,7 @@ var shared = require('../shared');
 var utilities = require('./utilities');
 
 /**
- * Runs the command line application.
+ * Run the command line application.
  */
 co(function *(options) {
     return options.args.length === 0 ?
@@ -65,7 +65,7 @@ function *handleChapter(options, series, chapter) {
         console.log('Fetching ' + path.basename(alias));
         yield request(chapter);
         yield shared.publisher.mirror(agent, series, chapter);
-        agent.publish();
+        yield agent.publish();
         console.log('Finished ' + path.basename(alias));
     }
 }
