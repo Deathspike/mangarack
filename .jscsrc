@@ -1,7 +1,7 @@
 {
   "disallowEmptyBlocks": true,
   "disallowImplicitTypeConversion": ["binary", "boolean", "numeric", "string"],
-  "disallowKeywords": ["with"],
+  "disallowKeywords": ["delete", "with"],
   "disallowKeywordsOnNewLine": ["catch", "else", "finally"],
   "disallowMixedSpacesAndTabs": true,
   "disallowMultipleLineBreaks": true,
@@ -25,7 +25,6 @@
   "maximumLineLength": 80,
   "requireBlocksOnNewline": true,
   "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
-  "requireCapitalizedComments": true,
   "requireCapitalizedConstructors": true,
   "requireCommaBeforeLineBreak": true,
   "requireCurlyBraces": true,

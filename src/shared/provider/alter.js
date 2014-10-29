@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Alter numbering to fill in the blanks.
+ * Alters numbering to fill in each blank.
  * @param {!Array.<{number: number}>} children
  */
 module.exports = function (children) {
@@ -22,7 +22,7 @@ module.exports = function (children) {
 };
 
 /**
- * Clamp the value to the specified minimum/maximum.
+ * Clamps the value to the specified minimum/maximum.
  * @param {number} current
  * @param {number} minimum
  * @param {number} maximum
@@ -33,7 +33,7 @@ function clamp(current, minimum, maximum) {
 }
 
 /**
- * Compute the differences.
+ * Computes the differences.
  * @param {!Array.<{number: number}>} children
  * @param {{number: number}} source
  * @return {!{differences: Object.<number, number>, previous: {number: number}}}
@@ -77,7 +77,7 @@ function hasDifference(differences) {
 }
 
 /**
- * Prioritize the best difference.
+ * Prioritizes the best difference.
  * @param {!{Object.<number, number>} differences
  * @return {number}
  */

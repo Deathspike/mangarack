@@ -6,7 +6,5 @@
  */
 module.exports = {
     checkDuplicate: require('./checkDuplicate'),
-    checkExcluded: require('./checkExcluded'),
-    createPathToBook: require('./createPathToBook'),
-    request: require('./request')
+    checkExcluded: require('./checkExcluded')
 };

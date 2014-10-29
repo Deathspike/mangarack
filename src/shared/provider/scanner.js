@@ -23,14 +23,14 @@ var expression = new RegExp('\\s*' +
     '\\s*$', 'i');
 
 /**
- * Scan the input for chapter details.
+ * Scans the input for chapter details.
  * @param {string} input
  * @return {{number: number, title: ?string, volume: number}}
  */
 module.exports = function (input) {
     var match = input.match(expression);
     return !match ? undefined : {
-        number: parseNumber(match[2], match[3]),
+        number: parse(match[2], match[3]),
         title: (match[4] || '').trim() || undefined,
         volume: parseFloat(match[1])
     };
@@ -42,7 +42,7 @@ module.exports = function (input) {
  * @param {string} part
  * @returns {number}
  */
-function parseNumber(chapter, part) {
+function parse(chapter, part) {
     var match = chapter.match(/([a-u])$/);
     var mutation = 0;
     if (match) {

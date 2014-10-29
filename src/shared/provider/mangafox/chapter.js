@@ -33,7 +33,7 @@ Chapter.prototype.children = function ($) {
         var page = new Page(address.replace(/[0-9]+\.html$/i, next));
         if (i === 0) {
             page.imageAddress = page.imageAddress($);
-            delete page.address;
+            page.address = undefined;
         }
         return page;
     }).get();

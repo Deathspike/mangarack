@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Determines if the book is excluded.
+ * Determines if the chapter is excluded.
  * @param {!{chapter: ?number, volume: ?number}} options
  * @param {!{chapter: number, volume: number}} chapter
  * @return {boolean}
