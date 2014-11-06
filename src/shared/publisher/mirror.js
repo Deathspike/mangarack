@@ -3,8 +3,8 @@
 /**
  * Mirrors the chapter.
  * @param {!Agent} agent
- * @param {!Series} series
- * @param {!Chapter} chapter
+ * @param {!Series} series The populated series.
+ * @param {!Chapter} chapter The populated chapter.
  */
 module.exports = function *(agent, series, chapter) {
     yield publishPreviewImage(agent, series);
