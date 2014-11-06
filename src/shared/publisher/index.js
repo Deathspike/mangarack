@@ -5,5 +5,6 @@
  * @const
  */
 module.exports = {
+    Meta: require('./meta'),
     mirror: require('./mirror')
 };

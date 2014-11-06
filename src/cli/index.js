@@ -69,7 +69,9 @@ function *handleChapter(options, series, chapter) {
     if (!(yield utilities.checkDuplicate(options, series, chapter)) &&
         !utilities.checkExcluded(options, chapter)) {
         var alias = shared.common.alias(series, chapter, options.extension);
-        var agent = new Agent(alias);
+        var agent = options.meta ?
+            new Agent(alias) :
+            new Agent(alias, new shared.publisher.Meta(series, chapter));
         console.log('Fetching ' + path.basename(alias));
         yield request(chapter);
         yield shared.publisher.mirror(agent, series, chapter);

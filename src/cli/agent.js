@@ -10,11 +10,13 @@ var suffix = '.mrtmp';
  * Represents an agent.
  * @class
  * @param {string} alias
+ * @param {Meta=} meta
  */
-function Agent(alias) {
+function Agent(alias, meta) {
     this._alias = alias;
     this._archive = archiver.create('zip', {store: true});
     this._initialized = false;
+    this._meta = meta;
     this._path = path.dirname(this._alias);
 }
 
@@ -28,14 +30,8 @@ Agent.prototype.add = function *(address, number) {
     var image = yield request(address, 'binary');
     if (image) {
         var buffer = new Buffer(image, 'binary');
-        var extension = format(buffer);
-        if (extension) {
-            var name = String(number || 0);
-            if (!this._initialized) {
-                yield initialize(this);
-            }
-            this._archive.append(buffer, {name: affix(name, 3) + extension});
-            return true;
+        if (buffer) {
+            return yield add(this, buffer, number);
         }
     }
     return false;
@@ -57,12 +53,37 @@ Agent.prototype.populate = function *(resource, encoding) {
  */
 Agent.prototype.publish = function *() {
     if (this._initialized) {
+        if (this._meta) {
+            this._archive.append(this._meta.export(), {name: 'ComicInfo.xml'});
+        }
         this._archive.finalize();
         yield fs.renameAsync(this._alias + suffix, this._alias);
         return true;
     }
     return false;
 };
+
+/**
+ * Adds a page buffer to the agent.
+ * @param {!Agent} agent
+ * @param {!Buffer} buffer
+ * @return {number=} number
+ */
+function *add(agent, buffer, number) {
+    var extension = format(buffer);
+    if (extension) {
+        var key = affix(String(number || 0), 3) + '.' + extension;
+        if (!agent._initialized) {
+            yield initialize(agent);
+        }
+        if (agent._meta) {
+            agent._meta.add(key, number, !Boolean(number));
+        }
+        agent._archive.append(buffer, {name: key});
+        return true;
+    }
+    return false;
+}
 
 /**
  * Retrieves the image format.
