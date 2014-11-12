@@ -1,7 +1,7 @@
 'use strict';
 var affix = require('../shared').common.affix;
 var archiver = require('archiver');
-var fs = require('./fs');
+var fs = require('fs');
 var path = require('path');
 var request = require('./request');
 var suffix = '.mrtmp';

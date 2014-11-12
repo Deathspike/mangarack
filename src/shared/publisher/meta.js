@@ -1,11 +1,12 @@
 'use strict';
-var xml2js = require('xml2js');
+var co6 = require('co6');
+var xml2js = co6.promisifyAll(require('xml2js'));
 
 /**
  * Represents metadata.
+ * @class
  * @param {Series=} series
  * @param {Chapter=} chapter
- * @class
  */
 function Meta(series, chapter) {
     if (series && chapter) {
@@ -64,30 +65,21 @@ Meta.prototype.export = function () {
  */
 Meta.prototype.import = function (xml) {
     var that = this;
-    return new Promise(function (resolve, reject) {
-        xml2js.parseString(xml, {
-            explicitArray: false,
-            explicitRoot: false,
-            tagNameProcessors: [function (name) {
-                return name.charAt(0).toLowerCase() + name.substr(1);
-            }]
-        }, function (err, result) {
-            if (err) {
-                reject(err);
-                return;
-            }
-            copyValidValues(that, {
-                genre: String(result.genres || '').split(', '),
-                number: Number(result.number),
-                manga: 'YesAndRightToLeft',
-                penciller: String(result.artists || '').split(', '),
-                series: String(result.title),
-                summary: String(result.summary),
-                title: String(result.title),
-                volume: Number(result.volume),
-                writer: String(result.authors || '').split(', ')
-            });
-            resolve();
+    return xml2js.parseStringAsync(xml, {
+        explicitArray: false,
+        explicitRoot: false,
+        normalizeTags: true
+    }).then(function (result) {
+        copyValidValues(that, {
+            genre: String(result.genres || '').split(', '),
+            number: Number(result.number),
+            manga: 'YesAndRightToLeft',
+            penciller: String(result.artists || '').split(', '),
+            series: String(result.title),
+            summary: String(result.summary),
+            title: String(result.title),
+            volume: Number(result.volume),
+            writer: String(result.authors || '').split(', ')
         });
     });
 };
