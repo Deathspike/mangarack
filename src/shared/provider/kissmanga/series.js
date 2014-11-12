@@ -4,6 +4,7 @@ var scanner = require('../scanner');
 
 /**
  * Represents a series.
+ * @class
  * @param {string} address
  */
 function Series(address) {

@@ -3,6 +3,7 @@ var Chapter = require('./chapter');
 
 /**
  * Represents a series.
+ * @class
  * @param {string} address
  */
 function Series(address) {
