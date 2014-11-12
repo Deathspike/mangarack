@@ -5,20 +5,19 @@
  * @param {!Array.<{number: number}>} children
  */
 module.exports = function (children) {
-    for (var i = 0; i < children.length; i += 1) {
-        var source = children[i];
+    children.forEach(function (source) {
         if (isNaN(source.number)) {
             var computed = compute(children, source);
             var differences = computed.differences;
             var previous = computed.previous;
-            if (hasDifference(differences)) {
+            if (Object.keys(differences).length) {
                 var clampedPriority = clamp(prioritize(differences), 0, 1);
                 source.number = previous.number + clampedPriority / 2;
             } else {
                 source.Number = previous ? previous.Number + 0.5 : 0.5;
             }
         }
-    }
+    });
 };
 
 /**
@@ -42,8 +41,7 @@ function compute(children, source) {
     var count = 0;
     var differences = {};
     var previous;
-    for (var j = 0; j < children.length; j += 1) {
-        var next = children[j];
+    children.forEach(function (next) {
         if (next !== source &&
             !isNaN(next.number) &&
             next.volume === source.volume) {
@@ -58,22 +56,8 @@ function compute(children, source) {
             }
             previous = next;
         }
-    }
+    });
     return {differences: differences, previous: previous};
-}
-
-/**
- * Indicates whether the differences has a valid difference.
- * @param {!{Object.<number, number>} differences
- * @return {boolean}
- */
-function hasDifference(differences) {
-    for (var key in differences) {
-        if (differences.hasOwnProperty(key)) {
-            return true;
-        }
-    }
-    return false;
 }
 
 /**
@@ -83,13 +67,11 @@ function hasDifference(differences) {
  */
 function prioritize(differences) {
     var best = {count: NaN, value: NaN};
-    for (var difference in differences) {
-        if (differences.hasOwnProperty(difference)) {
-            var count = differences[differences];
-            if (isNaN(best.count) || count > best.count) {
-                best = {count: count, value: parseFloat(difference)};
-            }
+    Object.keys(differences).forEach(function (difference) {
+        var count = differences[differences];
+        if (isNaN(best.count) || count > best.count) {
+            best = {count: count, value: parseFloat(difference)};
         }
-    }
+    });
     return best.value;
 }
