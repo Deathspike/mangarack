@@ -1,29 +1,25 @@
 'use strict';
 var Agent = require('./agent');
-var Bluebird = require('bluebird');
-var fs = require('./fs');
+var co6 = require('co6');
+var fs = require('fs');
 var options = require('./options');
 var path = require('path');
 var request = require('./request');
 var shared = require('../shared');
 var utilities = require('./utilities');
 
+// Promisification
+co6.promisifyAll(fs);
+
 /**
  * Run the command line application.
  */
-Bluebird.coroutine.addYieldHandler(function (n) {
-    if (n && typeof n.next === 'function' &&  typeof n.throw === 'function') {
-        return Bluebird.coroutine(function *() {
-            return yield *n;
-        })();
-    }
+co6.main(function *() {
+    var opts = options(process.argv);
+    return opts.args.length === 0 ?
+        yield handleBatch(opts.source || 'MangaRack.txt') :
+        yield handleAddresses(opts, opts.args);
 });
-
-Bluebird.coroutine(function *(options) {
-    return options.args.length === 0 ?
-        yield handleBatch(options.source || 'MangaRack.txt') :
-        yield handleAddresses(options, options.args);
-})(options(process.argv));
 
 /**
  * Handles each address.

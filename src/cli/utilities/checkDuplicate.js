@@ -1,6 +1,6 @@
 'use strict';
 var alias = require('../../shared').common.alias;
-var fs = require('../fs');
+var fs = require('fs');
 
 /**
  * Determines if the chapter is a duplicate.
