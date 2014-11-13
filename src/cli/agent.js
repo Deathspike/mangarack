@@ -77,7 +77,7 @@ function *add(agent, buffer, number) {
             yield initialize(agent);
         }
         if (agent._meta) {
-            agent._meta.add(key, number, !Boolean(number));
+            agent._meta.add(key, number);
         }
         agent._archive.append(buffer, {name: key});
         return true;
