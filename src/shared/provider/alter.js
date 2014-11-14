@@ -6,16 +6,15 @@
  */
 module.exports = function (children) {
     children.forEach(function (source) {
-        if (isNaN(source.number)) {
-            var computed = compute(children, source);
-            var differences = computed.differences;
-            var previous = computed.previous;
-            if (Object.keys(differences).length) {
-                var clampedPriority = clamp(prioritize(differences), 0, 1);
-                source.number = previous.number + clampedPriority / 2;
-            } else {
-                source.Number = previous ? previous.Number + 0.5 : 0.5;
-            }
+        if (!isNaN(source.number)) return;
+        var computed = compute(children, source);
+        var differences = computed.differences;
+        var previous = computed.previous;
+        if (Object.keys(differences).length) {
+            var clampedPriority = clamp(prioritize(differences), 0, 1);
+            source.number = previous.number + clampedPriority / 2;
+        } else {
+            source.Number = previous ? previous.Number + 0.5 : 0.5;
         }
     });
 };
@@ -69,9 +68,8 @@ function prioritize(differences) {
     var best = {count: NaN, value: NaN};
     Object.keys(differences).forEach(function (difference) {
         var count = differences[differences];
-        if (isNaN(best.count) || count > best.count) {
-            best = {count: count, value: parseFloat(difference)};
-        }
+        if (!isNaN(best.count) && count <= best.count) return;
+        best = {count: count, value: parseFloat(difference)};
     });
     return best.value;
 }

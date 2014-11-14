@@ -21,13 +21,10 @@ module.exports = function *(agent, series, chapter) {
  * @param {!Series} series
  */
 function *publishPreviewImage(agent, series) {
-    if (series.imageAddress) {
-        var imageAddresses = [].concat(series.imageAddress);
-        for (var i = 0; i < imageAddresses.length; i += 1) {
-            if (yield agent.add(imageAddresses[i])) {
-                return;
-            }
-        }
+    if (!series.imageAddress) return;
+    var imageAddresses = [].concat(series.imageAddress);
+    for (var i = 0; i < imageAddresses.length; i += 1) {
+        if (yield agent.add(imageAddresses[i])) return;
     }
 }
 
@@ -40,8 +37,6 @@ function *publishPreviewImage(agent, series) {
 function *publishPage(agent, page, number) {
     var imageAddresses = [].concat(page.imageAddress);
     for (var i = 0; i < imageAddresses.length; i += 1) {
-        if (yield agent.add(imageAddresses[i], number)) {
-            return;
-        }
+        if (yield agent.add(imageAddresses[i], number)) return;
     }
 }

@@ -45,10 +45,7 @@ module.exports = function (input) {
 function parse(chapter, part) {
     var match = chapter.match(/([a-u])$/);
     var mutation = 0;
-    if (match) {
-        mutation = (match[1].charCodeAt(0) - 96) / 10;
-    } else if (part) {
-        mutation = parseFloat(part) / 10;
-    }
+    if (match) mutation = (match[1].charCodeAt(0) - 96) / 10;
+    else if (part) mutation = parseFloat(part) / 10;
     return parseFloat(chapter) + mutation;
 }

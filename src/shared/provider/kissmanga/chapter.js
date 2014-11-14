@@ -36,6 +36,4 @@ Chapter.prototype.children = function ($) {
     return results;
 };
 
-if (typeof module !== 'undefined') {
-    module.exports = Chapter;
-}
+module.exports = Chapter;
