@@ -30,7 +30,7 @@ Chapter.prototype.children = function ($) {
     var select = $('select.m').first();
     return select.find('option:not(:last-child)').map(function (i, el) {
         var next = $(el).text() + '.html';
-        var page = new Page(address.replace(/[0-9]+\.html$/i, next));
+        var page = new Page(address.replace(/[0-9]+\.html$/i, next), i + 1);
         if (i === 0) {
             page.imageAddress = page.imageAddress($);
             page.address = undefined;
