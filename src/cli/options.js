@@ -2,7 +2,7 @@
 var Command = require('commander').Command;
 
 /**
- * Creates the options.
+ * Creates options based on the arguments.
  * @param {!Array.<string>} args
  * @return {!Options}
  */
@@ -17,5 +17,6 @@ module.exports = function (args) {
         // Settings
         .option('-e, --extension <s>', 'The file extension. (Default: cbz)')
         .option('-s, --source <s>', 'The source file. (Default: MangaRack.txt)')
+        .option('-w, --worker <n>', 'The maximum parallel workers. (# cores)')
         .parse(args);
 };

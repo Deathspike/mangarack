@@ -9,6 +9,8 @@ JSCS: Ignored:
 - disallowDanglingUnderscores
 - requireAlignedObjectValues
 - requireCapitalizedComments
+- requireFunctionDeclarations
+"requireCurlyBraces": true,
 
 TODO Options:
 .option('-a, --animation', 'Disable animation framing')
@@ -17,8 +19,6 @@ TODO Options:
 .option('-i, --image', 'Disable image processing.')
 .option('-p, --persistent', 'Enable persistent synchronization')
 .option('-r, --repair', 'Disable repair and error tracking.')
-.option('-w, --worker <n>', 'The maximum parallel workers. (# cores)')
 
 TODO: Style
 - shared is mixing generators and promises; not really elegant.
-- replace for ... in with Object.keys.forEach etc.

@@ -14,10 +14,8 @@ module.exports = function (grunt) {
     });
 
     // Initialize the tasks.
-    grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jscs');
-    grunt.loadNpmTasks('grunt-traceur');
 
     // Register the task.
     grunt.registerTask('default', ['jshint', 'jscs']);

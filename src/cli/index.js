@@ -3,6 +3,7 @@ var Agent = require('./agent');
 var co6 = require('co6');
 var fs = require('fs');
 var options = require('./options');
+var os = require('os');
 var path = require('path');
 var request = require('./request');
 var shared = require('../shared');
@@ -14,56 +15,58 @@ co6.promisifyAll(fs);
 /**
  * Run the command line application.
  */
-co6.main(function *() {
+(function () {
     var opts = options(process.argv);
+    var pool = new shared.common.Pool(opts.worker || os.cpus().length);
     return opts.args.length === 0 ?
-        yield handleBatch(opts.source || 'MangaRack.txt') :
-        yield handleAddresses(opts, opts.args);
-});
+        enqueueBatch(pool, opts.source || 'MangaRack.txt') :
+        enqueueAddresses(pool, opts, opts.args);
+})();
 
 /**
- * Handles each address.
+ * Enqueue each address.
+ * @param {!Pool} pool
  * @param {!Options} options
  * @param {!Array.<string>} addresses
  */
-function *handleAddresses(options, addresses) {
-    for (var i = 0; i < addresses.length; i += 1) {
-        var address = addresses[i];
+function enqueueAddresses(pool, options, addresses) {
+    addresses.forEach(function (address) {
         var series = shared.provider(address);
-        if (series) {
-            yield handleSeries(options, series);
-        } else {
-            console.log('Ignoring ' + address);
-        }
-    }
+        if (series) enqueueSeries(pool, options, series);
+    });
 }
 
 /**
- * Handles the batch file.
+ * Enqueue the batch file.
+ * @param {!Pool} pool
  * @param {string} file
  */
-function *handleBatch(file) {
-    if (yield fs.existsAsync(file)) {
-        var lines = (yield fs.readFileAsync(file, 'utf8')).split('\n');
-        for (var i = 0; i < lines.length; i += 1) {
-            var line = lines[i];
-            if (line) {
-                var lineOptions = options(lines[i].split(' '));
-                yield handleAddresses(lineOptions, lineOptions.args);
-            }
-        }
-    }
+function enqueueBatch(pool, file) {
+    fs.exists(function (exists) {
+        if (!exists) return;
+        fs.readFile(file, 'utf8', function (err, contents) {
+            if (err) return console.error(err);
+            contents.split('\n').forEach(function (line) {
+                if (line) {
+                    var lineOptions = options(line.split(' '));
+                    enqueueAddresses(pool, lineOptions, lineOptions.args);
+                }
+            });
+        });
+    });
 }
 
 /**
- * Handles the chapter.
+ * Enqueue the chapter.
+ * @param {!Pool} pool
  * @param {!Options} options
  * @param {!Series} series
  * @param {!Chapter} chapter Requires to be populated.
  */
-function *handleChapter(options, series, chapter) {
-    if (!(yield utilities.checkDuplicate(options, series, chapter)) &&
-        !utilities.checkExcluded(options, chapter)) {
+function enqueueChapter(pool, options, series, chapter) {
+    if (utilities.checkExcluded(options, chapter)) return;
+    pool.enqueue(co6.coroutine(function *() {
+        if (yield utilities.checkDuplicate(options, series, chapter)) return;
         var alias = shared.common.alias(series, chapter, options.extension);
         var agent = options.meta ?
             new Agent(alias) :
@@ -73,21 +76,19 @@ function *handleChapter(options, series, chapter) {
         yield shared.publisher.mirror(agent, series, chapter);
         yield agent.publish();
         console.log('Finished ' + path.basename(alias));
-    }
+    }));
 }
 
 /**
- * Handles the series.
+ * Enqueue the series.
+ * @param {!Pool} pool
  * @param {!Options} options
  * @param {!Series} series
- * @param {!Chapter} chapter
  */
-function *handleSeries(options, series) {
-    yield request(series);
-    for (var j = 0; j < series.children.length; j += 1) {
-        var chapter = series.children[j];
-        if (chapter) {
-            yield handleChapter(options, series, chapter);
-        }
-    }
+function enqueueSeries(pool, options, series) {
+    co6.spawn(request(series)).then(function () {
+        series.children.forEach(function (chapter) {
+            if (chapter) enqueueChapter(pool, options, series, chapter);
+        });
+    });
 }
