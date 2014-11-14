@@ -4,9 +4,11 @@
  * Represents a page.
  * @class
  * @param {string} address
+ * @param {number} number
  */
-function Page(address) {
+function Page(address, number) {
     this.address = address + '?supress_webtoon=t';
+    this.number = number;
 }
 
 /**

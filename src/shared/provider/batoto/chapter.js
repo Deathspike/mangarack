@@ -26,9 +26,8 @@ function Chapter(address, identifier, number, title, volume) {
 Chapter.prototype.children = function ($) {
     var select = $('select[name=page_select]').first();
     return select.find('option').map(function (i, el) {
-        var value = $(el).attr('value');
-        var page = value ? new Page(value) : undefined;
-        if (i === 0 && page) {
+        var page = new Page($(el).attr('value'), i + 1);
+        if (i === 0) {
             page.imageAddress = page.imageAddress($);
             page.address = undefined;
         }

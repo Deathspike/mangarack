@@ -4,9 +4,11 @@
  * Represents a page.
  * @class
  * @param {string} address
+ * @param {number} number
  */
 function Page(address) {
     this.address = address;
+    this.number = number;
 }
 
 /**
