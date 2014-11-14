@@ -10,18 +10,12 @@ var affix = require('./affix');
  */
 module.exports = function (series, chapter, extension) {
     var name = invalidate(series.title);
-    if (name) {
-        var number = '#' + affix(stripSuffix(chapter.number.toFixed(4)), 3);
-        var prefix = name + '/' + name + ' ';
-        var suffix = number + '.' + (extension || 'cbz');
-        if (isNaN(chapter.volume)) {
-            return prefix + suffix;
-        } else {
-            var volume = affix(String(chapter.volume), 2);
-            return prefix + 'V' + volume + ' ' + suffix;
-        }
-    }
-    return undefined;
+    if (!name) return undefined;
+    var number = '#' + affix(stripSuffix(chapter.number.toFixed(4)), 3);
+    var prefix = name + '/' + name + ' ';
+    var suffix = number + '.' + (extension || 'cbz');
+    if (isNaN(chapter.volume)) return prefix + suffix;
+    return prefix + 'V' + affix(String(chapter.volume), 2) + ' ' + suffix;
 };
 
 /**

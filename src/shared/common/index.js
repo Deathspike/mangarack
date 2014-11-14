@@ -6,5 +6,6 @@
  */
 module.exports = {
     affix: require('./affix'),
-    alias: require('./alias')
+    alias: require('./alias'),
+    Pool: require('./pool')
 };
