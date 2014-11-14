@@ -13,7 +13,7 @@ module.exports = function (series, chapter, extension) {
     if (!name) return undefined;
     var number = '#' + affix(stripSuffix(chapter.number.toFixed(4)), 3);
     var prefix = name + '/' + name + ' ';
-    var suffix = number + '.' + (extension || 'cbz');
+    var suffix = (number + '.' + (extension || 'cbz')).replace(/\.+/g, '.');
     if (isNaN(chapter.volume)) return prefix + suffix;
     return prefix + 'V' + affix(String(chapter.volume), 2) + ' ' + suffix;
 };
