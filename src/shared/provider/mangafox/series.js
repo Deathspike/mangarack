@@ -42,18 +42,17 @@ Series.prototype.children = function ($) {
     var results = [];
     $('h3.volume').each(function (i, el) {
         var match = $(el).text().match(/^Volume\s(.+)$/i);
-        if (match) {
-            var parent = $(el).parent();
-            parent.next().find('a[href*=\'/manga/\']').each(function (i, el) {
-                results.push(new Chapter(
-                    ($(el).attr('href') || '').trim(),
-                    (parent.prev('a.edit').attr('href') || '').match(regex),
-                    parseFloat($(el).text().match(/[0-9\.]+$/)),
-                    $(el).next('span.title').text().trim() || undefined,
-                    parseFloat(match[1])
-                ));
-            });
-        }
+        if (!match) return;
+        var parent = $(el).parent();
+        parent.next().find('a[href*=\'/manga/\']').each(function (i, el) {
+            results.push(new Chapter(
+                ($(el).attr('href') || '').trim(),
+                (parent.prev('a.edit').attr('href') || '').match(regex),
+                parseFloat($(el).text().match(/[0-9\.]+$/)),
+                $(el).next('span.title').text().trim() || undefined,
+                parseFloat(match[1])
+            ));
+        });
     });
     return results.reverse();
 };
@@ -112,6 +111,4 @@ Series.prototype.title = function ($) {
     return match ? match[1].trim() : undefined;
 };
 
-if (typeof module !== 'undefined') {
-    module.exports = Series;
-}
+module.exports = Series;

@@ -11,6 +11,4 @@ function Page(address, number) {
     this.number = number;
 }
 
-if (typeof module !== 'undefined') {
-    module.exports = Page;
-}
+module.exports = Page;

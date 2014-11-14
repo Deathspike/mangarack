@@ -98,6 +98,4 @@ Series.prototype.title = function ($) {
     return $('h1.ipsType_pagetitle').text().trim() || undefined;
 };
 
-if (typeof module !== 'undefined') {
-    module.exports = Series;
-}
+module.exports = Series;

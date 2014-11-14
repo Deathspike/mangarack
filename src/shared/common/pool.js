@@ -31,6 +31,4 @@ Pool.prototype.enqueue = function (task) {
     run();
 };
 
-if (typeof module !== 'undefined') {
-    module.exports = Pool;
-}
+module.exports = Pool;

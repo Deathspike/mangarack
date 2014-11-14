@@ -6,7 +6,7 @@
  * @param {string} address
  * @param {number} number
  */
-function Page(address) {
+function Page(address, number) {
     this.address = address;
     this.number = number;
 }
@@ -18,13 +18,9 @@ function Page(address) {
  */
 Page.prototype.imageAddress = function ($) {
     var thumbnail = $('meta[property=\'og:image\']').attr('content');
-    if (thumbnail) {
-        var image = thumbnail.replace('thumbnails/mini.', 'compressed/');
-        return [image, image.replace('http://l.', 'http://z.')];
-    }
-    return undefined;
+    if (!thumbnail) return undefined;
+    var image = thumbnail.replace('thumbnails/mini.', 'compressed/');
+    return [image, image.replace('http://l.', 'http://z.')];
 };
 
-if (typeof module !== 'undefined') {
-    module.exports = Page;
-}
+module.exports = Page;

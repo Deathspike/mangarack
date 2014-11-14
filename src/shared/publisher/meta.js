@@ -25,13 +25,11 @@ function Meta(series, chapter) {
  * @param {number} number
  */
 Meta.prototype.add = function (key, number) {
-    this.pages.page.push({
-        $: {
-            key: key,
-            image: number || 0,
-            type: Boolean(number) ? undefined : 'FrontCover'
-        }
-    });
+    this.pages.page.push({$: {
+        key: key,
+        image: number || 0,
+        type: Boolean(number) ? undefined : 'FrontCover'
+    }});
 };
 
 /**
@@ -53,14 +51,11 @@ Meta.prototype.export = function () {
 function map(src) {
     var res = Array.isArray(src) ? [] : {};
     Object.keys(src).forEach(function (x) {
-        if (typeof src[x] !== 'undefined') {
-            var title = x.charAt(0).toUpperCase() + x.substr(1);
-            res[title] = typeof src[x] === 'object' ? map(src[x]) : src[x];
-        }
+        if (typeof src[x] === 'undefined') return;
+        var title = x.charAt(0).toUpperCase() + x.substr(1);
+        res[title] = typeof src[x] === 'object' ? map(src[x]) : src[x];
     });
     return res;
 }
 
-if (typeof module !== 'undefined') {
-    module.exports = Meta;
-}
+module.exports = Meta;

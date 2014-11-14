@@ -20,6 +20,4 @@ Page.prototype.imageAddress = function ($) {
     return $('img[alt*=\'Batoto!\']').attr('src');
 };
 
-if (typeof module !== 'undefined') {
-    module.exports = Page;
-}
+module.exports = Page;

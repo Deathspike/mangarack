@@ -99,6 +99,4 @@ Series.prototype.title = function ($) {
     return match && match[1] ? match[1].trim() : undefined;
 };
 
-if (typeof module !== 'undefined') {
-    module.exports = Series;
-}
+module.exports = Series;
