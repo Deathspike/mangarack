@@ -24,13 +24,13 @@ function Chapter(address, identifier, number, title, volume) {
  * @return {!Array.<Page>}
  */
 Chapter.prototype.children = function ($) {
-    var i = 1;
+    var i = 0;
     var match;
     var regex = /lstImages\.push\("(.+?)"\)/gi;
     var results = [];
     var text = $('script:contains(lstImages)').text();
     while ((match = regex.exec(text)) !== null) {
-        results.push(new Page(match[1], 1));
+        results.push(new Page(match[1], i + 1));
         i += 1;
     }
     return results;
