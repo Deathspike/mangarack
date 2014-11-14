@@ -33,5 +33,5 @@ function invalidate(value) {
  * @return {string}
  */
 function stripSuffix(value) {
-    return value.replace(/\.0+$/g, '');
+    return value.replace(/0+$/g, '');
 }
