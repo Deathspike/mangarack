@@ -8,8 +8,7 @@
  */
 module.exports = function (value, length) {
     var suffix = value.indexOf('.') !== -1;
-    while (suffix ? value.indexOf('.') < length : value.length < length) {
-        value = '0' + value;
-    }
+    var add = length - (suffix ? value.indexOf('.') : value.length);
+    for (var i = 0; i < add; i += 1) value = '0' + value;
     return value;
 };
