@@ -18,13 +18,20 @@ co6.promisifyAll(fs);
 (function () {
     var opt = options(process.argv);
     var pool = new shared.common.Pool(opt.worker || os.cpus().length);
-    pool.promise().catch(function (err) {
-        console.log(err.stack || err);
-        process.exit(1);
-    });
+    pool.promise().then(done, done);
     if (opt.args.length) return enqueueAddresses(pool, opt, opt.args);
     return enqueueBatch(pool, opt.source || 'MangaRack.txt');
 })();
+
+/**
+ * Runs when the pool has been emptied.
+ * @param {string=} err
+ */
+function done(err) {
+    if (!err) return process.exit(0);
+    console.log(err.stack || err);
+    process.exit(1);
+}
 
 /**
  * Enqueue each address.
