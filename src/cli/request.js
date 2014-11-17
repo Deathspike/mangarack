@@ -12,9 +12,8 @@ var zlib = require('zlib');
  * @return {?string|!{address: ?string}}
  */
 module.exports = function *(resource, encoding) {
-    return typeof resource === 'string' ?
-        yield request(resource, encoding) :
-        yield populate(resource, encoding);
+    if (typeof resource === 'string') return yield request(resource, encoding);
+    return yield populate(resource, encoding);
 };
 
 /**
@@ -25,9 +24,9 @@ module.exports = function *(resource, encoding) {
  */
 function *populate(resource, encoding) {
     if (resource.address) {
-        var contents = yield request(resource.address, encoding);
-        if (contents) {
-            var $ = cheerio.load(contents);
+        var data = yield request(resource.address, encoding);
+        if (data) {
+            var $ = cheerio.load(data);
             for (var key in resource) {
                 if (typeof resource[key] === 'function') {
                     resource[key] = resource[key]($);
@@ -51,12 +50,10 @@ function request(path, encoding) {
         options.headers = {'User-Agent': agent};
         http.get(options, function (res) {
             var data = '';
+            var resEncoding = res.headers['content-encoding'];
             res.setEncoding(encoding || 'utf8');
-            if (res.headers['content-encoding'] === 'gzip') {
-                res.pipe(zlib.createGunzip());
-            } else if (res.headers['content-encoding'] === 'deflate') {
-                res.pipe(zlib.createInflate());
-            }
+            if (resEncoding === 'gzip') res.pipe(zlib.createGunzip());
+            else if (resEncoding === 'deflate') res.pipe(zlib.createInflate());
             res.on('data', function (chunk) {
                 data += chunk;
             });
