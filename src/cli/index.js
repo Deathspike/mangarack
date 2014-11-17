@@ -16,11 +16,14 @@ co6.promisifyAll(fs);
  * Run the command line application.
  */
 (function () {
-    var opts = options(process.argv);
-    var pool = new shared.common.Pool(opts.worker || os.cpus().length);
-    return opts.args.length === 0 ?
-        enqueueBatch(pool, opts.source || 'MangaRack.txt') :
-        enqueueAddresses(pool, opts, opts.args);
+    var opt = options(process.argv);
+    var pool = new shared.common.Pool(opt.worker || os.cpus().length);
+    pool.promise().catch(function (err) {
+        console.log(err.stack || err);
+        process.exit(1);
+    });
+    if (opt.args.length) return enqueueAddresses(pool, opt, opt.args);
+    return enqueueBatch(pool, opt.source || 'MangaRack.txt');
 })();
 
 /**
