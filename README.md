@@ -15,25 +15,17 @@ MangaRack.js is in development, and is based on https://github.com/Deathspike/ma
 
 If you want to get involved, leave me an e-mail and we can discuss contact/things to do!
 
-## Recommended Environment
+## Awaiting Implementation
 
-If you do not have a preference for an editor, I recommend [brackets.io](http://brackets.io/) with:
-
-* [Column Ruler](https://github.com/lkcampbell/brackets-ruler) - For character limit visualization.
-* [CSSLint](https://github.com/cfjedimaster/brackets-csslint) - For CSS validation.
-* [Epic Linter](https://github.com/fdecampredon/brackets-epic-linter) - For active in-editor validation.
-* [HTMLHint](https://github.com/cfjedimaster/brackets-htmlhint) - For HTML validation.
-* [JSCS](https://github.com/globexdesigns/brackets-jscs) - For code style validation.
-* [JSHint](https://github.com/cfjedimaster/brackets-jshint) - For JavaScript validation.
-* [Whitespace Normalizer](https://github.com/dsbonev/whitespace-normalizer) - For whitespace normalization.
+* Image processing (will use `gm` for this)
+* Persistent synchronization (may or may not be binary compatible with mr.cs).
+* Repair and error tracking (may or may not be binary compatible with mr.cs).
 
 ## Basic Instructions
 
 > npm install --production
 
 > node --harmony src/cli http://mangafox.me/manga/girl_friends/
-
-Test mode currently writes one comic archive without additional checks.
 
 ## Grunt
 
@@ -42,3 +34,7 @@ Test mode currently writes one comic archive without additional checks.
 Grunt tasks are now available. To validate once, run:
 
 > npm test
+
+## Futher reading~
+
+Stay tuned! I'm dedicated to making mr.js a viable alternative (and eventually, replacement) to mr.cs! More will come as time goes on ;-)
