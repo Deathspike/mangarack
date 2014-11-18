@@ -1,10 +1,10 @@
 'use strict';
 var affix = require('../shared').common.affix;
 var archiver = require('archiver');
+var fileSuffix = '.mrtmp';
 var fs = require('fs');
 var path = require('path');
 var request = require('./request');
-var suffix = '.mrtmp';
 
 /**
  * Represents an agent.
@@ -14,10 +14,10 @@ var suffix = '.mrtmp';
  */
 function Agent(alias, meta) {
     this._alias = alias;
-    this._archive = archiver.create('zip', {store: true});
     this._initialized = false;
     this._meta = meta;
     this._path = path.dirname(this._alias);
+    this._zip = archiver.create('zip', {store: true});
 }
 
 /**
@@ -28,13 +28,9 @@ function Agent(alias, meta) {
  */
 Agent.prototype.add = function *(address, number) {
     var image = yield request(address, 'binary');
-    if (image) {
-        var buffer = new Buffer(image, 'binary');
-        if (buffer) {
-            return yield add(this, buffer, number);
-        }
-    }
-    return false;
+    if (!image) return false;
+    var buffer = new Buffer(image, 'binary');
+    return buffer ? yield add(this, buffer, number) : false;
 };
 
 /**
@@ -52,15 +48,11 @@ Agent.prototype.populate = function *(resource, encoding) {
  * @return {boolean}
  */
 Agent.prototype.publish = function *() {
-    if (this._initialized) {
-        if (this._meta) {
-            this._archive.append(this._meta.export(), {name: 'ComicInfo.xml'});
-        }
-        this._archive.finalize();
-        yield fs.renameAsync(this._alias + suffix, this._alias);
-        return true;
-    }
-    return false;
+    if (!this._initialized) return false;
+    if (this._meta) this._zip.append(this._meta.xml(), {name: 'ComicInfo.xml'});
+    this._zip.finalize();
+    yield fs.renameAsync(this._alias + fileSuffix, this._alias);
+    return true;
 };
 
 /**
@@ -71,18 +63,12 @@ Agent.prototype.publish = function *() {
  */
 function *add(agent, buffer, number) {
     var extension = format(buffer);
-    if (extension) {
-        var key = affix(String(number || 0), 3) + '.' + extension;
-        if (!agent._initialized) {
-            yield initialize(agent);
-        }
-        if (agent._meta) {
-            agent._meta.add(key, number);
-        }
-        agent._archive.append(buffer, {name: key});
-        return true;
-    }
-    return false;
+    if (!extension) return false;
+    var key = affix(String(number || 0), 3) + '.' + extension;
+    if (!agent._initialized) yield initialize(agent);
+    if (agent._meta) agent._meta.add(key, number);
+    agent._zip.append(buffer, {name: key});
+    return true;
 }
 
 /**
@@ -91,18 +77,10 @@ function *add(agent, buffer, number) {
  * @return {?string}
  */
 function format(data) {
-    if (data[0] === 66 && data[1] === 77) {
-        return 'bmp';
-    }
-    if (data[0] === 71 && data[2] === 73 && data[3] === 70) {
-        return 'gif';
-    }
-    if (data[0] === 255 && data[1] === 216) {
-        return 'jpg';
-    }
-    if (data[0] === 137 && data[1] === 80 && data[1] === 78 && data[2] === 71) {
-        return 'png';
-    }
+    if (data.slice(0, 2).toString('hex') === '424d') return 'bmp';
+    if (data.slice(0, 3).toString('hex') === '474946') return 'gif';
+    if (data.slice(0, 2).toString('hex') === 'ffd8') return 'jpg';
+    if (data.slice(0, 4).toString('hex') === '89504e47') return 'png';
     return undefined;
 }
 
@@ -112,16 +90,24 @@ function format(data) {
  * @return {boolean}
  */
 function *initialize(agent) {
-    if (agent._initialized) {
-        return;
-    }
-    if (!(yield fs.existsAsync(agent._path))) {
-        yield fs.mkdirAsync(agent._path);
-    }
-    agent._archive.pipe(fs.createWriteStream(agent._alias + suffix));
+    if (agent._initialized) return;
+    yield mkdirAsync(agent._path);
+    agent._zip.pipe(fs.createWriteStream(agent._alias + fileSuffix));
     agent._initialized = true;
 }
 
-if (typeof module !== 'undefined') {
-    module.exports = Agent;
+/**
+ * Make the directory.
+ * @param {string} path
+ * @return {boolean}
+ */
+function *mkdirAsync(path) {
+    try {
+        yield fs.mkdirAsync(path);
+        return true;
+    } catch (ex) {
+        return false;
+    }
 }
+
+module.exports = Agent;
