@@ -9,14 +9,14 @@ var Command = require('commander').Command;
 module.exports = function (args) {
     return new Command().version(require('../../package').version)
         // Disables
-        .option('-d, --duplication', 'Disable duplication prevention.')
-        .option('-m, --meta', 'Disable embedded metadata.')
+        .option('-d, --duplication', 'Disable duplication detection.')
+        .option('-m, --meta', 'Disable metadata.')
         // Filters
         .option('-c, --chapter <n>', 'The chapter filter.')
         .option('-v, --volume <n>', 'The volume filter.')
         // Settings
         .option('-e, --extension <s>', 'The file extension. (Default: cbz)')
         .option('-s, --source <s>', 'The source file. (Default: MangaRack.txt)')
-        .option('-w, --worker <n>', 'The maximum parallel workers. (# cores)')
+        .option('-w, --workers <n>', 'The maximum parallel workers. (# cores)')
         .parse(args);
 };

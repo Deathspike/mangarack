@@ -1,10 +1,10 @@
 'use strict';
 var affix = require('../shared').common.affix;
 var archiver = require('archiver');
-var fileSuffix = '.mrtmp';
 var fs = require('fs');
 var path = require('path');
 var request = require('./request');
+var suffix = '.mrdownload';
 
 /**
  * Represents an agent.
@@ -37,7 +37,7 @@ Agent.prototype.add = function *(address, number) {
  * Populates the resource from a HTTP resource.
  * @param {!{address: ?string}} resource
  * @param {string=} encoding
- * @return !{address: ?string}
+ * @return {!{address: ?string}}
  */
 Agent.prototype.populate = function *(resource, encoding) {
     return yield request(resource, encoding);
@@ -51,7 +51,7 @@ Agent.prototype.publish = function *() {
     if (!this._initialized) return false;
     if (this._meta) this._zip.append(this._meta.xml(), {name: 'ComicInfo.xml'});
     this._zip.finalize();
-    yield fs.renameAsync(this._alias + fileSuffix, this._alias);
+    yield fs.renameAsync(this._alias + suffix, this._alias);
     return true;
 };
 
@@ -91,17 +91,17 @@ function format(data) {
  */
 function *initialize(agent) {
     if (agent._initialized) return;
-    yield mkdirAsync(agent._path);
-    agent._zip.pipe(fs.createWriteStream(agent._alias + fileSuffix));
+    yield tryMakeDirectory(agent._path);
+    agent._zip.pipe(fs.createWriteStream(agent._alias + suffix));
     agent._initialized = true;
 }
 
 /**
- * Make the directory.
+ * Try to make the directory.
  * @param {string} path
  * @return {boolean}
  */
-function *mkdirAsync(path) {
+function *tryMakeDirectory(path) {
     try {
         yield fs.mkdirAsync(path);
         return true;

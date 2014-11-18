@@ -1,104 +1,48 @@
 'use strict';
-var Agent = require('./agent');
 var co6 = require('co6');
-var fs = require('fs');
-var options = require('./options');
+var fs = co6.promisifyAll(require('fs'));
 var os = require('os');
-var path = require('path');
-var request = require('./request');
-var shared = require('../shared');
-var utilities = require('./utilities');
+var parse = require('./parse');
+var server = require('../server');
 
-// Promisification
-co6.promisifyAll(fs);
-
-/**
+/*
  * Run the command line application.
  */
-(function () {
-    var opt = options(process.argv);
-    var pool = new shared.common.Pool(opt.worker || os.cpus().length);
-    pool.promise().then(done, done);
-    if (opt.args.length) return enqueueAddresses(pool, opt, opt.args);
-    return enqueueBatch(pool, opt.source || 'MangaRack.txt');
-})();
+co6.main(function *() {
+    var options = parse(process.argv);
+    var source = options.source || 'MangaRack.txt';
+    var tasks = options.args.length ? args(options) : yield batch(source);
+    yield server(tasks, options.workers || os.cpus().length, console.log);
+    console.log('Completed!');
+});
 
 /**
- * Runs when the pool has been emptied.
- * @param {string=} err
- */
-function done(err) {
-    if (!err) return process.exit(0);
-    console.log(err.stack || err);
-    process.exit(1);
-}
-
-/**
- * Enqueue each address.
- * @param {!Pool} pool
+ * Process the arguments.
  * @param {!Options} options
- * @param {!Array.<string>} addresses
+ * @return {!Array.<!{address: string, !Options}>}
  */
-function enqueueAddresses(pool, options, addresses) {
-    addresses.forEach(function (address) {
-        var series = shared.provider(address);
-        if (series) enqueueSeries(pool, options, series);
+function args(options) {
+    var tasks = [];
+    options.args.forEach(function (address) {
+        tasks.push({address: address, options: options});
     });
+    console.log('meh');
+    return tasks;
 }
 
 /**
- * Enqueue the batch file.
- * @param {!Pool} pool
- * @param {string} file
+ * Process the batch file.
+ * @param {string} filePath
+ * @return {!Array.<!{address: string, !Options}>}
  */
-function enqueueBatch(pool, file) {
-    fs.exists(function (exists) {
-        if (!exists) return;
-        fs.readFile(file, 'utf8', function (err, contents) {
-            if (err) return console.error(err);
-            contents.split('\n').forEach(function (line) {
-                if (line) {
-                    var lineOptions = options(line.split(' '));
-                    enqueueAddresses(pool, lineOptions, lineOptions.args);
-                }
-            });
+function *batch(filePath) {
+    var tasks = [];
+    if (!(yield fs.existsAsync(filePath))) return tasks;
+    yield fs.readFileAsync(filePath, 'utf8').split('\n').forEach(function (n) {
+        var lineOptions = parse(n.split(' '));
+        lineOptions.args.forEach(function (address) {
+            tasks.push({address: address, options: lineOptions});
         });
     });
-}
-
-/**
- * Enqueue the chapter.
- * @param {!Pool} pool
- * @param {!Options} options
- * @param {!Series} series
- * @param {!Chapter} chapter Requires to be populated.
- */
-function enqueueChapter(pool, options, series, chapter) {
-    if (utilities.checkExcluded(options, chapter)) return;
-    pool.enqueue(co6.coroutine(function *() {
-        if (yield utilities.checkDuplicate(options, series, chapter)) return;
-        var alias = shared.common.alias(series, chapter, options.extension);
-        var agent = options.meta ?
-            new Agent(alias) :
-            new Agent(alias, new shared.publisher.Meta(series, chapter));
-        console.log('Fetching ' + path.basename(alias));
-        yield request(chapter);
-        yield shared.publisher.mirror(agent, series, chapter);
-        yield agent.publish();
-        console.log('Finished ' + path.basename(alias));
-    }));
-}
-
-/**
- * Enqueue the series.
- * @param {!Pool} pool
- * @param {!Options} options
- * @param {!Series} series
- */
-function enqueueSeries(pool, options, series) {
-    co6.spawn(request(series)).then(function () {
-        series.children.forEach(function (chapter) {
-            if (chapter) enqueueChapter(pool, options, series, chapter);
-        });
-    });
+    return tasks;
 }
