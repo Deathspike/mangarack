@@ -33,10 +33,10 @@ Meta.prototype.add = function (key, number) {
 };
 
 /**
- * Export metadata.
+ * Export metadata to xml.
  * @return {string}
  */
-Meta.prototype.export = function () {
+Meta.prototype.xml = function () {
     return new xml2js.Builder({
         rootName: 'ComicInfo',
         xmldec: {version: '1.0', encoding: 'utf-8'}
