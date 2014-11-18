@@ -1,3 +1,3 @@
 module.exports = require.main === module ?
-    require('./src/cli') :
-    require('./src/server');
+    require('./lib/cli') :
+    require('./lib/server');
