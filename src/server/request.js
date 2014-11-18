@@ -20,7 +20,7 @@ module.exports = function *(resource, encoding) {
  * Populates the resource from a HTTP resource.
  * @param {!{address: ?string}} resource
  * @param {string=} encoding
- * @return !{address: ?string}
+ * @return {!{address: ?string}}
  */
 function *populate(resource, encoding) {
     if (resource.address) {
