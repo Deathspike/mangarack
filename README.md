@@ -25,7 +25,7 @@ If you want to get involved, leave me an e-mail and we can discuss contact/thing
 
 > npm install --production
 
-> node --harmony index http://mangafox.me/manga/girl_friends/
+> node ./ http://mangafox.me/manga/girl_friends/
 
 ## Grunt
 

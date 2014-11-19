@@ -21,7 +21,6 @@
   "disallowTrailingComma": true,
   "disallowTrailingWhitespace": true,
   "disallowYodaConditions": true,
-  "esnext": true,
   "maximumLineLength": 80,
   "requireBlocksOnNewline": true,
   "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
