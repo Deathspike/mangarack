@@ -39,7 +39,6 @@
   "requireSpacesInConditionalExpression": true,
   "safeContextKeyword": ["that"],
   "validateIndentation": 4,
-  "validateLineBreaks": "LF",
   "validateParameterSeparator": ", ",
   "validateQuoteMarks": "'"
 }
