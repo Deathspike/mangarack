@@ -21,5 +21,4 @@ TODO Options:
 .option('-r, --repair', 'Disable repair and error tracking.')
 
 TODO Style:
-- imageAddress to address because that makes all the more sense?
 - throw out async lib for a more reliable one thatt doesn't need nextTick
