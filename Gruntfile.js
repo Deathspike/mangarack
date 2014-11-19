@@ -5,11 +5,11 @@ module.exports = function (grunt) {
     grunt.initConfig({
         jscs: {
             main: {options: {config: true}, src: 'Gruntfile.js'},
-            src: {options: {config: true}, src: 'src/**/*.js'}
+            lib: {options: {config: true}, src: 'lib/**/*.js'}
         },
         jshint: {
             main: {options: {jshintrc: true}, src: 'Gruntfile.js'},
-            src: {options: {jshintrc: true}, src: 'src/**/*.js'}
+            lib: {options: {jshintrc: true}, src: 'lib/**/*.js'}
         }
     });
 
