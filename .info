@@ -19,3 +19,6 @@ TODO Options:
 .option('-i, --image', 'Disable image processing.')
 .option('-p, --persistent', 'Enable persistent synchronization')
 .option('-r, --repair', 'Disable repair and error tracking.')
+
+TODO:
+- The EventEmitter can actually emit *TYPES* of data, instead of raw lines.
