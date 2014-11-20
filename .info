@@ -8,10 +8,9 @@ JSCS: Ignored:
 - (disallow|require)PaddingNewLinesInObjects
 - disallowDanglingUnderscores
 - requireAlignedObjectValues
-- requireCapitalizedComments
+- requireCapitalizedComments (await 'textblock' option?)
 - requireFunctionDeclarations
-"requireCurlyBraces": true,
-validateLineBreaks
+- requireCurlyBraces
 
 TODO Options:
 .option('-a, --animation', 'Disable animation framing')
@@ -20,6 +19,3 @@ TODO Options:
 .option('-i, --image', 'Disable image processing.')
 .option('-p, --persistent', 'Enable persistent synchronization')
 .option('-r, --repair', 'Disable repair and error tracking.')
-
-TODO Style:
-- throw out async lib for a more reliable one thatt doesn't need nextTick
