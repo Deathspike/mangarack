@@ -13,7 +13,6 @@ JSCS: Ignored:
 
 TODO Options:
 .option('-a, --animation', 'Disable animation framing.')
-.option('-f, --footer', 'Disable footer cropping.')
 .option('-i, --image', 'Disable image enhancements.')
 .option('-p, --persistent', 'Disable persistent synchronization.')
 .option('-r, --repair', 'Disable error tracking and incremental repairs.')
