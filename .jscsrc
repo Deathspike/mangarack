@@ -27,6 +27,7 @@
   "requireCapitalizedConstructors": true,
   "requireCommaBeforeLineBreak": true,
   "requireDotNotation": true,
+  "requireFunctionDeclarations": true,
   "requireLineFeedAtFileEnd": true,
   "requireOperatorBeforeLineBreak": true,
   "requireParenthesesAroundIIFE": true,

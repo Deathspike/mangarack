@@ -9,16 +9,69 @@ JSCS: Ignored:
 - disallowDanglingUnderscores
 - requireAlignedObjectValues
 - requireCapitalizedComments (await 'textblock' option?)
-- requireFunctionDeclarations
 - requireCurlyBraces
 
 TODO Options:
-.option('-a, --animation', 'Disable animation framing')
-.option('-f, --footer', 'Disable footer incision')
-.option('-g, --grayscale', 'Disable grayscale size comparison+save.')
-.option('-i, --image', 'Disable image processing.')
-.option('-p, --persistent', 'Enable persistent synchronization')
-.option('-r, --repair', 'Disable repair and error tracking.')
+.option('-a, --animation', 'Disable animation framing.')
+.option('-f, --footer', 'Disable footer cropping.')
+.option('-i, --image', 'Disable image enhancements.')
+.option('-p, --persistent', 'Disable persistent synchronization.')
+.option('-r, --repair', 'Disable error tracking and incremental repairs.')
+>> change data emits to include a type, a file name, and a timing (opt).
+>> add total time elapsed to 'end' event from emitter, and console.log it.
 
-TODO:
-- The EventEmitter can actually emit *TYPES* of data, instead of raw lines.
+--
+COMMAND LINE
+--
+Implemented:
+--
+
+c, --chapter <n>
+> The chapter filter.
+d, --duplication
+> Disable duplication detection.
+e, --extension <s>
+> The file extension. (Default: cbz)
+m, --meta
+> Disable metadata.
+o, --output
+> The output directory.
+> NEW: Added to change the output directory without changing the work directory.
+s, --source
+> The source file. (Default: MangaRack.txt)
+v, --volume
+> The volume filter.
+w, --workers
+> The maximum parallel workers. (# cores)
+> CHANGED: Full switch renamed from --worker to --workers.
+
+--
+Not Yet Implemented:
+--
+
+-a, --animation
+> Disable animation framing.
+-f, --footer
+> Disable footer cropping.
+-g, --grayscale
+> Disable grayscale size comparison and save.
+-i, --image
+> Disable image enhancements.
+-p, --persistent
+> Disable persistent synchronization.
+> CHANGED: Changed from opt-in to opt-out.
+-r, --repair
+> Disable error tracking and incremental repairs.
+
+--
+Decrepated:
+--
+-g, --grayscale
+> Disable grayscale size comparison and save.
+> DECREPATED: Intensive CPU operation for, occasionally, some minimal savings.
+-k, --keep-alive
+> Disable keep-alive behavior.
+> DECREPATED: Keeping process alive goes against everything that is natural.
+-t, --total
+> Disable total elapsed time notification.
+> DECREPATED: Since the API can be used to bypass this, the CLI just shows it.
