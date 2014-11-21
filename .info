@@ -12,7 +12,6 @@ JSCS: Ignored:
 - requireCurlyBraces
 
 TODO Options:
-.option('-a, --animation', 'Disable animation framing.')
 .option('-i, --image', 'Disable image enhancements.')
 .option('-p, --persistent', 'Disable persistent synchronization.')
 .option('-r, --repair', 'Disable error tracking and incremental repairs.')
@@ -25,11 +24,15 @@ COMMAND LINE
 Implemented:
 --
 
+-a, --animation
+> Disable animation framing.
 c, --chapter <n>
 > The chapter filter.
 d, --duplication
 > Disable duplication detection.
 e, --extension <s>
+-f, --footer
+> Disable footer cropping.
 > The file extension. (Default: cbz)
 m, --meta
 > Disable metadata.
@@ -48,12 +51,6 @@ w, --workers
 Not Yet Implemented:
 --
 
--a, --animation
-> Disable animation framing.
--f, --footer
-> Disable footer cropping.
--g, --grayscale
-> Disable grayscale size comparison and save.
 -i, --image
 > Disable image enhancements.
 -p, --persistent
