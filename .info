@@ -12,11 +12,8 @@ JSCS: Ignored:
 - requireCurlyBraces
 
 TODO Options:
-.option('-i, --image', 'Disable image enhancements.')
 .option('-p, --persistent', 'Disable persistent synchronization.')
 .option('-r, --repair', 'Disable error tracking and incremental repairs.')
->> change data emits to include a type, a file name, and a timing (opt).
->> add total time elapsed to 'end' event from emitter, and console.log it.
 
 --
 COMMAND LINE
@@ -25,20 +22,22 @@ Implemented:
 --
 
 -a, --animation
-> Disable animation framing.
+> Disable image animation framing.
 c, --chapter <n>
 > The chapter filter.
 d, --duplication
 > Disable duplication detection.
 e, --extension <s>
--f, --footer
-> Disable footer cropping.
 > The file extension. (Default: cbz)
+-f, --footer
+> Disable image footer cropping (MangaFox).
 m, --meta
 > Disable metadata.
+-n, --normalize
+> Disable image normalization.
 o, --output
 > The output directory.
-> NEW: Added to change the output directory without changing the work directory.
+> NEW: Added to change the output directory.
 s, --source
 > The source file. (Default: MangaRack.txt)
 v, --volume
@@ -51,8 +50,6 @@ w, --workers
 Not Yet Implemented:
 --
 
--i, --image
-> Disable image enhancements.
 -p, --persistent
 > Disable persistent synchronization.
 > CHANGED: Changed from opt-in to opt-out.
@@ -65,6 +62,9 @@ Decrepated:
 -g, --grayscale
 > Disable grayscale size comparison and save.
 > DECREPATED: Intensive CPU operation for, occasionally, some minimal savings.
+-i, --image
+> Disable image processing.
+> DECREPATED: Replaced with -n, --normalize.
 -k, --keep-alive
 > Disable keep-alive behavior.
 > DECREPATED: Keeping process alive goes against everything that is natural.
