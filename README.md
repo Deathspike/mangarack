@@ -17,7 +17,6 @@ If you want to get involved, leave me an e-mail and we can discuss contact/thing
 
 ## Awaiting Implementation
 
-* Image processing (will use `gm` for this)
 * Persistent synchronization (may or may not be binary compatible with mr.cs).
 * Repair and error tracking (may or may not be binary compatible with mr.cs).
 
