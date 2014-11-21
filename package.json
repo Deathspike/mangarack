@@ -1,7 +1,7 @@
 {
   "author": "Roel van Uden",
   "description": "MangaRack is an application capable of synchronizing manga series from popular online manga scan and scanlation sites.",
-  "name": "mangarack.js",
+  "name": "mangarack",
   "repository": "git://github.com/Deathspike/mangarack.js.git",
   "version": "3.0.0",
   "dependencies": {
