@@ -15,6 +15,10 @@ MangaRack.js is in development, and is based on https://github.com/Deathspike/ma
 
 If you want to get involved, leave me an e-mail and we can discuss contact/things to do!
 
+## Versioning
+
+Once release of 3.0.0 happens, we will adhere to: http://semver.org/
+
 ## Awaiting Implementation
 
 * Persistent synchronization (may or may not be binary compatible with mr.cs).
