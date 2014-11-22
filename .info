@@ -14,6 +14,7 @@ JSCS: Ignored:
 TODO Options:
 .option('-p, --persistent', 'Disable persistent synchronization.')
 .option('-r, --repair', 'Disable error tracking and incremental repairs.')
+Add .bin stuff for Linux and Windows (so you can actually run mangarack/cli)
 
 --
 COMMAND LINE
@@ -35,6 +36,7 @@ m, --meta
 > Disable metadata.
 -n, --normalize
 > Disable image normalization.
+> NEW: Replacement for -i, --image.
 o, --output
 > The output directory.
 > NEW: Added to change the output directory.
@@ -43,7 +45,7 @@ s, --source
 v, --volume
 > The volume filter.
 w, --workers
-> The maximum parallel workers. (# cores)
+> The maximum workers. (Default: # cores)
 > CHANGED: Full switch renamed from --worker to --workers.
 
 --
