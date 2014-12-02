@@ -22,6 +22,21 @@ CHANGED: delete: Prefer `this.foo = undefined`
 Changes: Curly is not enforced; if it make sense to do a one-liner: do it!
 TODO: Compiling is absolutely required. Make it work!
 
+// PRIMITIVE EXCLUSIVE LOCK IN JS ;-) (For incremental saves, way way better)
+var locker = {};
+function lock(item, fn) {
+  if (locker[item]) return locker[item].push(fn);
+  locker[item] = [fn];
+  runLock(item);
+}
+function runLock(item) {
+  var fn = locker[item].shift();
+  fn(function() {
+    if (!locker[item].length) return locker[item] = undefined;
+    runLock(item);
+  });
+}
+
 --
 TYPES
 --
@@ -47,11 +62,11 @@ Implemented:
 > The archive extension. (Default: cbz)
 -f, --footer
 > Disable image footer cropping (MangaFox).
+-g, --generalize
+> Disable image generalization.
+> NEW: Replacement for -i, --image.
 -m, --meta
 > Disable metadata.
--n, --normalize
-> Disable image normalization.
-> NEW: Replacement for -i, --image.
 -o, --output
 > The output directory.
 > NEW: Added to change the output directory.
