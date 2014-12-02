@@ -10,18 +10,21 @@ JSCS: Ignored:
 - requireCapitalizedComments (await 'textblock' option?)
 - requireCurlyBraces
 
+TODO:
+server/index rework the queue into something more... elegant
+
 JSCS: TODO: "requireSpaceAfterKeywords" with true has function and conflicts with function rules.
 
 TODO Options:
 .option('-p, --persistent', 'Disable persistent synchronization.')
 .option('-r, --repair', 'Disable error tracking and incremental repairs.')
+> TODO: Track the failure here; this can be used for repairing later.
 Add .bin stuff for Linux and Windows (so you can actually run mangarack/cli)
 
 TODO: Contribution Style + Guide + Deviations
 http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
-Changes: Delete should be done to undefined, not to null.
+CHANGED: delete: Prefer `this.foo = undefined`
 Changes: Curly is not enforced; if it make sense to do a one-liner: do it!
-Changes: use closure style annotations, which is SLIGHTLY different (function cannot be null)
 TODO: Compiling is absolutely required. Make it work!
 
 --
