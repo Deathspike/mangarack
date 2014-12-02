@@ -55,7 +55,7 @@ Implemented:
 -o, --output
 > The output directory.
 > NEW: Added to change the output directory.
--p, --persist
+-p, --persistent
 > Disable persistent synchronization.
 > CHANGED: Changed from opt-in to opt-out, and full name renamed to --persist
 -s, --source
