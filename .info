@@ -40,27 +40,30 @@ Implemented:
 
 -a, --animation
 > Disable image animation framing.
-c, --chapter <n>
+-c, --chapter <n>
 > The chapter filter.
-d, --duplication
+-d, --duplication
 > Disable duplication detection.
-e, --extension <s>
-> The file extension. (Default: cbz)
+-e, --extension <s>
+> The archive extension. (Default: cbz)
 -f, --footer
 > Disable image footer cropping (MangaFox).
-m, --meta
+-m, --meta
 > Disable metadata.
 -n, --normalize
 > Disable image normalization.
 > NEW: Replacement for -i, --image.
-o, --output
+-o, --output
 > The output directory.
 > NEW: Added to change the output directory.
-s, --source
+-s, --source
 > The source file. (Default: MangaRack.txt)
-v, --volume
+-t, --transform
+> The image transformaton output.
+> NEW: Added to allow images to be saved in the desired output format.
+-v, --volume
 > The volume filter.
-w, --workers
+-w, --workers
 > The maximum workers. (Default: # cores)
 > CHANGED: Full switch renamed from --worker to --workers.
 
