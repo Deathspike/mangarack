@@ -10,9 +10,6 @@ JSCS: Ignored:
 - requireCapitalizedComments (await 'textblock' option?)
 - requireCurlyBraces
 
-TODO:
-server/index rework the queue into something more... elegant
-
 JSCS: TODO: "requireSpaceAfterKeywords" with true has function and conflicts with function rules.
 
 TODO Options:
