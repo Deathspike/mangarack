@@ -1,5 +1,5 @@
 {
   "extends"    : "../../.jshintrc",
-  "browserify"   : "true",
-  "node"     : "false"
+  "browserify" : "true",
+  "node"       : "false"
 }

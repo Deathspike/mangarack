@@ -14,6 +14,7 @@ JSCS: TODO: "requireSpaceAfterKeywords" with true has function and conflicts wit
 
 TODO Options:
 .option('-p, --persistent', 'Disable persistent synchronization.')
+> TODO: Also add switching here, for server renames and so forth
 .option('-r, --repair', 'Disable error tracking and incremental repairs.')
 Add .bin stuff for Linux and Windows (so you can actually run mangarack/cli)
 
