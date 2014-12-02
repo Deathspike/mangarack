@@ -1,9 +1,13 @@
 {
   "author": "Roel van Uden",
-  "description": "MangaRack is an application capable of synchronizing manga series from popular online manga scan and scanlation sites.",
+  "description": "MangaRack.js is capable of downloading manga series from popular online manga scan and scanlation sites.",
+  "keywords": "manga download comic book mangafox batoto kissmanga",
   "name": "mangarack",
   "repository": "git://github.com/Deathspike/mangarack.js.git",
-  "version": "3.0.0",
+  "version": "3.0.5",
+  "bin": {
+    "mangarack": "./bin/mangarack"
+  },
   "dependencies": {
     "archiver": "^0.13.0",
     "cheerio": "^0.18.0",
