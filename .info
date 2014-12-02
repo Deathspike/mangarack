@@ -15,7 +15,6 @@ JSCS: TODO: "requireSpaceAfterKeywords" with true has function and conflicts wit
 TODO Options:
 .option('-p, --persistent', 'Disable persistent synchronization.')
 .option('-r, --repair', 'Disable error tracking and incremental repairs.')
-> TODO: Track the failure here; this can be used for repairing later.
 Add .bin stuff for Linux and Windows (so you can actually run mangarack/cli)
 
 TODO: Contribution Style + Guide + Deviations
@@ -23,6 +22,14 @@ http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
 CHANGED: delete: Prefer `this.foo = undefined`
 Changes: Curly is not enforced; if it make sense to do a one-liner: do it!
 TODO: Compiling is absolutely required. Make it work!
+
+--
+TYPES
+--
+fetching: started downloading
+finished: finished downloading successfully
+disposed: deleted due to broken images
+obscured: did not understand series address
 
 --
 COMMAND LINE
