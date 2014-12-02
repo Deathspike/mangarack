@@ -110,7 +110,7 @@ The volume filter. This filter influences which volumes are subject to downloadi
 
 The maximum parallel worker threads. This specified amount is used when worker threads have not been disabled to set the maximum degree of parallelism. By default, this value equals the amount of available cores in the system. The feature was added to provide control over the maximum amount of resource utilization.
 
-### Developers
+## Developers
 
 More information will be added at a later point. For now:
 
