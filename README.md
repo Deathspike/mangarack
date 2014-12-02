@@ -1,6 +1,6 @@
 # MangaRack
 
-MangaRack is a console line application capable of synchronizing manga series from popular manga scan and scanlation sites. Each synchronized chapter is stored on your computer as a comic book archive and, by default, contains additional embedded meta information (such as the writer and summary). The embedded meta information is compatible with the popular ComicRack application suite.
+MangaRack is a console line application capable of downloading manga series from popular manga scan and scanlation sites. Each downloaded chapter is stored on your computer as a comic book archive and, by default, contains additional embedded meta information (such as the writer and summary). The embedded meta information is compatible with the popular ComicRack application suite.
 
 ## Prerequisites
 
@@ -60,77 +60,60 @@ Download *Aoi Hana* from MangaFox and *Citrus* from Batoto to the current work d
 
 #### -a or --animation
 
-The toggle to disable animation framing. This is the process of detecting animated pages and extracting the last frame. The feature was added to accommodate series in which pages are provided as an animation, presumably added to fool naïve synchronization implementations into synchronizing an incorrect page.
+The toggle to disable animation framing. This is the process of detecting animated pages and extracting the last frame. The feature was added to accommodate series in which pages are provided as an animation, presumably added to fool naïve implementations into downloading and processing an incorrect page.
 
-#### -c <n> or --chapter <n>
+#### -c or --chapter
+
+The chapter filter. This filter influences which chapters are subject to downloading. A positive number indicates that all chapters above the provided number are to be downloaded, while a negative number indicates that all chapters below the provided absolute number are to be downloaded.
 
 #### -d or --duplication
 
-The toggle to disable duplication prevention. This is the process of detecting an existing archive and preventing re-synchronization. The feature was added to prevent re-synchronization of chapters that had already been synchronized, and thus to reduce bandwidth consumption and allow for incremental synchronization.
+The toggle to disable duplication prevention. This is the process of detecting an existing archive and preventing re-downloading. The feature was added to prevent re-downloading of chapters that had already been downloaded, and thus to reduce bandwidth consumption and allow for incremental downloads.
 
-#### -e <s> or --extension <s>
+#### -e or --extension
+
+The file extension for each output file. Each output file is formatted with the series title, the volume number and the chapter number, followed by a file extension. The default file extension is cbz, which represents a Comic Book Archive. The configuration option was made available to allow writing a custom file extension without depending on an external tool.
 
 #### -f or --footer
 
-The toggle to disable footer incision. This is the process of detecting a textual footer in a page synchronized from the MangaFox provider and programmatically removing it. The feature was added to remove distracting announcements from pages, which reduce reading visibility and increase page dimensions and file size.
+The toggle to disable footer incision. This is the process of detecting a textual footer in a page downloaded from the MangaFox provider and programmatically removing it. The feature was added to remove distracting announcements from pages, which reduce reading visibility and increase page dimensions and file size.
 
 #### -m or --meta
 
-The toggle to disable embedded meta-information. This is the process of creating and embedding a ComicInfo.xml file to each synchronized archive. The feature was added to give applications capable of handling meta-information (such as ComicRack) detailed information about the series and chapter.
+The toggle to disable embedded meta-information. This is the process of creating and embedding a ComicInfo.xml file to each downloaded archive. The feature was added to give applications capable of handling meta-information (such as ComicRack) detailed information about the series and chapter.
 
 #### -n or --normalize
 
-#### -o <s> or --output <s>
+The toggle to disable image normalization. This is the process of image manipulation to normalize color, contrast, and to sharpen each page. The image quality of some online resources is rather low and the normalization process can improve the overall image quality. The feature was added to improve the overall quality of downloaded pages.
+
+#### -o or --output
+
+The output directory. This specifies the output directory which is used when writing downloaded archives and persistent information files to the file system. The default for this is set to the current work directory. The feature was added to provide control over the output directory on the file system.
 
 #### -p or --persistent
 
-The toggle to disable persistent synchronization. This is the process of generating an additional file for each series containing the names of the previously synchronized chapters. The feature was added to allow for chapters to be archived or deleted without causing re-synchronization.
+The toggle to disable persistent downloads. This is the process of generating an additional file for each series containing the names of the previously downloaded chapters. The feature was added to allow for chapters to be archived or deleted without causing re-downloading.
 
-#### -s <s> or --source <s>
+#### -s or --source
 
-#### -t <s> or --transform <s>
+The batch-mode source file. This specifies the input file which is used when running in batch-mode. By default, this value is MangaRack.txt. This is, without source code modifications, the MangaRack.txt value. The feature was added to provide control over the batch-mode source file.
 
-#### -v <n> or --volume <n>
+#### -t or --transform
 
-#### -w <n> or --workers <n>
+The transformation filter. This filter influences the output image format for each downloaded page and preview image. By default, the filter will not be activated and the image format that was downloaded will be written into the comic book archive. The feature was added to enable the user to convert images to a preferred format without manual intervention.
 
+#### -v or --volume
 
+The volume filter. This filter influences which volumes are subject to downloading. A positive number indicates that all volumes above the provided number are to be downloaded, while a negative number indicates that all volumes below the provided absolute number are to be downloaded.
 
-## Development
+#### -w or --workers
 
-MangaRack.js is in development, and is based on https://github.com/Deathspike/mangarack. Why in JavaScript?
+The maximum parallel worker threads. This specified amount is used when worker threads have not been disabled to set the maximum degree of parallelism. By default, this value equals the amount of available cores in the system. The feature was added to provide control over the maximum amount of resource utilization.
 
-* C#.NET is tied into Visual Studio/Windows; mono tooling is poor and cumbersome.
-* JavaScript is simple, simple to maintain, read, write and contribute to.
-* JavaScript is powerful; tasks is simplified due to the enormous ecosystem.
-* JavaScript is cross-platform; browser, desktop, phone, server, code can run anywhere.
-* JavaScript allows us to leverage HTML5/CSS for GUIs on phones, services and desktop clients.
-* JavaScript is cool.
+### Developers
 
-If you want to get involved, leave me an e-mail and we can discuss contact/things to do!
+More information will be added at a later point. For now:
 
-## Versioning
-
-Once release of 3.0.0 happens, we will adhere to: http://semver.org/
-
-## Awaiting Implementation
-
-* Repair and error tracking (may or may not be binary compatible with mr.cs).
-
-## Basic Instructions
-
-> npm install --production
-
-> node ./ http://mangafox.me/manga/girl_friends/
-
-## Grunt
-
-> npm install
-
-Grunt tasks are now available. To validate once, run:
-
-> npm test
-
-## Futher reading~
-
-Stay tuned! I'm dedicated to making mr.js a viable alternative (and eventually, replacement) to mr.cs! More will come as time goes on ;-)
+* Contributions: [Google JavaScript Style Guide](https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml)
+* Testing: `npm test`
+* Versioning: http://semver.org/
