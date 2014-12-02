@@ -13,8 +13,6 @@ JSCS: Ignored:
 JSCS: TODO: "requireSpaceAfterKeywords" with true has function and conflicts with function rules.
 
 TODO Options:
-.option('-p, --persistent', 'Disable persistent synchronization.')
-> TODO: Also add switching here, for server renames and so forth
 .option('-r, --repair', 'Disable error tracking and incremental repairs.')
 Add .bin stuff for Linux and Windows (so you can actually run mangarack/cli)
 
@@ -31,6 +29,7 @@ fetching: started downloading
 finished: finished downloading successfully
 disposed: deleted due to broken images
 obscured: did not understand series address
+switched: renamed comic book file to match a rename (depends on persistent)
 
 --
 COMMAND LINE
@@ -56,9 +55,12 @@ Implemented:
 -o, --output
 > The output directory.
 > NEW: Added to change the output directory.
+-p, --persist
+> Disable persistent synchronization.
+> CHANGED: Changed from opt-in to opt-out, and full name renamed to --persist
 -s, --source
 > The source file. (Default: MangaRack.txt)
--t, --transform
+-t, --transform <s>
 > The image transformaton output.
 > NEW: Added to allow images to be saved in the desired output format.
 -v, --volume
@@ -70,10 +72,6 @@ Implemented:
 --
 Not Yet Implemented:
 --
-
--p, --persistent
-> Disable persistent synchronization.
-> CHANGED: Changed from opt-in to opt-out.
 -r, --repair
 > Disable error tracking and incremental repairs.
 
