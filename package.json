@@ -6,7 +6,6 @@
   "version": "3.0.0",
   "dependencies": {
     "archiver": "^0.12.0",
-    "async": "^0.9.0",
     "cheerio": "^0.18.0",
     "commander": "^2.5.0",
     "gm": "^1.17.0",
