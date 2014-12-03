@@ -1,7 +1,7 @@
 {
   "disallowEmptyBlocks": true,
   "disallowImplicitTypeConversion": ["binary", "boolean", "numeric", "string"],
-  "disallowKeywords": ["with"],
+  "disallowKeywords": ["delete", "with"],
   "disallowKeywordsOnNewLine": ["catch", "else", "finally"],
   "disallowMixedSpacesAndTabs": true,
   "disallowMultipleLineBreaks": true,
