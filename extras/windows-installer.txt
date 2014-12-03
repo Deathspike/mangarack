@@ -1,3 +1,5 @@
+The following applies to 'windows-installer.zip':
+
 1. Extract each file into a folder in which to store your manga folder.
 2. Run the MangaRack-Installer.bat file and follow the instructions.
 3. Run the MangaRack.bat to update MangaRack and download chapters (you will see Aoi Hana).
