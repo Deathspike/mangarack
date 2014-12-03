@@ -9,6 +9,7 @@
     "mangarack": "./bin/mangarack"
   },
   "dependencies": {
+    "adm-zip": "^0.4.4",
     "archiver": "^0.13.0",
     "cheerio": "^0.18.0",
     "commander": "^2.5.0",
