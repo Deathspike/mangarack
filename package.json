@@ -4,7 +4,7 @@
   "keywords": "manga download comic book mangafox batoto kissmanga",
   "name": "mangarack",
   "repository": "git://github.com/Deathspike/mangarack.js.git",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "bin": {
     "mangarack": "./bin/mangarack"
   },

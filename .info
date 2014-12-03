@@ -12,10 +12,6 @@ JSCS: Ignored:
 
 JSCS: TODO: "requireSpaceAfterKeywords" with true has function and conflicts with function rules.
 
-continue doing the private stuff and optimizing async control flow ;-)
-get rid of `that = this` in favor of binding, or get rid of all binding
-think of leaving the address intact and not changing it ;-)
-
 TODO Options:
 .option('-r, --repair', 'Disable error tracking and incremental repairs.')
 Add .bin stuff for Linux and Windows (so you can actually run mangarack/cli)
