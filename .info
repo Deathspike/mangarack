@@ -12,6 +12,10 @@ JSCS: Ignored:
 
 JSCS: TODO: "requireSpaceAfterKeywords" with true has function and conflicts with function rules.
 
+continue doing the private stuff and optimizing async control flow ;-)
+get rid of `that = this` in favor of binding, or get rid of all binding
+think of leaving the address intact and not changing it ;-)
+
 TODO Options:
 .option('-r, --repair', 'Disable error tracking and incremental repairs.')
 Add .bin stuff for Linux and Windows (so you can actually run mangarack/cli)
@@ -22,21 +26,6 @@ CHANGED: delete: Prefer `this.foo = undefined`
 Changes: Curly is not enforced; if it make sense to do a one-liner: do it!
 TODO: Compiling is absolutely required. Make it work!
 
-// PRIMITIVE EXCLUSIVE LOCK IN JS ;-) (For incremental saves, way way better)
-var locker = {};
-function lock(item, fn) {
-  if (locker[item]) return locker[item].push(fn);
-  locker[item] = [fn];
-  runLock(item);
-}
-function runLock(item) {
-  var fn = locker[item].shift();
-  fn(function() {
-    if (!locker[item].length) return locker[item] = undefined;
-    runLock(item);
-  });
-}
-
 --
 TYPES
 --
@@ -45,6 +34,7 @@ finished: finished downloading successfully
 disposed: deleted due to broken images
 obscured: did not understand series address
 switched: renamed comic book file to match a rename (depends on persistent)
+surveyed: inspected a series and enqueued all chapters (may already be running some)
 
 --
 COMMAND LINE
