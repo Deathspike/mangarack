@@ -82,9 +82,9 @@ The toggle to disable footer incision. This is the process of detecting a textua
 
 The toggle to disable embedded meta-information. This is the process of creating and embedding a ComicInfo.xml file to each downloaded archive. The feature was added to give applications capable of handling meta-information (such as ComicRack) detailed information about the series and chapter.
 
-#### -n or --normalize
+#### -g or --generalize
 
-The toggle to disable image normalization. This is the process of image manipulation to normalize color, contrast, and to sharpen each page. The image quality of some online resources is rather low and the normalization process can improve the overall image quality. The feature was added to improve the overall quality of downloaded pages.
+The toggle to disable image generalization. This is the process of image manipulation to generalize/normalize color, contrast, and to sharpen each page. The image quality of some online resources is rather low and the normalization process can improve the overall image quality. The feature was added to improve the overall quality of downloaded pages.
 
 #### -o or --output
 
