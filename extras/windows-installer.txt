@@ -1,0 +1,5 @@
+1. Extract each file into a folder in which to store your manga folder.
+2. Run the MangaRack-Installer.bat file and follow the instructions.
+3. Run the MangaRack.bat to update MangaRack and download chapters (you will see Aoi Hana).
+4. Add addresses of the series to download to MangaRack.txt and run (3) again.
+5. Repeat (3) and (4) to download new chapters, or add new series.
