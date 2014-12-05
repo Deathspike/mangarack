@@ -56,6 +56,5 @@
   "safeContextKeyword": ["that"],
   "validateIndentation": 2,
   "validateParameterSeparator": ", ",
-  "validateQuoteMarks": "'",
-  "validateLineBreaks": "LF"
+  "validateQuoteMarks": "'"
 }
