@@ -8,7 +8,7 @@ MangaRack is a console line application capable of downloading manga series from
 * NPM >= 1.4.x (usually installed alongside NodeJS)
 * GraphicsMagick >= 1.3.x (http://www.graphicsmagick.org/)
 
-### Installation
+## Installation
 
 Please follow the applicable instructions. Not listed? Please ask or contribute!
 
