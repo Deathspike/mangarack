@@ -8,19 +8,33 @@ MangaRack is a console line application capable of downloading manga series from
 * NPM >= 1.4.x (usually installed alongside NodeJS)
 * GraphicsMagick >= 1.3.x (http://www.graphicsmagick.org/)
 
-## Installation/Updating
+### Installation
 
-Open a `Command Prompt` (*Windows*) or `Terminal` (*Mac/Linux*) and run:
+Please follow the applicable instructions. Not listed? Please ask or contribute!
 
-    npm install -g mangarack
+### Debian (Mint, Ubuntu, etc)
 
-To update `mangarack` to the latest version run:
+1. Run in *Terminal*: `sudo apt-get install nodejs npm graphicsmagick`
+2. Run in *Terminal*: `sudo ln -s /usr/bin/nodejs /usr/bin/node`
+3. Run in *Terminal*: `sudo npm install -g mangarack`
 
-    npm update -g mangarack
+### Mac OS X
 
-Once installed, `mangarack` can run. For example:
+1. Install *Homebrew* following the instructions at http://brew.sh/
+2. Run in *Terminal*: `brew install node graphicsmagick`
+3. Run in *Terminal*: `npm install -g mangarack`
 
-    mangarack --help
+### Windows (with Chocolatey)
+
+1. Install *Chocolatey* following the instructions at https://chocolatey.org/
+2. Run in *Command Prompt* (as administrator): `choco install nodejs graphicsmagick`
+3. Run in *Command Prompt*: `npm install -g mangarack`
+
+### Windows (without Chocolatey)
+
+1. Install *NodeJS* following the instructions at http://nodejs.org/
+2. Install *GraphicsMagick* following the instructions at http://www.graphicsmagick.org/
+3. Run in *Command Prompt*: `npm install -g mangarack`
 
 ## Instructions
 
