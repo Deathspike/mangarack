@@ -2,6 +2,10 @@
 
 MangaRack is a console line application capable of downloading manga series from popular manga scan and scanlation sites. Each downloaded chapter is stored on your computer as a comic book archive and, by default, contains additional embedded meta information (such as the writer and summary). The embedded meta information is compatible with the popular ComicRack application suite.
 
+## History/Upgrading
+
+It has been more than two years since the release of MangaRack.cs, the predecessor of MangaRack.js. Managing hundreds of series, thousands of chapters and millions of pages has been an incredible learning experience. There have been major changes in the design philosophy behind MangaRack.cs going from 1.x to 2.x, and similarly, the 3.x version (thus, MangaRack.js) is taking a new path. Your library will not be changing, but the major underlying philosophy has changed to a "*MangaRack everywhere!*"-approach. MangaRack runs on Linux, Mac OS X and Windows, and aims for Android, iOS and Windows Phone. If you are upgrading, delete your persistence files, and check for decrepated command line switches.
+
 ## Prerequisites
 
 * NodeJS >= 0.10.x (http://nodejs.org/)
