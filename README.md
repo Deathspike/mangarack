@@ -102,7 +102,7 @@ Download *Aoi Hana* from *MangaFox* and *Citrus* from *Batoto* to the current wo
 
 #### Switches
 
-##### Disable Switches
+##### Disables
 
 * `-a or --animation` disables last frame extraction of an animated image.
 * `-d or --duplication` disables existing file detection and forces re-downloads.
@@ -111,12 +111,12 @@ Download *Aoi Hana* from *MangaFox* and *Citrus* from *Batoto* to the current wo
 * `-m or --meta` disables writing the embedded *ComicInfo.xml* meta-information file.
 * `-p or --persistent` disables persistent tracking and renaming.
 
-##### Filter Switches
+##### Filters
 
 * `-c <n> or --chapter <n> ` filters chapters (positive is greater than, negative is smaller than).
 * `-c <n> or --chapter <n>` filters volumes (positive is greater than, negative is smaller than).
 
-##### Setting Switches
+##### Settings
 
 * `-e <s> or --extension <s>` sets the file extension (defaults to *cbz*).
 * `-o <s> or --output <s>` sets the output directory (defaults to *current work directory*).
@@ -131,3 +131,5 @@ More information will be added at a later point. For now:
 * Contributions: [Google JavaScript Style Guide](https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml)
 * Testing: `npm test`
 * Versioning: http://semver.org/
+
+Contributions welcome! Got a pinch-zoomable HTML5/JS comic viewer? Share please!
