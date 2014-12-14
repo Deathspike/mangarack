@@ -4,7 +4,7 @@
   "keywords": ["manga", "download", "comic", "book", "mangafox", "batoto", "kissmanga"],
   "name": "mangarack",
   "repository": "git://github.com/Deathspike/mangarack.js.git",
-  "version": "3.0.11",
+  "version": "3.0.12",
   "bin": {
     "mangarack": "./bin/mangarack"
   },
