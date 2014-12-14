@@ -34,13 +34,7 @@ Use the applicable instructions to install. Is your operating system not listed?
 2. Run in *Terminal*: `brew install node graphicsmagick`
 3. Run in *Terminal*: `npm install -g mangarack`
 
-### Windows (with Chocolatey)
-
-1. Install *Chocolatey* following the instructions at https://chocolatey.org/
-2. Run in *Command Prompt* (as Administrator): `choco install nodejs graphicsmagick`
-3. Run in *Command Prompt*: `npm install -g mangarack`
-
-### Windows (without Chocolatey)
+### Windows
 
 1. Install *NodeJS* following the instructions at http://nodejs.org/
 2. Install *GraphicsMagick* following the instructions at http://www.graphicsmagick.org/
