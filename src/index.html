@@ -10,7 +10,12 @@
     <link href="styles/app.min.css" rel="stylesheet" />
   </head>
   <body>
-    <div class="view-wrapper" ng-view></div>
+    <div class="view-wrapper">
+      <nav class="navbar navbar-inverse">
+
+      </nav>
+      <div ng-view></div>
+    </div>
     <script type="text/javascript" src="scripts/dep.min.js"></script>
     <script type="text/javascript" src="scripts/app.min.js"></script>
   </body>
