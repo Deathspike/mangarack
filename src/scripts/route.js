@@ -6,11 +6,11 @@ var fs = require('fs');
  * @param {$RouteProvider} $routeProvider
  */
 function Route($routeProvider) {
-  $routeProvider.when('/', {
-    controller: 'TestController',
-    template: fs.readFileSync(__dirname + '/../views/test-view.html')
+  $routeProvider.when('/home', {
+    controller: 'HomeController',
+    template: fs.readFileSync(__dirname + '/../views/home-view.html')
   }).otherwise({
-    redirectTo: '/'
+    redirectTo: '/home'
   });
 }
 
