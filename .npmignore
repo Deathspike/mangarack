@@ -1,6 +1,3 @@
 .idea/*
 build/
-bower_components/
 extras/
-node_modules/
-src/
