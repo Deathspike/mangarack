@@ -1,6 +1,0 @@
-{
-  "extends": "../.jshintrc",
-  "browser": true,
-  "jquery": true,
-  "predef": ["angular"]
-}

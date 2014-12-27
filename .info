@@ -1,16 +1,21 @@
-JSHint: 2.5.10
-JSCS: 1.7.3
-JSCS-JSDoc: ?.?.?
+JSHint: 2.5.11
+JSCS: 1.8.1
+JSCS-JSDoc: 0.3.2
 
 JSCS: Ignored:
 - (disallow|require)AnonymousFunctions
+- (disallow|require)PaddingNewlinesBeforeKeywords
 - (disallow|require)PaddingNewLinesInObjects
+- (disallow|require)SpaceBeforeKeywords
 - disallowDanglingUnderscores
+- disallowOperatorBeforeLineBreak (https://github.com/jscs-dev/node-jscs/issues/845)
 - requireAlignedObjectValues
-- requireCapitalizedComments (await 'textblock' option?)
 - requireCurlyBraces
+- requireCapitalizedComments (due to /*jshint*/)
+- jsdoc:checkRedundantReturns (due to exceptions throw in interfaces)
 
-JSCS: TODO: "requireSpaceAfterKeywords" with true has function and conflicts with function rules.
+JSCS: Ignored:
+- requireHyphenBeforeDescription
 
 TODO Options:
 .option('-r, --repair', 'Disable error tracking and incremental repairs.')
@@ -31,63 +36,3 @@ disposed: deleted due to broken images
 obscured: did not understand series address
 switched: renamed comic book file to match a rename (depends on persistent)
 surveyed: inspected a series and enqueued all chapters (may already be running some)
-
---
-COMMAND LINE
---
-Implemented:
---
-
--a, --animation
-> Disable image animation framing.
--c, --chapter <n>
-> The chapter filter.
--d, --duplication
-> Disable duplication detection.
--e, --extension <s>
-> The archive extension. (Default: cbz)
--f, --footer
-> Disable image footer cropping (MangaFox).
--g, --generalize
-> Disable image generalization.
-> NEW: Replacement for -i, --image.
--m, --meta
-> Disable metadata.
--o, --output
-> The output directory.
-> NEW: Added to change the output directory.
--p, --persistent
-> Disable persistent synchronization.
-> CHANGED: Changed from opt-in to opt-out, and full name renamed to --persist
--s, --source
-> The source file. (Default: MangaRack.txt)
--t, --transform <s>
-> The image transformaton output.
-> NEW: Added to allow images to be saved in the desired output format.
--v, --volume
-> The volume filter.
--w, --workers
-> The maximum workers. (Default: # cores)
-> CHANGED: Full switch renamed from --worker to --workers.
-
---
-Not Yet Implemented:
---
--r, --repair
-> Disable error tracking and incremental repairs.
-
---
-Decrepated:
---
--g, --grayscale
-> Disable grayscale size comparison and save.
-> DECREPATED: Intensive CPU operation for, occasionally, some minimal savings.
--i, --image
-> Disable image processing.
-> DECREPATED: Replaced with -n, --normalize.
--k, --keep-alive
-> Disable keep-alive behavior.
-> DECREPATED: Keeping process alive goes against everything that is natural.
--t, --total
-> Disable total elapsed time notification.
-> DECREPATED: Since the API can be used to bypass this, the CLI just shows it.
