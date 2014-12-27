@@ -1,0 +1,29 @@
+{
+  "authors": "Roel van Uden",
+  "description": "MangaRack.js is capable of downloading manga series from popular online manga scan and scanlation sites.",
+  "name": "mangarack",
+  "license": "MIT",
+  "private": true,
+  "version": "3.0.14",
+  "dependencies": {
+    "angular": "~1.3.1",
+    "angular-route": "~1.3.1",
+    "bootstrap": "~3.3.0",
+    "jquery": "~2.1.3"
+  },
+  "gulp": {
+    "copy": [
+      "bower_components/bootstrap/dist/**/fonts/*"
+    ],
+    "scripts": [
+      "bower_components/angular/angular.js",
+      "bower_components/angular-route/angular-route.js",
+      "bower_components/jquery/dist/jquery.js",
+      "bower_components/bootstrap/dist/js/bootstrap.js"
+    ],
+    "styles": [
+      "bower_components/bootstrap/dist/css/bootstrap.css",
+      "bower_components/bootstrap/dist/css/bootstrap-theme.css"
+    ]
+  }
+}
