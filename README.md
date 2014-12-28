@@ -57,6 +57,7 @@ The [command-line interface](http://en.wikipedia.org/wiki/Command-line_interface
       -a, --animation      Disable image animation framing.
       -d, --duplication    Disable duplication detection.
       -f, --footer         Disable image footer cropping (MangaFox-only).
+      -j, --jacket         Disable the comic book jacket/cover.
       -g, --generalize     Disable image generalization.
       -m, --meta           Disable metadata.
       -p, --persistent     Disable persistent synchronization.
@@ -102,6 +103,7 @@ Download *Aoi Hana* from *MangaFox* and *Citrus* from *Batoto* to the current wo
 * `-d or --duplication` disables existing file detection and forces re-downloads.
 * `-f or --footer` disables *MangaFox*-specific footer watermark removal.
 * `-g or --generalize` disables image color/contrast normalization and sharpening.
+* `-j or --jacket` disables the comic book jacket/cover.
 * `-m or --meta` disables writing the embedded *ComicInfo.xml* meta-information file.
 * `-p or --persistent` disables persistent tracking and renaming.
 
