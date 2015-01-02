@@ -115,6 +115,7 @@ Download *Aoi Hana* from *MangaFox* and *Citrus* from *Batoto* to the current wo
 ##### Settings
 
 * `-e <s> or --extension <s>` sets the file extension (defaults to *cbz*).
+* `-k or --keep-alive` keeps the process alive on a task error.
 * `-o <s> or --output <s>` sets the output directory (defaults to *current work directory*).
 * `-s <s> or --source <s>` sets the batch-mode source file (defaults to *MangaRack.txt*)
 * `-t <s> or --transform <s>` sets an overriding image format transformation (e.g. *jpg*).
