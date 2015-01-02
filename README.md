@@ -64,6 +64,7 @@ The [command-line interface](http://en.wikipedia.org/wiki/Command-line_interface
       -c, --chapter <n>    The chapter filter.
       -v, --volume <n>     The volume filter.
       -e, --extension <s>  The file extension. (Default: cbz)
+      -k, --keep-alive     Keeps the process alive on a task error.
       -o, --output <s>     The output directory.
       -s, --source <s>     The source file. (Default: MangaRack.txt)
       -t, --transform <s>  The image transformation output.
