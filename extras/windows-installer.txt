@@ -5,3 +5,5 @@ The following applies to 'windows-installer.zip':
 3. Run the MangaRack.bat to update MangaRack and download chapters (you will see Aoi Hana).
 4. Add addresses of the series to download to MangaRack.txt and run (3) again.
 5. Repeat (3) and (4) to download new chapters, or add new series.
+
+The 'MangaRack.exe' is an equivalent of the 'MangaRack.bat', but as executable (for pinning; requires .NET4).
