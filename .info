@@ -19,13 +19,14 @@ JSCS: Ignored:
 
 TODO Options:
 .option('-r, --repair', 'Disable error tracking and incremental repairs.')
-Add .bin stuff for Linux and Windows (so you can actually run mangarack/cli)
+I actually enabled corrupted GIFs to be completely ignored. This is bad for
+obvious reasons, and the repair tracking/incremental system can help. Look at
+issue #18 and this stupid broken GIF http://bato.to/read/_/209468/horimiya_v4_ch27_by_amarante-scans/27
 
 TODO: Contribution Style + Guide + Deviations
 http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
 CHANGED: delete: Prefer `this.foo = undefined`
 Changes: Curly is not enforced; if it make sense to do a one-liner: do it!
-TODO: Compiling is absolutely required. Make it work!
 
 --
 TYPES
