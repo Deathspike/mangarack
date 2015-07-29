@@ -49,9 +49,9 @@ Use the applicable instructions for the interface of your choice (currently limi
 The [command-line interface](http://en.wikipedia.org/wiki/Command-line_interface) does not have a graphical component and is ideal for automation purposes and headless machines. The interface can run using a sequence of series addresses (the site address containing the chapter listing), or with a batch-mode source file. The `mangarack --help` command will produce the following output:
 
     Usage: mangarack [options]
-    
+
     Options:
-    
+
       -h, --help           output usage information
       -V, --version        output the version number
       -a, --animation      Disable image animation framing.
@@ -120,7 +120,7 @@ Download *Aoi Hana* from *MangaFox* and *Citrus* from *Batoto* to the current wo
 * `-o <s> or --output <s>` sets the output directory (defaults to *current work directory*).
 * `-s <s> or --source <s>` sets the batch-mode source file (defaults to *MangaRack.txt*)
 * `-t <s> or --transform <s>` sets an overriding image format transformation (e.g. *jpg*).
-* `-w <s> or --workers <s>` sets the maximum concurrency (defaults to the machines cores).
+* `-w <s> or --workers <s>` sets the maximum concurrency (defaults to # of cores, up to 4).
 
 ## Developers
 
