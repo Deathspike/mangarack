@@ -1,0 +1,24 @@
+{
+  "author": "Roel van Uden",
+  "description": "Part of the MangaRack suite.",
+  "keywords": ["mangarack"],
+  "license": "MIT",
+  "main": "src/default",
+  "name": "mangarack",
+  "repository": "git://github.com/MangaRack/mangarack",
+  "version": "4.0.0",
+  "bin": {
+    "mangarack": "./bin/mangarack",
+    "mangarack-cli": "./bin/mangarack-cli"
+  },
+  "devDependencies": {
+    "browserify": "12.0.1",
+    "mangarack-runnable-cli": "4.0.0",
+    "source-map-support": "0.3.3"
+  },
+  "scripts": {
+    "bundle-cli": "browserify --debug --node src/cli.js > dist/cli.js",
+    "postinstall": "mkdir dist",
+    "prepublish": "npm run bundle-cli -s"
+  }
+}
