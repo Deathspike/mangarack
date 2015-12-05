@@ -1,0 +1,70 @@
+# mangarack
+
+*MangaRack* is a console line application capable of downloading manga series from popular manga scanlation sites. Each downloaded chapter is stored on your computer as a comic book archive and contains additional embedded meta information. The embedded meta information is compatible with the popular *ComicRack* application suite.
+
+## History/Upgrading
+
+It has been three years since the release of *MangaRack.cs*, the predecessor of *MangaRack.js*. Managing hundreds of series, thousands of chapters and millions of pages has been an incredible learning experience. There have been major changes going from `2.x` to `3.x`, and similarly, in the `4.x` version. A library will not change much, but the *mangarack everywhere!*-philosophy has been enhanced with a "*dependable and predictable behaviour*"-approach. If you are upgrading, delete your persistence files, and check for deprecated command line switches.
+
+## Prerequisites
+
+* NodeJS >= `5.x` (http://nodejs.org/)
+* NPM >= `2.x` (https://www.npmjs.org/)
+* GraphicsMagick >= `1.3.x` (http://www.graphicsmagick.org/)
+
+## Supported Sites
+
+* [Batoto](http://bato.to/) support is intended as an incomplete high-quality provider.
+* [KissManga](http://kissmanga.com/) support is intended as a back-up provider.
+* [MangaFox](http://mangafox.me/) support is intended as a complete medium-quality provider.
+
+## Installation
+
+Use the applicable instructions to install. Is your operating system not listed? Please ask or contribute!
+
+### Debian (Mint, Ubuntu, etc)
+
+1. Run in *Terminal*: `curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -`
+2. Run in *Terminal*: `sudo apt-get install nodejs graphicsmagick`
+3. Run in *Terminal*: `sudo npm install -g mangarack`
+
+### Mac OS X
+
+1. Install *Homebrew* following the instructions at http://brew.sh/
+2. Run in *Terminal*: `brew install node graphicsmagick`
+3. Run in *Terminal*: `npm install -g mangarack`
+
+### Windows
+
+1. Install *NodeJS* following the instructions at http://nodejs.org/ (and choose *latest*)
+2. Install *GraphicsMagick* following the instructions at http://www.graphicsmagick.org/
+3. Run in *Command Prompt*: `npm install -g mangarack`
+
+## Instructions
+
+Use the applicable instructions for the interface of your choice (currently limited to command-line).
+
+### Command-line Interface (`mangarack-cli`)
+
+The [command-line interface](http://en.wikipedia.org/wiki/Command-line_interface) does not have a graphical component and is ideal for automation purposes and headless machines. The interface can run using a sequence of series addresses (the site address containing the chapter listing), or using the [standard input](https://en.wikipedia.org/wiki/Standard_streams#Standard_input_.28stdin.29).
+
+#### Examples
+
+Download *Futari dake* from *MangaFox*:
+
+    mangarack-cli http://mangafox.me/manga/futari_dake/
+
+Download *Futari dake* from *MangaFox* and disable image normalization:
+
+    mangarack-cli --runnable.cli.disableNormalize 1 http://mangafox.me/manga/futari_dake/
+
+Download the series listed in the `MangaRack.txt` file:
+
+    mangarack-cli < MangaRack.txt
+
+#### Switches
+
+* `--component.core.batoto.username <username>` provides a username for *Batoto*.
+* `--component.core.batoto.password <password>` provides a password for *Batoto*.
+* `--runnable.cli.disableMangafoxHeuristicCrop 1` disables *MangaFox* image cropping.
+* `--runnable.cli.disableNormalize 1` disables image normalization.
