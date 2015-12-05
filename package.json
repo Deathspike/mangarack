@@ -6,7 +6,7 @@
   "main": "src/default",
   "name": "mangarack",
   "repository": "git://github.com/MangaRack/mangarack",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "bin": {
     "mangarack": "./bin/mangarack",
     "mangarack-cli": "./bin/mangarack-cli"
@@ -14,11 +14,11 @@
   "devDependencies": {
     "browserify": "12.0.1",
     "mangarack-runnable-cli": "4.0.0",
+    "npm-build-tools": "2.2.5",
     "source-map-support": "0.3.3"
   },
   "scripts": {
-    "bundle-cli": "browserify --debug --node src/cli.js > dist/cli.js",
-    "postinstall": "mkdir dist",
+    "bundle-cli": "browserify --debug --node src/cli.js | n-pipe dist/cli.js",
     "prepublish": "npm run bundle-cli -s"
   }
 }
