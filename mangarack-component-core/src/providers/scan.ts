@@ -1,0 +1,64 @@
+'use strict';
+import * as mio from '../default';
+let regexp = new RegExp('\\s*' +
+  // The volume expression [1].
+  '(?:Vol\\.?\\s*([0-9\\.]+)\\s*)?' +
+  // The chapter expression [2].
+  '(?:(?:Ch|Ep)\\.?)?[a-z]*\\s*(?:([0-9\\.]+[a-u]?)\\s*(?:Extra)?\\s*(?:Omake)?)' +
+  // The dash versioning skip expression.
+  '(?:\\s*-\\s*[0-9\\.]+)?' +
+  // The versioning expression [3].
+  '(?:\\s*v\\.?([0-9]+))?' +
+  // The part expression [4].
+  '(?:\\s*\\(?Part\\s*([0-9]+)\\)?)?' +
+  // The dash/plus skip expression.
+  '(?:\\s*(?:-|\\+))?' +
+  // The title expression [5].
+  '(?:\\s*\\:?\\s*(?:Read Onl?ine|([\\w\\W]*)))?' +
+  // The whitespace expression.
+  '\\s*$', 'i');
+
+/**
+ * Scans the input for chapter metadata.
+ * @param input The input to scan.
+ * @return The chapter metadata.
+ */
+export function scan(input: string): mio.IChapterMetadata {
+  let match = input.match(regexp);
+  if (match) {
+    return createMetadata(match);
+  } else {
+    throw new Error(`Invalid scan input: ${input}`);
+  }
+};
+
+/**
+ * Creates the chapter metadata.
+ * @param match The expression result.
+ * @return The chapter metadata.
+ */
+function createMetadata(match: RegExpMatchArray): mio.IChapterMetadata {
+  return {
+    number: mio.option(createNumber(match[2], match[4])),
+    title: match[5] ? match[5].trim() : '',
+    version: mio.option(parseFloat(match[3])),
+    volume: mio.option(parseFloat(match[1]))
+  };
+}
+
+/**
+ * Creates the chapter number from the chapter expression result and part expression result.
+ * @param chapter The chapter expression result.
+ * @param part The part expression result.
+ * @return The chapter number.
+ */
+function createNumber(chapter: string, part: string): number {
+  let match = chapter.match(/^(.*)([a-u])$/);
+  if (match) {
+    return parseFloat(match[1]) + (match[2].charCodeAt(0) - 96) / 10;
+  } else if (part) {
+    return parseFloat(chapter) + (mio.option(parseFloat(part)).value || 0) / 10;
+  } else {
+    return parseFloat(chapter);
+  }
+}
