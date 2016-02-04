@@ -5,7 +5,7 @@
   "license": "MIT",
   "main": "src/default",
   "name": "mangarack",
-  "repository": "git://github.com/MangaRack/mangarack",
+  "repository": "git://github.com/Deathspike/mangarack",
   "version": "4.0.1",
   "bin": {
     "mangarack": "./bin/mangarack",

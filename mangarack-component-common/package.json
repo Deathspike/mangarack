@@ -5,7 +5,7 @@
   "license": "MIT",
   "main": "dist/default",
   "name": "mangarack-component-common",
-  "repository": "git://github.com/MangaRack/mangarack-component-common",
+  "repository": "git://github.com/Deathspike/mangarack",
   "typings": "dist/default",
   "version": "4.0.0",
   "devDependencies": {
