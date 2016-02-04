@@ -10,7 +10,7 @@ export function option<T>(value?: T): mio.IOption<T> {
   if (typeof value === 'boolean') {
     return {value: value};
   } else if (typeof value === 'number') {
-    return {value: isFinite(<any>value) ? value : null};
+    return {value: isFinite(value as any) ? value : null};
   } else if (typeof value === 'undefined') {
     return {value: null};
   } else {
