@@ -1,16 +1,18 @@
 {
   "author": "Roel van Uden",
   "description": "Part of the MangaRack suite.",
-  "keywords": ["mangarack"],
+  "keywords": [
+    "mangarack"
+  ],
   "license": "MIT",
   "main": "dist/default",
   "name": "mangarack-runnable-cli",
   "repository": "git://github.com/Deathspike/mangarack",
   "typings": "dist/default",
-  "version": "4.0.0",
+  "version": "4.0.2",
   "dependencies": {
     "archiver": "0.16.0",
-    "mangarack-node-core": "4.0.0",
+    "mangarack-node-core": "4.0.2",
     "gm": "1.21.1",
     "xml2js": "0.4.15"
   },
