@@ -1,3 +1,3 @@
-# mangarack-component-common
+# mangarack
 
 Part of the MangaRack suite.
