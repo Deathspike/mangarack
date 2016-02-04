@@ -1,6 +1,6 @@
 'use strict';
 import * as mio from '../default';
-let anyGenreType: {[key: string]: mio.GenreType} = <any>mio.GenreType;
+let anyGenreType: {[key: string]: mio.GenreType} = mio.GenreType as any;
 
 /**
  * Converts the/each string value to a genre type, or null.

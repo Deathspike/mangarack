@@ -88,7 +88,7 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
      */
     map: function<T>(iterator: (index: number, element: mio.IHtmlElement) => T): {get(): T[]} {
       let cheerioMap = cheerioObject.map(iterator);
-      return {get: () => <T[]><any>cheerioMap.get()};
+      return {get: () => <T[]>(cheerioMap.get() as any)};
     },
 
     /**

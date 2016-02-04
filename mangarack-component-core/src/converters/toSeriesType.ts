@@ -1,6 +1,6 @@
 'use strict';
 import * as mio from '../default';
-let anySeriesType: {[key: string]: mio.SeriesType} = <any>mio.SeriesType;
+let anySeriesType: {[key: string]: mio.SeriesType} = mio.SeriesType as any;
 
 /**
  * Converts the string value to a series type, or the default series type.
