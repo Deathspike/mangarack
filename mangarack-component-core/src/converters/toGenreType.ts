@@ -3,7 +3,7 @@ import * as mio from '../default';
 let anyGenreType: {[key: string]: mio.GenreType} = mio.GenreType as any;
 
 /**
- * Converts the/each string value to a genre type, or null.
+ * Converts the/each string value to the genre type, or null.
  * @param value The/each value.
  * @return The/each genre type, or null.
  */
