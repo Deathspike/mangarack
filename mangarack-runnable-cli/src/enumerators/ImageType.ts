@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Represents the image type.
+ * Represents an image type.
  */
 export enum ImageType {
   /**
