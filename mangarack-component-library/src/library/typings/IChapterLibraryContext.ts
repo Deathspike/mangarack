@@ -1,13 +1,13 @@
 import * as mio from '../../default';
 
 /**
- * Represents the series archive.
+ * Represents a chapter library context.
  */
-export interface ISeriesArchive {
+export interface IChapterLibraryContext {
   /**
    * Contains each chapter.
    */
-  chapters: {[derivedKey: string]: {
+  chapters: {[metadataDerivedKey: string]: {
     /**
      * Contains the time at which the chapter was added to the library.
      */
@@ -44,14 +44,9 @@ export interface ISeriesArchive {
     numberOfPages: number;
 
     /**
-     * Contains each user.
+     * Contains the number of read chapters for each account.
      */
-    users: {[key: string]: {
-      /**
-       * Contains the number of read pages.
-       */
-      numberOfReadPages: number;
-    }};
+    numberOfReadChapters: {[accountId: number]: number};
   }};
 
   /**

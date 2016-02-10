@@ -1,17 +1,22 @@
 import * as mio from '../../default';
 
 /**
- * Represents the main view.
+ * Represents a series library context.
  */
-export interface IMainView {
+export interface ISeriesLibraryContext {
+  /**
+   * Contains the next identifier.
+   */
+  nextId: number;
+
   /**
    * Contains each provider.
    */
-  providers: {[name: string]: {
+  providers: {[providerName: string]: {
     /**
      * Contains each series.
      */
-    series: {[address: string]: {
+    series: {[seriesAddress: string]: {
       /**
        * Contains the time at which the series was added to the library.
        */
@@ -40,12 +45,12 @@ export interface IMainView {
       /**
        * Contains the number of chapters.
        */
-      numberOfChapters: number,
+      numberOfChapters: number;
 
       /**
-       * Contains the number of read chapters.
+       * Contains the number of read chapters for each account.
        */
-      numberOfReadChapters: number;
+      numberOfReadChapters: {[accountId: number]: number};
     }}
   }};
 }

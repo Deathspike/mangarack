@@ -2,7 +2,7 @@
 import * as mio from './default';
 
 /**
- * Represents the helper functionality.
+ * Represents the helper.
  */
 export let helper = {
   /**
