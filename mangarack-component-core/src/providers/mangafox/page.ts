@@ -10,7 +10,7 @@ let htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
  * @param previousDocument= The previous document.
  * @return The page.
  */
-export function createPage(address: string, metadata: mio.IPageMetadata, previousDocument: mio.IOption<mio.IHtmlDocument>): mio.IPage {
+export function createPage(address: string, metadata: mio.IPageMetadata, previousDocument?: mio.IOption<mio.IHtmlDocument>): mio.IPage {
   return {
     imageAsync: () => downloadDocumentAndImageAsync(address, previousDocument),
     number: metadata.number
@@ -23,7 +23,7 @@ export function createPage(address: string, metadata: mio.IPageMetadata, previou
  * @param previousDocument= The previous document.
  * @return The promise for the image.
  */
-async function downloadDocumentAndImageAsync(address: string, previousDocument: mio.IOption<mio.IHtmlDocument>): Promise<mio.IBlob> {
+async function downloadDocumentAndImageAsync(address: string, previousDocument?: mio.IOption<mio.IHtmlDocument>): Promise<mio.IBlob> {
   let document = await downloadDocumentAsync(address, previousDocument);
   return downloadImageAsync(document);
 }
@@ -31,11 +31,11 @@ async function downloadDocumentAndImageAsync(address: string, previousDocument: 
 /**
  * Promises the document.
  * @param address The address.
- * @param previousDocument The previous document.
+ * @param previousDocument= The previous document.
  * @return The promise for the document.
  */
-async function downloadDocumentAsync(address: string, previousDocument: mio.IOption<mio.IHtmlDocument>): Promise<mio.IHtmlDocument> {
-  if (previousDocument.value == null) {
+async function downloadDocumentAsync(address: string, previousDocument?: mio.IOption<mio.IHtmlDocument>): Promise<mio.IHtmlDocument> {
+  if (previousDocument == null || previousDocument.value == null) {
     let body = await httpService().getStringAsync(address);
     return htmlService().load(body);
   } else {

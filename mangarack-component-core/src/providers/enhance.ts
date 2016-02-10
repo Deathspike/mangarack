@@ -70,7 +70,7 @@ function prioritizeDifference(differences: {[key: string]: number}): number {
     if (differences.hasOwnProperty(difference)) {
       let count = differences[difference];
       if (best.count.value == null || differences[difference] > best.count.value) {
-        best.amount = mio.option(difference);
+        best.amount = mio.option(parseInt(difference, 10));
         best.count = mio.option(count);
       }
     }
