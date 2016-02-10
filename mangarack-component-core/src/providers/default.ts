@@ -7,16 +7,16 @@ let providers = [batoto, kissmanga, mangafox];
 
 /**
  * Opens the provider for the address.
- * @param address The address.
+ * @param nameOrAddress The name or address.
  * @return The provider.
  */
-export function openProvider(address: string): mio.IProvider {
+export function openProvider(nameOrAddress: string): mio.IProvider {
   for (let provider of providers) {
-    if (provider.isSupported(address)) {
+    if (provider.name === nameOrAddress || provider.isSupported(nameOrAddress)) {
       return provider;
     }
   }
-  throw new Error(`Invalid series adress: ${address}`);
+  throw new Error(`Invalid series name or adress: ${nameOrAddress}`);
 }
 
 /**
