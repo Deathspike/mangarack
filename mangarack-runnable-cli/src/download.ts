@@ -130,7 +130,7 @@ function getChapterName(series: mio.ISeries, chapter: mio.IChapter): mio.IOption
 function getChapterPath(series: mio.ISeries, chapter: mio.IChapter): mio.IOption<string> {
   let seriesName = getSeriesName(series);
   let chapterName = getChapterName(series, chapter);
-  return  mio.option(seriesName.value != null && chapterName.value != null ? `${seriesName.value}/${chapterName.value}` : null);
+  return mio.option(seriesName.value != null && chapterName.value != null ? `${seriesName.value}/${chapterName.value}` : null);
 }
 
 /**
