@@ -1,6 +1,9 @@
 // core
 export * from 'mangarack-component-core';
 
+// library/system
+export * from './system/default';
+
 // library/typings
 export * from './typings/library/IAccountLibrary';
 export * from './typings/library/IAccountLibraryItem';
