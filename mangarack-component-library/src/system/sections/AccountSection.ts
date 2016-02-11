@@ -26,7 +26,7 @@ export class AccountSection implements mio.IAccountLibrary {
     } else {
       let account = {id: this._context.nextId++, password: password};
       this._context.accounts[accountName] = account;
-      await mio.sectionService.writeAccountContextAsync(this._context);
+      await this._saveAsync();
       return mio.option(account.id);
     }
   }
@@ -36,8 +36,16 @@ export class AccountSection implements mio.IAccountLibrary {
    * @param chapterId The chapter identifier.
    * @return The promise to delete the chapter.
    */
-  deleteAsync(accountId: number): Promise<boolean> {
-    throw new Error('Not yet implemented');
+  async deleteAsync(accountId: number): Promise<boolean> {
+    for (let [accountName, account] of mio.entries(this._context.accounts)) {
+      if (account.id === accountId) {
+        /*TODO: Delete all user series, too, to clean up the entire tree of contexts.*/
+        delete this._context.accounts[accountName];
+        await this._saveAsync();
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -47,7 +55,7 @@ export class AccountSection implements mio.IAccountLibrary {
    * @return Indicates whether the account name and password combination is valid.
    */
   isValid(accountName: string, password: string): boolean {
-    throw new Error('Not yet implemented');
+    return mio.entries(this._context.accounts).some(entry => entry[0] === accountName && entry[1].password === password);
   }
 
   /**
@@ -55,8 +63,14 @@ export class AccountSection implements mio.IAccountLibrary {
    * @param accountId The account identifier.
    * @return The promise for the series library for the account.
    */
-  seriesAsync(accountId: number): Promise<mio.IOption<mio.ISeriesLibrary>> {
-    throw new Error('Not yet implemented');
+  async seriesAsync(accountId: number): Promise<mio.IOption<mio.ISeriesLibrary>> {
+    for (let [accountName, account] of mio.entries(this._context.accounts)) {
+      if (account.id === accountId) {
+        let context = await mio.sectionService.getSeriesContextAsync();
+        return mio.option(new mio.SeriesSection(context, accountId));
+      }
+    }
+    return mio.option<mio.ISeriesLibrary>();
   }
 
   /**
@@ -65,8 +79,15 @@ export class AccountSection implements mio.IAccountLibrary {
    * @param password The password.
    * @return The promise to update the account password.
    */
-  updateAsync(accountId: number, password: string): Promise<boolean> {
-    throw new Error('Not yet implemented');
+  async updateAsync(accountId: number, password: string): Promise<boolean> {
+    for (let [accountName, account] of mio.entries(this._context.accounts)) {
+      if (account.id === accountId) {
+        account.password = password;
+        await this._saveAsync();
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -74,6 +95,21 @@ export class AccountSection implements mio.IAccountLibrary {
    * @return The promise for the list of accounts.
    */
   viewAsync(): Promise<mio.IAccountLibraryItem[]> {
-    throw new Error('Not yet implemented');
+    let result: mio.IAccountLibraryItem[] = [];
+    for (let [accountName, account] of mio.entries(this._context.accounts)) {
+      result.push({
+        accountName: accountName,
+        id: account.id
+      });
+    }
+    return Promise.resolve(result);
+  }
+
+  /**
+   * Promises to save the context.
+   * @return The promise to save the context.
+   */
+  private _saveAsync(): Promise<void> {
+    return mio.sectionService.writeAccountContextAsync(this._context);
   }
 }
