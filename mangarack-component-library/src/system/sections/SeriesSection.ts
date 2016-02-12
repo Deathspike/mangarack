@@ -40,8 +40,16 @@ export class SeriesSection implements mio.ISeriesLibrary {
    * @param seriesId The series identifier.
    * @return The promise to delete the series.
    */
-  deleteAsync(seriesId: number): Promise<boolean> {
-    throw new Error('TODO: Not implemented');
+  async deleteAsync(seriesId: number): Promise<boolean> {
+    let match = mio.findChild(this._context.providers, provider => provider.series, series => series.id === seriesId);
+    if (match.value != null) {
+      /*TODO: Delete all chapters, too, to clean up the entire tree of contexts.*/
+      delete this._context.providers[match.value[0]].series[match.value[1]];
+      await this._saveAsync();
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -58,24 +66,25 @@ export class SeriesSection implements mio.ISeriesLibrary {
    * @return The promise for the list of series.
    */
   viewAsync(): Promise<mio.ISeriesLibraryItem[]> {
-    let result: mio.ISeriesLibraryItem[] = [];
-    for (let [providerName, provider] of mio.entries(this._context.providers)) {
-      for (let [seriesAddress, series] of mio.entries(provider.series)) {
-        if (typeof series.numberOfReadChapters[this._accountId] !== 'undefined') {
-          result.push({
-            addedAt: series.addedAt,
-            chapterAddedAt: series.chapterAddedAt,
-            checkedAt: series.checkedAt,
-            id: series.id,
-            metadata: series.metadata,
-            numberOfChapters: series.numberOfChapters,
-            numberOfReadChapters: series.numberOfReadChapters[this._accountId],
-            providerName: providerName,
-            seriesAddress: seriesAddress
-          });
-        }
-      }
-    }
-    return Promise.resolve(result);
+    return Promise.resolve(mio.mapChild(this._context.providers, provider => provider.series, (series, seriesAddress, providerName) => ({
+      addedAt: series.addedAt,
+      chapterAddedAt: series.chapterAddedAt,
+      chapterReadAt: series.users[this._accountId].chapterReadAt,
+      checkedAt: series.checkedAt,
+      id: series.id,
+      metadata: series.metadata,
+      numberOfChapters: series.numberOfChapters,
+      numberOfReadChapters: series.users[this._accountId].numberOfReadChapters,
+      providerName: providerName,
+      seriesAddress: seriesAddress
+    })));
+  }
+
+  /**
+   * Promises to save the context.
+   * @return The promise to save the context.
+   */
+  private _saveAsync(): Promise<void> {
+    return mio.sectionService.writeSeriesContextAsync(this._context);
   }
 }

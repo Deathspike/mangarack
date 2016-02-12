@@ -1,9 +1,9 @@
-import * as mio from '../../default';
+import * as mio from '../module';
 
 /**
- * Represents a series library item.
+ * Represents a series library context item.
  */
-export interface ISeriesLibraryItem {
+export interface ISeriesLibraryContextItem {
   /**
    * Contains the time at which the series was added to the library.
    */
@@ -13,11 +13,6 @@ export interface ISeriesLibraryItem {
    * Contains the time at which the most recent chapter was added to the library.
    */
   chapterAddedAt: number;
-  
-  /**
-   * Contains the time at which a chapter was most recently read.
-   */
-  chapterReadAt: number;
 
   /**
    * Contains the time at which the series was last checked.
@@ -40,17 +35,17 @@ export interface ISeriesLibraryItem {
   numberOfChapters: number;
 
   /**
-   * Contains the number of read chapters.
+   * Contains user-specifc properties.
    */
-  numberOfReadChapters: number;
+  users: {[accountId: number]: {
+    /**
+     * Contains the time at which a chapter was most recently read.
+     */
+    chapterReadAt: number;
 
-  /**
-   * Contains the provider name.
-   */
-  providerName: string;
-
-  /**
-   * Contains the series address.
-   */
-  seriesAddress: string;
+    /**
+     * Contains the number of read chapters.
+     */
+    numberOfReadChapters: number;
+  }}
 }

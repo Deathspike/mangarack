@@ -32,4 +32,8 @@ export class sectionService {
   static async writeAccountContextAsync(context: mio.IAccountLibraryContext): Promise<void> {
     return fileService().writeObjectAsync('account.json', context);
   }
+
+  static async writeSeriesContextAsync(context: mio.ISeriesLibraryContext): Promise<void> {
+    return fileService().writeObjectAsync('series.json', context);
+  }
 };

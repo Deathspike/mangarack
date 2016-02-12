@@ -1,18 +1,13 @@
-import * as mio from '../../default';
+import * as mio from '../module';
 
 /**
- * Represents a chapter library item.
+ * Represents a chapter library context item.
  */
-export interface IChapterLibraryItem {
+export interface IChapterLibraryContextItem {
   /**
    * Contains the time at which the chapter was added to the library.
    */
   addedAt: number;
-
-  /**
-   * Contains the time at which the chapter was last checked.
-   */
-  checkedAt: number;
 
   /**
    * Contains the time at which the chapter was found to have been deleted by the provider.
@@ -38,14 +33,19 @@ export interface IChapterLibraryItem {
    * Contains the number of pages.
    */
   numberOfPages: number;
-
+  
   /**
-   * Contains the number of read chapters.
+   * Contains user-specifc properties.
    */
-  numberOfReadChapters: number;
+  users: {[accountId: number]: {
+    /**
+     * Contains the number of read pages.
+     */
+    numberOfReadPages: number;
 
-  /**
-   * Contains the time at which a page was most recently read.
-   */
-  pageReadAt: number;
+    /**
+     * Contains the time at which a page was most recently read.
+     */
+    pageReadAt: number;
+  }}
 }

@@ -37,15 +37,15 @@ export class AccountSection implements mio.IAccountLibrary {
    * @return The promise to delete the chapter.
    */
   async deleteAsync(accountId: number): Promise<boolean> {
-    for (let [accountName, account] of mio.entries(this._context.accounts)) {
-      if (account.id === accountId) {
-        /*TODO: Delete all user series, too, to clean up the entire tree of contexts.*/
-        delete this._context.accounts[accountName];
-        await this._saveAsync();
-        return true;
-      }
+    let match = mio.find(this._context.accounts, account => account.id === accountId);
+    if (match.value != null) {
+      /*TODO: Delete all user series, too, to clean up the entire tree of contexts.*/
+      delete this._context.accounts[match.value[0]];
+      await this._saveAsync();
+      return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
   /**
@@ -55,7 +55,8 @@ export class AccountSection implements mio.IAccountLibrary {
    * @return Indicates whether the account name and password combination is valid.
    */
   isValid(accountName: string, password: string): boolean {
-    return mio.entries(this._context.accounts).some(entry => entry[0] === accountName && entry[1].password === password);
+    let match = mio.find(this._context.accounts, (account, key) => key === accountName && account.password === password);
+    return match.value != null;
   }
 
   /**
@@ -64,13 +65,13 @@ export class AccountSection implements mio.IAccountLibrary {
    * @return The promise for the series library for the account.
    */
   async seriesAsync(accountId: number): Promise<mio.IOption<mio.ISeriesLibrary>> {
-    for (let [accountName, account] of mio.entries(this._context.accounts)) {
-      if (account.id === accountId) {
-        let context = await mio.sectionService.getSeriesContextAsync();
-        return mio.option(new mio.SeriesSection(context, accountId));
-      }
+    let match = mio.find(this._context.accounts, account => account.id === accountId);
+    if (match.value != null) {
+      let context = await mio.sectionService.getSeriesContextAsync();
+      return mio.option(new mio.SeriesSection(context, accountId));
+    } else {
+      return mio.option<mio.ISeriesLibrary>();
     }
-    return mio.option<mio.ISeriesLibrary>();
   }
 
   /**
@@ -80,14 +81,14 @@ export class AccountSection implements mio.IAccountLibrary {
    * @return The promise to update the account password.
    */
   async updateAsync(accountId: number, password: string): Promise<boolean> {
-    for (let [accountName, account] of mio.entries(this._context.accounts)) {
-      if (account.id === accountId) {
-        account.password = password;
-        await this._saveAsync();
-        return true;
-      }
+    let match = mio.find(this._context.accounts, account => account.id === accountId);
+    if (match.value != null) {
+      match.value[1].password = password;
+      await this._saveAsync();
+      return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
   /**
@@ -95,14 +96,10 @@ export class AccountSection implements mio.IAccountLibrary {
    * @return The promise for the list of accounts.
    */
   viewAsync(): Promise<mio.IAccountLibraryItem[]> {
-    let result: mio.IAccountLibraryItem[] = [];
-    for (let [accountName, account] of mio.entries(this._context.accounts)) {
-      result.push({
-        accountName: accountName,
-        id: account.id
-      });
-    }
-    return Promise.resolve(result);
+    return Promise.resolve(mio.map(this._context.accounts, (account, accountName) => ({
+      accountName: accountName,
+      id: account.id
+    })));
   }
 
   /**
