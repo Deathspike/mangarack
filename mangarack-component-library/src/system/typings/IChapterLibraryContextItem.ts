@@ -37,7 +37,7 @@ export interface IChapterLibraryContextItem {
   /**
    * Contains user-specifc properties.
    */
-  users: {[accountId: number]: {
+  users: {[userId: number]: {
     /**
      * Contains the number of read pages.
      */

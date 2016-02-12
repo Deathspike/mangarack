@@ -9,16 +9,17 @@ export * from './helpers/find';
 export * from './helpers/map';
 
 // library/system/sections
-export * from './sections/AccountSection';
 export * from './sections/SeriesSection';
+export * from './sections/UserSection';
 
 // library/system/services
 export * from './services/sectionService';
 
 // library/system/typings
-export * from './typings/IAccountLibraryContext';
-export * from './typings/IAccountLibraryContextItem';
+
 export * from './typings/IChapterLibraryContext';
 export * from './typings/IChapterLibraryContextItem';
 export * from './typings/ISeriesLibraryContext';
 export * from './typings/ISeriesLibraryContextItem';
+export * from './typings/IUserLibraryContext';
+export * from './typings/IUserLibraryContextItem';
