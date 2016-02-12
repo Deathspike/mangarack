@@ -13,13 +13,10 @@ export * from './sections/SeriesSection';
 export * from './sections/UserSection';
 
 // library/system/services
-export * from './services/sectionService';
+export * from './services/contextService';
 
 // library/system/typings
-
-export * from './typings/IChapterLibraryContext';
-export * from './typings/IChapterLibraryContextItem';
-export * from './typings/ISeriesLibraryContext';
-export * from './typings/ISeriesLibraryContextItem';
-export * from './typings/IUserLibraryContext';
-export * from './typings/IUserLibraryContextItem';
+export * from './typings/IContext';
+export * from './typings/IContextChapter';
+export * from './typings/IContextSeries';
+export * from './typings/IContextUser';

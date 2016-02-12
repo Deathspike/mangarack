@@ -5,22 +5,22 @@ import * as mio from '../../default';
  */
 export interface ISeriesLibraryItem {
   /**
-   * Contains the time at which the series was added to the library.
+   * Contains the time at which the series was added.
    */
   addedAt: number;
 
   /**
-   * Contains the time at which the most recent chapter was added to the library.
+  * Contains the time at which a chapter was last  added.
    */
   chapterAddedAt: number;
-  
-  /**
-   * Contains the time at which a chapter was most recently read.
-   */
-  chapterReadAt: number;
 
   /**
-   * Contains the time at which the series was last checked.
+  * Contains the time at which a chapter page was last read.
+   */
+  chapterLastReadAt: number;
+
+  /**
+   * Contains the time at which the series was checked.
    */
   checkedAt: number;
 

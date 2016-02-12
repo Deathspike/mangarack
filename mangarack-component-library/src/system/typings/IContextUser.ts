@@ -1,7 +1,7 @@
 /**
- * Represents an user library context item.
+ * Represents a context user.
  */
-export interface IUserLibraryContextItem {
+export interface IContextUser {
   /**
    * Contains the identifier.
    */

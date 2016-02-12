@@ -4,7 +4,7 @@ import * as mio from '../module';
  * Represents a series section.
  */
 export class SeriesSection implements mio.ISeriesLibrary {
-  private _context: mio.ISeriesLibraryContext;
+  private _context: mio.IContext;
   private _userId: number;
 
   /**
@@ -12,7 +12,7 @@ export class SeriesSection implements mio.ISeriesLibrary {
    * @param context The context.
    * @param userId The user identifier.
    */
-  constructor(context: mio.ISeriesLibraryContext, userId: number) {
+  constructor(context: mio.IContext, userId: number) {
     this._context = context;
     this._userId = userId;
   }
@@ -43,9 +43,9 @@ export class SeriesSection implements mio.ISeriesLibrary {
   async deleteAsync(seriesId: number): Promise<boolean> {
     let match = mio.findChild(this._context.providers, provider => provider.series, series => series.id === seriesId);
     if (match.value != null) {
-      /*TODO: Delete all chapters, too, to clean up the entire tree of contexts.*/
+      /* TODO: Delete all chapters, too, to clean up the entire tree of contexts. */
       delete this._context.providers[match.value[0]].series[match.value[1]];
-      await this._saveAsync();
+      await mio.contextService.writeContext();
       return true;
     } else {
       return false;
@@ -67,24 +67,16 @@ export class SeriesSection implements mio.ISeriesLibrary {
    */
   viewAsync(): Promise<mio.ISeriesLibraryItem[]> {
     return Promise.resolve(mio.mapChild(this._context.providers, provider => provider.series, (series, seriesAddress, providerName) => ({
-      addedAt: series.addedAt,
-      chapterAddedAt: series.chapterAddedAt,
-      chapterReadAt: series.users[this._userId].chapterReadAt,
+      addedAt: series.users[this._userId],
+      chapterAddedAt: 0, /* TODO: Add the query. */
+      chapterLastReadAt: 0, /* TODO: Add the query. */
       checkedAt: series.checkedAt,
       id: series.id,
       metadata: series.metadata,
-      numberOfChapters: series.numberOfChapters,
-      numberOfReadChapters: series.users[this._userId].numberOfReadChapters,
+      numberOfChapters: Object.keys(series.chapters).length,
+      numberOfReadChapters: 0, /* TODO: Add the query. */
       providerName: providerName,
       seriesAddress: seriesAddress
     })));
-  }
-
-  /**
-   * Promises to save the context.
-   * @return The promise to save the context.
-   */
-  private _saveAsync(): Promise<void> {
-    return mio.sectionService.writeSeriesContextAsync(this._context);
   }
 }

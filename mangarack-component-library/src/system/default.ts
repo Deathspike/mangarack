@@ -10,7 +10,7 @@ let library = mio.option<mio.UserSection>();
 export async function openLibraryAsync(credentials?: mio.IOption<{userName: string, password: string}>): Promise<mio.IOption<mio.IUserLibrary>> {
   // Check the library and initialize it when applicable.
   if (library.value == null) {
-    let context = await mio.sectionService.getUserContextAsync();
+    let context = await mio.contextService.readContext();
     library = mio.option(new mio.UserSection(context));
   }
 

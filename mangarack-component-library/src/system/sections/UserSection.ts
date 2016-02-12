@@ -4,13 +4,13 @@ import * as mio from '../module';
  * Represents an user section.
  */
 export class UserSection implements mio.IUserLibrary {
-  private _context: mio.IUserLibraryContext;
+  private _context: mio.IContext;
 
   /**
    * Initializes a new instance of the UserSection class.
    * @param context The context.
    */
-  constructor(context: mio.IUserLibraryContext) {
+  constructor(context: mio.IContext) {
     this._context = context;
   }
 
@@ -24,9 +24,9 @@ export class UserSection implements mio.IUserLibrary {
     if (this._context.users[userName]) {
       return mio.option<number>();
     } else {
-      let user = {id: this._context.nextId++, password: password};
+      let user = {id: ++this._context.lastId, password: password};
       this._context.users[userName] = user;
-      await this._saveAsync();
+      await mio.contextService.writeContext();
       return mio.option(user.id);
     }
   }
@@ -39,9 +39,9 @@ export class UserSection implements mio.IUserLibrary {
   async deleteAsync(userId: number): Promise<boolean> {
     let match = mio.find(this._context.users, user => user.id === userId);
     if (match.value != null) {
-      /*TODO: Delete all user series, too, to clean up the entire tree of contexts.*/
+      /* TODO: Delete all user series, too, to clean up the entire tree of contexts. */
       delete this._context.users[match.value[0]];
-      await this._saveAsync();
+      await mio.contextService.writeContext();
       return true;
     } else {
       return false;
@@ -67,8 +67,7 @@ export class UserSection implements mio.IUserLibrary {
   async seriesAsync(userId: number): Promise<mio.IOption<mio.ISeriesLibrary>> {
     let match = mio.find(this._context.users, user => user.id === userId);
     if (match.value != null) {
-      let context = await mio.sectionService.getSeriesContextAsync();
-      return mio.option(new mio.SeriesSection(context, userId));
+      return mio.option(new mio.SeriesSection(this._context, userId));
     } else {
       return mio.option<mio.ISeriesLibrary>();
     }
@@ -84,7 +83,7 @@ export class UserSection implements mio.IUserLibrary {
     let match = mio.find(this._context.users, user => user.id === userId);
     if (match.value != null) {
       match.value[1].password = password;
-      await this._saveAsync();
+      await mio.contextService.writeContext();
       return true;
     } else {
       return false;
@@ -100,13 +99,5 @@ export class UserSection implements mio.IUserLibrary {
       userName: userName,
       id: user.id
     })));
-  }
-
-  /**
-   * Promises to save the context.
-   * @return The promise to save the context.
-   */
-  private _saveAsync(): Promise<void> {
-    return mio.sectionService.writeUserContextAsync(this._context);
   }
 }

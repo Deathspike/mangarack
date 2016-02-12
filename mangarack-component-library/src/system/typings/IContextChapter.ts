@@ -1,9 +1,9 @@
-import * as mio from '../../default';
+import * as mio from '../module';
 
 /**
- * Represents a chapter library item.
+ * Represents a context chapter.
  */
-export interface IChapterLibraryItem {
+export interface IContextChapter {
   /**
    * Contains the time at which the chapter was added.
    */
@@ -25,11 +25,6 @@ export interface IChapterLibraryItem {
   id: number;
 
   /**
-   * Contains the time at which a page was last read.
-   */
-  lastReadAt: mio.IOption<number>;
-
-  /**
    * Contains the metadata.
    */
   metadata: mio.IChapterMetadata;
@@ -40,7 +35,17 @@ export interface IChapterLibraryItem {
   numberOfPages: number;
 
   /**
-   * Contains the number of read pages.
+   * Contains user-specific properties.
    */
-  numberOfReadPages: mio.IOption<number>;
+  users: {[userId: number]: {
+    /**
+     * Contains the time at which a page was last read.
+     */
+    lastReadAt: number;
+
+    /**
+     * Contains the number of read pages.
+     */
+    numberOfReadPages: number;
+  }};
 }
