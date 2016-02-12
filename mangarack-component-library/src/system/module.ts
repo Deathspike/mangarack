@@ -5,7 +5,8 @@ export * from '../default';
 export * from './enumerators/PriorityType';
 
 // library/system/helpers
-export * from './helpers/entries';
+export * from './helpers/find';
+export * from './helpers/map';
 
 // library/system/sections
 export * from './sections/AccountSection';
@@ -16,5 +17,8 @@ export * from './services/sectionService';
 
 // library/system/typings
 export * from './typings/IAccountLibraryContext';
+export * from './typings/IAccountLibraryContextItem';
 export * from './typings/IChapterLibraryContext';
+export * from './typings/IChapterLibraryContextItem';
 export * from './typings/ISeriesLibraryContext';
+export * from './typings/ISeriesLibraryContextItem';
