@@ -4,17 +4,17 @@ import * as mio from '../module';
  * Represents a series section.
  */
 export class SeriesSection implements mio.ISeriesLibrary {
-  private _accountId: number;
   private _context: mio.ISeriesLibraryContext;
+  private _userId: number;
 
   /**
    * Initializes a new instance of the SeriesSection class.
    * @param context The context.
-   * @param accountId The account identifier.
+   * @param userId The user identifier.
    */
-  constructor(context: mio.ISeriesLibraryContext, accountId: number) {
-    this._accountId = accountId;
+  constructor(context: mio.ISeriesLibraryContext, userId: number) {
     this._context = context;
+    this._userId = userId;
   }
 
   /**
@@ -69,12 +69,12 @@ export class SeriesSection implements mio.ISeriesLibrary {
     return Promise.resolve(mio.mapChild(this._context.providers, provider => provider.series, (series, seriesAddress, providerName) => ({
       addedAt: series.addedAt,
       chapterAddedAt: series.chapterAddedAt,
-      chapterReadAt: series.users[this._accountId].chapterReadAt,
+      chapterReadAt: series.users[this._userId].chapterReadAt,
       checkedAt: series.checkedAt,
       id: series.id,
       metadata: series.metadata,
       numberOfChapters: series.numberOfChapters,
-      numberOfReadChapters: series.users[this._accountId].numberOfReadChapters,
+      numberOfReadChapters: series.users[this._userId].numberOfReadChapters,
       providerName: providerName,
       seriesAddress: seriesAddress
     })));

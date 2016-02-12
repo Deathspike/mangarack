@@ -11,12 +11,12 @@ export class sectionService {
   /*TODO: Change `sectionService` to object, instead of class, but somehow, that trips up TypeScript. Not sure why...*/
   /*TODO: Ensure that only a single instance of each object is around. Sections assume these are singleton'd and saves are concurrent-safe.*/
 
-  static async getAccountContextAsync(): Promise<mio.IAccountLibraryContext> {
-    let context = await fileService().readObjectAsync<mio.IAccountLibraryContext>('account.json');
+  static async getUserContextAsync(): Promise<mio.IUserLibraryContext> {
+    let context = await fileService().readObjectAsync<mio.IUserLibraryContext>('user.json');
     if (context.value != null) {
       return context.value;
     } else {
-      return {accounts: {admin: {id: 1, password: 'admin'}} as any, nextId: 2};
+      return {users: {admin: {id: 1, password: 'admin'}} as any, nextId: 2};
     }
   }
 
@@ -29,8 +29,8 @@ export class sectionService {
     }
   }
 
-  static async writeAccountContextAsync(context: mio.IAccountLibraryContext): Promise<void> {
-    return fileService().writeObjectAsync('account.json', context);
+  static async writeUserContextAsync(context: mio.IUserLibraryContext): Promise<void> {
+    return fileService().writeObjectAsync('user.json', context);
   }
 
   static async writeSeriesContextAsync(context: mio.ISeriesLibraryContext): Promise<void> {

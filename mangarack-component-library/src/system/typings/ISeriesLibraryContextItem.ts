@@ -37,7 +37,7 @@ export interface ISeriesLibraryContextItem {
   /**
    * Contains user-specifc properties.
    */
-  users: {[accountId: number]: {
+  users: {[userId: number]: {
     /**
      * Contains the time at which a chapter was most recently read.
      */
