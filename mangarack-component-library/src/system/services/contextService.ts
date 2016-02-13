@@ -24,7 +24,7 @@ export class contextService {
           readContext = mio.option<mio.IContext>({
             lastId: 1,
             providers: {},
-            users: {admin: {id: 1, password: 'admin'}}
+            password: mio.option<string>()
           });
         }
       }

@@ -5,6 +5,11 @@ import * as mio from '../module';
  */
 export interface IContextSeries {
   /**
+   * Contains the time at which the series was added.
+   */
+  addedAt: number;
+
+  /**
    * Contains each chapter.
    */
   chapters: {[metadataDerivedKey: string]: mio.IContextChapter};
@@ -23,9 +28,4 @@ export interface IContextSeries {
    * Contains the metadata.
    */
   metadata: mio.ISeriesMetadata;
-
-  /**
-   * Contains the time at which the series was added for each user.
-   */
-  users: {[userId: number]: number}
 }

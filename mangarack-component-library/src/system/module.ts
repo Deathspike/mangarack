@@ -11,7 +11,6 @@ export * from './helpers/map';
 
 // library/system/sections
 export * from './sections/SeriesSection';
-export * from './sections/UserSection';
 
 // library/system/services
 export * from './services/contextService';
@@ -21,4 +20,3 @@ export * from './services/taskService';
 export * from './typings/IContext';
 export * from './typings/IContextChapter';
 export * from './typings/IContextSeries';
-export * from './typings/IContextUser';

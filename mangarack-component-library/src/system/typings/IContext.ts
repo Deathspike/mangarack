@@ -10,6 +10,11 @@ export interface IContext {
   lastId: number;
 
   /**
+   * Contains the password.
+   */
+  password: mio.IOption<string>;
+
+  /**
    * Contains each provider.
    */
   providers: {[providerName: string]: {
@@ -18,9 +23,4 @@ export interface IContext {
      */
     series: {[seriesAddress: string]: mio.IContextSeries}
   }};
-
-  /**
-   * Contains each user.
-   */
-  users: {[userName: string]: mio.IContextUser};
 }
