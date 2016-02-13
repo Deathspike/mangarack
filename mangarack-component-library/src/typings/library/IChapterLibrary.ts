@@ -12,18 +12,18 @@ export interface IChapterLibrary {
   deleteAsync(chapterId: number): Promise<boolean>;
 
   /**
-   * Promises to enqueue a high priority download for the series.
-   * @param recursive If true, enqueues low priority downloads for new chapters.
-   * @return The promise to enqueue a high priority download for the series.
-   */
-  downloadAsync(recursive: boolean): Promise<mio.IOption<number>>;
-
-  /**
-   * Promises a page library for the chapter.
+   * Promises the page library.
    * @param chapterId The chapter identifier.
-   * @return The promise for the page library for the chapter.
+   * @return The promise for the page library.
    */
   pagesAsync(chapterId: number): Promise<mio.IOption<mio.IPageLibrary>>;
+
+  /**
+   * Promises to update the series.
+   * @param enqueueNewChapters If true, enqueues new chapters for download.
+   * @return The promise to update the series.
+   */
+  updateAsync(enqueueNewChapters: boolean): Promise<void>;
 
   /**
    * Promises a list of chapters.

@@ -5,11 +5,13 @@ export * from '../default';
 export * from './enumerators/PriorityType';
 
 // library/system/helpers
-export * from './helpers/clone';
+export * from './helpers/adapt';
+export * from './helpers/copy';
 export * from './helpers/find';
 export * from './helpers/map';
 
 // library/system/sections
+export * from './sections/ChapterSection';
 export * from './sections/SeriesSection';
 
 // library/system/services

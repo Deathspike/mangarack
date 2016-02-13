@@ -1,11 +1,11 @@
 import * as mio from '../module';
 
 /**
- * Clones chapter metadata.
+ * Copies chapter metadata.
  * @param metadata The metadata.
- * @return The metadata clone.
+ * @return The metadata copy.
  */
-export function cloneChapter(metadata: mio.IChapterMetadata): mio.IChapterMetadata {
+export function copyChapterMetadata(metadata: mio.IChapterMetadata): mio.IChapterMetadata {
   return {
     number: metadata.number,
     title: metadata.title,
@@ -15,11 +15,11 @@ export function cloneChapter(metadata: mio.IChapterMetadata): mio.IChapterMetada
 }
 
 /**
- * Clones series metadata.
+ * Copies series metadata.
  * @param metadata The metadata.
- * @return The metadata clone.
+ * @return The metadata copy.
  */
-export function cloneSeries(metadata: mio.ISeriesMetadata): mio.ISeriesMetadata {
+export function copySeriesMetadata(metadata: mio.ISeriesMetadata): mio.ISeriesMetadata {
   return {
     artists: metadata.artists,
     authors: metadata.authors,
