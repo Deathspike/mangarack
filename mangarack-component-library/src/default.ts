@@ -10,6 +10,4 @@ export * from './typings/library/IChapterLibraryItem';
 export * from './typings/library/IPageLibrary';
 export * from './typings/library/ISeriesLibrary';
 export * from './typings/library/ISeriesLibraryItem';
-export * from './typings/library/IUserLibrary';
-export * from './typings/library/IUserLibraryItem';
 export * from './typings/services/IFileService';

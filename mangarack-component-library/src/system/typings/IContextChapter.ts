@@ -25,6 +25,11 @@ export interface IContextChapter {
   id: number;
 
   /**
+   * Contains the time at which a page was last read.
+   */
+  lastReadAt: mio.IOption<number>;
+
+  /**
    * Contains the metadata.
    */
   metadata: mio.IChapterMetadata;
@@ -35,17 +40,7 @@ export interface IContextChapter {
   numberOfPages: mio.IOption<number>;
 
   /**
-   * Contains user-specific properties.
+   * Contains the number of read pages.
    */
-  users: {[userId: number]: {
-    /**
-     * Contains the time at which a page was last read.
-     */
-    lastReadAt: number;
-
-    /**
-     * Contains the number of read pages.
-     */
-    numberOfReadPages: number;
-  }};
+  numberOfReadPages: mio.IOption<number>;
 }

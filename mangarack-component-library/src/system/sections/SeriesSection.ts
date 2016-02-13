@@ -5,16 +5,13 @@ import * as mio from '../module';
  */
 export class SeriesSection implements mio.ISeriesLibrary {
   private _context: mio.IContext;
-  private _userId: number;
 
   /**
    * Initializes a new instance of the SeriesSection class.
    * @param context The context.
-   * @param userId The user identifier.
    */
-  constructor(context: mio.IContext, userId: number) {
+  constructor(context: mio.IContext) {
     this._context = context;
-    this._userId = userId;
   }
 
   /**
@@ -45,17 +42,12 @@ export class SeriesSection implements mio.ISeriesLibrary {
       if (!this._context.providers[provider.name].series[address]) {
         let series = await provider.seriesAsync(address);
         this._context.providers[provider.name].series[address] = {
+          addedAt: Date.now(),
           chapters: {}, /* TODO: Fill the initial chapters. */
           checkedAt: Date.now(),
           id: ++this._context.lastId,
-          metadata: mio.cloneSeries(series),
-          users: {}
+          metadata: mio.cloneSeries(series)
         };
-      }
-
-      // Create the user when applicable.
-      if (!this._context.providers[provider.name].series[address].users[this._userId]) {
-        this._context.providers[provider.name].series[address].users[this._userId] = Date.now();
       }
 
       // Return the series identifier.
@@ -95,7 +87,7 @@ export class SeriesSection implements mio.ISeriesLibrary {
    */
   viewAsync(): Promise<mio.ISeriesLibraryItem[]> {
     return Promise.resolve(mio.mapChild(this._context.providers, provider => provider.series, (series, seriesAddress, providerName) => ({
-      addedAt: series.users[this._userId],
+      addedAt: series.addedAt,
       chapterAddedAt: 0, /* TODO: Add the query. */
       chapterLastReadAt: 0, /* TODO: Add the query. */
       checkedAt: series.checkedAt,
