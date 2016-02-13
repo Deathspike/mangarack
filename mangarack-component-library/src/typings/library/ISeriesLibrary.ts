@@ -14,9 +14,10 @@ export interface ISeriesLibrary {
   /**
    * Promises to create the series.
    * @param address The address.
+   * @param recursive If true, enqueues low priority downloads for new chapters.
    * @return The promise to create the series.
    */
-  createAsync(address: string): Promise<mio.IOption<number>>;
+  createAsync(address: string, recursive: boolean): Promise<mio.IOption<number>>;
 
   /**
    * Promises to delete the series.
@@ -26,9 +27,9 @@ export interface ISeriesLibrary {
   deleteAsync(seriesId: number): Promise<boolean>;
 
   /**
-   * Promises to enqueue a high priority download for the library.
+   * Promises to enqueue a normal priority download for the library.
    * @param recursive If true, enqueues low priority downloads for new chapters.
-   * @return The promise to enqueue a high priority download for the library.
+   * @return The promise to enqueue a normal priority download for the library.
    */
   downloadAsync(recursive: boolean): Promise<mio.IOption<number>>;
 

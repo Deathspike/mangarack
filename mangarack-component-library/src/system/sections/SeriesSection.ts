@@ -29,10 +29,38 @@ export class SeriesSection implements mio.ISeriesLibrary {
   /**
    * Promises to create the series.
    * @param address The address.
+   * @param recursive If true, enqueues low priority downloads for new chapters.
    * @return The promise to create the series.
    */
-  createAsync(address: string): Promise<mio.IOption<number>> {
-    throw new Error('TODO: Not implemented');
+  async createAsync(address: string, recursive: boolean): Promise<mio.IOption<number>> {
+    return await mio.taskService.enqueue(mio.PriorityType.High, async () => {
+      let provider = mio.openProvider(address);
+
+      // Create the provider when applicable.
+      if (!this._context.providers[provider.name]) {
+        this._context.providers[provider.name] = {series: {}};
+      }
+
+      // Create the series when applicable.
+      if (!this._context.providers[provider.name].series[address]) {
+        let series = await provider.seriesAsync(address);
+        this._context.providers[provider.name].series[address] = {
+          chapters: {}, /* TODO: Fill the initial chapters. */
+          checkedAt: Date.now(),
+          id: ++this._context.lastId,
+          metadata: mio.cloneSeries(series),
+          users: {}
+        };
+      }
+
+      // Create the user when applicable.
+      if (!this._context.providers[provider.name].series[address].users[this._userId]) {
+        this._context.providers[provider.name].series[address].users[this._userId] = Date.now();
+      }
+
+      // Return the series identifier.
+      return mio.option(this._context.providers[provider.name].series[address].id);
+    });
   }
 
   /**
@@ -53,9 +81,9 @@ export class SeriesSection implements mio.ISeriesLibrary {
   }
 
   /**
-   * Promises to enqueue a high priority download for the library.
+   * Promises to enqueue a normal priority download for the library.
    * @param recursive If true, enqueues low priority downloads for new chapters.
-   * @return The promise to enqueue a high priority download for the library.
+   * @return The promise to enqueue a normal priority download for the library.
    */
   downloadAsync(recursive: boolean): Promise<mio.IOption<number>> {
     throw new Error('TODO: Not implemented');

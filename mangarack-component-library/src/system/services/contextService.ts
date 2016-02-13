@@ -1,8 +1,8 @@
 /* TODO: Change `contextService` to object, instead of class, but somehow, that trips up TypeScript. Why? */
 import * as mio from '../module';
-let filePath = 'context.json';
 let fileService = mio.dependency.get<mio.IFileService>('IFileService');
-let singletonContext = mio.option<mio.IContext>();
+let readContext = mio.option<mio.IContext>();
+let readPath = 'context.json';
 let writePromise = mio.option<Promise<void>>();
 let writeQueue = 0;
 
@@ -15,21 +15,21 @@ export class contextService {
    * @return The promise for the context.
    */
   static async readContext(): Promise<mio.IContext> {
-    if (singletonContext.value == null) {
-      let context = singletonContext = await fileService().readObjectAsync<mio.IContext>(filePath);
-      if (singletonContext.value == null) {
-        if (context.value != null) {
-          singletonContext = context;
+    if (readContext.value == null) {
+      let fileContext = readContext = await fileService().readObjectAsync<mio.IContext>(readPath);
+      if (readContext.value == null) {
+        if (fileContext.value != null) {
+          readContext = fileContext;
         } else {
-          singletonContext = mio.option({
+          readContext = mio.option<mio.IContext>({
             lastId: 1,
-            providers: {} as any,
-            users: {admin: {id: 1, password: 'admin'}} as any
+            providers: {},
+            users: {admin: {id: 1, password: 'admin'}}
           });
         }
       }
     }
-    return singletonContext.value;
+    return readContext.value;
   }
 
   /**
@@ -44,8 +44,8 @@ export class contextService {
       if (writeQueue === 0) {
         await this.writeContext();
       }
-    } else if (singletonContext.value != null) {
-      writePromise = mio.option(fileService().writeObjectAsync(filePath, singletonContext));
+    } else if (readContext.value != null) {
+      writePromise = mio.option(fileService().writeObjectAsync(readPath, readContext));
       await writePromise.value;
       writePromise = mio.option<Promise<void>>();
     }
