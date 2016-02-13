@@ -1,4 +1,5 @@
 import * as mio from '../module';
+let fileService = mio.dependency.get<mio.IFileService>('IFileService');
 
 /**
  * Represents a series section.
@@ -38,16 +39,16 @@ export class SeriesSection implements mio.ISeriesLibrary {
       // Initialize the provider.
       let provider = mio.openProvider(seriesAddress);
 
-      // Check if the provider exists.
+      // Create the provider when applicable.
       if (!this._context.providers[provider.name]) {
         this._context.providers[provider.name] = {series: {}};
       }
 
-      // Check if the series exists.
+      // Create the series when applicable.
       if (this._context.providers[provider.name].series[seriesAddress]) {
         return mio.option(this._context.providers[provider.name].series[seriesAddress].id)
       } else {
-        // Initialize the identifier and series.
+        // Fetch the series.
         let id = ++this._context.lastId;
         let series = await provider.seriesAsync(seriesAddress);
 
@@ -75,8 +76,8 @@ export class SeriesSection implements mio.ISeriesLibrary {
   async deleteAsync(seriesId: number): Promise<boolean> {
     let match = mio.findChild(this._context.providers, provider => provider.series, series => series.id === seriesId);
     if (match.value != null) {
-      /* TODO: Delete all chapters, too, to clean up the entire tree of contexts. */
       delete this._context.providers[match.value[0]].series[match.value[1]];
+      await fileService().deleteAsync(mio.pathOfSeries(seriesId));
       await mio.contextService.writeContext();
       return true;
     } else {
@@ -103,11 +104,20 @@ export class SeriesSection implements mio.ISeriesLibrary {
   }
 
   /**
+   * Promises the preview image.
+   * @param seriesId The series identifier.
+   * @return The promise for the preview image.
+   */
+  previewImageAsync(seriesId: number): Promise<mio.IOption<mio.IBlob>> {
+    return fileService().readBlobAsync(mio.pathOfSeriesPreviewImage(seriesId));
+  }
+
+  /**
    * Promises a list of series.
    * @return The promise for the list of series.
    */
   viewAsync(): Promise<mio.ISeriesLibraryItem[]> {
-    return Promise.resolve(mio.mapArrayChild(this._context.providers, provider => provider.series, (series, seriesAddress, providerName) => ({
+    let result = mio.mapArrayChild(this._context.providers, provider => provider.series, (series, seriesAddress, providerName) => ({
       addedAt: series.addedAt,
       chapterAddedAt: 0, /* TODO: Add the query. */
       chapterLastReadAt: 0, /* TODO: Add the query. */
@@ -118,6 +128,7 @@ export class SeriesSection implements mio.ISeriesLibrary {
       numberOfReadChapters: 0, /* TODO: Add the query. */
       providerName: providerName,
       seriesAddress: seriesAddress
-    })));
+    }));
+    return Promise.resolve(result);
   }
 }

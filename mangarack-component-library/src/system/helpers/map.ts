@@ -6,14 +6,14 @@ import * as mio from '../module';
  * @param mapper The mapper.
  * @return The mapped array.
  */
-/*export function mapArray<TP, TR>(collection: {[key: string]: TP}, mapper: (value: TP, key: string) => TR): TR[] {
+export function mapArray<TP, TR>(collection: {[key: string]: TP}, mapper: (value: TP, key: string) => TR): TR[] {
   let result: TR[] = [];
   for (let key in collection) {
     let value = collection[key];
     result.push(mapper(value, key));
   }
   return result;
-}*/
+}
 
 /**
  * Maps the child collection to an array.

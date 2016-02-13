@@ -26,6 +26,13 @@ export interface ISeriesLibrary {
   deleteAsync(seriesId: number): Promise<boolean>;
 
   /**
+   * Promises the preview image.
+   * @param seriesId The series identifier.
+   * @return The promise for the preview image.
+   */
+  previewImageAsync(seriesId: number): Promise<mio.IOption<mio.IBlob>>;
+
+  /**
    * Promises to update each series.
    * @param enqueueNewChapters If true, enqueues new chapters for download.
    * @return The promise to update each series.

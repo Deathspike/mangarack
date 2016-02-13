@@ -9,6 +9,7 @@ export * from './helpers/adapt';
 export * from './helpers/copy';
 export * from './helpers/find';
 export * from './helpers/map';
+export * from './helpers/path';
 
 // library/system/sections
 export * from './sections/ChapterSection';
