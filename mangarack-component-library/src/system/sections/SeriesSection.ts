@@ -15,23 +15,29 @@ export class SeriesSection implements mio.ISeriesLibrary {
   }
 
   /**
-   * Promises a chapter library for the series.
+   * Promises the chapter library.
    * @param seriesId The series identifier.
-   * @return The promise for the chapter library for the series.
+   * @return The promise for the chapter library.
    */
   chaptersAsync(seriesId: number): Promise<mio.IOption<mio.IChapterLibrary>> {
-    throw new Error('TODO: Not implemented');
+    let match = mio.findChild(this._context.providers, provider => provider.series, series => series.id === seriesId);
+    if (match.value != null) {
+      return Promise.resolve(mio.option(new mio.ChapterSection(match.value[2])));
+    } else {
+      return Promise.resolve(mio.option<mio.IChapterLibrary>());
+    }
   }
 
   /**
    * Promises to create the series.
-   * @param address The address.
-   * @param recursive If true, enqueues low priority downloads for new chapters.
+   * @param seriesAddress The series address.
    * @return The promise to create the series.
    */
-  async createAsync(address: string, recursive: boolean): Promise<mio.IOption<number>> {
-    return await mio.taskService.enqueue(mio.PriorityType.High, async () => {
-      let provider = mio.openProvider(address);
+  async createAsync(seriesAddress: string): Promise<mio.IOption<number>> {
+    return await mio.taskService.enqueue(mio.PriorityType.High, async function(): Promise<mio.IOption<number>> {
+      // Initialize the provider and series.
+      let provider = mio.openProvider(seriesAddress);
+      let series = await provider.seriesAsync(seriesAddress);
 
       // Create the provider when applicable.
       if (!this._context.providers[provider.name]) {
@@ -39,19 +45,18 @@ export class SeriesSection implements mio.ISeriesLibrary {
       }
 
       // Create the series when applicable.
-      if (!this._context.providers[provider.name].series[address]) {
-        let series = await provider.seriesAsync(address);
-        this._context.providers[provider.name].series[address] = {
+      if (!this._context.providers[provider.name].series[seriesAddress]) {
+        this._context.providers[provider.name].series[seriesAddress] = {
           addedAt: Date.now(),
-          chapters: {}, /* TODO: Fill the initial chapters. */
+          chapters: mio.mapObject(series.chapters, mio.adaptChapterToKey, mio.adaptChapterToContext),
           checkedAt: Date.now(),
           id: ++this._context.lastId,
-          metadata: mio.cloneSeries(series)
+          metadata: mio.copySeriesMetadata(series)
         };
       }
 
       // Return the series identifier.
-      return mio.option(this._context.providers[provider.name].series[address].id);
+      return mio.option(this._context.providers[provider.name].series[seriesAddress].id);
     });
   }
 
@@ -73,12 +78,21 @@ export class SeriesSection implements mio.ISeriesLibrary {
   }
 
   /**
-   * Promises to enqueue a normal priority download for the library.
-   * @param recursive If true, enqueues low priority downloads for new chapters.
-   * @return The promise to enqueue a normal priority download for the library.
+   * Promises to update each series.
+   * @param enqueueNewChapters If true, enqueues new chapters for download.
+   * @return The promise to update each series.
    */
-  downloadAsync(recursive: boolean): Promise<mio.IOption<number>> {
-    throw new Error('TODO: Not implemented');
+  async updateAsync(enqueueNewChapters: boolean): Promise<void> {
+    for (let providerName in this._context.providers) {
+      let provider = this._context.providers[providerName];
+      for (let seriesAddress in provider.series) {
+        let series = provider.series[seriesAddress];
+        let section = await this.chaptersAsync(series.id);
+        if (section.value != null) {
+          await section.value.updateAsync(enqueueNewChapters);
+        }
+      }
+    }
   }
 
   /**
@@ -86,7 +100,7 @@ export class SeriesSection implements mio.ISeriesLibrary {
    * @return The promise for the list of series.
    */
   viewAsync(): Promise<mio.ISeriesLibraryItem[]> {
-    return Promise.resolve(mio.mapChild(this._context.providers, provider => provider.series, (series, seriesAddress, providerName) => ({
+    return Promise.resolve(mio.mapArrayChild(this._context.providers, provider => provider.series, (series, seriesAddress, providerName) => ({
       addedAt: series.addedAt,
       chapterAddedAt: 0, /* TODO: Add the query. */
       chapterLastReadAt: 0, /* TODO: Add the query. */

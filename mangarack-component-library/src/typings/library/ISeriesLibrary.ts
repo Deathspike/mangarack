@@ -5,19 +5,18 @@ import * as mio from '../../default';
  */
 export interface ISeriesLibrary {
   /**
-   * Promises a chapter library for the series.
+   * Promises the chapter library.
    * @param seriesId The series identifier.
-   * @return The promise for the chapter library for the series.
+   * @return The promise for the chapter library.
    */
   chaptersAsync(seriesId: number): Promise<mio.IOption<mio.IChapterLibrary>>;
 
   /**
    * Promises to create the series.
-   * @param address The address.
-   * @param recursive If true, enqueues low priority downloads for new chapters.
+   * @param seriesAddress The series address.
    * @return The promise to create the series.
    */
-  createAsync(address: string, recursive: boolean): Promise<mio.IOption<number>>;
+  createAsync(seriesAddress: string): Promise<mio.IOption<number>>;
 
   /**
    * Promises to delete the series.
@@ -27,11 +26,11 @@ export interface ISeriesLibrary {
   deleteAsync(seriesId: number): Promise<boolean>;
 
   /**
-   * Promises to enqueue a normal priority download for the library.
-   * @param recursive If true, enqueues low priority downloads for new chapters.
-   * @return The promise to enqueue a normal priority download for the library.
+   * Promises to update each series.
+   * @param enqueueNewChapters If true, enqueues new chapters for download.
+   * @return The promise to update each series.
    */
-  downloadAsync(recursive: boolean): Promise<mio.IOption<number>>;
+  updateAsync(enqueueNewChapters: boolean): Promise<void>;
 
   /**
    * Promises a list of series.

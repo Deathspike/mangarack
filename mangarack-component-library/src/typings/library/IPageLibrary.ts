@@ -5,10 +5,10 @@ import * as mio from '../../default';
  */
 export interface IPageLibrary {
   /**
-   * Promises to enqueue a high priority download for the chapter.
-   * @return The promise to enqueue a high priority download for the chapter.
+   * Promises to download the pages.
+   * @return The promise to download the pages.
    */
-  downloadAsync(): Promise<mio.IOption<number>>;
+  downloadAsync(): Promise<void>;
 
   /**
    * Promises the image.
@@ -18,9 +18,9 @@ export interface IPageLibrary {
   imageAsync(pageNumber: number): Promise<mio.IOption<mio.IBlob>>;
 
   /**
-   * Promises to update the number of read pages.
+   * Promises to set the number of read pages status.
    * @param numberOfReadPages The number of read pages.
-   * @return The promise to update the number of read pages.
+   * @return The promise to set the number of read pages status.
    */
-  updateAsync(numberOfReadPages: number): Promise<boolean>;
+  statusAsync(numberOfReadPages: number): Promise<boolean>;
 }

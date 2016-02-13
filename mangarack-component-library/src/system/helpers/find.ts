@@ -8,11 +8,9 @@ import * as mio from '../module';
  */
 export function find<T>(collection: {[key: string]: T}, finder: (value: T, key: string) => boolean): mio.IOption<[string, T]> {
   for (let key in collection) {
-    if (collection.hasOwnProperty(key)) {
-      let value = collection[key];
-      if (finder(value, key)) {
-        return mio.option<[string, T]>([key, value]);
-      }
+    let value = collection[key];
+    if (finder(value, key)) {
+      return mio.option<[string, T]>([key, value]);
     }
   }
   return mio.option<[string, T]>();
@@ -30,11 +28,9 @@ export function findChild<TP, TC>(
   selector: (value: TP, key: string) => {[key: string]: TC},
   finder: (value: TC, key: string) => boolean): mio.IOption<[string, string, TC]> {
   for (let key in collection) {
-    if (collection.hasOwnProperty(key)) {
-      let match = find(selector(collection[key], key), finder);
-      if (match.value != null) {
-        return mio.option<[string, string, TC]>([key, match.value[0], match.value[1]]);
-      }
+    let match = find(selector(collection[key], key), finder);
+    if (match.value != null) {
+      return mio.option<[string, string, TC]>([key, match.value[0], match.value[1]]);
     }
   }
   return mio.option<[string, string, TC]>();
