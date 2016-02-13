@@ -35,28 +35,35 @@ export class SeriesSection implements mio.ISeriesLibrary {
    */
   async createAsync(seriesAddress: string): Promise<mio.IOption<number>> {
     return await mio.taskService.enqueue(mio.PriorityType.High, async function(): Promise<mio.IOption<number>> {
-      // Initialize the provider and series.
+      // Initialize the provider.
       let provider = mio.openProvider(seriesAddress);
-      let series = await provider.seriesAsync(seriesAddress);
 
-      // Create the provider when applicable.
+      // Check if the provider exists.
       if (!this._context.providers[provider.name]) {
         this._context.providers[provider.name] = {series: {}};
       }
 
-      // Create the series when applicable.
-      if (!this._context.providers[provider.name].series[seriesAddress]) {
+      // Check if the series exists.
+      if (this._context.providers[provider.name].series[seriesAddress]) {
+        return mio.option(this._context.providers[provider.name].series[seriesAddress].id)
+      } else {
+        // Initialize the identifier and series.
+        let id = ++this._context.lastId;
+        let series = await provider.seriesAsync(seriesAddress);
+
+        // Add the series.
         this._context.providers[provider.name].series[seriesAddress] = {
           addedAt: Date.now(),
           chapters: mio.mapObject(series.chapters, mio.adaptChapterToKey, mio.adaptChapterToContext),
           checkedAt: Date.now(),
-          id: ++this._context.lastId,
+          id: id,
           metadata: mio.copySeriesMetadata(series)
         };
-      }
 
-      // Return the series identifier.
-      return mio.option(this._context.providers[provider.name].series[seriesAddress].id);
+        // Save the context.
+        await mio.contextService.writeContext();
+        return mio.option(id);
+      }
     });
   }
 
