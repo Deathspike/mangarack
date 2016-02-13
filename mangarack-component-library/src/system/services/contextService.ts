@@ -1,8 +1,7 @@
 /* TODO: Change `contextService` to object, instead of class, but somehow, that trips up TypeScript. Why? */
 import * as mio from '../module';
+let globalContext = mio.option<mio.IContext>();
 let fileService = mio.dependency.get<mio.IFileService>('IFileService');
-let readContext = mio.option<mio.IContext>();
-let readPath = 'context.json';
 let writePromise = mio.option<Promise<void>>();
 let writeQueue = 0;
 
@@ -15,13 +14,13 @@ export class contextService {
    * @return The promise for the context.
    */
   static async readContext(): Promise<mio.IContext> {
-    if (readContext.value == null) {
-      let fileContext = readContext = await fileService().readObjectAsync<mio.IContext>(readPath);
-      if (readContext.value == null) {
+    if (globalContext.value == null) {
+      let fileContext = globalContext = await fileService().readObjectAsync<mio.IContext>(mio.pathOf());
+      if (globalContext.value == null) {
         if (fileContext.value != null) {
-          readContext = fileContext;
+          globalContext = fileContext;
         } else {
-          readContext = mio.option<mio.IContext>({
+          globalContext = mio.option<mio.IContext>({
             lastId: 1,
             providers: {},
             password: mio.option<string>()
@@ -29,7 +28,7 @@ export class contextService {
         }
       }
     }
-    return readContext.value;
+    return globalContext.value;
   }
 
   /**
@@ -44,8 +43,8 @@ export class contextService {
       if (writeQueue === 0) {
         await this.writeContext();
       }
-    } else if (readContext.value != null) {
-      writePromise = mio.option(fileService().writeObjectAsync(readPath, readContext));
+    } else if (globalContext.value != null) {
+      writePromise = mio.option(fileService().writeObjectAsync(mio.pathOf(), globalContext));
       await writePromise.value;
       writePromise = mio.option<Promise<void>>();
     }

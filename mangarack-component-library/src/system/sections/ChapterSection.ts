@@ -1,4 +1,5 @@
 import * as mio from '../module';
+let fileService = mio.dependency.get<mio.IFileService>('IFileService');
 
 /**
  * Represents a series section.
@@ -19,8 +20,16 @@ export class ChapterSection implements mio.IChapterLibrary {
    * @param chapterId The chapter identifier.
    * @return The promise to delete the chapter.
    */
-  deleteAsync(chapterId: number): Promise<boolean> {
-    throw new Error('TODO: Not implemented');
+  async deleteAsync(chapterId: number): Promise<boolean> {
+    let match = mio.find(this._context.chapters, chapter => chapter.id === chapterId);
+    if (match.value != null) {
+      match.value[1].downloadedAt = mio.option<number>();
+      await fileService().deleteAsync(mio.pathOfChapter(this._context.id, chapterId));
+      await mio.contextService.writeContext();
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -38,6 +47,7 @@ export class ChapterSection implements mio.IChapterLibrary {
    * @return The promise to update the series.
    */
   updateAsync(enqueueNewChapters: boolean): Promise<void> {
+    // Also get the preview image of the series.
     throw new Error('TODO: Not implemented');
   }
 
@@ -46,6 +56,6 @@ export class ChapterSection implements mio.IChapterLibrary {
    * @return The promise for the list of chapters.
    */
   viewAsync(): Promise<mio.IChapterLibraryItem[]> {
-    throw new Error('TODO: Not implemented');
+    return Promise.resolve(mio.mapArray(this._context.chapters, chapter => chapter));
   }
 }
