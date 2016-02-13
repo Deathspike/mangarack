@@ -32,7 +32,7 @@ export interface IContextChapter {
   /**
    * Contains the number of pages.
    */
-  numberOfPages: number;
+  numberOfPages: mio.IOption<number>;
 
   /**
    * Contains user-specific properties.

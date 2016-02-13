@@ -37,7 +37,7 @@ export interface IChapterLibraryItem {
   /**
    * Contains the number of pages.
    */
-  numberOfPages: number;
+  numberOfPages: mio.IOption<number>;
 
   /**
    * Contains the number of read pages.
