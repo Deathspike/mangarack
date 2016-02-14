@@ -1,4 +1,5 @@
 /* TODO: Change `contextService` to object, instead of class, but somehow, that trips up TypeScript. Why? */
+'use strict';
 import * as mio from '../module';
 let context = mio.option<mio.IContext>();
 let fileService = mio.dependency.get<mio.IFileService>('IFileService');
