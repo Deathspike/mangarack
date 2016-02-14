@@ -1,16 +1,16 @@
 import * as mio from './module';
-let library = mio.option<mio.SeriesSection>();
+let library = mio.option<mio.ILibrary>();
 
 /**
  * Promises the library.
  * @param password= The password.
  * @return The promise for the library.
  */
-export async function openLibraryAsync(password?: mio.IOption<string>): Promise<mio.IOption<mio.ISeriesLibrary>> {
+export async function openLibraryAsync(password?: mio.IOption<string>): Promise<mio.IOption<mio.ILibrary>> {
   // Check the library and initialize it when applicable.
   if (library.value == null) {
     let context = await mio.contextService.readContext();
-    library = mio.option(new mio.SeriesSection(context));
+    library = mio.option(new mio.Library(context));
   }
 
   // Check the password and authenticate when applicable.

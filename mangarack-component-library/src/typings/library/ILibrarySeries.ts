@@ -1,9 +1,9 @@
 import * as mio from '../../default';
 
 /**
- * Represents a series library item.
+ * Represents a library series.
  */
-export interface ISeriesLibraryItem {
+export interface ILibrarySeries {
   /**
    * Contains the time at which the series was added.
    */

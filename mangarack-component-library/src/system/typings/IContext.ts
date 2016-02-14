@@ -17,10 +17,5 @@ export interface IContext {
   /**
    * Contains each provider.
    */
-  providers: {[providerName: string]: {
-    /**
-     * Contains each series.
-     */
-    series: {[seriesAddress: string]: mio.IContextSeries}
-  }};
+  providers: {[providerName: string]: mio.IContextProvider};
 }

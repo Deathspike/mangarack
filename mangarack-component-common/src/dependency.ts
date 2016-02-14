@@ -17,8 +17,9 @@ export let dependency = {
       resolvers[key] = () => {
         if (!resolved && !dependencies[key]) {
           throw new Error(`Dependency does not exist: ${key}`);
+        } else {
+          return resolved || (resolved = dependencies[key]);
         }
-        return resolved || (resolved = dependencies[key]);
       };
     }
     return resolvers[key];
