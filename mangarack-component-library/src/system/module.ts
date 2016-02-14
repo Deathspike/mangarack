@@ -9,6 +9,7 @@ export * from './helpers/copy';
 export * from './helpers/create';
 export * from './helpers/find';
 export * from './helpers/map';
+export * from './helpers/query';
 
 // library/system/sections
 export * from './sections/SeriesSection';

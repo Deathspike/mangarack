@@ -1,15 +1,15 @@
 import * as mio from '../module';
 
 /**
- * Maps the chapters by the metadata derived key.
+ * Maps the chapters by the chapter metadata derived key.
  * @param chapters The chapters.
  * @param selector The selector.
- * @return The chapters mapped by metadata derived key.
+ * @return The chapters mapped by chapter metadata derived key.
  */
-export function mapChaptersByKey<T>(chapters: mio.IChapter[], selector: (chapter: mio.IChapter) => T): {[metadataDerivedKey: string]: T} {
+export function mapByChapterKey<T>(chapters: mio.IChapter[], selector: (chapter: mio.IChapter) => T): {[metadataDerivedKey: string]: T} {
   let result: {[metadataDerivedKey: string]: T} = {};
   for (let chapter of chapters) {
-    result[getDerivedMetadataKey(chapter)] = selector(chapter);
+    result[getMetadataDerivedKey(chapter)] = selector(chapter);
   }
   return result;
 }
@@ -19,7 +19,7 @@ export function mapChaptersByKey<T>(chapters: mio.IChapter[], selector: (chapter
  * @param chapter The chapter.
  * @return The metadata derived key for the chapter.
  */
-function getDerivedMetadataKey(chapter: mio.IChapter): string {
+function getMetadataDerivedKey(chapter: mio.IChapter): string {
   if (chapter.volume.value == null) {
     return `#${chapter.number.value}`;
   } else {
