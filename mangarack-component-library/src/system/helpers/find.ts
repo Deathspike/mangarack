@@ -7,7 +7,7 @@ import * as mio from '../module';
  * @param chapterId The chapter identifier.
  * @return The result of the attempt to find the chapter in the context.
  */
-export function findChapter(context: mio.IContext, seriesId: number, chapterId: number): mio.IOption<mio.IFindContextChapterResult> {
+export function findContextChapter(context: mio.IContext, seriesId: number, chapterId: number): mio.IOption<mio.IFindContextChapterResult> {
   let seriesResult = this._findSeries(seriesId);
   if (seriesResult.value != null) {
     let series = seriesResult.value.series;
@@ -34,7 +34,7 @@ export function findChapter(context: mio.IContext, seriesId: number, chapterId: 
  * @param seriesId The series identifier.
  * @return The result of the attempt to find the series in the context.
  */
-export function findSeries(context: mio.IContext, seriesId: number): mio.IOption<mio.IFindContextSeriesResult> {
+export function findContextSeries(context: mio.IContext, seriesId: number): mio.IOption<mio.IFindContextSeriesResult> {
   for (let providerName in context.providers) {
     let provider = context.providers[providerName];
     for (let seriesAddress in provider.series) {

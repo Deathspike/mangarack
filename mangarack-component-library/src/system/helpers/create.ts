@@ -26,7 +26,7 @@ export function createContextChapter(chapter: mio.IChapter): mio.IContextChapter
 export function createContextSeries(series: mio.ISeries): mio.IContextSeries {
   return {
     addedAt: Date.now(),
-    chapters: mio.mapChaptersByKey(series.chapters, mio.createContextChapter),
+    chapters: mio.mapByChapterKey(series.chapters, mio.createContextChapter),
     checkedAt: Date.now(),
     id: ++this._context.lastId,
     metadata: mio.copySeriesMetadata(series)

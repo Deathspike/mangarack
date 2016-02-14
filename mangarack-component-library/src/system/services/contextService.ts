@@ -36,13 +36,13 @@ export class contextService {
    * @return The promise to write the context to file.
    */
    /*TODO: Don't promise anything. Let that be background worry. */
-  static async writeContext(): Promise<void> {
+  static async saveChangesAsync(): Promise<void> {
     if (writePromise.value != null) {
       writeQueue++;
       await writePromise.value;
       writeQueue--;
       if (writeQueue === 0) {
-        await this.writeContext();
+        await this.saveChangesAsync();
       }
     } else if (globalContext.value != null) {
       writePromise = mio.option(fileService().writeObjectAsync('db.mrdb', globalContext));
