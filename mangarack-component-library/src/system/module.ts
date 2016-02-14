@@ -1,6 +1,9 @@
 // library
 export * from '../default';
 
+// library/system
+export * from './library';
+
 // library/system/enumerators
 export * from './enumerators/PriorityType';
 
@@ -10,9 +13,6 @@ export * from './helpers/create';
 export * from './helpers/find';
 export * from './helpers/map';
 export * from './helpers/query';
-
-// library/system/sections
-export * from './sections/SeriesSection';
 
 // library/system/services
 export * from './services/contextService';
