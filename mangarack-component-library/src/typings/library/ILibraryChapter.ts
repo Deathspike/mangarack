@@ -1,9 +1,9 @@
 import * as mio from '../../default';
 
 /**
- * Represents a chapter library item.
+ * Represents a library chapter.
  */
-export interface IChapterLibraryItem {
+export interface ILibraryChapter {
   /**
    * Contains the time at which the chapter was added.
    */
@@ -42,5 +42,5 @@ export interface IChapterLibraryItem {
   /**
    * Contains the number of read pages.
    */
-  numberOfReadPages: mio.IOption<number>;
+  numberOfReadPages: number;
 }

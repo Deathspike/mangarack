@@ -5,14 +5,12 @@ export * from '../default';
 export * from './enumerators/PriorityType';
 
 // library/system/helpers
-export * from './helpers/adapt';
 export * from './helpers/copy';
+export * from './helpers/create';
 export * from './helpers/find';
 export * from './helpers/map';
-export * from './helpers/path';
 
 // library/system/sections
-export * from './sections/ChapterSection';
 export * from './sections/SeriesSection';
 
 // library/system/services
@@ -22,4 +20,7 @@ export * from './services/taskService';
 // library/system/typings
 export * from './typings/IContext';
 export * from './typings/IContextChapter';
+export * from './typings/IContextProvider';
 export * from './typings/IContextSeries';
+export * from './typings/IFindContextChapterResult';
+export * from './typings/IFindContextSeriesResult';

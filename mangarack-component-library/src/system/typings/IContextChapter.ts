@@ -42,5 +42,5 @@ export interface IContextChapter {
   /**
    * Contains the number of read pages.
    */
-  numberOfReadPages: mio.IOption<number>;
+  numberOfReadPages: number;
 }

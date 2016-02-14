@@ -15,7 +15,7 @@ export class contextService {
    */
   static async readContext(): Promise<mio.IContext> {
     if (globalContext.value == null) {
-      let fileContext = globalContext = await fileService().readObjectAsync<mio.IContext>(mio.pathOf());
+      let fileContext = globalContext = await fileService().readObjectAsync<mio.IContext>('db.mrdb');
       if (globalContext.value == null) {
         if (fileContext.value != null) {
           globalContext = fileContext;
@@ -35,6 +35,7 @@ export class contextService {
    * Promises to write the context to file.
    * @return The promise to write the context to file.
    */
+   /*TODO: Don't promise anything. Let that be background worry. */
   static async writeContext(): Promise<void> {
     if (writePromise.value != null) {
       writeQueue++;
@@ -44,7 +45,7 @@ export class contextService {
         await this.writeContext();
       }
     } else if (globalContext.value != null) {
-      writePromise = mio.option(fileService().writeObjectAsync(mio.pathOf(), globalContext));
+      writePromise = mio.option(fileService().writeObjectAsync('db.mrdb', globalContext));
       await writePromise.value;
       writePromise = mio.option<Promise<void>>();
     }

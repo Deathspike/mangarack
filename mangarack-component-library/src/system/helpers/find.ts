@@ -1,37 +1,53 @@
 import * as mio from '../module';
 
 /**
- * Finds the item in the collection.
- * @param collection The collection.
- * @param finder The finder.
- * @return The item in the collection.
+ * Attempts to find the chapter in the context.
+ * @param context The context.
+ * @param seriesId The series identifier.
+ * @param chapterId The chapter identifier.
+ * @return The result of the attempt to find the chapter in the context.
  */
-export function find<T>(collection: {[key: string]: T}, finder: (value: T, key: string) => boolean): mio.IOption<[string, T]> {
-  for (let key in collection) {
-    let value = collection[key];
-    if (finder(value, key)) {
-      return mio.option<[string, T]>([key, value]);
+export function findChapter(context: mio.IContext, seriesId: number, chapterId: number): mio.IOption<mio.IFindContextChapterResult> {
+  let seriesResult = this._findSeries(seriesId);
+  if (seriesResult.value != null) {
+    let series = seriesResult.value.series;
+    for (let chapterMetadataDerivedKey in series.chapters) {
+      let chapter = series.chapters[chapterMetadataDerivedKey];
+      if (chapter.id === chapterId) {
+        return mio.option<mio.IFindContextChapterResult>({
+          chapter: chapter,
+          chapterMetadataDerivedKey: chapterMetadataDerivedKey,
+          provider: seriesResult.value.provider,
+          providerName: seriesResult.value.providerName,
+          series: seriesResult.value.series,
+          seriesAddress: seriesResult.value.seriesAddress
+        });
+      }
     }
   }
-  return mio.option<[string, T]>();
+  return mio.option<mio.IFindContextChapterResult>();
 }
 
 /**
- * Finds the item in the child collection.
- * @param collection The collection.
- * @param selector The selector.
- * @param finder The finder.
- * @return The item in the child collection.
+* Attempts to find the series in the context.
+ * @param context The context.
+ * @param seriesId The series identifier.
+ * @return The result of the attempt to find the series in the context.
  */
-export function findChild<TP, TC>(
-  collection: {[key: string]: TP},
-  selector: (value: TP, key: string) => {[key: string]: TC},
-  finder: (value: TC, key: string) => boolean): mio.IOption<[string, string, TC]> {
-  for (let key in collection) {
-    let match = find(selector(collection[key], key), finder);
-    if (match.value != null) {
-      return mio.option<[string, string, TC]>([key, match.value[0], match.value[1]]);
+export function findSeries(context: mio.IContext, seriesId: number): mio.IOption<mio.IFindContextSeriesResult> {
+  for (let providerName in context.providers) {
+    let provider = context.providers[providerName];
+    for (let seriesAddress in provider.series) {
+      let series = provider.series[providerName];
+      if (series.id === seriesId) {
+        return mio.option<mio.IFindContextSeriesResult>({
+          provider: provider,
+          providerName: providerName,
+          series: series,
+          seriesAddress: seriesAddress
+        });
+      }
     }
   }
-  return mio.option<[string, string, TC]>();
+  return mio.option<mio.IFindContextSeriesResult>();
 }

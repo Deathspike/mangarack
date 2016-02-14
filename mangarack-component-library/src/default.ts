@@ -5,9 +5,9 @@ export * from 'mangarack-component-core';
 export * from './system/default';
 
 // library/typings
-export * from './typings/library/IChapterLibrary';
-export * from './typings/library/IChapterLibraryItem';
-export * from './typings/library/IPageLibrary';
-export * from './typings/library/ISeriesLibrary';
-export * from './typings/library/ISeriesLibraryItem';
+export * from './typings/common/ILibraryHandler';
+export * from './typings/common/IOptionPromise';
+export * from './typings/library/ILibrary';
+export * from './typings/library/ILibraryChapter';
+export * from './typings/library/ILibrarySeries';
 export * from './typings/services/IFileService';
