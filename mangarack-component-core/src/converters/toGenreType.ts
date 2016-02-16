@@ -3,14 +3,14 @@ import * as mio from '../default';
 let anyGenreType: {[key: string]: mio.GenreType} = mio.GenreType as any;
 
 /**
- * Converts the/each string value to the genre type, or null.
- * @param value The/each value.
- * @return The/each genre type, or null.
+ * Converts each string value to the genre type.
+ * @param value Each value.
+ * @return Eeach genre type.
  */
 export function toGenreType(values: string[]): mio.GenreType[] {
   return values
     .map(value => mio.option(anyGenreType[normalize(value)]))
-    .filter(optional => optional.value != null)
+    .filter(optional => optional.hasValue)
     .map(optional => optional.value);
 }
 
