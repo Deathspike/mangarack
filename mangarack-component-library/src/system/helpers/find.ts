@@ -10,7 +10,7 @@ import * as mio from '../module';
  */
 export function findContextChapter(context: mio.IContext, seriesId: number, chapterId: number): mio.IOption<mio.IFindContextChapterResult> {
   let seriesResult = this._findSeries(seriesId);
-  if (seriesResult.value != null) {
+  if (seriesResult.hasValue) {
     let series = seriesResult.value.series;
     for (let chapterMetadataDerivedKey in series.chapters) {
       let chapter = series.chapters[chapterMetadataDerivedKey];

@@ -10,7 +10,9 @@ import * as mio from '../module';
 export function mapByChapterKey<T>(chapters: mio.IChapter[], selector: (chapter: mio.IChapter) => T): {[metadataDerivedKey: string]: T} {
   let result: {[metadataDerivedKey: string]: T} = {};
   for (let chapter of chapters) {
-    result[getMetadataDerivedKey(chapter)] = selector(chapter);
+    if (chapter.number.hasValue) {
+      result[getMetadataDerivedKey(chapter)] = selector(chapter);
+    }
   }
   return result;
 }
@@ -21,7 +23,7 @@ export function mapByChapterKey<T>(chapters: mio.IChapter[], selector: (chapter:
  * @return The metadata derived key for the chapter.
  */
 function getMetadataDerivedKey(chapter: mio.IChapter): string {
-  if (chapter.volume.value == null) {
+  if (!chapter.volume.hasValue) {
     return `#${chapter.number.value}`;
   } else {
     return `V${chapter.volume.value} #${chapter.number.value}`;
