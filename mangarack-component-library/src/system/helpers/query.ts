@@ -44,7 +44,7 @@ export function queryMaxOption<T>(items: {[key: string]: T}, selector: (item: T)
   let best = mio.option<number>();
   for (let key in items) {
     let result = selector(items[key]);
-    if (best.value == null || best.value < result.value) {
+    if (!best.hasValue || best.value < result.value) {
       best = result;
     }
   }
