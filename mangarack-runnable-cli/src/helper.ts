@@ -38,11 +38,11 @@ export let helper = {
    * @param runner The runner.
    * @return The promise.
    */
-  promisify: function<T>(runner: (cb: (err?: any, value?: T) => void) => void): Promise<mio.IOption<T>> {
+  promisify: function<T>(runner: (cb: (error?: any, value?: T) => void) => void): Promise<mio.IOption<T>> {
     return new Promise<mio.IOption<T>>((resolve, reject) => {
-      runner((err: any, value: T) => {
-        if (err) {
-          reject(err);
+      runner((error: any, value: T) => {
+        if (error) {
+          reject(error);
         } else {
           resolve(mio.option(value));
         }

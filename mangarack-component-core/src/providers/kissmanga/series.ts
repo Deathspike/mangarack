@@ -46,9 +46,9 @@ async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument
   try {
     let body = await httpService().getStringAsync(address);
     return htmlService().load(body);
-  } catch (err) {
-    if (err instanceof mio.HttpServiceError) {
-      let httpServiceError = err as mio.HttpServiceError;
+  } catch (error) {
+    if (error instanceof mio.HttpServiceError) {
+      let httpServiceError = error as mio.HttpServiceError;
       if (httpServiceError.statusCode === 503) {
         let document = htmlService().load(httpServiceError.body);
         let pass = document('form[id=challenge-form]').find('input[name=pass]').attr('value');
@@ -59,7 +59,7 @@ async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument
         }
       }
     }
-    throw err;
+    throw error;
   }
 }
 
