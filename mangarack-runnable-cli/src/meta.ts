@@ -18,15 +18,15 @@ export let meta = {
       rootName: 'ComicInfo',
       xmldec: {version: '1.0', encoding: 'utf-8'}
     }).buildObject(titleCase({
-      genres: series.genres.map(x => mio.GenreType[x].replace(/([a-z])([A-Z])/g, '$1 $2')).join(', '),
+      genres: series.genres.map(genre => mio.GenreType[genre].replace(/([a-z])([A-Z])/g, '$1 $2')).join(', '),
       manga: series.type === mio.SeriesType.Manga ? 'YesAndRightToLeft' : '',
-      number: chapter.number != null ? String(chapter.number.value) : '',
+      number: chapter.number.hasValue ? String(chapter.number.value) : '',
       pages: {page: [{image: 0, type: 'FrontCover'}].concat(pages.map(page => ({image: page.number, type: ''})))},
       penciller: series.artists.join(', '),
       series: series.title,
       summary: series.summary,
       title: chapter.title,
-      volume: chapter.volume != null ? String(chapter.volume.value) : '',
+      volume: chapter.volume.hasValue ? String(chapter.volume.value) : '',
       writer: series.authors.join(', ')
     }));
   }
