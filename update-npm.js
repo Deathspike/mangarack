@@ -12,6 +12,6 @@ fs.readdirSync(__dirname).forEach(function(folderName) {
     var package = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
     if (!package.private) {
       var directoryPath = path.join(__dirname, folderName);
-      childProcess.execSync('npm publish', {cwd: fullPath, stdio: [0, 1, 2]});
+      childProcess.execSync('npm publish', {cwd: directoryPath, stdio: [0, 1, 2]});
     }
 });
