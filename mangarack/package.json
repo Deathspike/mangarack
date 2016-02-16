@@ -8,7 +8,7 @@
   "main": "src/default",
   "name": "mangarack",
   "repository": "git://github.com/Deathspike/mangarack",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "bin": {
     "mangarack": "./bin/mangarack",
     "mangarack-cli": "./bin/mangarack-cli"
