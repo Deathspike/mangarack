@@ -17,9 +17,9 @@ export let download = {
   chapterAsync: async function(provider: mio.IProvider, series: mio.ISeries, seriesPreviewImage: mio.IBlob, chapter: mio.IChapter): Promise<void> {
     let chapterName = getChapterName(series, chapter);
     let chapterPath = getChapterPath(series, chapter);
-    if (chapterName.value != null && chapterPath.value != null) {
+    if (chapterName.hasValue && chapterPath.hasValue) {
       let chapterExists = await mio.helper.promisify<boolean>(cb => fs.exists(chapterPath.value, exists => cb(null, exists)));
-      if (chapterExists.value != null && chapterExists.value != null && !chapterExists.value) {
+      if (chapterExists.hasValue && chapterExists.hasValue && !chapterExists.value) {
         console.log(`Fetching ${chapterName.value}`);
         let beginTime = Date.now();
         let pages = await chapter.pagesAsync();
@@ -40,12 +40,12 @@ export let download = {
    */
   pagesAsync: async function(provider: mio.IProvider, series: mio.ISeries, seriesPreviewImage: mio.IBlob, chapter: mio.IChapter, pages: mio.IPage[]): Promise<void> {
     let chapterPath = getChapterPath(series, chapter);
-    if (chapterPath.value != null) {
+    if (chapterPath.hasValue) {
       let zip = mio.zip.create(chapterPath.value);
       for (let page of pages) {
         let image = await page.imageAsync();
         let processedImage = await mio.image.processAsync(provider, image);
-        if (processedImage.value != null) {
+        if (processedImage.hasValue) {
           await zip.writeAsync(`${format(3, page.number)}.${mio.helper.getImageExtension(processedImage.value)}`, processedImage.value);
         } else {
           throw new Error(`Invalid processed page #${page.number}`);
@@ -83,11 +83,11 @@ export let download = {
  */
 async function cleanAsync(series: mio.ISeries): Promise<void> {
   let seriesName = getSeriesName(series);
-  if (seriesName.value != null) {
+  if (seriesName.hasValue) {
     let seriesExists = await mio.helper.promisify<boolean>(cb => fs.exists(seriesName.value, exists => cb(null, exists)));
-    if (seriesExists.value) {
+    if (seriesExists.hasValue) {
       let fileNames = await mio.helper.promisify<string[]>(cb => fs.readdir(seriesName.value, cb));
-      if (fileNames.value != null) {
+      if (fileNames.hasValue) {
         let chapterPaths = series.chapters.map(chapter => getChapterPath(series, chapter).value);
         let filePaths = fileNames.value.map(fileName => `${seriesName.value}/${fileName}`);
         for (let filePath of filePaths) {
@@ -107,13 +107,13 @@ async function cleanAsync(series: mio.ISeries): Promise<void> {
  * @return The chapter name.
  */
 function getChapterName(series: mio.ISeries, chapter: mio.IChapter): mio.IOption<string> {
-  if (chapter.number.value == null) {
+  if (!chapter.number.hasValue) {
     return mio.option<string>();
   } else {
     let title = getSeriesName(series);
-    if (title.value == null) {
+    if (!title.hasValue) {
       return mio.option<string>();
-    } else if (chapter.volume.value == null) {
+    } else if (!chapter.volume.hasValue) {
       return mio.option(`${title.value} #${format(3, chapter.number.value)}.cbz`);
     } else {
       return mio.option(`${title.value} V${format(2, chapter.volume.value)} #${format(3, chapter.number.value)}.cbz`);
@@ -130,7 +130,7 @@ function getChapterName(series: mio.ISeries, chapter: mio.IChapter): mio.IOption
 function getChapterPath(series: mio.ISeries, chapter: mio.IChapter): mio.IOption<string> {
   let seriesName = getSeriesName(series);
   let chapterName = getChapterName(series, chapter);
-  return mio.option(seriesName.value != null && chapterName.value != null ? `${seriesName.value}/${chapterName.value}` : null);
+  return mio.option(seriesName.hasValue && chapterName.hasValue ? `${seriesName.value}/${chapterName.value}` : null);
 }
 
 /**

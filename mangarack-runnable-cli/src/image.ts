@@ -15,11 +15,11 @@ export let image = {
    */
   processAsync: async function(provider: mio.IProvider, image: mio.IBlob): Promise<mio.IOption<mio.IBlob>> {
     let result = await coerceAsync(image);
-    if (result.value == null) {
+    if (!result.hasValue) {
       return result;
     } else {
       result = await normalizeAsync(image);
-      if (result.value == null) {
+      if (!result.hasValue) {
         return result;
       } else {
         return mangafoxHeuristicCropAsync(provider, result.value);
@@ -58,7 +58,7 @@ export async function mangafoxHeuristicCropAsync(provider: mio.IProvider, image:
   } else {
     let size = await mio.helper.promisify<{width: number, height: number}>(cb => gm(image as any).size(cb));
     let rgb = await mio.helper.promisify<Buffer>(cb => gm(image as any).toBuffer('rgb', cb));
-    if (size.value == null || rgb.value == null) {
+    if (!size.hasValue || !rgb.hasValue) {
       return mio.option(image);
     } else {
       let cropLines = readNumberOfCropLines(rgb.value, size.value);
@@ -119,7 +119,7 @@ function readNumberOfCropLines(buffer: Buffer, size: {width: number, height: num
   let lastBlackY = -1;
   for (let y = 0; y < 80 && y < size.height; y += 1) {
     let line = readLineAverageOrContainsBlack(buffer, size.width, size.height - y - 1);
-    if (line.value == null) {
+    if (!line.hasValue) {
       if (y !== 0) {
         firstBlackY = firstBlackY === -1 ? (firstBlackY > 5 ? 5 : y) : firstBlackY;
         lastBlackY = y;
