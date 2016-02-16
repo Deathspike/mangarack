@@ -38,7 +38,7 @@ function estimateNumber(chapters: mio.IChapter[], targetChapter: mio.IChapter): 
     previousChapter = currentChapter;
   }
 
-  // Return an estimated chapter number, or null.
+  // Return an estimated chapter number.
   if (hasDifferences) {
     return mio.option(previousChapter.number.value + (limitNumber(prioritizeDifference(differences), 0, 1) / 2));
   } else if (previousChapter) {
@@ -67,12 +67,10 @@ function limitNumber(current: number, minimum: number, maximum: number): number 
 function prioritizeDifference(differences: {[key: string]: number}): number {
   let best: {amount: mio.IOption<number>, count: mio.IOption<number>} = {amount: mio.option<number>(), count: mio.option<number>()};
   for (let difference in differences) {
-    if (differences.hasOwnProperty(difference)) {
-      let count = differences[difference];
-      if (!best.count.hasValue || differences[difference] > best.count.value) {
-        best.amount = mio.option(parseInt(difference, 10));
-        best.count = mio.option(count);
-      }
+    let count = differences[difference];
+    if (!best.count.hasValue || differences[difference] > best.count.value) {
+      best.amount = mio.option(parseInt(difference, 10));
+      best.count = mio.option(count);
     }
   }
   return best.amount.hasValue ? best.amount.value : 0;

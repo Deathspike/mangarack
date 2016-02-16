@@ -30,7 +30,7 @@ export function findContextChapter(context: mio.IContext, seriesId: number, chap
 }
 
 /**
-* Attempts to find the series in the context.
+ * Attempts to find the series in the context.
  * @param context The context.
  * @param seriesId The series identifier.
  * @return The result of the attempt to find the series in the context.

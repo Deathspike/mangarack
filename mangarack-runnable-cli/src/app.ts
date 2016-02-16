@@ -25,10 +25,10 @@ let queue = Promise.resolve();
 
 /**
  * Kills the process.
- * @param The error.
+ * @param error The error.
  */
-function die(err: any): void {
-  console.log(err.stack || err);
+function die(error: any): void {
+  console.log(error.stack || error);
   process.exit(1);
 }
 

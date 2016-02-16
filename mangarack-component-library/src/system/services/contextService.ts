@@ -40,13 +40,18 @@ export class contextService {
       shouldSaveAgain = true;
     } else if (context.hasValue) {
       isSaving = true;
-      fileService().writeObjectAsync('db.mrdb', context.value).then(() => {
-        isSaving = false;
-        if (shouldSaveAgain) {
-          shouldSaveAgain = false;
-          this.saveChanges();
-        }
-      });
+      fileService().writeObjectAsync('db.mrdb', context.value).then(done, done);
     }
   }
 };
+
+/**
+ * Occurs when changes have been saved.
+ */
+function done() {
+  isSaving = false;
+  if (shouldSaveAgain) {
+    shouldSaveAgain = false;
+    contextService.saveChanges();
+  }
+}
