@@ -9,9 +9,9 @@
   "name": "mangarack-component-core",
   "repository": "git://github.com/Deathspike/mangarack",
   "typings": "dist/default",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "dependencies": {
-    "mangarack-component-common": "4.0.3"
+    "mangarack-component-common": "4.0.4"
   },
   "devDependencies": {
     "typescript": "1.8.0-dev.20151122"
