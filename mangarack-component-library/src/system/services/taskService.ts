@@ -52,11 +52,11 @@ function tryRunWithPriority(priorityType: mio.PriorityType) {
     let entry = queue[priorityType].shift();
     isBusy = true;
     entry.runAsync().then(value => {
-      completeTask();
       entry.resolve(value);
-    }, reason => {
       completeTask();
+    }, reason => {
       entry.reject(reason);
+      completeTask();
     });
   }
 }

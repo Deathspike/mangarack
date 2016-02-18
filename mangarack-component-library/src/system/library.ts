@@ -312,7 +312,7 @@ function listSeries(context: mio.IContext): mio.ILibrarySeries[] {
 }
 
 /**
- * Determiens whether the chapter has been read.
+ * Determines whether the chapter has been read.
  * @param chapter The chapter.
  * @return Indicates whether the chapter has been read.
  */
