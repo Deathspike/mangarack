@@ -40,7 +40,7 @@ export let library: mio.ILibrary = {
     if (chapterId == null) {
       let seriesResult = mio.findContextSeries(context, seriesId);
       if (seriesResult.hasValue) {
-        await fileService().deleteAsync(`${seriesId}`);
+        await fileService().deleteFolderAsync(`${seriesId}`);
         delete seriesResult.value.provider.series[seriesResult.value.seriesAddress];
         mio.contextService.saveChanges();
         return true;
@@ -49,12 +49,12 @@ export let library: mio.ILibrary = {
       let chapterResult = mio.findContextChapter(context, seriesId, chapterId);
       if (chapterResult.hasValue) {
         if (chapterResult.value.chapter.deletedAt.hasValue) {
-          await fileService().deleteAsync(`${seriesId}/${chapterId}`);
+          await fileService().deleteFolderAsync(`${seriesId}/${chapterId}`);
           delete chapterResult.value.series.chapters[chapterResult.value.chapterMetadataDerivedKey];
           mio.contextService.saveChanges();
           return true;
         } else {
-          await fileService().deleteAsync(`${seriesId}/${chapterId}`);
+          await fileService().deleteFolderAsync(`${seriesId}/${chapterId}`);
           chapterResult.value.chapter.downloadedAt = mio.option<number>();
           mio.contextService.saveChanges();
           return true;
