@@ -9,7 +9,7 @@ import * as mio from '../module';
  * @return The result of the attempt to find the chapter in the context.
  */
 export function findContextChapter(context: mio.IContext, seriesId: number, chapterId: number): mio.IOption<mio.IFindContextChapterResult> {
-  let seriesResult = this._findSeries(seriesId);
+  let seriesResult = findContextSeries(context, seriesId);
   if (seriesResult.hasValue) {
     let series = seriesResult.value.series;
     for (let chapterMetadataDerivedKey in series.chapters) {
@@ -39,7 +39,7 @@ export function findContextSeries(context: mio.IContext, seriesId: number): mio.
   for (let providerName in context.providers) {
     let provider = context.providers[providerName];
     for (let seriesAddress in provider.series) {
-      let series = provider.series[providerName];
+      let series = provider.series[seriesAddress];
       if (series.id === seriesId) {
         return mio.option<mio.IFindContextSeriesResult>({
           provider: provider,

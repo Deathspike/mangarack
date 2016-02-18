@@ -1,3 +1,3 @@
 export * from 'mangarack-component-library';
-import './mangarack-component-core/bootstrap';
+import 'mangarack-node-core';
 import './bootstrap';
