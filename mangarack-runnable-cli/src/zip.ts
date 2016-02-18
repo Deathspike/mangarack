@@ -28,7 +28,7 @@ export let zip = {
       commitAsync: async function(): Promise<void> {
         if (isWriting) {
           archive.finalize();
-          await mio.helper.promisify<void>(cb => fs.rename(tempFilePath, filePath, cb));
+          await mio.promise<void>(callback => fs.rename(tempFilePath, filePath, callback));
         }
       },
 
@@ -68,6 +68,6 @@ async function createDirectoriesAsync(filePath: string): Promise<void> {
     }
   }
   for (let directoryPath of directoryPaths.reverse()) {
-    await mio.helper.promisify<void>(cb => fs.mkdir(directoryPath, error => cb()));
+    await mio.promise<void>(callback => fs.mkdir(directoryPath, error => callback()));
   }
 }

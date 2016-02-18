@@ -38,11 +38,11 @@ function coerceAsync(image: mio.IBlob): Promise<mio.IOption<mio.IBlob>> {
     case mio.ImageType.Jpg:
       return Promise.resolve(mio.option(image));
     case mio.ImageType.Gif:
-      return mio.helper.promisify<mio.IBlob>(cb => gm(image as any).flatten().toBuffer('jpg', cb));
+      return mio.promise<mio.IBlob>(callback => gm(image as any).flatten().toBuffer('jpg', callback));
     case mio.ImageType.Png:
       return Promise.resolve(mio.option(image));
     default:
-      return mio.helper.promisify<mio.IBlob>(cb => gm(image as any).toBuffer('png', cb));
+      return mio.promise<mio.IBlob>(callback => gm(image as any).toBuffer('png', callback));
   }
 }
 
@@ -56,8 +56,8 @@ export async function mangafoxHeuristicCropAsync(provider: mio.IProvider, image:
   if (provider.name !== 'mangafox' || storeService().getBoolean('runnable.cli.disableMangafoxHeuristicCrop')) {
     return mio.option(image);
   } else {
-    let size = await mio.helper.promisify<{width: number, height: number}>(cb => gm(image as any).size(cb));
-    let rgb = await mio.helper.promisify<Buffer>(cb => gm(image as any).toBuffer('rgb', cb));
+    let size = await mio.promise<{width: number, height: number}>(callback => gm(image as any).size(callback));
+    let rgb = await mio.promise<Buffer>(callback => gm(image as any).toBuffer('rgb', callback));
     if (!size.hasValue || !rgb.hasValue) {
       return mio.option(image);
     } else {
@@ -65,7 +65,9 @@ export async function mangafoxHeuristicCropAsync(provider: mio.IProvider, image:
       if (cropLines === 0) {
         return mio.option(image);
       } else {
-        return mio.helper.promisify<mio.IBlob>(cb => gm(image as any).crop(size.value.width, size.value.height - cropLines).toBuffer(cb));
+        return mio.promise<mio.IBlob>(callback => {
+          gm(image as any).crop(size.value.width, size.value.height - cropLines).toBuffer(callback);
+        });
       }
     }
   }
@@ -80,7 +82,7 @@ export async function normalizeAsync(image: mio.IBlob): Promise<mio.IOption<mio.
   if (storeService().getBoolean('runnable.cli.disableNormalize')) {
     return mio.option(image);
   } else {
-    return mio.helper.promisify<mio.IBlob>(cb => gm(image as any).sharpen(5, 1.4).normalize().toBuffer(cb));
+    return mio.promise<mio.IBlob>(callback => gm(image as any).sharpen(5, 1.4).normalize().toBuffer(callback));
   }
 }
 

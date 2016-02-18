@@ -31,22 +31,5 @@ export let helper = {
     } else {
       return mio.ImageType.Unknown;
     }
-  },
-
-  /**
-   * Creates a promise and invokes the runner with a callback handler to resolves the promise.
-   * @param runner The runner.
-   * @return The promise.
-   */
-  promisify: function<T>(runner: (cb: (error?: any, value?: T) => void) => void): Promise<mio.IOption<T>> {
-    return new Promise<mio.IOption<T>>((resolve, reject) => {
-      runner((error: any, value: T) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(mio.option(value));
-        }
-      });
-    });
   }
 };
