@@ -5,39 +5,39 @@ import * as mio from '../../default';
  */
 export interface IFileService {
   /**
-   * Promises to delete the resource.
-   * @param fileOrFolderPath The file or folder path.
-   * @return The promise to delete the resource.
+   * Promises to delete the folder resource.
+   * @param folderPath The folder path.
+   * @return The promise to delete the folder resource.
    */
-  deleteAsync: (fileOrFolderPath: string) => Promise<void>;
+  deleteFolderAsync: (folderPath: string) => Promise<void>;
 
   /**
    * Promises the contents of the file resource.
    * @param filePath The file path.
-   * @return The promise for the contents of the file.
+   * @return The promise for the contents of the file resource.
    */
   readBlobAsync: (filePath: string) => Promise<mio.IOption<mio.IBlob>>;
 
   /**
    * Promises the contents of the file resource.
    * @param filePath The file path.
-   * @return The promise for the contents of the file.
+   * @return The promise for the contents of the file resource.
    */
   readObjectAsync: <T>(filePath: string) => Promise<mio.IOption<T>>;
 
   /**
-   * Promises to write the contents to the file.
+   * Promises to write the contents to the file resource.
    * @param filePath The file path.
    * @param value The value representing the contents.
-   * @return The promise to write the contents to the file.
+   * @return The promise to write the contents to the file resource.
    */
   writeBlobAsync: (filePath: string, value: mio.IBlob) => Promise<void>;
 
   /**
-   * Promises to write the contents to the file.
+   * Promises to write the contents to the file resource.
    * @param filePath The file path.
    * @param value The value representing the contents.
-   * @return The promise to write the contents to the file.
+   * @return The promise to write the contents to the file resource.
    */
   writeObjectAsync: <T>(filePath: string, value: T) => Promise<void>;
 }
