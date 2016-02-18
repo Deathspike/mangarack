@@ -20,7 +20,9 @@ export let library: mio.ILibrary = {
           return mio.option(contextProvider.series[seriesAddress].id);
         } else {
           let coreSeries = await coreProvider.seriesAsync(seriesAddress);
-          let contextSeries = mio.createContextSeries(coreSeries);
+          let coreSeriesImage = await coreSeries.imageAsync();
+          let contextSeries = mio.createContextSeries(context, coreSeries);
+          await fileService().writeBlobAsync(`${contextSeries.id}/previewImage.mrx`, coreSeriesImage);
           contextProvider.series[seriesAddress] = contextSeries;
           mio.contextService.saveChanges();
           return mio.option(contextSeries.id);
@@ -95,7 +97,7 @@ export let library: mio.ILibrary = {
    */
   imageAsync: function(seriesId: number, chapterId?: number, pageNumber?: number): mio.IOptionPromise<mio.IBlob> {
     if (chapterId == null || pageNumber == null) {
-      return fileService().readBlobAsync(`${seriesId}/image.mrx`);
+      return fileService().readBlobAsync(`${seriesId}/previewImage.mrx`);
     } else {
       return fileService().readBlobAsync(`${seriesId}/${chapterId}/${pageNumber}.mrx`);
     }
@@ -224,7 +226,7 @@ async function downloadSeriesAsync(seriesId: number, existingChapters: boolean, 
     let contextSeries = seriesResult.value.series;
 
     // Update the series.
-    await fileService().writeBlobAsync(`${seriesId}/image.mrx`, coreSeriesImage);
+    await fileService().writeBlobAsync(`${seriesId}/previewImage.mrx`, coreSeriesImage);
     contextSeries.checkedAt = Date.now();
     contextSeries.metadata = mio.copySeriesMetadata(coreSeries);
 
@@ -232,7 +234,7 @@ async function downloadSeriesAsync(seriesId: number, existingChapters: boolean, 
     for (let metadataDerivedKey in coreChapters) {
       let coreChapter = coreChapters[metadataDerivedKey];
       if (!contextSeries.chapters[metadataDerivedKey]) {
-        let contextChapter = contextSeries.chapters[metadataDerivedKey] = mio.createContextChapter(coreChapter);
+        let contextChapter = contextSeries.chapters[metadataDerivedKey] = mio.createContextChapter(context, coreChapter);
         if (newChapters) {
           mio.taskService.enqueue(mio.PriorityType.Low, () => downloadChapterAsync(seriesId, contextChapter.id));
         }

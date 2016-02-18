@@ -16,7 +16,7 @@ export class contextService {
    */
   static async getContextAsync(): Promise<mio.IContext> {
     if (!context.hasValue) {
-      let deserializedContext = await fileService().readObjectAsync<mio.IContext>('db.mrdb');
+      let deserializedContext = await fileService().readObjectAsync<mio.IContext>('context.mrx');
       if (!context.hasValue) {
         if (!deserializedContext.hasValue) {
           context = mio.option<mio.IContext>({
@@ -40,7 +40,7 @@ export class contextService {
       shouldSaveAgain = true;
     } else if (context.hasValue) {
       isSaving = true;
-      fileService().writeObjectAsync('db.mrdb', context.value).then(done, done);
+      fileService().writeObjectAsync('context.mrx', context.value).then(done, done);
     }
   }
 };

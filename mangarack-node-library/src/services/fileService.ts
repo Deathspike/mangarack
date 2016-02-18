@@ -136,6 +136,6 @@ function resolveLibraryPath(fileOrFolderPath: string): string {
   if (rootPath) {
     return path.resolve(rootPath, fileOrFolderPath);
   } else {
-    return path.join();
+    return fileOrFolderPath;
   }
 }

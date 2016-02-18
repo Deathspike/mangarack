@@ -3,15 +3,16 @@ import * as mio from '../module';
 
 /**
  * Creates the context chapter based on the chapter.
+ * @param context The context.
  * @param chapter The chapter.
  * @return The context chapter.
  */
-export function createContextChapter(chapter: mio.IChapter): mio.IContextChapter {
+export function createContextChapter(context: mio.IContext, chapter: mio.IChapter): mio.IContextChapter {
   return {
     addedAt: Date.now(),
     deletedAt: mio.option<number>(),
     downloadedAt: mio.option<number>(),
-    id: ++this._context.lastId,
+    id: ++context.lastId,
     lastReadAt: mio.option<number>(),
     metadata: mio.copyChapterMetadata(chapter),
     numberOfPages: mio.option<number>(),
@@ -21,15 +22,16 @@ export function createContextChapter(chapter: mio.IChapter): mio.IContextChapter
 
 /**
  * Creates the context series based on the series.
+ * @param context The context.
  * @param series The series.
  * @return The context series.
  */
-export function createContextSeries(series: mio.ISeries): mio.IContextSeries {
+export function createContextSeries(context: mio.IContext, series: mio.ISeries): mio.IContextSeries {
   return {
     addedAt: Date.now(),
-    chapters: mio.mapByChapterKey(series.chapters, mio.createContextChapter),
+    chapters: mio.mapByChapterKey(series.chapters, chapter => mio.createContextChapter(context, chapter)),
     checkedAt: Date.now(),
-    id: ++this._context.lastId,
+    id: ++context.lastId,
     metadata: mio.copySeriesMetadata(series)
   };
 }
