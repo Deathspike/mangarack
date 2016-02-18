@@ -18,7 +18,7 @@ export let download = {
     let chapterName = getChapterName(series, chapter);
     let chapterPath = getChapterPath(series, chapter);
     if (chapterName.hasValue && chapterPath.hasValue) {
-      let chapterExists = await mio.helper.promisify<boolean>(cb => fs.exists(chapterPath.value, exists => cb(null, exists)));
+      let chapterExists = await mio.promise<boolean>(callback => fs.exists(chapterPath.value, exists => callback(null, exists)));
       if (chapterExists.hasValue && chapterExists.hasValue && !chapterExists.value) {
         console.log(`Fetching ${chapterName.value}`);
         let beginTime = Date.now();
@@ -84,15 +84,15 @@ export let download = {
 async function cleanAsync(series: mio.ISeries): Promise<void> {
   let seriesName = getSeriesName(series);
   if (seriesName.hasValue) {
-    let seriesExists = await mio.helper.promisify<boolean>(cb => fs.exists(seriesName.value, exists => cb(null, exists)));
+    let seriesExists = await mio.promise<boolean>(callback => fs.exists(seriesName.value, exists => callback(null, exists)));
     if (seriesExists.hasValue) {
-      let fileNames = await mio.helper.promisify<string[]>(cb => fs.readdir(seriesName.value, cb));
+      let fileNames = await mio.promise<string[]>(callback => fs.readdir(seriesName.value, callback));
       if (fileNames.hasValue) {
         let chapterPaths = series.chapters.map(chapter => getChapterPath(series, chapter).value);
         let filePaths = fileNames.value.map(fileName => `${seriesName.value}/${fileName}`);
         for (let filePath of filePaths) {
           if (chapterPaths.indexOf(filePath) === -1 && !/\.(mrdel|mrtmp)$/.test(filePath)) {
-            await mio.helper.promisify<void>(cb => fs.rename(filePath, `${filePath}.mrdel`, cb));
+            await mio.promise<void>(callback => fs.rename(filePath, `${filePath}.mrdel`, callback));
           }
         }
       }
