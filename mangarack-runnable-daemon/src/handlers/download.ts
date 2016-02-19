@@ -1,0 +1,20 @@
+import * as express from 'express';
+import * as mio from '../default';
+
+/**
+* Promises to download each series metadata.
+ * @param request The request.
+ * @param response The response.
+ * @param library The library.
+ * @return The promise to download each series metadata.
+ */
+export default async function(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
+  let existingChapters = mio.helper.parseBoolean(request.body.existingChapters);
+  let newChapters = mio.helper.parseBoolean(request.body.newChapters);
+  if (!existingChapters.hasValue || !newChapters.hasValue) {
+    response.sendStatus(400);
+  } else {
+    await library.download().runAsync(existingChapters.value, newChapters.value);
+    response.sendStatus(200);
+  }
+}
