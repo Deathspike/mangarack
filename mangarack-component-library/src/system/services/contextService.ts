@@ -19,10 +19,15 @@ export class contextService {
       let deserializedContext = await fileService().readObjectAsync<mio.IContext>('context.mrx');
       if (!context.hasValue) {
         if (!deserializedContext.hasValue) {
-          context = mio.option<mio.IContext>({lastId: 0, providers: {}, password: mio.option<string>()});
+          let password = mio.option<string>();
+          context = mio.option<mio.IContext>({lastId: 0, providers: {}, password: password, settings: {}, version: mio.version});
           contextService.saveChanges();
         } else {
           context = deserializedContext;
+          tryUpgrade(context.value);
+          for (let key in context.value.settings) {
+            mio.settingService.set(key, context.value.settings[key]);
+          }
         }
       }
     }
@@ -45,10 +50,22 @@ export class contextService {
 /**
  * Occurs when changes have been saved.
  */
-function done() {
+function done(): void {
   isSaving = false;
   if (shouldSaveAgain) {
     shouldSaveAgain = false;
     contextService.saveChanges();
+  }
+}
+
+/**
+ * Tries to upgrade the context to support the latest version.
+ * @param context The context.
+ */
+function tryUpgrade(context: mio.IContext): void {
+  // [20160219] Added settings and versioning.
+  if (!context.settings) {
+    context.settings = {};
+    context.version = 2;
   }
 }

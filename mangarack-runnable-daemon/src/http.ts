@@ -32,6 +32,7 @@ export function startHttp() {
   app.get   ('/api/library/:seriesId', createHandler('listChapters'));
   app.delete('/api/library/:seriesId/:chapterId', createHandler('deleteChapter'));
   app.patch ('/api/library/:seriesId/:chapterId', createHandler('status'));
+  app.patch ('/api/setting', createHandler('setting'));
 
   // Listen for requests.
   app.listen(7782);

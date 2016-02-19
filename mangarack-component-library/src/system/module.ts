@@ -3,6 +3,7 @@ export * from '../default';
 
 // library/system
 export * from './library';
+export * from './version';
 
 // library/system/enumerators
 export * from './enumerators/PriorityType';
