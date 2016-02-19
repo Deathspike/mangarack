@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import * as express from 'express';
 import * as mio from './default';
+import * as path from 'path';
 
 /**
  * Starts the HTTP server.
@@ -12,6 +13,7 @@ export function startHttp() {
   app.use(compression());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));
+  serveStatic(app);
 
   // Register parameter validation.
   app.param('seriesId', createValidation('seriesId'));
@@ -78,4 +80,17 @@ function createValidation(parameterName: string): any {
       response.sendStatus(404);
     }
   };
+}
+
+/**
+ * Serves static files according to the current environment.
+ * @param app The application.
+ */
+function serveStatic(app: express.Application): void {
+  if ((process as any).isBundled) {
+    app.use(express.static(path.join(process.argv[1], '../public')));
+  } else {
+    app.use(express.static(path.join(__dirname, '../../mangarack-component-web/dist')));
+    app.use(express.static(path.join(__dirname, '../../mangarack-component-web/public')));
+  }
 }

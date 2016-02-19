@@ -7,6 +7,7 @@
 })();
 
 (function() {
+  process.isBundled = true;
   console.log('mangarack-cli (' + require('../package').version + ')');
   require('source-map-support').install();
   require('mangarack-runnable-cli/dist/app');
