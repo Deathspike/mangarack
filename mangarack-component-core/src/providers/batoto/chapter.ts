@@ -1,4 +1,3 @@
-'use strict';
 import * as mio from '../../default';
 import {createPage} from './page';
 import {site} from './site';

@@ -1,4 +1,3 @@
-'use strict';
 import * as archiver from 'archiver';
 import * as fs from 'fs';
 import * as mio from './default';

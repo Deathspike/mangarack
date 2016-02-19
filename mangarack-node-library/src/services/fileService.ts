@@ -1,4 +1,3 @@
-'use strict';
 import * as fs from 'fs';
 import * as mio from '../default';
 import * as path from 'path';

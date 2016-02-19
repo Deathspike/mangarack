@@ -1,4 +1,3 @@
-'use strict';
 import * as mio from '../default';
 import {batoto} from './batoto/default';
 import {kissmanga} from './kissmanga/default';

@@ -1,4 +1,3 @@
-'use strict';
 import * as mio from '../default';
 import * as request from 'request';
 let delayInMilliseconds = 1000;

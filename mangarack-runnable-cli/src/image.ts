@@ -1,7 +1,5 @@
-'use strict';
 import * as gm from 'gm';
 import * as mio from './default';
-let storeService = mio.dependency.get<mio.IStoreService>('IStoreService');
 
 /**
  * Represents image functionality.
@@ -53,7 +51,7 @@ function coerceAsync(image: mio.IBlob): Promise<mio.IOption<mio.IBlob>> {
  * @return The promise to heuristically crop the mangafox-specific image.
  */
 export async function mangafoxHeuristicCropAsync(provider: mio.IProvider, image: mio.IBlob): Promise<mio.IOption<mio.IBlob>> {
-  if (provider.name !== 'mangafox' || storeService().getBoolean('runnable.cli.disableMangafoxHeuristicCrop')) {
+  if (provider.name !== 'mangafox' || mio.settingService.getBoolean('runnable.cli.disableMangafoxHeuristicCrop')) {
     return mio.option(image);
   } else {
     let size = await mio.promise<{width: number, height: number}>(callback => gm(image as any).size(callback));
@@ -79,7 +77,7 @@ export async function mangafoxHeuristicCropAsync(provider: mio.IProvider, image:
  * @return The promise to normalize the image.
  */
 export async function normalizeAsync(image: mio.IBlob): Promise<mio.IOption<mio.IBlob>> {
-  if (storeService().getBoolean('runnable.cli.disableNormalize')) {
+  if (mio.settingService.getBoolean('runnable.cli.disableNormalize')) {
     return mio.option(image);
   } else {
     return mio.promise<mio.IBlob>(callback => gm(image as any).sharpen(5, 1.4).normalize().toBuffer(callback));

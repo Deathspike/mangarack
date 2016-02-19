@@ -1,5 +1,4 @@
 /* TODO: Change `taskService` to object, instead of class, but somehow, that trips up TypeScript. Why? */
-'use strict';
 import * as mio from '../module';
 let isBusy = false;
 let queue: {[priorityType: number]: {reject: (reason?: any) => void, resolve: (value: any) => void, runAsync: () => Promise<any>}[]} = {};
