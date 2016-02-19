@@ -18,4 +18,14 @@ export interface IContext {
    * Contains each provider.
    */
   providers: {[providerName: string]: mio.IContextProvider};
+
+  /**
+   * Contains each setting.
+   */
+  settings: {[key: string]: string};
+
+  /**
+   * Contains the version.
+   */
+  version: number;
 }

@@ -100,6 +100,14 @@ export interface ILibrary {
   password(): mio.ILibraryHandler<(password: string) => Promise<void>>;
 
   /**
+   * [PATCH /api/setting] (200, 400)
+   * Promises to propagate and archive the setting.
+   * @param settings The settings.
+   * @return The promise to propagate and archive the setting.
+   */
+  setting(): mio.ILibraryHandler<(key: string, value: string) => Promise<void>>;
+
+  /**
    * [PATCH /api/library/:seriesId/:chapterId] (200, 400, 404)
    * Promises to set the number of read pages status.
    * @param seriesId The series identifier.
