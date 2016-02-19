@@ -19,20 +19,20 @@ export function startHttp() {
   app.param('pageNumber', createValidation('pageNumber'));
 
   // Register route handlers.
-  app.get   ('/content/:seriesId', createHandler('imageSeries'));
-  app.get   ('/content/:seriesId/:chapterId/:pageNumber', createHandler('imagePage'));
-  app.get   ('/api', createHandler('version'));
-  app.post  ('/api', createHandler('password'));
-  app.post  ('/api/download', createHandler('download'));
-  app.post  ('/api/download/:seriesId', createHandler('downloadSeries'));
-  app.post  ('/api/download/:seriesId/:chapterId', createHandler('downloadChapter'));
-  app.get   ('/api/library', createHandler('listSeries'));
-  app.post  ('/api/library', createHandler('create'));
-  app.delete('/api/library/:seriesId', createHandler('deleteSeries'));
-  app.get   ('/api/library/:seriesId', createHandler('listChapters'));
-  app.delete('/api/library/:seriesId/:chapterId', createHandler('deleteChapter'));
-  app.patch ('/api/library/:seriesId/:chapterId', createHandler('status'));
-  app.patch ('/api/setting', createHandler('setting'));
+  app.get   ('/content/:seriesId', createHandler(require('./handlers/imageSeries')));
+  app.get   ('/content/:seriesId/:chapterId/:pageNumber', createHandler(require('./handlers/imagePage')));
+  app.get   ('/api', createHandler(require('./handlers/version')));
+  app.post  ('/api', createHandler(require('./handlers/password')));
+  app.post  ('/api/download', createHandler(require('./handlers/download')));
+  app.post  ('/api/download/:seriesId', createHandler(require('./handlers/downloadSeries')));
+  app.post  ('/api/download/:seriesId/:chapterId', createHandler(require('./handlers/downloadChapter')));
+  app.get   ('/api/library', createHandler(require('./handlers/listSeries')));
+  app.post  ('/api/library', createHandler(require('./handlers/create')));
+  app.delete('/api/library/:seriesId', createHandler(require('./handlers/deleteSeries')));
+  app.get   ('/api/library/:seriesId', createHandler(require('./handlers/listChapters')));
+  app.delete('/api/library/:seriesId/:chapterId', createHandler(require('./handlers/deleteChapter')));
+  app.patch ('/api/library/:seriesId/:chapterId', createHandler(require('./handlers/status')));
+  app.patch ('/api/setting', createHandler(require('./handlers/setting')));
 
   // Listen for requests.
   app.listen(7782);
@@ -40,17 +40,16 @@ export function startHttp() {
 
 /**
  * Creates an authenticated library handler.
- * @param id The identifier.
+ * @param handler The handler.
  * @return The authenticated library handler.
  */
-function createHandler(id: string): any {
-  let boundFunction = require(`./handlers/${id}`).default;
+function createHandler(handler: any): any {
   return async function(request: express.Request, response: express.Response): Promise<void> {
     try {
       var authentication = basicAuth(request);
       let library = await mio.openLibraryAsync(mio.option(authentication ? authentication.pass : ''));
       if (library.hasValue) {
-        await boundFunction(request, response, library.value);
+        await handler.default(request, response, library.value);
       } else {
         response.set('WWW-Authenticate', 'Basic realm=Authorization Required');
         response.sendStatus(401);
