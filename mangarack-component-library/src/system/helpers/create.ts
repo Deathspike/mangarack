@@ -27,11 +27,12 @@ export function createContextChapter(context: mio.IContext, chapter: mio.IChapte
  * @return The context series.
  */
 export function createContextSeries(context: mio.IContext, series: mio.ISeries): mio.IContextSeries {
+  let seriesId = ++context.lastId;
   return {
     addedAt: Date.now(),
     chapters: mio.mapByChapterKey(series.chapters, chapter => mio.createContextChapter(context, chapter)),
     checkedAt: Date.now(),
-    id: ++context.lastId,
+    id: seriesId,
     metadata: mio.copySeriesMetadata(series)
   };
 }

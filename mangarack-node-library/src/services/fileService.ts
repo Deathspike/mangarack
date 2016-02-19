@@ -65,7 +65,8 @@ export var fileService: mio.IFileService = {
   writeBlobAsync: async function(filePath: string, value: mio.IBlob): Promise<void> {
     let resolvedFilePath = resolveLibraryPath(filePath);
     await createDirectoriesAsync(resolvedFilePath);
-    await mio.promise(callback => fs.writeFile(resolveLibraryPath(filePath), value, callback));
+    await mio.promise(callback => fs.writeFile(`${resolvedFilePath}.tmp`, value, callback));
+    await mio.promise(callback => fs.rename(`${resolvedFilePath}.tmp`, resolvedFilePath, callback));
   },
 
   /**
@@ -77,7 +78,8 @@ export var fileService: mio.IFileService = {
   writeObjectAsync: async function<T>(filePath: string, value: T): Promise<void> {
     let resolvedFilePath = resolveLibraryPath(filePath);
     await createDirectoriesAsync(resolvedFilePath);
-    await mio.promise(callback => fs.writeFile(resolvedFilePath, JSON.stringify(value), {encoding: 'utf8'}, callback));
+    await mio.promise(callback => fs.writeFile(`${resolvedFilePath}.tmp`, JSON.stringify(value), {encoding: 'utf8'}, callback));
+    await mio.promise(callback => fs.rename(`${resolvedFilePath}.tmp`, resolvedFilePath, callback));
   }
 };
 
@@ -134,7 +136,7 @@ async function deleteAsync(fileOrFolderPath: string): Promise<void> {
 function resolveLibraryPath(fileOrFolderPath: string): string {
   let rootPath = storeService().getString('node.library.rootPath');
   if (rootPath) {
-    return path.resolve(rootPath, fileOrFolderPath);
+    return path.join(rootPath, fileOrFolderPath);
   } else {
     return fileOrFolderPath;
   }
