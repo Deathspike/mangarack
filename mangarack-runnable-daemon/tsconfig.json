@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "declaration": false,
+        "inlineSourceMap": true,
+        "inlineSources": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "outDir": "dist",
+        "removeComments": false,
+        "suppressImplicitAnyIndexErrors": false,
+        "target": "es6"
+    },
+    "exclude": [
+      "dist",
+      "node_modules"
+    ]
+}
