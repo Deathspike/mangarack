@@ -1,7 +1,5 @@
-'use strict';
 import * as mio from './default';
 import * as readline from 'readline';
-let storeService = mio.dependency.get<mio.IStoreService>('IStoreService');
 let queue = Promise.resolve();
 
 /*
@@ -88,7 +86,7 @@ function populateStore(items: string[]): void {
   for (let i = 0; i < items.length - 1; i++) {
     let key = items[i];
     if (/^--/.test(key)) {
-      storeService().set(key.substr(2), items[i + 1]);
+      mio.settingService.set(key.substr(2), items[i + 1]);
       i++;
     }
   }

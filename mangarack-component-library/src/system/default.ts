@@ -1,4 +1,3 @@
-'use strict';
 import * as mio from './module';
 
 /**

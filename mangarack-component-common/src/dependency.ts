@@ -1,4 +1,3 @@
-'use strict';
 let dependencies: {[key: string]: any} = {};
 let resolvers: {[key: string]: () => any} = {};
 

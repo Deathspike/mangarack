@@ -11,7 +11,7 @@
   "typings": "dist/default",
   "version": "4.0.4",
   "devDependencies": {
-    "typescript": "1.8.0-dev.20151122"
+    "typescript": "1.8.0"
   },
   "scripts": {
     "prepublish": "tsc"

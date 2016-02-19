@@ -1,4 +1,3 @@
-'use strict';
 import * as mio from '../default';
 let anyGenreType: {[key: string]: mio.GenreType} = mio.GenreType as any;
 

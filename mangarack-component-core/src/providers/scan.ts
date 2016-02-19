@@ -1,4 +1,3 @@
-'use strict';
 import * as mio from '../default';
 let regexp = new RegExp('\\s*' +
   // The volume expression [1].

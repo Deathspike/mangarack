@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "tsd": "0.6.5",
-    "typescript": "1.8.0-dev.20151122"
+    "typescript": "1.8.0"
   },
   "scripts": {
     "prepublish": "tsd install && tsc"

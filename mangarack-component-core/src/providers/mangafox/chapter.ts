@@ -1,4 +1,3 @@
-'use strict';
 import * as mio from '../../default';
 import {createPage} from './page';
 let httpService = mio.dependency.get<mio.IHttpService>('IHttpService');

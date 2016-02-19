@@ -1,4 +1,3 @@
-'use strict';
 import * as mio from '../../default';
 import {createChapter} from './chapter';
 import {enhance} from '../enhance';

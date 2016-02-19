@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Represents the collection of site settings.
  */

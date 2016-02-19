@@ -1,4 +1,3 @@
-'use strict';
 import * as mio from './default';
 import * as xml2js from 'xml2js';
 

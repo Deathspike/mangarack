@@ -1,4 +1,3 @@
-'use strict';
 import * as cheerio from 'cheerio';
 import * as mio from '../default';
 

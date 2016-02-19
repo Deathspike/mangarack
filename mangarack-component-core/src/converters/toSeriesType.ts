@@ -1,4 +1,3 @@
-'use strict';
 import * as mio from '../default';
 let anySeriesType: {[key: string]: mio.SeriesType} = mio.SeriesType as any;
 
