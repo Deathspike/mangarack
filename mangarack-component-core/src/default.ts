@@ -9,11 +9,14 @@ export * from './enumerators/SeriesType';
 export * from './converters/toGenreType';
 export * from './converters/toSeriesType';
 
+// core/errors
+export * from './errors/HttpServiceError';
+
 // core/providers
 export * from './providers/default';
 
 // core/services
-export * from './services/HttpServiceError';
+export * from './services/settingService';
 
 // core/typings
 export * from './typings/providers/IChapter';
@@ -26,4 +29,3 @@ export * from './typings/providers/ISeries';
 export * from './typings/providers/ISeriesMetadata';
 export * from './typings/services/IHtmlService';
 export * from './typings/services/IHttpService';
-export * from './typings/services/IStoreService';

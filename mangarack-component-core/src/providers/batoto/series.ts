@@ -5,7 +5,6 @@ import {enhance} from '../enhance';
 import {scan} from '../scan';
 let httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
 let htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
-let storeService = mio.dependency.get<mio.IStoreService>('IStoreService');
 let remapGenreType: {[key: string]: string} = {'Oneshot': 'One Shot', 'Sci-fi': 'Science Fiction'};
 
 /**
@@ -48,8 +47,8 @@ async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean
   let document = htmlService().load(body);
   let isLogged = Boolean(document('#user_navigation.logged_in').first().text());
   if (!isLogged) {
-    let username = storeService().getString('component.core.batoto.username');
-    let password = storeService().getString('component.core.batoto.password');
+    let username = mio.settingService.getString('component.core.batoto.username');
+    let password = mio.settingService.getString('component.core.batoto.password');
     if (!hasAttemptedLogin && username && password) {
       await httpService().postStringAsync('https://bato.to/forums/index.php?app=core&module=global&section=login&do=process', {
         auth_key: document('input[name=auth_key]').attr('value'),
