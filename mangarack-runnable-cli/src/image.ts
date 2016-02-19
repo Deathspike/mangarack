@@ -85,7 +85,7 @@ export async function normalizeAsync(image: mio.IBlob): Promise<mio.IOption<mio.
 }
 
 /**
- * Reads the line for the average color, or null when containing black.
+ * Reads the line for the average color when containing black.
  * @param buffer The buffer.
  * @param width The width.
  * @param y The position on the y-axis.
