@@ -3,7 +3,6 @@ import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import * as express from 'express';
 import * as mio from './default';
-let storeService = mio.dependency.get<mio.IStoreService>('IStoreService');
 
 /**
  * Starts the HTTP server.
