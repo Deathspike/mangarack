@@ -19,11 +19,8 @@ export class contextService {
       let deserializedContext = await fileService().readObjectAsync<mio.IContext>('context.mrx');
       if (!context.hasValue) {
         if (!deserializedContext.hasValue) {
-          context = mio.option<mio.IContext>({
-            lastId: 0,
-            providers: {},
-            password: mio.option<string>()
-          });
+          context = mio.option<mio.IContext>({lastId: 0, providers: {}, password: mio.option<string>()});
+          contextService.saveChanges();
         } else {
           context = deserializedContext;
         }
