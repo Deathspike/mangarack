@@ -80,7 +80,6 @@ function hasAnySeries(items: string[]): boolean {
   return false;
 }
 
-
 /**
  * Populates the store with items.
  * @param items The items.
@@ -88,7 +87,7 @@ function hasAnySeries(items: string[]): boolean {
 function populateStore(items: string[]): void {
   for (let i = 0; i < items.length - 1; i++) {
     let key = items[i];
-    if (/^--/.test(key) && !/^--disable/.test(key)) {
+    if (/^--/.test(key)) {
       storeService().set(key.substr(2), items[i + 1]);
       i++;
     }
