@@ -20,7 +20,7 @@ export class contextService {
       if (!context.hasValue) {
         if (!deserializedContext.hasValue) {
           context = mio.option<mio.IContext>({
-            lastId: 1,
+            lastId: 0,
             providers: {},
             password: mio.option<string>()
           });

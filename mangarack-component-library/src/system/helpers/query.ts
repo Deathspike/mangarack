@@ -23,24 +23,7 @@ export function queryCount<T>(items: {[key: string]: T}, selector: (item: T) => 
  * @param selector The selector.
  * @return The maximum value the selector yields.
  */
-export function queryMax<T>(items: {[key: string]: T}, selector: (item: T) => number): number {
-  let best = 0;
-  for (let key in items) {
-    let result = selector(items[key]);
-    if (best === 0 || best < result) {
-      best = result;
-    }
-  }
-  return best;
-}
-
-/**
- * Retrieves the maximum value the selector yields.
- * @param items The items.
- * @param selector The selector.
- * @return The maximum value the selector yields.
- */
-export function queryMaxOption<T>(items: {[key: string]: T}, selector: (item: T) => mio.IOption<number>): mio.IOption<number> {
+export function queryMax<T>(items: {[key: string]: T}, selector: (item: T) => mio.IOption<number>): mio.IOption<number> {
   let best = mio.option<number>();
   for (let key in items) {
     let result = selector(items[key]);
