@@ -2,7 +2,6 @@
 import * as fs from 'fs';
 import * as mio from '../default';
 import * as path from 'path';
-let storeService = mio.dependency.get<mio.IStoreService>('IStoreService');
 
 /**
  * Represents a file service.
@@ -134,7 +133,7 @@ async function deleteAsync(fileOrFolderPath: string): Promise<void> {
  * @return The resolved library path.
  */
 function resolveLibraryPath(fileOrFolderPath: string): string {
-  let rootPath = storeService().getString('node.library.rootPath');
+  let rootPath = mio.settingService.getString('node.library.rootPath');
   if (rootPath) {
     return path.join(rootPath, fileOrFolderPath);
   } else {
