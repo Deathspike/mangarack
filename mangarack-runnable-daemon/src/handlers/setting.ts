@@ -14,7 +14,7 @@ export default async function(request: express.Request, response: express.Respon
   if (!key.hasValue || !value.hasValue) {
     response.sendStatus(400);
   } else {
-    let result = await library.setting().runAsync(key.value, value.value);
-    response.send(result);
+    await library.setting().runAsync(key.value, value.value);
+    response.sendStatus(200);
   }
 }

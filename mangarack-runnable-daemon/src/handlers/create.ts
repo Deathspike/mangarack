@@ -14,7 +14,11 @@ export default async function(request: express.Request, response: express.Respon
     response.sendStatus(400);
   } else {
     let result = await library.create().runAsync(seriesAddress.value);
-    response.send(result);
+    if (result.hasValue) {
+      response.send(String(result.value));
+    } else {
+      response.sendStatus(400);
+    }
   }
 }
 
