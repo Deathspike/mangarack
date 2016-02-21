@@ -135,7 +135,6 @@ export let library: mio.ILibrary = {
   },
 
   /**
-   * [PATCH /api/setting] (200, 400)
    * Promises to propagate and archive the setting.
    * @param settings The settings.
    * @return The promise to propagate and archive the setting.
@@ -174,11 +173,10 @@ export let library: mio.ILibrary = {
   },
 
   /**
-   * [GET /] (200)
    * Promises the version.
    * @return The promise for the version.
    */
-  versionAsync(): Promise<{api: number}> {
+  versionAsync: function(): Promise<{api: number}> {
     return Promise.resolve({api: mio.version});
   }
 };
