@@ -36,8 +36,14 @@ export function startHttp() {
   app.patch ('/api/library/:seriesId/:chapterId', createHandler(require('./handlers/status')));
   app.patch ('/api/setting', createHandler(require('./handlers/setting')));
 
-  // Listen for requests.
-  app.listen(7782);
+  // Start listening for requests.
+  app.listen(7782, (error: any) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Listening at http://127.0.0.1:7782/');
+    }
+  });
 }
 
 /**
@@ -87,6 +93,11 @@ function createValidation(parameterName: string): any {
  * @param app The application.
  */
 function serveStatic(app: express.Application): void {
+  // This function requires some explaining. Prior to publishing, each runnable
+  // is bundled into a self-contained file, which speeds up installation. But,
+  // having to bundle each time to test changes is a nuisance. So, the bundling
+  // flags the output file with `isBundled`, which is switched upon here. We
+  // thefore serve the GUI directly from the web component during development.
   if ((process as any).isBundled) {
     app.use(express.static(path.join(process.argv[1], '../public')));
   } else {
