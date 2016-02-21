@@ -219,7 +219,6 @@ async function downloadChapterAsync(seriesId: number, chapterId: number): Promis
         await fileService().writeBlobAsync(`${seriesId}/${chapterId}/${corePage.number}.mrx`, image);
       }
       contextChapter.downloadedAt = mio.option(Date.now());
-      contextChapter.metadata = mio.copyChapterMetadata(coreChapter);
       contextChapter.numberOfPages = mio.option(corePages.length);
     } else {
       contextChapter.deletedAt = mio.option(Date.now());
@@ -262,6 +261,7 @@ async function downloadSeriesAsync(seriesId: number, existingChapters: boolean, 
         }
       } else {
         let contextChapter = contextSeries.chapters[metadataDerivedKey];
+        contextChapter.deletedAt = mio.option<number>();
         contextChapter.metadata = mio.copyChapterMetadata(coreChapter);
         if (existingChapters && !contextChapter.downloadedAt.hasValue) {
           mio.taskService.enqueue(mio.PriorityType.Low, () => downloadChapterAsync(seriesId, contextChapter.id));
