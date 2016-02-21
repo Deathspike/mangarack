@@ -254,7 +254,7 @@ async function downloadSeriesAsync(seriesId: number, existingChapters: boolean, 
     contextSeries.checkedAt = Date.now();
     contextSeries.metadata = mio.copySeriesMetadata(coreSeries);
 
-    // Update the chapters and create chapters when applicable.
+    // Check each core chapter to add new chapters and update existing ones.
     for (let metadataDerivedKey in coreChapters) {
       let coreChapter = coreChapters[metadataDerivedKey];
       if (!contextSeries.chapters[metadataDerivedKey]) {
@@ -271,7 +271,7 @@ async function downloadSeriesAsync(seriesId: number, existingChapters: boolean, 
       }
     }
 
-    // Update the delete time of removed chapters.
+    // Check each context chapter to flag deleted chapters.
     for (let metadataDerivedKey in contextSeries.chapters) {
       if (!coreChapters[metadataDerivedKey]) {
         contextSeries.chapters[metadataDerivedKey].deletedAt = mio.option(Date.now());
