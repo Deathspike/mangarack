@@ -52,7 +52,7 @@ async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument
         let document = htmlService().load(httpServiceError.body);
         let pass = document('form[id=challenge-form]').find('input[name=pass]').attr('value');
         if (pass) {
-          await new Promise(resolve => setTimeout(resolve, 8000));
+          await mio.promise(callback => setTimeout(callback, 8000));
           await httpService().getStringAsync(`${providerDomain}/cdn-cgi/l/chk_jschl?pass=${pass}`);
           return downloadDocumentAsync(address);
         }

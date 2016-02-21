@@ -87,8 +87,8 @@ async function anyAsync(addresses: string[], blob: boolean, form?: Dictionary, h
  * @param delayInMilliseconds The delay in milliseconds.
  * @return The promise to delay for the number of provided milliseconds.
  */
-function delayAsync(delayInMilliseconds: number): Promise<void> {
-  return new Promise<void>(resolve => setTimeout(resolve, delayInMilliseconds));
+function delayAsync(delayInMilliseconds: number): Promise<mio.IOption<void>> {
+  return mio.promise<void>(callback => setTimeout(callback, delayInMilliseconds));
 }
 
 /**
