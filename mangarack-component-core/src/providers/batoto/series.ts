@@ -56,7 +56,7 @@ async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean
         ips_password: password,
         rememberMe: '1'
       }, {origin: 'https://bato.to'});
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await mio.promise(callback => setTimeout(callback, 1000));
       return downloadDocumentAsync(address, true);
     } else {
       throw new Error(`Invalid 'component.core.batoto.username' or 'component.core.batoto.password'.`);
