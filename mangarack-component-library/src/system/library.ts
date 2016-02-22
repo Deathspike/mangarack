@@ -12,19 +12,23 @@ export let library: mio.ILibrary = {
   create: function(): mio.ILibraryHandler<(seriesAddress: string) => mio.IOptionPromise<number>> {
     return mio.createHandler((seriesAddress: string) => {
       return mio.taskService.enqueue(mio.PriorityType.High, async () => {
-        let coreProvider = mio.openProvider(seriesAddress);
-        let context = await mio.contextService.getContextAsync();
-        let contextProvider = context.providers[coreProvider.name] || (context.providers[coreProvider.name] = {series: {}});
-        if (contextProvider.series[seriesAddress]) {
-          return mio.option(contextProvider.series[seriesAddress].id);
+        if (createValid(seriesAddress)) {
+          let coreProvider = mio.openProvider(seriesAddress);
+          let context = await mio.contextService.getContextAsync();
+          let contextProvider = context.providers[coreProvider.name] || (context.providers[coreProvider.name] = {series: {}});
+          if (contextProvider.series[seriesAddress]) {
+            return mio.option(contextProvider.series[seriesAddress].id);
+          } else {
+            let coreSeries = await coreProvider.seriesAsync(seriesAddress);
+            let coreSeriesImage = await coreSeries.imageAsync();
+            let contextSeries = mio.createContextSeries(context, coreSeries);
+            await fileService().writeBlobAsync(`${contextSeries.id}/previewImage.mrx`, coreSeriesImage);
+            contextProvider.series[seriesAddress] = contextSeries;
+            mio.contextService.saveChanges();
+            return mio.option(contextSeries.id);
+          }
         } else {
-          let coreSeries = await coreProvider.seriesAsync(seriesAddress);
-          let coreSeriesImage = await coreSeries.imageAsync();
-          let contextSeries = mio.createContextSeries(context, coreSeries);
-          await fileService().writeBlobAsync(`${contextSeries.id}/previewImage.mrx`, coreSeriesImage);
-          contextProvider.series[seriesAddress] = contextSeries;
-          mio.contextService.saveChanges();
-          return mio.option(contextSeries.id);
+          return mio.option<number>();
         }
       });
     });
@@ -180,6 +184,20 @@ export let library: mio.ILibrary = {
     return Promise.resolve({api: mio.version});
   }
 };
+
+/**
+ * Determines whether the series address is valid.
+ * @param seriesAddress The series address.
+ * @return Indicates whether the series address is valid.
+ */
+function createValid(seriesAddress: string): boolean {
+  try {
+    mio.openProvider(seriesAddress);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
 
 /**
  * Promises to download each series metadata.

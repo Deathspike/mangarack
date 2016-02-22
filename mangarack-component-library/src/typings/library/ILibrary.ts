@@ -11,7 +11,7 @@ import * as mio from '../../default';
  */
 export interface ILibrary {
   /**
-   * [POST /api/library] (200+MB, 400)
+   * [POST /api/library] (200+MB, 400, 404)
    * Promises to create the series.
    * @param seriesAddress The series address.
    * @return The promise to create the series.

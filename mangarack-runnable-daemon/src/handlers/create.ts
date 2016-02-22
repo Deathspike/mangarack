@@ -10,28 +10,14 @@ import * as mio from '../default';
  */
 export default async function(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
   let seriesAddress = mio.option<string>(request.body.seriesAddress);
-  if (!seriesAddress.hasValue || !isValid(seriesAddress.value)) {
+  if (!seriesAddress.hasValue) {
     response.sendStatus(400);
   } else {
     let result = await library.create().runAsync(seriesAddress.value);
     if (result.hasValue) {
       response.send(String(result.value));
     } else {
-      response.sendStatus(400);
+      response.sendStatus(404);
     }
-  }
-}
-
-/**
- * Determines whether the series address is valid.
- * @param seriesAddress The series address.
- * @return Indicates whether the series address is valid.
- */
-function isValid(seriesAddress: string): boolean {
-  try {
-    mio.openProvider(seriesAddress);
-    return true;
-  } catch (error) {
-    return false;
   }
 }
