@@ -38,7 +38,7 @@ export let library: mio.ILibrary = {
   /**
    * Promises to delete the series/chapter.
    * @param seriesId The series identifier.
-   * @param chapterId= The chapter= identifier.
+   * @param chapterId= The chapter identifier.
    * @return The promise to delete the series/chapter.
    */
   deleteAsync: async function(seriesId: number, chapterId?: number): Promise<boolean> {

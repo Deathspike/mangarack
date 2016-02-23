@@ -84,14 +84,14 @@ export interface IHtmlObject {
 
   /**
    * Gets the immediately following sibling of each element.
-   * @param selector= The string containing the selector expression.
+   * @param selector The string containing the selector expression.
    * @return The immediately following sibling of each element
    */
   next(selector: mio.IOption<string>): IHtmlObject;
 
   /**
    * Gets the parent of each element.
-   * @param selector= The string containing the selector expression.
+   * @param selector The string containing the selector expression.
    * @return The parent of each element.
    */
   parent(selector: mio.IOption<string>): IHtmlObject;

@@ -1,3 +1,4 @@
+import * as mio from '../default';
 let items: mio.IDictionary = {};
 
 /**

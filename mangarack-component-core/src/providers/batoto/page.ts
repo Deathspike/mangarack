@@ -8,7 +8,7 @@ let htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
  * @internal
  * @param address The address.
  * @param metadata The metadata.
- * @param previousDocument= The previous document.
+ * @param previousDocument The previous document.
  * @return The page.
  */
 export function createPage(address: string, metadata: mio.IPageMetadata, previousDocument: mio.IOption<mio.IHtmlDocument>): mio.IPage {
@@ -21,7 +21,7 @@ export function createPage(address: string, metadata: mio.IPageMetadata, previou
 /**
  * Promises the image.
  * @param address The address.
- * @param previousDocument= The previous document.
+ * @param previousDocument The previous document.
  * @return The promise for the image.
  */
 async function downloadDocumentAndImageAsync(address: string, previousDocument: mio.IOption<mio.IHtmlDocument>): Promise<mio.IBlob> {
@@ -32,7 +32,7 @@ async function downloadDocumentAndImageAsync(address: string, previousDocument: 
 /**
  * Promises the document.
  * @param address The address.
- * @param previousDocument= The previous document.
+ * @param previousDocument The previous document.
  * @return The promise for the document.
  */
 async function downloadDocumentAsync(address: string, previousDocument: mio.IOption<mio.IHtmlDocument>): Promise<mio.IHtmlDocument> {
