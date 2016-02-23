@@ -15,7 +15,7 @@ export class RemoteLibrary implements mio.ILibrary {
    * @param password The password.
    */
   constructor(host: mio.IOption<string>, password: mio.IOption<string>) {
-    this._address = host.hasValue ? `http://${host}` : '';
+    this._address = host.hasValue ? this._getHostAddress(host.value) : '';
     this._authorization = password.hasValue ? `Basic ${btoa(':' + password.value)}` : '';
   }
 
@@ -174,6 +174,21 @@ export class RemoteLibrary implements mio.ILibrary {
         text: (address: string|string[]) => httpService().text(address, {Authorization: this._authorization})
       }
     }
+  }
+
+  /**
+   * Retrieves the host address.
+   * @param host The host.
+   * @return The host address.
+   */
+  private _getHostAddress(host: string): string {
+    if (!/:/.test(host)) {
+      host += ':7782';
+    }
+    if (!/^https?:\/\//i.test(host)) {
+      host = `http://${host}`;
+    }
+    return host;
   }
 
   /**

@@ -1,6 +1,9 @@
 // core
 export * from 'mangarack-component-core';
 
+// library/remote
+export * from './remote/default';
+
 // library/system
 export * from './system/default';
 
