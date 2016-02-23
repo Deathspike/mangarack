@@ -3,6 +3,7 @@ import {createSeriesAsync} from './series';
 
 /**
  * Represents the provider.
+ * @internal
  */
 export let mangafox: mio.IProvider = {
   /**

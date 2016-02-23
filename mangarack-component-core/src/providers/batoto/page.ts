@@ -5,6 +5,7 @@ let htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
 
 /**
  * Creates the page.
+ * @internal
  * @param address The address.
  * @param metadata The metadata.
  * @param previousDocument= The previous document.

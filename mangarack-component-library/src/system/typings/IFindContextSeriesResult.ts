@@ -2,6 +2,7 @@ import * as mio from '../module';
 
 /**
  * Represents a context series result.
+ * @internal
  */
 export interface IFindContextSeriesResult {
   /**

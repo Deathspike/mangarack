@@ -3,6 +3,7 @@ let httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
 
 /**
  * Represents a remote library.
+ * @internal
  */
 export class RemoteLibrary implements mio.ILibrary {
   private _address: string;

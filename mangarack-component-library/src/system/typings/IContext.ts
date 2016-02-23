@@ -2,6 +2,7 @@ import * as mio from '../module';
 
 /**
  * Represents the context.
+ * @internal
  */
 export interface IContext {
   /**

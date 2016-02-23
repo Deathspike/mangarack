@@ -8,6 +8,7 @@
         "moduleResolution": "node",
         "outDir": "dist",
         "removeComments": false,
+        "stripInternal": true,
         "suppressImplicitAnyIndexErrors": false,
         "target": "es6"
     },

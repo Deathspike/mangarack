@@ -3,6 +3,7 @@ import * as mio from '../default';
 
 /**
  * Promises the list of chapters.
+ * @internal
  * @param request The request.
  * @param response The response.
  * @param library The library.

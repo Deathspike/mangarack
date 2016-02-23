@@ -1,19 +1,19 @@
-/* TODO: Change `taskService` to object, instead of class, but somehow, that trips up TypeScript. Why? */
 import * as mio from '../module';
 let isBusy = false;
 let queue: {[priorityType: number]: {reject: (reason?: any) => void, resolve: (value: any) => void, runAsync: () => Promise<any>}[]} = {};
 
 /**
  * Represents the task service.
+ * @internal
  */
-export class taskService {
+export let taskService = {
   /**
    * Promises to run the task with the assigned priority.
    * @param priorityType The priority type.
    * @param runAsync The task runner.
    * @return The promise to run the task with the assigned priority.
    */
-  static async enqueue<T>(priorityType: mio.PriorityType, runAsync: () => Promise<T>): Promise<T> {
+  enqueue: async function<T>(priorityType: mio.PriorityType, runAsync: () => Promise<T>): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       if (!queue[priorityType]) {
         queue[priorityType] = [{resolve: resolve, reject: reject, runAsync: runAsync}];

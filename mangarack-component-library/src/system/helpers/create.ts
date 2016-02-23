@@ -2,6 +2,7 @@ import * as mio from '../module';
 
 /**
  * Creates the context chapter based on the chapter.
+ * @internal
  * @param context The context.
  * @param chapter The chapter.
  * @return The context chapter.
@@ -21,6 +22,7 @@ export function createContextChapter(context: mio.IContext, chapter: mio.IChapte
 
 /**
  * Creates the context series based on the series.
+ * @internal
  * @param context The context.
  * @param series The series.
  * @return The context series.

@@ -3,6 +3,7 @@ import * as mio from '../default';
 
 /**
  * Promises to delete the series.
+ * @internal
  * @param request The request.
  * @param response The response.
  * @param library The library.

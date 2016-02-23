@@ -1,5 +1,6 @@
 /**
  * The response type.
+ * @internal
  */
 export enum ResponseType {
   /**

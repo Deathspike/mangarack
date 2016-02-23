@@ -1,4 +1,5 @@
-import * as mio from './module';
+import * as mio from '../default';
+import * as mioInternal from './module';
 
 /**
  * Promises the library.
@@ -7,10 +8,10 @@ import * as mio from './module';
  */
 export async function openLibraryAsync(password?: mio.IOption<string>): Promise<mio.IOption<mio.ILibrary>> {
   if (password != null && password.hasValue) {
-    let context = await mio.contextService.getContextAsync();
+    let context = await mioInternal.contextService.getContextAsync();
     if (context.password.hasValue && context.password.value != password.value) {
       return mio.option<mio.ILibrary>();
     }
   }
-  return mio.option(mio.library);
+  return mio.option(mioInternal.library);
 }

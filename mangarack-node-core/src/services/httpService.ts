@@ -9,6 +9,7 @@ type Dictionary = {[key: string]: string};
 
 /**
  * Represents a HTTP service.
+ * @internal
  */
 export var httpService: mio.IHttpService = {
   /**
