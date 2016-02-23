@@ -10,7 +10,7 @@ let htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
  * @param previousDocument= The previous document.
  * @return The page.
  */
-export function createPage(address: string, metadata: mio.IPageMetadata, previousDocument?: mio.IOption<mio.IHtmlDocument>): mio.IPage {
+export function createPage(address: string, metadata: mio.IPageMetadata, previousDocument: mio.IOption<mio.IHtmlDocument>): mio.IPage {
   return {
     imageAsync: () => downloadDocumentAndImageAsync(address, previousDocument),
     number: metadata.number
@@ -23,7 +23,7 @@ export function createPage(address: string, metadata: mio.IPageMetadata, previou
  * @param previousDocument= The previous document.
  * @return The promise for the image.
  */
-async function downloadDocumentAndImageAsync(address: string, previousDocument?: mio.IOption<mio.IHtmlDocument>): Promise<mio.IBlob> {
+async function downloadDocumentAndImageAsync(address: string, previousDocument: mio.IOption<mio.IHtmlDocument>): Promise<mio.IBlob> {
   let document = await downloadDocumentAsync(address, previousDocument);
   return downloadImageAsync(document);
 }
@@ -34,9 +34,9 @@ async function downloadDocumentAndImageAsync(address: string, previousDocument?:
  * @param previousDocument= The previous document.
  * @return The promise for the document.
  */
-async function downloadDocumentAsync(address: string, previousDocument?: mio.IOption<mio.IHtmlDocument>): Promise<mio.IHtmlDocument> {
+async function downloadDocumentAsync(address: string, previousDocument: mio.IOption<mio.IHtmlDocument>): Promise<mio.IHtmlDocument> {
   if (previousDocument == null || !previousDocument.hasValue) {
-    let body = await httpService().text(address).getAsync();
+    let body = await httpService().text(address, {}).getAsync();
     return htmlService().load(body);
   } else {
     return previousDocument.value;
@@ -54,7 +54,7 @@ function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
   if (address) {
     let alternativeAddress = viewer.attr('onerror').match(/^this.src='(.*)'$/);
     if (alternativeAddress && address !== alternativeAddress[1]) {
-      return httpService().blob([address, alternativeAddress[1]]).getAsync();
+      return httpService().blob([address, alternativeAddress[1]], {}).getAsync();
     } else {
       throw new Error('Invalid alternative page address.');
     }
