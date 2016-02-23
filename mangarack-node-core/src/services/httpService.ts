@@ -127,5 +127,9 @@ async function tryAsync(method: string, type: ResponseType, addresses: string[],
       }
     }
   }
-  throw new Error(previousError || `Invalid HTTP response: ${addresses.join(', ')}`);
+  if (previousError) {
+    throw previousError;
+  } else {
+    throw new Error(`Invalid HTTP response: ${addresses.join(', ')}`);
+  }
 }
