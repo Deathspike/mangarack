@@ -3,6 +3,7 @@ import * as mio from '../default';
 
 /**
  * Represents a HTML service.
+ * @internal
  */
 export var htmlService: mio.IHtmlService = {
   /**

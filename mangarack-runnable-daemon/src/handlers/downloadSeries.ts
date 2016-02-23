@@ -3,6 +3,7 @@ import * as mio from '../default';
 
 /**
  * Promise to download the series metadata.
+ * @internal
  * @param request The request.
  * @param response The response.
  * @param library The library.

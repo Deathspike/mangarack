@@ -1,5 +1,6 @@
 /**
  * Represents the collection of site settings.
+ * @internal
  */
 export var site = {
   /**

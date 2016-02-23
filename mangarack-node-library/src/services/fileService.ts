@@ -4,6 +4,7 @@ import * as path from 'path';
 
 /**
  * Represents a file service.
+ * @internal
  */
 export var fileService: mio.IFileService = {
   /**

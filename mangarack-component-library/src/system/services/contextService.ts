@@ -1,4 +1,3 @@
-/* TODO: Change `contextService` to object, instead of class, but somehow, that trips up TypeScript. Why? */
 import * as mio from '../module';
 let context = mio.option<mio.IContext>();
 let fileService = mio.dependency.get<mio.IFileService>('IFileService');
@@ -7,13 +6,14 @@ let shouldSaveAgain = false;
 
 /**
  * Represents the context service.
+ * @internal
  */
-export class contextService {
+export let contextService = {
   /**
    * Promises the context.
    * @return The promise for the context.
    */
-  static async getContextAsync(): Promise<mio.IContext> {
+  getContextAsync: async function(): Promise<mio.IContext> {
     if (!context.hasValue) {
       let deserializedContext = await fileService().readObjectAsync<mio.IContext>('context.mrx');
       if (!context.hasValue) {
@@ -31,12 +31,12 @@ export class contextService {
       }
     }
     return context.value;
-  }
+  },
 
   /**
    * Saves the changes.
    */
-  static saveChanges(): void {
+  saveChanges: function(): void {
     if (isSaving) {
       shouldSaveAgain = true;
     } else if (context.hasValue) {

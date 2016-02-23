@@ -8,6 +8,7 @@ let remapGenreType: {[key: string]: string} = {'Oneshot': 'One Shot', 'Sci-fi': 
 
 /**
  * Promises the series.
+ * @internal
  * @param address The address.
  * @return The promise for the series.
  */

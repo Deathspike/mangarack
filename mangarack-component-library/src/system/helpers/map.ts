@@ -2,6 +2,7 @@ import * as mio from '../module';
 
 /**
  * Maps the chapters by the chapter metadata derived key.
+ * @internal
  * @param chapters The chapters.
  * @param selector The selector.
  * @return The chapters mapped by chapter metadata derived key.
@@ -16,6 +17,7 @@ export function mapByChapterKey<T>(chapters: mio.IChapter[], selector: (chapter:
 
 /**
  * Retrieves the metadata derived key for the chapter.
+ * @internal
  * @param chapter The chapter.
  * @return The metadata derived key for the chapter.
  */

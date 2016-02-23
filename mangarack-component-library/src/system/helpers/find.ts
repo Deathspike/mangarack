@@ -2,6 +2,7 @@ import * as mio from '../module';
 
 /**
  * Attempts to find the chapter in the context.
+ * @internal
  * @param context The context.
  * @param seriesId The series identifier.
  * @param chapterId The chapter identifier.
@@ -30,6 +31,7 @@ export function findContextChapter(context: mio.IContext, seriesId: number, chap
 
 /**
  * Attempts to find the series in the context.
+ * @internal
  * @param context The context.
  * @param seriesId The series identifier.
  * @return The result of the attempt to find the series in the context.

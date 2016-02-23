@@ -2,6 +2,7 @@ import * as mio from '../module';
 
 /**
  * Represents a context chapter result.
+ * @internal
  */
 export interface IFindContextChapterResult extends mio.IFindContextSeriesResult {
   /**

@@ -2,7 +2,8 @@ import * as express from 'express';
 import * as mio from '../default';
 
 /**
-* Promises to download each series metadata.
+ * Promises to download each series metadata.
+ * @internal
  * @param request The request.
  * @param response The response.
  * @param library The library.

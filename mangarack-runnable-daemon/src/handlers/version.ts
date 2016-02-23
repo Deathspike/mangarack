@@ -3,7 +3,7 @@ import * as mio from '../default';
 
 /**
  * Promises the version.
- * Promises to set the number of read pages status.
+ * @internal
  * @param request The request.
  * @param response The response.
  * @param library The library.

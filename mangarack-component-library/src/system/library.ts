@@ -3,6 +3,7 @@ let fileService = mio.dependency.get<mio.IFileService>('IFileService');
 
 /**
  * Represents the library.
+ * @internal
  */
 export let library: mio.ILibrary = {
   /**

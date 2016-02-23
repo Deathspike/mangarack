@@ -2,6 +2,7 @@ import * as mio from '../default';
 
 /**
  * Enhances the chapter numbering when applicable.
+ * @internal
  * @param chapters The chapters.
  * @return The chapters with enhanced chapter numbering.
  */

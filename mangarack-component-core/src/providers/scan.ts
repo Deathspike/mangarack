@@ -19,6 +19,7 @@ let regexp = new RegExp('\\s*' +
 
 /**
  * Scans the input for chapter metadata.
+ * @internal
  * @param input The input to scan.
  * @return The chapter metadata.
  */

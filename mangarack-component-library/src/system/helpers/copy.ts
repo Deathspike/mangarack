@@ -2,6 +2,7 @@ import * as mio from '../module';
 
 /**
  * Copies chapter metadata.
+ * @internal
  * @param metadata The metadata.
  * @return The metadata copy.
  */
@@ -16,6 +17,7 @@ export function copyChapterMetadata(metadata: mio.IChapterMetadata): mio.IChapte
 
 /**
  * Copies series metadata.
+ * @internal
  * @param metadata The metadata.
  * @return The metadata copy.
  */
