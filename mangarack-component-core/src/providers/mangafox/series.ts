@@ -40,7 +40,7 @@ function createSeries(address: string, document: mio.IHtmlDocument): mio.ISeries
  * @return The promise for the document.
  */
 async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument> {
-  let body = await httpService().getStringAsync(address);
+  let body = await httpService().text(address).getAsync();
   return htmlService().load(body);
 }
 
@@ -52,7 +52,7 @@ async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument
 function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
   let address = $('img[src*=\'cover.jpg\']').attr('src');
   if (address) {
-    return httpService().getBlobAsync(address);
+    return httpService().blob(address).getAsync();
   } else {
     throw new Error('Invalid series cover address.');
   }

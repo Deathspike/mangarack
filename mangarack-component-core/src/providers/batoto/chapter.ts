@@ -26,7 +26,7 @@ export function createChapter(externalAddress: string, metadata: mio.IChapterMet
  * @return The promise for the document.
  */
 async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument> {
-  let body = await httpService().getStringAsync(`${address}&p=1`, site.readerHeaders);
+  let body = await httpService().text(`${address}&p=1`, site.readerHeaders).getAsync();
   return htmlService().load(body);
 }
 

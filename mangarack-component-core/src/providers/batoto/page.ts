@@ -36,7 +36,7 @@ async function downloadDocumentAndImageAsync(address: string, previousDocument?:
  */
 async function downloadDocumentAsync(address: string, previousDocument?: mio.IOption<mio.IHtmlDocument>): Promise<mio.IHtmlDocument> {
   if (previousDocument == null || !previousDocument.hasValue) {
-    let body = await httpService().getStringAsync(address, site.readerHeaders);
+    let body = await httpService().text(address, site.readerHeaders).getAsync();
     return htmlService().load(body);
   } else {
     return previousDocument.value;
@@ -51,7 +51,7 @@ async function downloadDocumentAsync(address: string, previousDocument?: mio.IOp
 function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
   let address = $('img[alt*=\'Batoto!\']').attr('src');
   if (address) {
-    return httpService().getBlobAsync(address);
+    return httpService().blob(address).getAsync();
   } else {
     throw new Error('Invalid page address.');
   }
