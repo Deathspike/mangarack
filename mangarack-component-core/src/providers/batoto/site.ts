@@ -1,3 +1,5 @@
+import * as mio from '../../default';
+
 /**
  * Represents the collection of site settings.
  * @internal

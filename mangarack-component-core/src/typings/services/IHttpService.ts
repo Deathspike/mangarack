@@ -10,7 +10,7 @@ export interface IHttpService {
    * @param headers= Each header.
    * @return The handler to retrieve the contents of the HTTP resource as a blob.
    */
-  blob: (address: string|string[], headers?: mio.IDictionary) => IHttpServiceHandler<mio.IBlob>;
+  blob: (address: string|string[], headers: mio.IDictionary) => IHttpServiceHandler<mio.IBlob>;
 
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
@@ -18,7 +18,7 @@ export interface IHttpService {
    * @param headers= Each header.
    * @return The handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
    */
-  json: <T>(address: string|string[], headers?: mio.IDictionary) => IHttpServiceHandler<T>;
+  json: <T>(address: string|string[], headers: mio.IDictionary) => IHttpServiceHandler<T>;
 
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as text.
@@ -26,7 +26,7 @@ export interface IHttpService {
    * @param headers= Each header.
    * @return The handler to retrieve the contents of the HTTP resource as text.
    */
-  text: (address: string|string[], headers?: mio.IDictionary) => IHttpServiceHandler<string>;
+  text: (address: string|string[], headers: mio.IDictionary) => IHttpServiceHandler<string>;
 }
 
 /**
@@ -38,7 +38,7 @@ export interface IHttpServiceHandler<T> {
    * @param formData= Each form key/value pair.
    * @return The promise for the contents of the HTTP resource.
    */
-  deleteAsync: (formData?: mio.IDictionary) => Promise<T>;
+  deleteAsync: (formData: mio.IDictionary) => Promise<T>;
 
   /**
    * Promises the contents of the HTTP resource.
@@ -51,19 +51,19 @@ export interface IHttpServiceHandler<T> {
    * @param formData= Each form key/value pair.
    * @return The promise for the contents of the HTTP resource.
    */
-  patchAsync: (formData?: mio.IDictionary) => Promise<T>;
+  patchAsync: (formData: mio.IDictionary) => Promise<T>;
 
   /**
    * Promises the contents of the HTTP resource.
    * @param formData= Each form key/value pair.
    * @return The promise for the contents of the HTTP resource.
    */
-  postAsync: (formData?: mio.IDictionary) => Promise<T>;
+  postAsync: (formData: mio.IDictionary) => Promise<T>;
 
   /**
    * Promises the contents of the HTTP resource.
    * @param formData= Each form key/value pair.
    * @return The promise for the contents of the HTTP resource.
    */
-  putAsync: (formData?: mio.IDictionary) => Promise<T>;
+  putAsync: (formData: mio.IDictionary) => Promise<T>;
 }

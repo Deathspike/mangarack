@@ -8,7 +8,7 @@ import * as mio from './default';
 export function promise<T>(runnable: (callback: (error?: any, value?: T) => void) => void): Promise<mio.IOption<T>> {
   return new Promise<mio.IOption<T>>((resolve, reject) => {
     try {
-      runnable((error: any, value: T) => {
+      runnable((error?: any, value?: T) => {
         if (error) {
           reject(error);
         } else {

@@ -93,10 +93,10 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
 
     /**
      * Gets the immediately following sibling of each element.
-     * @param selector= The string containing the selector expression.
+     * @param selector The string containing the selector expression.
      * @return The immediately following sibling of each element
      */
-    next: function(selector?: mio.IOption<string>): mio.IHtmlObject {
+    next: function(selector: mio.IOption<string>): mio.IHtmlObject {
       return encapsulateObject(selector == null || !selector.hasValue
         ? cheerioObject.next()
         : cheerioObject.next(selector.value));
@@ -104,10 +104,10 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
 
     /**
      * Gets the parent of each element.
-     * @param selector= The string containing the selector expression.
+     * @param selector The string containing the selector expression.
      * @return The parent of each element.
      */
-    parent: function(selector?: mio.IOption<string>): mio.IHtmlObject {
+    parent: function(selector: mio.IOption<string>): mio.IHtmlObject {
       return encapsulateObject(selector == null || !selector.hasValue
         ? cheerioObject.parent()
         : cheerioObject.parent(selector.value));
@@ -115,10 +115,10 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
 
     /**
      * Gets the immediately preceding sibling of each element.
-     * @param selector= The string containing the selector expression.
+     * @param selector The string containing the selector expression.
      * @return The immediately preceding sibling of each element.
      */
-    prev: function(selector?: mio.IOption<string>): mio.IHtmlObject {
+    prev: function(selector: mio.IOption<string>): mio.IHtmlObject {
       return encapsulateObject(selector == null || !selector.hasValue
         ? cheerioObject.prev()
         : cheerioObject.prev(selector.value));

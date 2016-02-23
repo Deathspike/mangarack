@@ -14,30 +14,30 @@ export var httpService: mio.IHttpService = {
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as a blob.
    * @param address The address, or addresses, of the HTTP resource.
-   * @param headers= Each header.
+   * @param headers Each header.
    * @return The handler to retrieve the contents of the HTTP resource as a blob.
    */
-  blob: function(address: string|string[], headers?: mio.IDictionary): mio.IHttpServiceHandler<mio.IBlob> {
+  blob: function(address: string|string[], headers: mio.IDictionary): mio.IHttpServiceHandler<mio.IBlob> {
     return createHttpServiceHandler(ResponseType.Blob, address, headers);
   },
 
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
    * @param address The address, or addresses, of the HTTP resource.
-   * @param headers= Each header.
+   * @param headers Each header.
    * @return The handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
    */
-  json: function<T>(address: string|string[], headers?: mio.IDictionary): mio.IHttpServiceHandler<T> {
+  json: function<T>(address: string|string[], headers: mio.IDictionary): mio.IHttpServiceHandler<T> {
     return createHttpServiceHandler(ResponseType.Json, address, headers);
   },
 
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as text.
    * @param address The address, or addresses, of the HTTP resource.
-   * @param headers= Each header.
+   * @param headers Each header.
    * @return The handler to retrieve the contents of the HTTP resource as text.
    */
-  text: function(address: string|string[], headers?: mio.IDictionary): mio.IHttpServiceHandler<string> {
+  text: function(address: string|string[], headers: mio.IDictionary): mio.IHttpServiceHandler<string> {
     return createHttpServiceHandler(ResponseType.Text, address, headers);
   }
 };
@@ -51,11 +51,11 @@ export var httpService: mio.IHttpService = {
 function createHttpServiceHandler<T>(type: ResponseType, address: string|string[], headers: mio.IDictionary): mio.IHttpServiceHandler<T> {
   let addresses = Array.isArray(address) ? address : [address];
   return {
-    deleteAsync: (formData?: mio.IDictionary) => tryAsync('DELETE', type, addresses, headers, formData),
+    deleteAsync: (formData: mio.IDictionary) => tryAsync('DELETE', type, addresses, headers, formData),
     getAsync: () => tryAsync('GET', type, addresses, headers, {}),
-    patchAsync: (formData?: mio.IDictionary) => tryAsync('PATCH', type, addresses, headers, formData),
-    postAsync: (formData?: mio.IDictionary) => tryAsync('POST', type, addresses, headers, formData),
-    putAsync: (formData?: mio.IDictionary) => tryAsync('PUT', type, addresses, headers, formData)
+    patchAsync: (formData: mio.IDictionary) => tryAsync('PATCH', type, addresses, headers, formData),
+    postAsync: (formData: mio.IDictionary) => tryAsync('POST', type, addresses, headers, formData),
+    putAsync: (formData: mio.IDictionary) => tryAsync('PUT', type, addresses, headers, formData)
   };
 }
 
@@ -79,7 +79,6 @@ function delayAsync(delayInMilliseconds: number): Promise<mio.IOption<void>> {
  */
 function fetchAsync<T>(method: string, type: ResponseType, address: string, headers: mio.IDictionary, formData: mio.IDictionary): Promise<any> {
   return new Promise((resolve, reject) => {
-    headers = headers || {}; /* TODO: Should not be necessary */
     headers['User-Agent'] = headers['User-Agent'] || userAgent;
     request({
       encoding: type == ResponseType.Blob ? null : 'utf8',

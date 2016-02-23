@@ -43,7 +43,7 @@ function createSeries(address: string, document: mio.IHtmlDocument): mio.ISeries
  * @return The promise for the document.
  */
 async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean): Promise<mio.IHtmlDocument> {
-  let body = await httpService().text(address).getAsync();
+  let body = await httpService().text(address, {}).getAsync();
   let document = htmlService().load(body);
   let isLogged = Boolean(document('#user_navigation.logged_in').first().text());
   if (!isLogged) {
@@ -76,7 +76,7 @@ async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean
 function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
   let address = $('img[src*=\'/uploads/\']').first().attr('src');
   if (address) {
-    return httpService().blob(address).getAsync();
+    return httpService().blob(address, {}).getAsync();
   } else {
     throw new Error('Invalid series cover address.');
   }
@@ -88,7 +88,7 @@ function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
  * @return Each artist.
  */
 function getArtists($: mio.IHtmlDocument): string[] {
-  return $('td:contains(Artist:)').next().find('a')
+  return $('td:contains(Artist:)').next(mio.option<string>()).find('a')
     .map((index, a) => $(a).text())
     .get();
 }
@@ -99,7 +99,7 @@ function getArtists($: mio.IHtmlDocument): string[] {
  * @return Each author.
  */
 function getAuthors($: mio.IHtmlDocument): string[] {
-  return $('td:contains(Author:)').next().find('a')
+  return $('td:contains(Author:)').next(mio.option<string>()).find('a')
     .map((index, a) => $(a).text())
     .get();
 }
@@ -127,9 +127,9 @@ function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
  * @return Each genre.
  */
 function getGenres($: mio.IHtmlDocument): string[] {
-  let isMature = Boolean($('.ipsBox .clear').first().next().text());
+  let isMature = Boolean($('.ipsBox .clear').first().next(mio.option<string>()).text());
   let initialArray = (isMature ? ['Mature'] : []);
-  return initialArray.concat($('td:contains(Genres:)').next().find('a')
+  return initialArray.concat($('td:contains(Genres:)').next(mio.option<string>()).find('a')
     .map((index, a) => $(a).text())
     .get()
     .map(value => remapGenreType[value] || value));
@@ -141,7 +141,7 @@ function getGenres($: mio.IHtmlDocument): string[] {
  * @return The summary.
  */
 function getSummary($: mio.IHtmlDocument): string {
-  let html = $('td:contains(Description:)').next().html();
+  let html = $('td:contains(Description:)').next(mio.option<string>()).html();
   let text = $('<div />').html(html.replace(/<br\s*\/?>/g, '\n')).text();
   return text;
 }
@@ -161,7 +161,7 @@ function getTitle($: mio.IHtmlDocument): string {
  * @return The type.
  */
 function getType($: mio.IHtmlDocument): string {
-  let text = $('td:contains(Type:)').next().text();
+  let text = $('td:contains(Type:)').next(mio.option<string>()).text();
   let match = text.match(/^(.*)\s+\(.*\)$/);
   return match ? match[1] : text;
 }
