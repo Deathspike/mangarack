@@ -6,13 +6,16 @@ let httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
  */
 export class RemoteLibrary implements mio.ILibrary {
   private _address: string;
+  private _authorization: string;
 
   /**
    * Initializes a new instance of the RemoteLibrary class.
-   * @param host The host.
+   * @param host= The host.
+   * @param password= The password.
    */
-  constructor(host: mio.IOption<string>) {
-    this._address = host.hasValue ? `http://${host}` : '';
+  constructor(host?: mio.IOption<string>, password?: mio.IOption<string>) {
+    this._address = host && host.hasValue ? `http://${host}` : '';
+    this._authorization = password && password.hasValue ? `Basic ${btoa(':' + password.value)}` : '';
   }
 
   /**
@@ -20,14 +23,12 @@ export class RemoteLibrary implements mio.ILibrary {
    * @return The promise to create the series.
    */
   create(): mio.ILibraryHandler<(seriesAddress: string) => mio.IOptionPromise<number>> {
-    throw new Error('TODO: Not yet implemented.');
-    /*return mio.createHandler(async (seriesAddress: string) => {
-      try {
-        return await httpService().postObjectAsync<number>(`${this._address}/api/library`, {seriesAddress});
-      } catch (error) {
-        return mio.option<number>();
-      }
-    });*/
+    return mio.createHandler(async (seriesAddress: string) => {
+      return this._handleNotFound(mio.option<number>(), async () => {
+        let result = await this._fetch().json<number>(`${this._address}/api/library`).postAsync({seriesAddress: seriesAddress});
+        return mio.option(result);
+      });
+    });
   }
 
   /**
@@ -37,11 +38,15 @@ export class RemoteLibrary implements mio.ILibrary {
    * @return The promise to delete the series/chapter.
    */
   async deleteAsync(seriesId: number, chapterId?: number): Promise<boolean> {
-    if (chapterId == null) {
-      throw new Error('TODO: Not yet implemented.');
-    } else {
-      throw new Error('TODO: Not yet implemented.');
-    }
+    return this._handleNotFound(false, async () => {
+      if (chapterId == null) {
+        await this._fetch().text(`${this._address}/api/library/${seriesId}`).deleteAsync();
+        return true;
+      } else {
+        await this._fetch().text(`${this._address}/api/library/${seriesId}/${chapterId}`).deleteAsync();
+        return true;
+      }
+    });
   }
 
   /**
@@ -52,11 +57,24 @@ export class RemoteLibrary implements mio.ILibrary {
    */
   download(seriesId?: number, chapterId?: number): mio.ILibraryHandler<any> {
     if (seriesId == null && chapterId == null) {
-      throw new Error('TODO: Not yet implemented.');
+      return mio.createHandler(async (existingChapters: boolean, newChapters: boolean) => {
+        let formData: {[key: string]: string} = {existingChapters: String(existingChapters), newChapters: String(newChapters)};
+        await this._fetch().text(`${this._address}/api/download`).postAsync(formData);
+      });
     } else if (chapterId == null) {
-      throw new Error('TODO: Not yet implemented.');
+      return mio.createHandler(async (existingChapters: boolean, newChapters: boolean) => {
+        return this._handleNotFound(false, async () => {
+          let formData: {[key: string]: string} = {existingChapters: String(existingChapters), newChapters: String(newChapters)};
+          await this._fetch().text(`${this._address}/api/download/${seriesId}`).postAsync(formData);
+          return true;
+        });
+      });
     } else {
-      throw new Error('TODO: Not yet implemented.');
+      return mio.createHandler(async () => {
+        return this._handleNotFound<void>(null, async () => {
+          await this._fetch().text(`${this._address}/api/download/${seriesId}/${chapterId}`).postAsync();
+        });
+      });
     }
   }
 
@@ -67,12 +85,16 @@ export class RemoteLibrary implements mio.ILibrary {
    * @param pageNumber= The page number.
    * @return The promise for the series/page image.
    */
-  imageAsync(seriesId: number, chapterId?: number, pageNumber?: number): mio.IOptionPromise<mio.IBlob> {
-    if (chapterId == null || pageNumber == null) {
-      throw new Error('TODO: Not yet implemented.');
-    } else {
-      throw new Error('TODO: Not yet implemented.');
-    }
+  async imageAsync(seriesId: number, chapterId?: number, pageNumber?: number): Promise<mio.IOption<mio.IBlob>> {
+    return this._handleNotFound(mio.option<mio.IBlob>(), async () => {
+      if (chapterId == null || pageNumber == null) {
+        let result = await this._fetch().blob(`${this._address}/content/${seriesId}`).getAsync();
+        return mio.option(result);
+      } else {
+        let result = await this._fetch().blob(`${this._address}/content/${seriesId}/${chapterId}/${pageNumber}`).getAsync();
+        return mio.option(result);
+      }
+    });
   }
 
   /**
@@ -82,9 +104,13 @@ export class RemoteLibrary implements mio.ILibrary {
    */
   async listAsync(seriesId?: number): Promise<any> {
     if (seriesId == null) {
-      throw new Error('TODO: Not yet implemented.');
+      let result = await this._fetch().json<mio.ILibrarySeries[]>(`${this._address}/api/library`).getAsync();
+      return result;
     } else {
-      throw new Error('TODO: Not yet implemented.');
+      return this._handleNotFound(mio.option<mio.ILibraryChapter[]>(), async () => {
+        let result = await this._fetch().json<mio.ILibraryChapter[]>(`${this._address}/api/library/${seriesId}`).getAsync();
+        return mio.option(result);
+      });
     }
   }
 
@@ -93,7 +119,9 @@ export class RemoteLibrary implements mio.ILibrary {
    * @return The promise to set the password.
    */
   password(): mio.ILibraryHandler<(password: string) => Promise<void>> {
-    throw new Error('TODO: Not yet implemented.');
+    return mio.createHandler(async (password: string) => {
+      await this._fetch().text(`${this._address}/api`).postAsync({password: password});
+    });
   }
 
   /**
@@ -102,7 +130,9 @@ export class RemoteLibrary implements mio.ILibrary {
    * @return The promise to propagate and archive the setting.
    */
   setting(): mio.ILibraryHandler<(key: string, value: string) => Promise<void>> {
-    throw new Error('TODO: Not yet implemented.');
+    return mio.createHandler(async (key: string, value: string) => {
+      await this._fetch().text(`${this._address}/api/setting`).patchAsync({key: key, value: value});
+    });
   }
 
   /**
@@ -112,7 +142,13 @@ export class RemoteLibrary implements mio.ILibrary {
    * @return The promise to set the number of read pages status.
    */
   status(seriesId: number, chapterId: number): mio.ILibraryHandler<(numberOfReadPages: number) => Promise<boolean>> {
-    throw new Error('TODO: Not yet implemented.');
+    return mio.createHandler(async (numberOfReadPages: number) => {
+      return this._handleNotFound(false, async () => {
+        let formData: {[key: string]: string} = {numberOfReadPages: String(numberOfReadPages)};
+        await this._fetch().text(`${this._address}/api/library/${seriesId}/${chapterId}`).patchAsync(formData);
+        return true;
+      });
+    });
   }
 
   /**
@@ -120,6 +156,43 @@ export class RemoteLibrary implements mio.ILibrary {
    * @return The promise for the version.
    */
   versionAsync(): Promise<{api: number}> {
-    throw new Error('TODO: Not yet implemented.');
+    return this._fetch().json<{api: number}>(`${this._address}/api`).getAsync();
+  }
+
+  /**
+   * Fetches a HTTP service with authorization.
+   * @return The HTTP service with authorization.
+   */
+  private _fetch(): mio.IHttpService {
+    if (!this._authorization) {
+      return httpService();
+    } else {
+      return {
+        blob: (address: string|string[]) => httpService().blob(address, {Authorization: this._authorization}),
+        json: <T>(address: string|string[]) => httpService().json(address, {Authorization: this._authorization}),
+        text: (address: string|string[]) => httpService().text(address, {Authorization: this._authorization})
+      }
+    }
+  }
+
+  /**
+   * Promises to handle a not found error and return the default value instead.
+   * @param defaultValue The default value.
+   * @param action The action.
+   * @return The promise to handle a not found error and return the default value instead.
+   */
+  private async _handleNotFound<T>(defaultValue: T, action: () => Promise<T>): Promise<T> {
+    try {
+      let result = await action();
+      return result;
+    } catch (error) {
+      if (error instanceof mio.HttpServiceError) {
+        let httpServiceError = error as mio.HttpServiceError;
+        if (httpServiceError.statusCode === 404) {
+          return defaultValue;
+        }
+      }
+      throw error;
+    }
   }
 }
