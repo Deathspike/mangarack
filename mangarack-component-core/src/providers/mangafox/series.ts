@@ -41,7 +41,7 @@ function createSeries(address: string, document: mio.IHtmlDocument): mio.ISeries
  * @return The promise for the document.
  */
 async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument> {
-  let body = await httpService().text(address).getAsync();
+  let body = await httpService().text(address, {}).getAsync();
   return htmlService().load(body);
 }
 
@@ -53,7 +53,7 @@ async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument
 function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
   let address = $('img[src*=\'cover.jpg\']').attr('src');
   if (address) {
-    return httpService().blob(address).getAsync();
+    return httpService().blob(address, {}).getAsync();
   } else {
     throw new Error('Invalid series cover address.');
   }
@@ -91,7 +91,7 @@ function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
   $('h3.volume').each((index, h3) => {
     let match = $(h3).text().trim().match(/^Volume\s(.+)$/i);
     if (match) {
-      $(h3).parent().next().find('a[href*=\'/manga/\']').each((index, a) => {
+      $(h3).parent(mio.option<string>()).next(mio.option<string>()).find('a[href*=\'/manga/\']').each((index, a) => {
         let address = $(a).attr('href');
         if (address) {
           let numberMatch = $(a).text().match(/[0-9\.]+$/);

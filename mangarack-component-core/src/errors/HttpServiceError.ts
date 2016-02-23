@@ -5,7 +5,7 @@ export class HttpServiceError extends Error {
   /**
    * Initializes a new instance of the HttpError class.
    * @param currentState The current state.
-   * @param message= The message.
+   * @param message The message.
    */
   constructor(currentState: {body: string, statusCode: number}, message: string) {
     super(message);
