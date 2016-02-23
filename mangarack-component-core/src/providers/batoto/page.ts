@@ -36,7 +36,7 @@ async function downloadDocumentAndImageAsync(address: string, previousDocument: 
  * @return The promise for the document.
  */
 async function downloadDocumentAsync(address: string, previousDocument: mio.IOption<mio.IHtmlDocument>): Promise<mio.IHtmlDocument> {
-  if (previousDocument == null || !previousDocument.hasValue) {
+  if (!previousDocument.hasValue) {
     let body = await httpService().text(address, site.readerHeaders).getAsync();
     return htmlService().load(body);
   } else {

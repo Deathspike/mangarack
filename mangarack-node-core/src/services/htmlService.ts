@@ -97,7 +97,7 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
      * @return The immediately following sibling of each element
      */
     next: function(selector: mio.IOption<string>): mio.IHtmlObject {
-      return encapsulateObject(selector == null || !selector.hasValue
+      return encapsulateObject(!selector.hasValue
         ? cheerioObject.next()
         : cheerioObject.next(selector.value));
     },
@@ -108,7 +108,7 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
      * @return The parent of each element.
      */
     parent: function(selector: mio.IOption<string>): mio.IHtmlObject {
-      return encapsulateObject(selector == null || !selector.hasValue
+      return encapsulateObject(!selector.hasValue
         ? cheerioObject.parent()
         : cheerioObject.parent(selector.value));
     },
@@ -119,7 +119,7 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
      * @return The immediately preceding sibling of each element.
      */
     prev: function(selector: mio.IOption<string>): mio.IHtmlObject {
-      return encapsulateObject(selector == null || !selector.hasValue
+      return encapsulateObject(!selector.hasValue
         ? cheerioObject.prev()
         : cheerioObject.prev(selector.value));
     },
