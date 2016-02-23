@@ -1,4 +1,4 @@
-let items: {[key: string]: string} = {};
+let items: mio.IDictionary = {};
 
 /**
  * Represents a setting service.

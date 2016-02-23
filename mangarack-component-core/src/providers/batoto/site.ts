@@ -6,5 +6,5 @@ export var site = {
   /**
    * Contains each reader header.
    */
-  readerHeaders: <{[key: string]: string}>{referer: 'http://bato.to/reader'}
+  readerHeaders: <mio.IDictionary>{referer: 'http://bato.to/reader'}
 };

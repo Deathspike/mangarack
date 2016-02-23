@@ -5,7 +5,7 @@ import {scan} from '../scan';
 let httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
 let htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
 let providerDomain = 'http://kissmanga.com';
-let remapGenreType: {[key: string]: string} = {'Sci-fi': 'Science Fiction'};
+let remapGenreType: mio.IDictionary = {'Sci-fi': 'Science Fiction'};
 
 /**
  * Promises the series.
