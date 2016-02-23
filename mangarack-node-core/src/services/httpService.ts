@@ -5,7 +5,6 @@ let delayInMilliseconds = 1000;
 let maximumAttempts = 10;
 let timeoutInMilliseconds = 5000;
 let userAgent = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
-type Dictionary = {[key: string]: string};
 
 /**
  * Represents a HTTP service.
@@ -18,7 +17,7 @@ export var httpService: mio.IHttpService = {
    * @param headers= Each header.
    * @return The handler to retrieve the contents of the HTTP resource as a blob.
    */
-  blob: function(address: string|string[], headers?: {[key: string]: string}): mio.IHttpServiceHandler<mio.IBlob> {
+  blob: function(address: string|string[], headers?: mio.IDictionary): mio.IHttpServiceHandler<mio.IBlob> {
     return createHttpServiceHandler(ResponseType.Blob, address, headers);
   },
 
@@ -28,7 +27,7 @@ export var httpService: mio.IHttpService = {
    * @param headers= Each header.
    * @return The handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
    */
-  json: function<T>(address: string|string[], headers?: {[key: string]: string}): mio.IHttpServiceHandler<T> {
+  json: function<T>(address: string|string[], headers?: mio.IDictionary): mio.IHttpServiceHandler<T> {
     return createHttpServiceHandler(ResponseType.Json, address, headers);
   },
 
@@ -38,7 +37,7 @@ export var httpService: mio.IHttpService = {
    * @param headers= Each header.
    * @return The handler to retrieve the contents of the HTTP resource as text.
    */
-  text: function(address: string|string[], headers?: {[key: string]: string}): mio.IHttpServiceHandler<string> {
+  text: function(address: string|string[], headers?: mio.IDictionary): mio.IHttpServiceHandler<string> {
     return createHttpServiceHandler(ResponseType.Text, address, headers);
   }
 };
@@ -49,14 +48,14 @@ export var httpService: mio.IHttpService = {
  * @param address The address, or addresses, of the HTTP resource.
  * @param headers The headers.
  */
-function createHttpServiceHandler<T>(type: ResponseType, address: string|string[], headers: Dictionary): mio.IHttpServiceHandler<T> {
+function createHttpServiceHandler<T>(type: ResponseType, address: string|string[], headers: mio.IDictionary): mio.IHttpServiceHandler<T> {
   let addresses = Array.isArray(address) ? address : [address];
   return {
-    deleteAsync: (formData?: {[key: string]: string}) => tryAsync('DELETE', type, addresses, headers, formData),
+    deleteAsync: (formData?: mio.IDictionary) => tryAsync('DELETE', type, addresses, headers, formData),
     getAsync: () => tryAsync('GET', type, addresses, headers, {}),
-    patchAsync: (formData?: {[key: string]: string}) => tryAsync('PATCH', type, addresses, headers, formData),
-    postAsync: (formData?: {[key: string]: string}) => tryAsync('POST', type, addresses, headers, formData),
-    putAsync: (formData?: {[key: string]: string}) => tryAsync('PUT', type, addresses, headers, formData)
+    patchAsync: (formData?: mio.IDictionary) => tryAsync('PATCH', type, addresses, headers, formData),
+    postAsync: (formData?: mio.IDictionary) => tryAsync('POST', type, addresses, headers, formData),
+    putAsync: (formData?: mio.IDictionary) => tryAsync('PUT', type, addresses, headers, formData)
   };
 }
 
@@ -78,7 +77,7 @@ function delayAsync(delayInMilliseconds: number): Promise<mio.IOption<void>> {
  * @param formData Each form key/value pair.
  * @return The promise for the contents of the HTTP resource.
  */
-function fetchAsync<T>(method: string, type: ResponseType, address: string, headers: Dictionary, formData: Dictionary): Promise<any> {
+function fetchAsync<T>(method: string, type: ResponseType, address: string, headers: mio.IDictionary, formData: mio.IDictionary): Promise<any> {
   return new Promise((resolve, reject) => {
     headers = headers || {}; /* TODO: Should not be necessary */
     headers['User-Agent'] = headers['User-Agent'] || userAgent;
@@ -117,7 +116,7 @@ function fetchAsync<T>(method: string, type: ResponseType, address: string, head
  * @param formData Each form key/value pair.
  * @return The promise to try to fetch the contents of the HTTP resource
  */
-async function tryAsync(method: string, type: ResponseType, addresses: string[], headers: Dictionary, formData: Dictionary): Promise<any> {
+async function tryAsync(method: string, type: ResponseType, addresses: string[], headers: mio.IDictionary, formData: mio.IDictionary): Promise<any> {
   let previousError: any;
   for (let currentAttempt of Array(maximumAttempts).keys()) {
     for (let currentAddress of addresses) {

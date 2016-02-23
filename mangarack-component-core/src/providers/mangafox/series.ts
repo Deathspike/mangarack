@@ -3,7 +3,7 @@ import {createChapter} from './chapter';
 import {enhance} from '../enhance';
 let httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
 let htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
-let remapGenreType: {[key: string]: string} = {'Sci-fi': 'Science Fiction', 'Webtoons': 'Webtoon'};
+let remapGenreType: mio.IDictionary = {'Sci-fi': 'Science Fiction', 'Webtoons': 'Webtoon'};
 
 /**
  * Promises the series.

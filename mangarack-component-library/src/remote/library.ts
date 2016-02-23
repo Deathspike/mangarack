@@ -59,13 +59,13 @@ export class RemoteLibrary implements mio.ILibrary {
   download(seriesId?: number, chapterId?: number): mio.ILibraryHandler<any> {
     if (seriesId == null && chapterId == null) {
       return mio.createHandler(async (existingChapters: boolean, newChapters: boolean) => {
-        let formData: {[key: string]: string} = {existingChapters: String(existingChapters), newChapters: String(newChapters)};
+        let formData: mio.IDictionary = {existingChapters: String(existingChapters), newChapters: String(newChapters)};
         await this._fetch().text(`${this._address}/api/download`).postAsync(formData);
       });
     } else if (chapterId == null) {
       return mio.createHandler(async (existingChapters: boolean, newChapters: boolean) => {
         return this._handleNotFound(false, async () => {
-          let formData: {[key: string]: string} = {existingChapters: String(existingChapters), newChapters: String(newChapters)};
+          let formData: mio.IDictionary = {existingChapters: String(existingChapters), newChapters: String(newChapters)};
           await this._fetch().text(`${this._address}/api/download/${seriesId}`).postAsync(formData);
           return true;
         });
@@ -145,7 +145,7 @@ export class RemoteLibrary implements mio.ILibrary {
   status(seriesId: number, chapterId: number): mio.ILibraryHandler<(numberOfReadPages: number) => Promise<boolean>> {
     return mio.createHandler(async (numberOfReadPages: number) => {
       return this._handleNotFound(false, async () => {
-        let formData: {[key: string]: string} = {numberOfReadPages: String(numberOfReadPages)};
+        let formData: mio.IDictionary = {numberOfReadPages: String(numberOfReadPages)};
         await this._fetch().text(`${this._address}/api/library/${seriesId}/${chapterId}`).patchAsync(formData);
         return true;
       });

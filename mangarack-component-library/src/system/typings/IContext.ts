@@ -23,7 +23,7 @@ export interface IContext {
   /**
    * Contains each setting.
    */
-  settings: {[key: string]: string};
+  settings: mio.IDictionary;
 
   /**
    * Contains the version.
