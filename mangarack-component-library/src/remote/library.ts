@@ -16,7 +16,7 @@ export class RemoteLibrary implements mio.ILibrary {
    */
   constructor(host: mio.IOption<string>, password: mio.IOption<string>) {
     this._address = host.hasValue ? this._getHostAddress(host.value) : '';
-    this._authorization = password.hasValue ? `Basic ${btoa(':' + password.value)}` : '';
+    this._authorization = password.hasValue ? `Basic ${mio.convertToBase64(':' + password.value)}` : '';
   }
 
   /**
