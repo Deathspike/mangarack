@@ -1,6 +1,6 @@
 import * as mio from '../default';
 import * as request from 'request';
-import {ResponseType} from '../enumerators/ResponseType';
+import {ResponseType} from './enumerators/ResponseType';
 let delayInMilliseconds = 1000;
 let maximumAttempts = 10;
 let timeoutInMilliseconds = 5000;
