@@ -6,7 +6,7 @@ import * as mio from '../../default';
 export interface IHttpService {
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as a blob.
-   * @param address The address, or addresses, of the HTTP resource.
+   * @param address The address, or addresses.
    * @param headers Each header.
    * @param strategy The strategy type.
    * @return The handler to retrieve the contents of the HTTP resource as a blob.
@@ -15,7 +15,7 @@ export interface IHttpService {
 
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
-   * @param address The address, or addresses, of the HTTP resource.
+   * @param address The address, or addresses.
    * @param headers Each header.
    * @param strategy The strategy type.
    * @return The handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
@@ -24,7 +24,7 @@ export interface IHttpService {
 
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as text.
-   * @param address The address, or addresses, of the HTTP resource.
+   * @param address The address, or addresses.
    * @param headers Each header.
    * @param strategy The strategy type.
    * @return The handler to retrieve the contents of the HTTP resource as text.
