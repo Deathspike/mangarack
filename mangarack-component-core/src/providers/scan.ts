@@ -13,7 +13,7 @@ let regexp = new RegExp('\\s*' +
   // The dash/plus skip expression.
   '(?:\\s*(?:-|\\+))?' +
   // The title expression [5].
-  '(?:\\s*\\:?\\s*(?:Read Onl?ine|([\\w\\W]*)))?' +
+  '(?:\\s*\\:?\\s*(?:(?:[\\w\\W]*)Read Onl?ine(?:[\\w\\W]*)|([\\w\\W]*)))?' +
   // The whitespace expression.
   '\\s*$', 'i');
 
