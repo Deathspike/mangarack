@@ -8,25 +8,28 @@ export interface IHttpService {
    * Creates a handler to retrieve the contents of the HTTP resource as a blob.
    * @param address The address, or addresses, of the HTTP resource.
    * @param headers Each header.
+   * @param strategy The strategy type.
    * @return The handler to retrieve the contents of the HTTP resource as a blob.
    */
-  blob: (address: string|string[], headers: mio.IDictionary) => IHttpServiceHandler<mio.IBlob>;
+  blob: (address: string|string[], headers: mio.IDictionary, strategy: mio.StrategyType) => IHttpServiceHandler<mio.IBlob>;
 
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
    * @param address The address, or addresses, of the HTTP resource.
    * @param headers Each header.
+   * @param strategy The strategy type.
    * @return The handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
    */
-  json: <T>(address: string|string[], headers: mio.IDictionary) => IHttpServiceHandler<T>;
+  json: <T>(address: string|string[], headers: mio.IDictionary, strategy: mio.StrategyType) => IHttpServiceHandler<T>;
 
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as text.
    * @param address The address, or addresses, of the HTTP resource.
    * @param headers Each header.
+   * @param strategy The strategy type.
    * @return The handler to retrieve the contents of the HTTP resource as text.
    */
-  text: (address: string|string[], headers: mio.IDictionary) => IHttpServiceHandler<string>;
+  text: (address: string|string[], headers: mio.IDictionary, strategy: mio.StrategyType) => IHttpServiceHandler<string>;
 }
 
 /**
