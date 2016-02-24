@@ -1,4 +1,5 @@
-import * as mio from './module';
+import * as mio from '../default';
+import * as mioInternal from './module';
 
 /**
  * Promises the remote library.
@@ -7,7 +8,7 @@ import * as mio from './module';
  * @return The promise for the remote library.
  */
 export async function openRemoteLibraryAsync(host: mio.IOption<string>, password: mio.IOption<string>): Promise<mio.IOption<mio.ILibrary>> {
-  let remoteLibrary = new mio.RemoteLibrary(host, password);
+  let remoteLibrary = new mioInternal.RemoteLibrary(host, password);
   try {
     await remoteLibrary.versionAsync();
     return mio.option(remoteLibrary);
