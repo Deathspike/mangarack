@@ -73,8 +73,9 @@ export class RemoteLibrary implements mio.ILibrary {
       });
     } else {
       return mio.createHandler(async () => {
-        return this._handleNotFound<void>(null, async () => {
+        return this._handleNotFound(false, async () => {
           await this._fetch().text(`${this._address}/api/download/${seriesId}/${chapterId}`, {}, mio.StrategyType.Basic).postAsync({});
+          return true;
         });
       });
     }
