@@ -44,7 +44,7 @@ function createSeries(address: string, document: mio.IHtmlDocument): mio.ISeries
  */
 async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument> {
   try {
-    let body = await httpService().text(address, {}).getAsync();
+    let body = await httpService().text(address, {}, mio.StrategyType.TimeoutWithRetry).getAsync();
     return htmlService().load(body);
   } catch (error) {
     if (error instanceof mio.HttpServiceError) {
@@ -54,7 +54,7 @@ async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument
         let pass = document('form[id=challenge-form]').find('input[name=pass]').attr('value');
         if (pass) {
           await mio.promise(callback => setTimeout(callback, 8000));
-          await httpService().text(`${providerDomain}/cdn-cgi/l/chk_jschl?pass=${pass}`, {}).getAsync();
+          await httpService().text(`${providerDomain}/cdn-cgi/l/chk_jschl?pass=${pass}`, {}, mio.StrategyType.TimeoutWithRetry).getAsync();
           return downloadDocumentAsync(address);
         }
       }
@@ -71,7 +71,7 @@ async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument
 function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
   let address = $('img[src*=\'/Uploads/\']').attr('src');
   if (address) {
-    return httpService().blob(address, {}).getAsync();
+    return httpService().blob(address, {}, mio.StrategyType.TimeoutWithRetry).getAsync();
   } else {
     throw new Error('Invalid series cover address.');
   }
