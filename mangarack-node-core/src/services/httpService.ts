@@ -1,5 +1,6 @@
 import * as mio from '../default';
 import * as request from 'request';
+import {ResponseType} from '../enumerators/ResponseType';
 let delayInMilliseconds = 1000;
 let maximumAttempts = 10;
 let timeoutInMilliseconds = 5000;
@@ -19,7 +20,7 @@ export var httpService: mio.IHttpService = {
    */
   blob: function(address: string|string[], headers: mio.IDictionary, strategy: mio.StrategyType): mio.IHttpServiceHandler<mio.IBlob> {
     let addresses = Array.isArray(address) ? address : [address];
-    return createHandler(mio.ResponseType.Blob, addresses, headers, strategy);
+    return createHandler(ResponseType.Blob, addresses, headers, strategy);
   },
 
   /**
@@ -31,7 +32,7 @@ export var httpService: mio.IHttpService = {
    */
   json: function<T>(address: string|string[], headers: mio.IDictionary, strategy: mio.StrategyType): mio.IHttpServiceHandler<T> {
     let addresses = Array.isArray(address) ? address : [address];
-    return createHandler(mio.ResponseType.Json, addresses, headers, strategy);
+    return createHandler(ResponseType.Json, addresses, headers, strategy);
   },
 
   /**
@@ -43,7 +44,7 @@ export var httpService: mio.IHttpService = {
    */
   text: function(address: string|string[], headers: mio.IDictionary, strategy: mio.StrategyType): mio.IHttpServiceHandler<string> {
     let addresses = Array.isArray(address) ? address : [address];
-    return createHandler(mio.ResponseType.Text, addresses, headers, strategy);
+    return createHandler(ResponseType.Text, addresses, headers, strategy);
   }
 };
 
@@ -55,7 +56,7 @@ export var httpService: mio.IHttpService = {
  * @param strategy The strategy type.
  * @return The service handler.
  */
-function createHandler<T>(type: mio.ResponseType, addresses: string[], headers: mio.IDictionary, strategy: mio.StrategyType): mio.IHttpServiceHandler<T> {
+function createHandler<T>(type: ResponseType, addresses: string[], headers: mio.IDictionary, strategy: mio.StrategyType): mio.IHttpServiceHandler<T> {
   return {
     deleteAsync: formData => fetchAnyAsync('DELETE', type, addresses, headers, strategy, formData),
     getAsync: () => fetchAnyAsync('GET', type, addresses, headers, strategy, {}),
@@ -83,7 +84,7 @@ function delayAsync(): Promise<mio.IOption<void>> {
  * @param formData Each form key/value pair.
  * @return The promise to try to fetch the contents of the HTTP resource
  */
-async function fetchAnyAsync(method: string, responseType: mio.ResponseType, addresses: string[], headers: mio.IDictionary, strategy: mio.StrategyType, formData: mio.IDictionary): Promise<any> {
+async function fetchAnyAsync(method: string, responseType: ResponseType, addresses: string[], headers: mio.IDictionary, strategy: mio.StrategyType, formData: mio.IDictionary): Promise<any> {
   let attempts = strategy === mio.StrategyType.BasicWithRetry || strategy === mio.StrategyType.TimeoutWithRetry ? maximumAttempts : 1;
   let previousError: any;
   for (let currentAttempt of Array(attempts).keys()) {
@@ -113,14 +114,14 @@ async function fetchAnyAsync(method: string, responseType: mio.ResponseType, add
  * @param formData Each form key/value pair.
  * @return The promise for the contents of the HTTP resource.
  */
-function fetchAsync<T>(method: string, responseType: mio.ResponseType, address: string, headers: mio.IDictionary, strategy: mio.StrategyType, formData: mio.IDictionary): Promise<any> {
-  let encoding = responseType == mio.ResponseType.Blob ? null : 'utf8';
+function fetchAsync<T>(method: string, responseType: ResponseType, address: string, headers: mio.IDictionary, strategy: mio.StrategyType, formData: mio.IDictionary): Promise<any> {
+  let encoding = responseType == ResponseType.Blob ? null : 'utf8';
   let timeout = strategy === mio.StrategyType.Basic || strategy === mio.StrategyType.BasicWithRetry ? 0 : timeoutInMilliseconds;
   return new Promise((resolve, reject) => {
     headers['User-Agent'] = headers['User-Agent'] || userAgent;
     request({encoding, headers, form: formData, gzip: true, jar: true, method, timeout, url: address}, (error, response, body) => {
       if (!error && response.statusCode === 200) {
-        if (responseType == mio.ResponseType.Json) {
+        if (responseType == ResponseType.Json) {
           resolve(JSON.parse(body));
         } else {
           resolve(body);
