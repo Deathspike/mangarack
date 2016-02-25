@@ -8,7 +8,7 @@ export interface IOption<T> {
   hasValue: boolean;
 
   /**
-   * Contains the value, or null.
+   * Contains the value.
    */
-  value?: T;
+  value: T;
 }

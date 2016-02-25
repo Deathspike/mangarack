@@ -2,7 +2,7 @@ import * as mio from './default';
 
 /**
  * Creates an option value.
- * @param value= The value, or null.
+ * @param value= The value.
  * @return The option value.
  */
 export function option<T>(value?: T): mio.IOption<T> {
