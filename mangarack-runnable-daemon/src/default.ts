@@ -1,9 +1,9 @@
 // library
 export * from 'mangarack-node-library';
 
-// runnable
+// daemon
 export * from './helper';
 export * from './http';
 
-// runnable/enumerators
+// daemon/enumerators
 export * from './enumerators/ImageType';

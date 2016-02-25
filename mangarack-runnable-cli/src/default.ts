@@ -1,12 +1,12 @@
 // core
 export * from 'mangarack-node-core';
 
-// runnable
+// cli
 export * from './download';
 export * from './helper';
 export * from './image';
 export * from './meta';
 export * from './zip';
 
-// runnable/enumerators
+// cli/enumerators
 export * from './enumerators/ImageType';

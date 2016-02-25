@@ -43,7 +43,7 @@ function createSeries(address: string, document: mio.IHtmlDocument): mio.ISeries
  * @return The promise for the document.
  */
 async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean): Promise<mio.IHtmlDocument> {
-  let body = await httpService().text(address, {}, mio.StrategyType.TimeoutWithRetry).getAsync();
+  let body = await httpService().text(address, {}, mio.RequestType.TimeoutWithRetry).getAsync();
   let document = htmlService().load(body);
   let isLogged = Boolean(document('#user_navigation.logged_in').first().text());
   if (!isLogged) {
@@ -51,7 +51,7 @@ async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean
     let password = mio.settingService.getString('component.core.batoto.password');
     if (!hasAttemptedLogin && username && password) {
       let loginAddress = 'https://bato.to/forums/index.php?app=core&module=global&section=login&do=process';
-      await httpService().text(loginAddress, {origin: 'https://bato.to'}, mio.StrategyType.TimeoutWithRetry).postAsync({
+      await httpService().text(loginAddress, {origin: 'https://bato.to'}, mio.RequestType.TimeoutWithRetry).postAsync({
         auth_key: document('input[name=auth_key]').attr('value'),
         referer: document('input[name=referer]').attr('value'),
         ips_username: username,
@@ -76,7 +76,7 @@ async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean
 function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
   let address = $('img[src*=\'/uploads/\']').first().attr('src');
   if (address) {
-    return httpService().blob(address, {}, mio.StrategyType.TimeoutWithRetry).getAsync();
+    return httpService().blob(address, {}, mio.RequestType.TimeoutWithRetry).getAsync();
   } else {
     throw new Error('Invalid series cover address.');
   }

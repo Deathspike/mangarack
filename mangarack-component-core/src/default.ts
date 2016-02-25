@@ -3,8 +3,8 @@ export * from 'mangarack-component-common';
 
 // core/enumerators -> core/converters
 export * from './enumerators/GenreType';
+export * from './enumerators/RequestType';
 export * from './enumerators/SeriesType';
-export * from './enumerators/StrategyType';
 
 // core/converters
 export * from './converters/toGenreType';
