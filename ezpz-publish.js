@@ -6,7 +6,11 @@ function isMangarack(key) {
     return /^mangarack/.test(key);
 }
 
-fs.readdirSync(__dirname).forEach(function(folderName) {
+fs.readdirSync(__dirname)
+  .sort()
+  .filter(folderName => folderName !== 'mangarack')
+  .concat('mangarack')
+  .forEach(function(folderName) {
     if (!isMangarack(folderName)) return;
     var packagePath = path.join(__dirname, folderName, 'package.json');
     var package = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
