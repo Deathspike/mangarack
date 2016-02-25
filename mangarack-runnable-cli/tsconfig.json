@@ -1,19 +1,19 @@
 {
-    "compilerOptions": {
-        "declaration": false,
-        "inlineSourceMap": true,
-        "inlineSources": true,
-        "noImplicitAny": true,
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "outDir": "dist",
-        "removeComments": false,
-        "stripInternal": true,
-        "suppressImplicitAnyIndexErrors": false,
-        "target": "es6"
-    },
-    "exclude": [
-      "dist",
-      "node_modules"
-    ]
+  "compilerOptions": {
+    "declaration": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "removeComments": false,
+    "stripInternal": true,
+    "suppressImplicitAnyIndexErrors": false,
+    "target": "es6"
+  },
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }
