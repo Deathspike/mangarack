@@ -1,9 +1,9 @@
 import * as mio from '../default';
 import * as request from 'request';
 import {ResponseType} from './enumerators/ResponseType';
-let delayInMilliseconds = 1000;
-let maximumAttempts = 10;
-let timeoutInMilliseconds = 5000;
+let delayInMilliseconds = 2000;
+let maximumAttempts = 5;
+let timeoutInMilliseconds = 30000;
 let userAgent = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
 
 /**
