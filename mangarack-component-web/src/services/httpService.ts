@@ -13,36 +13,36 @@ export var httpService: mio.IHttpService = {
    * Creates a handler to retrieve the contents of the HTTP resource as a blob.
    * @param address The address, or addresses.
    * @param headers Each header.
-   * @param strategy The strategy type.
+   * @param requestType The request type.
    * @return The handler to retrieve the contents of the HTTP resource as a blob.
    */
-  blob: function(address: string|string[], headers: mio.IDictionary, strategy: mio.StrategyType): mio.IHttpServiceHandler<mio.IBlob> {
+  blob: function(address: string|string[], headers: mio.IDictionary, requestType: mio.RequestType): mio.IHttpServiceHandler<mio.IBlob> {
     let addresses = Array.isArray(address) ? address : [address];
-    return createHandler(ResponseType.Blob, addresses, headers, strategy);
+    return createHandler(ResponseType.Blob, addresses, headers, requestType);
   },
 
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
    * @param address The address, or addresses.
    * @param headers Each header.
-   * @param strategy The strategy type.
+   * @param requestType The request type.
    * @return The handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
    */
-  json: function<T>(address: string|string[], headers: mio.IDictionary, strategy: mio.StrategyType): mio.IHttpServiceHandler<T> {
+  json: function<T>(address: string|string[], headers: mio.IDictionary, requestType: mio.RequestType): mio.IHttpServiceHandler<T> {
     let addresses = Array.isArray(address) ? address : [address];
-    return createHandler(ResponseType.Json, addresses, headers, strategy);
+    return createHandler(ResponseType.Json, addresses, headers, requestType);
   },
 
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as text.
    * @param address The address, or addresses.
    * @param headers Each header.
-   * @param strategy The strategy type.
+   * @param requestType The request type.
    * @return The handler to retrieve the contents of the HTTP resource as text.
    */
-  text: function(address: string|string[], headers: mio.IDictionary, strategy: mio.StrategyType): mio.IHttpServiceHandler<string> {
+  text: function(address: string|string[], headers: mio.IDictionary, requestType: mio.RequestType): mio.IHttpServiceHandler<string> {
     let addresses = Array.isArray(address) ? address : [address];
-    return createHandler(ResponseType.Text, addresses, headers, strategy);
+    return createHandler(ResponseType.Text, addresses, headers, requestType);
   }
 };
 
@@ -51,16 +51,16 @@ export var httpService: mio.IHttpService = {
  * @param type The response type.
  * @param addresses The addresses.
  * @param headers The headers.
- * @param strategy The strategy type.
+ * @param requestType The request type.
  * @return The service handler.
  */
-function createHandler<T>(type: ResponseType, addresses: string[], headers: mio.IDictionary, strategy: mio.StrategyType): mio.IHttpServiceHandler<T> {
+function createHandler<T>(type: ResponseType, addresses: string[], headers: mio.IDictionary, requestType: mio.RequestType): mio.IHttpServiceHandler<T> {
   return {
-    deleteAsync: formData => fetchAnyAsync('DELETE', type, addresses, headers, strategy, formData),
-    getAsync: () => fetchAnyAsync('GET', type, addresses, headers, strategy, {}),
-    patchAsync: formData => fetchAnyAsync('PATCH', type, addresses, headers, strategy, formData),
-    postAsync: formData => fetchAnyAsync('POST', type, addresses, headers, strategy, formData),
-    putAsync: formData => fetchAnyAsync('PUT', type, addresses, headers, strategy, formData)
+    deleteAsync: formData => fetchAnyAsync('DELETE', type, addresses, headers, requestType, formData),
+    getAsync: () => fetchAnyAsync('GET', type, addresses, headers, requestType, {}),
+    patchAsync: formData => fetchAnyAsync('PATCH', type, addresses, headers, requestType, formData),
+    postAsync: formData => fetchAnyAsync('POST', type, addresses, headers, requestType, formData),
+    putAsync: formData => fetchAnyAsync('PUT', type, addresses, headers, requestType, formData)
   };
 }
 
@@ -78,17 +78,17 @@ function delayAsync(): Promise<mio.IOption<void>> {
  * @param responseType The response type.
  * @param addresses Each address.
  * @param headers Each header.
- * @param strategy The strategy type.
+ * @param requestType The request type.
  * @param formData Each form key/value pair.
  * @return The promise to try to fetch the contents of the HTTP resource
  */
-async function fetchAnyAsync(method: string, responseType: ResponseType, addresses: string[], headers: mio.IDictionary, strategy: mio.StrategyType, formData: mio.IDictionary): Promise<any> {
-  let attempts = strategy === mio.StrategyType.BasicWithRetry || strategy === mio.StrategyType.TimeoutWithRetry ? maximumAttempts : 1;
+async function fetchAnyAsync(method: string, responseType: ResponseType, addresses: string[], headers: mio.IDictionary, requestType: mio.RequestType, formData: mio.IDictionary): Promise<any> {
+  let attempts = requestType === mio.RequestType.BasicWithRetry || requestType === mio.RequestType.TimeoutWithRetry ? maximumAttempts : 1;
   let previousError: any;
   for (let currentAttempt of Array(attempts).keys()) {
     for (let currentAddress of addresses) {
       try {
-        return await fetchAsync(method, responseType, currentAddress, headers, strategy, formData);
+        return await fetchAsync(method, responseType, currentAddress, headers, requestType, formData);
       } catch (error) {
         previousError = error;
         await delayAsync();
@@ -108,12 +108,12 @@ async function fetchAnyAsync(method: string, responseType: ResponseType, address
  * @param responseType The response type.
  * @param addresses Each address.
  * @param headers Each header.
- * @param strategy The strategy type.
+ * @param requestType The request type.
  * @param formData Each form key/value pair.
  * @return The promise for the contents of the HTTP resource.
  */
-function fetchAsync<T>(method: string, responseType: ResponseType, address: string, headers: mio.IDictionary, strategy: mio.StrategyType, formData: mio.IDictionary): Promise<any> {
-  let timeout = strategy === mio.StrategyType.Basic || strategy === mio.StrategyType.BasicWithRetry ? 0 : timeoutInMilliseconds;
+function fetchAsync<T>(method: string, responseType: ResponseType, address: string, headers: mio.IDictionary, requestType: mio.RequestType, formData: mio.IDictionary): Promise<any> {
+  let timeout = requestType === mio.RequestType.Basic || requestType === mio.RequestType.BasicWithRetry ? 0 : timeoutInMilliseconds;
   return new Promise((resolve, reject) => {
     let xhr = new XMLHttpRequest();
     if (responseType === ResponseType.Blob) {
