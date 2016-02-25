@@ -9,16 +9,16 @@
   "name": "mangarack-runnable-cli",
   "repository": "git://github.com/Deathspike/mangarack",
   "typings": "dist/default",
-  "version": "4.0.6",
+  "version": "4.0.7",
   "dependencies": {
     "archiver": "0.16.0",
-    "mangarack-node-core": "4.0.6",
+    "mangarack-node-core": "4.0.7",
     "gm": "1.21.1",
     "xml2js": "0.4.15"
   },
   "devDependencies": {
     "tsd": "0.6.5",
-    "typescript": "1.8.0"
+    "typescript": "1.8.2"
   },
   "scripts": {
     "prepublish": "tsd install && tsc"

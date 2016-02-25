@@ -10,12 +10,12 @@
   "repository": "git://github.com/Deathspike/mangarack",
   "private": true,
   "typings": "dist/default",
-  "version": "4.0.6",
+  "version": "4.0.7",
   "dependencies": {
-    "mangarack-component-core": "4.0.6"
+    "mangarack-component-core": "4.0.7"
   },
   "devDependencies": {
-    "typescript": "1.8.0"
+    "typescript": "1.8.2"
   },
   "scripts": {
     "prepublish": "tsc"
