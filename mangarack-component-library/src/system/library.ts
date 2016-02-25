@@ -226,7 +226,7 @@ async function downloadAsync(existingChapters: boolean, newChapters: boolean): P
 async function downloadChapterAsync(seriesId: number, chapterId: number): Promise<boolean> {
   let context = await mio.contextService.getContextAsync();
   let chapterResult = mio.findContextChapter(context, seriesId, chapterId);
-  if (chapterResult.hasValue && !chapterResult.value.chapter.downloadedAt.hasValue && !chapterResult.value.chapter.deletedAt.hasValue) {
+  if (chapterResult.hasValue && !chapterResult.value.chapter.deletedAt.hasValue && !chapterResult.value.chapter.downloadedAt.hasValue) {
     let coreSeries = await mio.openProvider(chapterResult.value.providerName).seriesAsync(chapterResult.value.seriesAddress);
     let coreChapters = mio.mapByChapterKey(coreSeries.chapters, chapter => chapter);
     let contextChapter = chapterResult.value.chapter;
@@ -282,7 +282,7 @@ async function downloadSeriesAsync(seriesId: number, existingChapters: boolean, 
         let contextChapter = contextSeries.chapters[metadataDerivedKey];
         contextChapter.deletedAt = mio.option<number>();
         contextChapter.metadata = mio.copyChapterMetadata(coreChapter);
-        if (existingChapters && !contextChapter.downloadedAt.hasValue) {
+        if (existingChapters && !contextChapter.deletedAt.hasValue && !contextChapter.downloadedAt.hasValue) {
           mio.taskService.enqueue(mio.PriorityType.Low, () => downloadChapterAsync(seriesId, contextChapter.id));
         }
       }
