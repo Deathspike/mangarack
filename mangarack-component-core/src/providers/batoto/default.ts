@@ -17,7 +17,7 @@ export let batoto: mio.IProvider = {
    * @return Indicates whether the address is a supported address.
    */
   isSupported: function(address: string): boolean {
-    return /^http:\/\/bato\.to\/comic\/_\/comics\/.*-r[0-9]+$/i.test(address);
+    return /^https?:\/\/bato\.to\/comic\/_\/comics\/.*-r[0-9]+$/i.test(address);
   },
 
   /**
