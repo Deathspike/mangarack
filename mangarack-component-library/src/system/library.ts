@@ -226,7 +226,7 @@ async function downloadAsync(existingChapters: boolean, newChapters: boolean): P
 async function downloadChapterAsync(seriesId: number, chapterId: number): Promise<boolean> {
   let context = await mio.contextService.getContextAsync();
   let chapterResult = mio.findContextChapter(context, seriesId, chapterId);
-  if (chapterResult.hasValue && !chapterResult.value.chapter.downloadedAt.hasValue) {
+  if (chapterResult.hasValue && !chapterResult.value.chapter.downloadedAt.hasValue && !chapterResult.value.chapter.deletedAt.hasValue) {
     let coreSeries = await mio.openProvider(chapterResult.value.providerName).seriesAsync(chapterResult.value.seriesAddress);
     let coreChapters = mio.mapByChapterKey(coreSeries.chapters, chapter => chapter);
     let contextChapter = chapterResult.value.chapter;
