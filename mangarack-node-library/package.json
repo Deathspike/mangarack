@@ -10,14 +10,14 @@
   "private": true,
   "repository": "git://github.com/Deathspike/mangarack",
   "typings": "dist/default",
-  "version": "4.0.6",
+  "version": "4.0.7",
   "dependencies": {
-    "mangarack-component-library": "4.0.6",
-    "mangarack-node-core": "4.0.6"
+    "mangarack-component-library": "4.0.7",
+    "mangarack-node-core": "4.0.7"
   },
   "devDependencies": {
     "tsd": "0.6.5",
-    "typescript": "1.8.0"
+    "typescript": "1.8.2"
   },
   "scripts": {
     "prepublish": "tsd install && tsc"
