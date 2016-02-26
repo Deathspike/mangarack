@@ -1,10 +1,10 @@
-import * as mio from './default';
+import * as mio from '../default';
 import * as xml2js from 'xml2js';
 
 /**
- * Represents meta data functionality.
+ * Represents the meta service.
  */
-export let meta = {
+export let metaService: mio.IMetaService = {
   /**
    * Creates meta data and converts it to a xml document.
    * @param series The series.

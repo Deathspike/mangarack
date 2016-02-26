@@ -1,12 +1,12 @@
 import * as archiver from 'archiver';
 import * as fs from 'fs';
-import * as mio from './default';
+import * as mio from '../default';
 import * as path from 'path';
 
 /**
- * Represents zip functionality.
+ * Represents the zip service.
  */
-export let zip = {
+export let zipService = {
   /**
    * Creates the zip archive.
    * @param filePath The file path.
