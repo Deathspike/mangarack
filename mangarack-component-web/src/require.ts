@@ -8,7 +8,7 @@
 let require = (<any> window).require = (function(): any {
   let scriptElement = document.querySelector('script[src$=\'require.js\']');
   let moduleCache: {[key: string]: any} = {};
-  let basePath = (scriptElement ? scriptElement.getAttribute('data-base') : null) || '';
+  let basePath = (scriptElement ? scriptElement.getAttribute('data-base') : null) || 'js';
 
   /**
    * Synchronously fetches file contents.
