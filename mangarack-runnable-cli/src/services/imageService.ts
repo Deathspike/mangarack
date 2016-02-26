@@ -1,10 +1,10 @@
 import * as gm from 'gm';
-import * as mio from './default';
+import * as mio from '../default';
 
 /**
- * Represents image functionality.
+ * Represents the image service.
  */
-export let image = {
+export let imageService: mio.IImageService = {
   /**
    * Promises to process the image.
    * @param provider The provider.
@@ -32,7 +32,7 @@ export let image = {
  * @return The promise to coerce the image.
  */
 function coerceAsync(image: mio.IBlob): Promise<mio.IOption<mio.IBlob>> {
-  switch (mio.helper.getImageType(image)) {
+  switch (mio.helperService.getImageType(image)) {
     case mio.ImageType.Jpg:
       return Promise.resolve(mio.option(image));
     case mio.ImageType.Gif:

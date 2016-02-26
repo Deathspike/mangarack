@@ -1,16 +1,16 @@
-import * as mio from './default';
+import * as mio from '../default';
 
 /**
- * Represents the helper.
+ * Represents the helper service.
  */
-export let helper = {
+export let helperService: mio.IHelperService = {
   /**
    * Gets the image extension.
    * @param image The image.
    * @return The extension.
    */
   getImageExtension: function(image: mio.IBlob): string {
-    let imageType = helper.getImageType(image);
+    let imageType = helperService.getImageType(image);
     return imageType === mio.ImageType.Unknown ? '' : mio.ImageType[imageType].toLowerCase();
   },
 

@@ -1,10 +1,10 @@
 import * as fs from 'fs';
-import * as mio from './default';
+import * as mio from '../default';
 
 /**
- * Represents download functionality.
+ * Represents the download service.
  */
-export let download = {
+export let downloadService: mio.IDownloadService = {
   /**
    * Promises to download the chapter.
    * @param provider The provider.
@@ -22,7 +22,7 @@ export let download = {
         console.log(`Fetching ${chapterName.value}`);
         let beginTime = Date.now();
         let pages = await chapter.pagesAsync();
-        await download.pagesAsync(provider, series, seriesPreviewImage, chapter, pages);
+        await downloadService.pagesAsync(provider, series, seriesPreviewImage, chapter, pages);
         console.log(`Finished ${chapterName.value} ${prettyElapsedTime(beginTime)}`);
       }
     }
@@ -40,18 +40,18 @@ export let download = {
   pagesAsync: async function(provider: mio.IProvider, series: mio.ISeries, seriesPreviewImage: mio.IBlob, chapter: mio.IChapter, pages: mio.IPage[]): Promise<void> {
     let chapterPath = getChapterPath(series, chapter);
     if (chapterPath.hasValue) {
-      let zip = mio.zip.create(chapterPath.value);
+      let zip = mio.zipService.create(chapterPath.value);
       for (let page of pages) {
         let image = await page.imageAsync();
-        let processedImage = await mio.image.processAsync(provider, image);
+        let processedImage = await mio.imageService.processAsync(provider, image);
         if (processedImage.hasValue) {
-          await zip.writeAsync(`${format(3, page.number)}.${mio.helper.getImageExtension(processedImage.value)}`, processedImage.value);
+          await zip.writeAsync(`${format(3, page.number)}.${mio.helperService.getImageExtension(processedImage.value)}`, processedImage.value);
         } else {
           throw new Error(`Invalid processed page #${page.number}`);
         }
       }
-      await zip.writeAsync(`000.${mio.helper.getImageExtension(seriesPreviewImage)}`, seriesPreviewImage);
-      await zip.writeAsync('ComicInfo.xml', mio.meta.createXml(series, chapter, pages));
+      await zip.writeAsync(`000.${mio.helperService.getImageExtension(seriesPreviewImage)}`, seriesPreviewImage);
+      await zip.writeAsync('ComicInfo.xml', mio.metaService.createXml(series, chapter, pages));
       await zip.commitAsync();
     }
   },
@@ -68,7 +68,7 @@ export let download = {
     let seriesPreviewImage = await series.imageAsync();
     console.log(`Fetching ${series.title}`);
     for (let chapter of series.chapters) {
-      await download.chapterAsync(provider, series, seriesPreviewImage, chapter);
+      await downloadService.chapterAsync(provider, series, seriesPreviewImage, chapter);
     }
     await cleanAsync(series);
     console.log(`Finished ${series.title} ${prettyElapsedTime(beginTime)}`);

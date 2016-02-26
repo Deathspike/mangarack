@@ -42,7 +42,7 @@ async function downloadAsync(items: string[]): Promise<void> {
     } catch (e) {
       continue;
     }
-    await mio.download.seriesAsync(item);
+    await mio.downloadService.seriesAsync(item);
   }
 }
 
