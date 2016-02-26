@@ -1,9 +1,9 @@
-import * as mio from './default';
+import * as mio from '../default';
 
 /**
- * Represents the helper.
+ * Represents the helper service.
  */
- export let helper = {
+ export let helperService: mio.IHelperService = {
    /**
     * Retrieves the content type for the image.
     * @param image The image.

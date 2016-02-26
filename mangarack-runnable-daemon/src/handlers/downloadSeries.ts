@@ -11,8 +11,8 @@ import * as mio from '../default';
  */
 export default async function(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
   let seriesId = request.params.seriesId as number;
-  let existingChapters = mio.helper.parseBoolean(request.body.existingChapters);
-  let newChapters = mio.helper.parseBoolean(request.body.newChapters);
+  let existingChapters = mio.helperService.parseBoolean(request.body.existingChapters);
+  let newChapters = mio.helperService.parseBoolean(request.body.newChapters);
   if (!existingChapters.hasValue || !newChapters.hasValue) {
     response.sendStatus(400);
   } else {
