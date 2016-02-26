@@ -13,10 +13,10 @@ import * as path from 'path';
   fs.readFile(redirectFilePath, 'utf8', (error, contents) => {
     if (!error && contents) {
       mio.settingService.set(rootPathKey, contents);
-      mio.startHttp();
+      mio.httpService();
     } else {
       mio.settingService.set(rootPathKey, rootPath);
-      mio.startHttp();
+      mio.httpService();
     }
   });
 })();

@@ -2,13 +2,13 @@ import * as basicAuth from 'basic-auth';
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import * as express from 'express';
-import * as mio from './default';
+import * as mio from '../default';
 import * as path from 'path';
 
 /**
- * Starts the HTTP server.
+ * Represents the http service.
  */
-export function startHttp() {
+export function httpService() {
   let app = express();
   app.use(compression());
   app.use(bodyParser.json());
@@ -21,20 +21,20 @@ export function startHttp() {
   app.param('pageNumber', createValidation('pageNumber'));
 
   // Register route handlers.
-  app.get   ('/content/:seriesId', createHandler(require('./handlers/imageSeries')));
-  app.get   ('/content/:seriesId/:chapterId/:pageNumber', createHandler(require('./handlers/imagePage')));
-  app.get   ('/api', createHandler(require('./handlers/version')));
-  app.post  ('/api', createHandler(require('./handlers/password')));
-  app.post  ('/api/download', createHandler(require('./handlers/download')));
-  app.post  ('/api/download/:seriesId', createHandler(require('./handlers/downloadSeries')));
-  app.post  ('/api/download/:seriesId/:chapterId', createHandler(require('./handlers/downloadChapter')));
-  app.get   ('/api/library', createHandler(require('./handlers/listSeries')));
-  app.post  ('/api/library', createHandler(require('./handlers/create')));
-  app.delete('/api/library/:seriesId', createHandler(require('./handlers/deleteSeries')));
-  app.get   ('/api/library/:seriesId', createHandler(require('./handlers/listChapters')));
-  app.delete('/api/library/:seriesId/:chapterId', createHandler(require('./handlers/deleteChapter')));
-  app.patch ('/api/library/:seriesId/:chapterId', createHandler(require('./handlers/status')));
-  app.patch ('/api/setting', createHandler(require('./handlers/setting')));
+  app.get   ('/content/:seriesId', createHandler(require('../handlers/imageSeries')));
+  app.get   ('/content/:seriesId/:chapterId/:pageNumber', createHandler(require('../handlers/imagePage')));
+  app.get   ('/api', createHandler(require('../handlers/version')));
+  app.post  ('/api', createHandler(require('../handlers/password')));
+  app.post  ('/api/download', createHandler(require('../handlers/download')));
+  app.post  ('/api/download/:seriesId', createHandler(require('../handlers/downloadSeries')));
+  app.post  ('/api/download/:seriesId/:chapterId', createHandler(require('../handlers/downloadChapter')));
+  app.get   ('/api/library', createHandler(require('../handlers/listSeries')));
+  app.post  ('/api/library', createHandler(require('../handlers/create')));
+  app.delete('/api/library/:seriesId', createHandler(require('../handlers/deleteSeries')));
+  app.get   ('/api/library/:seriesId', createHandler(require('../handlers/listChapters')));
+  app.delete('/api/library/:seriesId/:chapterId', createHandler(require('../handlers/deleteChapter')));
+  app.patch ('/api/library/:seriesId/:chapterId', createHandler(require('../handlers/status')));
+  app.patch ('/api/setting', createHandler(require('../handlers/setting')));
 
   // Start listening for requests.
   app.listen(7782, (error: any) => {

@@ -13,7 +13,7 @@ export default async function(request: express.Request, response: express.Respon
   let seriesId = request.params.seriesId as number;
   let result = await library.imageAsync(seriesId);
   if (result.hasValue) {
-    response.set('Content-Type', mio.helper.getContentType(result.value));
+    response.set('Content-Type', mio.helperService.getContentType(result.value));
     response.send(result.value);
   } else {
     response.sendStatus(404);
