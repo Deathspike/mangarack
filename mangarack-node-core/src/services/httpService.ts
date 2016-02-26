@@ -118,8 +118,9 @@ function fetchAsync<T>(method: string, responseType: ResponseType, address: stri
   let encoding = responseType == ResponseType.Blob ? null : 'utf8';
   let timeout = requestType === mio.RequestType.Basic || requestType === mio.RequestType.BasicWithRetry ? 0 : timeoutInMilliseconds;
   return new Promise((resolve, reject) => {
+    let options = {encoding: encoding, headers: headers, form: formData, gzip: true, jar: true, method: method, timeout: timeout, url: address};
     headers['User-Agent'] = headers['User-Agent'] || userAgent;
-    request({encoding, headers, form: formData, gzip: true, jar: true, method, timeout, url: address}, (error, response, body) => {
+    request(options, (error, response, body) => {
       if (!error && response.statusCode === 200) {
         if (responseType == ResponseType.Json) {
           resolve(JSON.parse(body));
