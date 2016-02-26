@@ -101,7 +101,7 @@ function serveStatic(app: express.Application): void {
   if ((process as any).isBundled) {
     app.use(express.static(path.join(process.argv[1], '../public')));
   } else {
-    let rootPath = path.join(__dirname, '../../');
+    let rootPath = path.join(__dirname, '../../../');
     app.use(express.static(path.join(rootPath, 'mangarack-component-web/public')));
     app.use('/js', express.static(path.join(rootPath, 'mangarack-component-web/dist')));
     app.use('/mangarack-component-common', express.static(path.join(rootPath, 'mangarack-component-common/dist')));
