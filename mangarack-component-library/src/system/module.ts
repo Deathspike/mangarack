@@ -1,9 +1,11 @@
 // library
 export * from '../default';
 
+// library
+export * from '../version';
+
 // library/system
 export * from './library';
-export * from './version';
 
 // library/system/enumerators
 export * from './enumerators/PriorityType';

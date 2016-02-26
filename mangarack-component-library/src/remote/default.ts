@@ -10,8 +10,12 @@ import * as mioInternal from './module';
 export async function openRemoteLibraryAsync(host: mio.IOption<string>, password: mio.IOption<string>): Promise<mio.IOption<mio.ILibrary>> {
   let remoteLibrary = new mioInternal.RemoteLibrary(host, password);
   try {
-    await remoteLibrary.versionAsync();
-    return mio.option(remoteLibrary);
+    let result = await remoteLibrary.versionAsync();
+    if (result.api === mioInternal.version) {
+      return mio.option(remoteLibrary);
+    } else {
+      return mio.option<mio.ILibrary>();
+    }
   } catch (error) {
     if (error instanceof mio.HttpServiceError) {
       let httpServiceError = error as mio.HttpServiceError;

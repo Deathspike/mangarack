@@ -1,6 +1,9 @@
 // library
 export * from '../default';
 
+// library
+export * from '../version';
+
 // library/system
 export * from './library';
 
