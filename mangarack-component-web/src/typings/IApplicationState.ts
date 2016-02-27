@@ -5,7 +5,12 @@ import * as mio from '../default';
  */
 export interface IApplicationState {
   /**
+   * Contains the filter state.
+   */
+  filter: mio.IFilterState;
+
+  /**
    * Contains each series.
    */
-  series: mio.ILibrarySeries[];
+  series: mio.IOption<mio.ILibrarySeries[]>;
 }

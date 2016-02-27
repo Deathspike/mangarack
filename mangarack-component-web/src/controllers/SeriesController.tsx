@@ -3,7 +3,15 @@ import * as mio from '../default';
 /**
  * Represents a series controller.
  */
-export class SeriesController extends mio.StatelessComponent<{state: mio.ILibrarySeries[]}> {
+export class SeriesController extends mio.StatelessComponent<{application: mio.IApplicationState}> {
+  /**
+   * Occurs when the component is in the process of being mounted.
+   */
+  public componentWillMount(): void {
+    super.componentWillMount();
+    this._loadSeries();
+  }
+
   /**
    * Renders the component.
    */
@@ -11,18 +19,24 @@ export class SeriesController extends mio.StatelessComponent<{state: mio.ILibrar
     return (
       <div>
         <div id="header">
-          {/* TODO: back */}
-          {/* TODO: download */}
-          {/* TODO: settings */}
+          {/* TODO: Back. */}
+          {/* TODO: Download. */}
+          {/* TODO: Settings. */}
           MangaRack
         </div>
         <div id="container">
-          {/* TODO: add */}
-          {/* TODO: search */}
-          {/* TODO: filters/order */}
-          <mio.SeriesListComponent series={this.props.state} />
+          <mio.MenuComponent filter={this.props.application.filter} />
+          <mio.SeriesListComponent series={this.props.application.series} />
         </div>
       </div>
     );
+  }
+
+  /**
+   * Promises to load the series.
+   */
+  private async _loadSeries(): Promise<void> {
+    let series = await mio.openActiveLibrary().listAsync();
+    mio.applicationActions.setSeries(series);
   }
 }
