@@ -25,7 +25,7 @@ export class SeriesController extends mio.StatelessComponent<{application: mio.I
           MangaRack
         </div>
         <div id="container">
-          <mio.MenuComponent filter={this.props.application.filter} />
+          <mio.MenuComponent application={this.props.application} />
           <mio.SeriesListComponent series={this.props.application.series} />
         </div>
       </div>

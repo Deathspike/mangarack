@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  font-size: 14px;
 }
 
 #header {
@@ -11,68 +12,120 @@
 }
 
 #container {
-  background-color: #ecf0f1; /* Clouds */
   color: #2c3e50; /* Midnight Blue */
-  overflow-y: scroll !important;
 }
 
 .menu {
+  background-color: #ecf0f1; /* Clouds */
   border-right: 1px solid #bdc3c7; /* Silver */
   bottom: 0;
   left: 0;
   right: calc(100% - 192px);
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
   position: absolute;
   top: 0;
 }
 
-.menu .filter {
-}
-
-  .menu .filterLink {
-    border-bottom: 1px solid #bdc3c7; /* Silver */
-    cursor: pointer;
-    padding: 8px;
-    position: relative;
+  .menu .filter {
   }
 
-    .menu .filterLink i {
-      font-size: 20px;
-      position: absolute;
-      right: 8px;
-    }
-
-  .menu .filter .filterGenreTypeList {
-  }
-
-    .menu .filter .filterGenreTypeList .filterGenreType {
+    .menu .filterLink {
       border-bottom: 1px solid #bdc3c7; /* Silver */
       cursor: pointer;
       padding: 8px;
       position: relative;
     }
 
-      .menu .filter .filterGenreTypeList .filterGenreType i {
+      .menu .filterLink i {
         font-size: 20px;
         position: absolute;
         right: 8px;
+        top: 6px;
       }
 
-      .menu .filter .filterGenreTypeList .filterGenreType .fa-check-circle {
-        color: #27ae60; /* Nephritis */
+    .menu .filter .filterGenreTypeList {
+    }
+
+      .menu .filter .filterGenreTypeList .filterGenreType {
+        border-bottom: 1px solid #bdc3c7; /* Silver */
+        cursor: pointer;
+        padding: 8px;
+        position: relative;
       }
 
-      .menu .filter .filterGenreTypeList .filterGenreType .fa-times-circle {
-        color: #c0392b; /* Pomegranate */
+        .menu .filter .filterGenreTypeList .filterGenreType i {
+          font-size: 20px;
+          position: absolute;
+          right: 8px;
+          top: 6px;
+        }
+
+        .menu .filter .filterGenreTypeList .filterGenreType .fa-check-circle {
+          color: #27ae60; /* Nephritis */
+        }
+
+        .menu .filter .filterGenreTypeList .filterGenreType .fa-times-circle {
+          color: #c0392b; /* Pomegranate */
+        }
+
+  .menu .menuSeriesList {
+  }
+
+    .menu .menuSeriesList .menuSeriesHeader {
+      border-bottom: 1px solid #bdc3c7; /* Silver */
+      font-weight: bold;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .menu .menuSeries {
+      border-bottom: 1px solid #bdc3c7; /* Silver */
+      cursor: pointer;
+      position: relative;
+    }
+
+      .menu .menuSeries i {
+        font-size: 20px;
+        position: absolute;
+        right: 8px;
+        top: 6px;
       }
+
+      .menu .menuSeries .numberOfUnreadChapters { /* Padding of the text */
+        background-color: #d35400;
+        border-radius: 16px;
+        color: #ecf0f1;
+        font-family: monospace;
+        font-size: 10px;
+        height: 20px;
+        line-height: 20px;
+        position: absolute;
+        right: 20px;
+        text-align: center;
+        top: 6px;
+        width: 20px;
+      }
+
+      .menu .menuSeries .title {
+        display: block;
+        overflow: hidden;
+        padding: 8px 16px 8px 8px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+        .menu .menuSeries .numberOfUnreadChapters + .title {
+          padding: 8px 44px 8px 8px;
+        }
 
 .seriesList {
-  background-color: #fff; /* White */
   bottom: 0;
   left: 192px;
   padding: 4px;
   position: absolute;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
   right: 0;
   top: 0;
 }
@@ -95,26 +148,26 @@
     width: 33.33%;
   }
 
-  @media (min-width: 600px) { /* Small Tablet */
-    .seriesList  .series {
+  @media (min-width: 768px) { /* Tablet */
+    .seriesList .series {
       width: 25%;
     }
   }
 
-  @media (min-width: 768px) { /* Tablet */
-    .seriesList  .series {
+  @media (min-width: 992px) { /* Desktop */
+    .seriesList .series {
       width: 20%;
     }
   }
 
-  @media (min-width: 992px) { /* Desktop */
-    .seriesList  .series {
-      width: 16.67%;
+  @media (min-width: 1200px) { /* Large Desktop */
+    .seriesList .series {
+      width: 16.66%;
     }
   }
 
-  @media (min-width: 1200px) { /* Large Desktop */
-    .seriesList  .series {
+  @media (min-width: 1600px) { /* Very Large Desktop */
+    .seriesList .series {
       width: 12.5%;
     }
   }
@@ -156,14 +209,13 @@
         width: 32px;
       }
 
-        .seriesList .series .contents .numberOfUnreadChapters+.title {
+        .seriesList .series .contents .numberOfUnreadChapters + .title {
           padding: 8px 40px 8px 8px;
         }
 
       .seriesList .series .contents .title {
         background-color: #16a085; /* Green Sea */
         display: block;
-        font-size: 14px;
         overflow: hidden;
         padding: 8px;
         text-overflow: ellipsis;
