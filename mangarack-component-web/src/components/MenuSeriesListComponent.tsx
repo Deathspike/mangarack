@@ -8,6 +8,7 @@ export class MenuSeriesListComponent extends mio.StatelessComponent<{series: mio
    * Renders the component.
    */
   public render(): JSX.Element {
+    /* TODO: Should not show this anywhere EXCEPT at the main screen, e.g not using filtering etc? */
     if (this.props.series.hasValue) {
       return (
         <div className="menuSeriesList">

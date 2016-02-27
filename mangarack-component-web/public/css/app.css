@@ -20,12 +20,18 @@
   border-right: 1px solid #bdc3c7; /* Silver */
   bottom: 0;
   left: 0;
-  right: calc(100% - 192px);
+  right: 0;
   overflow-x: hidden;
   overflow-y: scroll;
   position: absolute;
   top: 0;
 }
+
+  @media (min-width: 600px) { /* Tablet */
+    .menu {
+      right: calc(100% - 192px);
+    }
+  }
 
   .menu .filter {
   }
@@ -127,7 +133,14 @@
   overflow-x: hidden;
   overflow-y: scroll;
   right: 0;
+  visibility: hidden;
   top: 0;
+}
+
+@media (min-width: 600px) { /* Tablet */
+  .seriesList {
+    visibility: visible;
+  }
 }
 
   .seriesList .pendingValue {
@@ -148,7 +161,7 @@
     width: 33.33%;
   }
 
-  @media (min-width: 768px) { /* Tablet */
+  @media (min-width: 768px) { /* Large Tablet */
     .seriesList .series {
       width: 25%;
     }
