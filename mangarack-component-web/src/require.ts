@@ -16,10 +16,10 @@ let require = (<any> window).require = (function(): any {
    * @return The file contents.
    */
   function fetchSync(filePath: string): string {
-    let httpRequest = new XMLHttpRequest();
-    httpRequest.open('GET', filePath, false);
-    httpRequest.send();
-    return httpRequest.responseText || '';
+    let request = new XMLHttpRequest();
+    request.open('GET', filePath, false);
+    request.send();
+    return request.responseText || '';
   }
 
   /**
