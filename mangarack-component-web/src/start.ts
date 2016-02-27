@@ -24,10 +24,6 @@ export function openActiveLibrary(): mio.ILibrary {
   if (library.hasValue) {
     console.log('Stand by, ready. Set up.');
     (window as any).library = library.value;
-
-    // Fill the library.
-    let series = await library.value.listAsync();
-    mio.seriesActions.setSeries(series);
   } else {
     console.log(':-(');
   }
@@ -38,7 +34,8 @@ export function openActiveLibrary(): mio.ILibrary {
  * Represents the application store.
  */
 export let store: mio.IStore<mio.IApplicationState> = mio.createStore<mio.IApplicationState>({
-  series: []
+  filter: {genres: {}, type: mio.FilterType.None},
+  series: mio.option<mio.ILibrarySeries[]>()
 });
 
 /*

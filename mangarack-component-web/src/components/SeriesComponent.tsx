@@ -11,8 +11,8 @@ export class SeriesComponent extends mio.StatelessComponent<{series: mio.ILibrar
    */
   public componentWillMount(): void {
     super.componentWillMount();
-    /* TODO: Lazy loading. */
-    /* TODO: Spinner when loading. */
+    /* TODO: Implement lazy loading. */
+    /* TODO: Implement visual indication for a pending image load. */
     this._imageUrl = mio.option<string>();
     this._loadImageAsync();
   }
@@ -45,7 +45,7 @@ export class SeriesComponent extends mio.StatelessComponent<{series: mio.ILibrar
   }
 
   /**
-   * Loads the image asynchronously.
+   * Promises to load the image.
    */
   private async _loadImageAsync(): Promise<void> {
     let blob = await mio.openActiveLibrary().imageAsync(this.props.series.id);

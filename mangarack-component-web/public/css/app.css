@@ -1,128 +1,190 @@
-/*
-TURQUOISE     #1abc9c (main color)
-GREEN SEA     #16a085 (hover)
-CLOUDS        #ecf0f1 (whiteness)
-CAROT         #e67e22 (unread)
-*/
-
 * {
   box-sizing: border-box;
 }
 
 #header {
-  background-color: #1abc9c;
-  color: #ecf0f1;
+  background-color: #16a085; /* Green Sea */
+  color: #ecf0f1; /* Clouds */
   font-size: 20px;
   font-weight: bold;
   text-align: center;
 }
 
 #container {
-  background-color: #ecf0f1;
-  color: #ecf0f1;
+  background-color: #ecf0f1; /* Clouds */
+  color: #2c3e50; /* Midnight Blue */
   overflow-y: scroll !important;
-  padding: 8px;
 }
 
-.series {
-  cursor: pointer;
-  display: inline-block;
-  float: left;
-  position: relative;
-  width: 33.33%;
+.menu {
+  border-right: 1px solid #bdc3c7; /* Silver */
+  bottom: 0;
+  left: 0;
+  right: calc(100% - 192px);
+  overflow: auto;
+  position: absolute;
+  top: 0;
 }
 
-@media (min-width: 600px) { /* Small Tablet */
-  .series {
-    width: 25%;
-  }
+.menu .filter {
 }
 
-@media (min-width: 768px) { /* Tablet */
-  .series {
-    width: 20%;
-  }
-}
-
-@media (min-width: 992px) { /* Desktop */
-  .series {
-    width: 16.67%;
-  }
-}
-
-@media (min-width: 1200px) { /* Large Desktop */
-  .series {
-    width: 12.5%;
-  }
-}
-
-  .series .push {
-    margin-top: calc(141% + 32px);
+  .menu .filterLink {
+    border-bottom: 1px solid #bdc3c7; /* Silver */
+    cursor: pointer;
+    padding: 8px;
+    position: relative;
   }
 
-  .series .contents {
-    padding: 8px 8px 0 8px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-
-    .series .contents:hover .title {
-      background-color: #16a085;
-    }
-
-    .series .contents:hover .preview {
-      border-color: #16a085;
-    }
-
-    .series .contents:hover .provider {
-      background-color: #16a085;
-    }
-
-    .series .contents .numberOfUnreadChapters {
-      background-color: #e67e22;
-      font-family: monospace;
-      height: 32px;
-      line-height: 32px;
+    .menu .filterLink i {
+      font-size: 20px;
       position: absolute;
       right: 8px;
-      text-align: center;
-      top: 8px;
-      width: 32px;
     }
 
-      .series .contents .numberOfUnreadChapters+.title {
-        padding: 8px 40px 8px 8px;
+  .menu .filter .filterGenreTypeList {
+  }
+
+    .menu .filter .filterGenreTypeList .filterGenreType {
+      border-bottom: 1px solid #bdc3c7; /* Silver */
+      cursor: pointer;
+      padding: 8px;
+      position: relative;
+    }
+
+      .menu .filter .filterGenreTypeList .filterGenreType i {
+        font-size: 20px;
+        position: absolute;
+        right: 8px;
       }
 
-    .series .contents .title {
-      background-color: #1abc9c;
-      display: block;
-      font-size: 14px; /**/
-      font-weight: bold;
-      overflow: hidden;
-      padding: 8px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      .menu .filter .filterGenreTypeList .filterGenreType .fa-check-circle {
+        color: #27ae60; /* Nephritis */
+      }
+
+      .menu .filter .filterGenreTypeList .filterGenreType .fa-times-circle {
+        color: #c0392b; /* Pomegranate */
+      }
+
+.seriesList {
+  background-color: #fff; /* White */
+  bottom: 0;
+  left: 192px;
+  padding: 4px;
+  position: absolute;
+  overflow: auto;
+  right: 0;
+  top: 0;
+}
+
+  .seriesList .pendingValue {
+    bottom: 50%;
+    left: 50%;
+    font-size: 32px;
+    position: absolute;
+    right: 50%;
+    top: 50%;
+  }
+
+  .seriesList .series {
+    color: #ecf0f1; /* Clouds */
+    cursor: pointer;
+    display: inline-block;
+    float: left;
+    position: relative;
+    width: 33.33%;
+  }
+
+  @media (min-width: 600px) { /* Small Tablet */
+    .seriesList  .series {
+      width: 25%;
+    }
+  }
+
+  @media (min-width: 768px) { /* Tablet */
+    .seriesList  .series {
+      width: 20%;
+    }
+  }
+
+  @media (min-width: 992px) { /* Desktop */
+    .seriesList  .series {
+      width: 16.67%;
+    }
+  }
+
+  @media (min-width: 1200px) { /* Large Desktop */
+    .seriesList  .series {
+      width: 12.5%;
+    }
+  }
+
+    .seriesList .series .push {
+      margin-top: calc(141% + 32px);
     }
 
-    .series .contents .previewImage {
-      border: 1px solid #1abc9c;
-      border-top: none;
-      box-sizing: border-box;
-      object-fit: cover;
-      height: calc(100% - 32px);
-      width: 100%;
-    }
-
-    .series .contents .provider {
-      background-color: #1abc9c;
-      bottom: 8px;
-      display: block;
-      font-size: 12px;
-      padding: 4px;
+    .seriesList .series .contents {
+      padding: 4px 4px 0 4px;
       position: absolute;
-      right: 8px;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
     }
+
+      .seriesList .series .contents:hover .title {
+        background-color: #1abc9c; /* Turqoise */
+      }
+
+      .seriesList .series .contents:hover .preview {
+        border-color: #1abc9c; /* Turqoise */
+      }
+
+      .seriesList .series .contents:hover .provider {
+        background-color: #1abc9c; /* Turqoise */
+      }
+
+      .seriesList .series .contents .numberOfUnreadChapters {
+        background-color: #d35400; /* Pumpkin */
+        font-family: monospace;
+        height: 32px;
+        line-height: 32px;
+        position: absolute;
+        right: 4px;
+        text-align: center;
+        top: 4px;
+        width: 32px;
+      }
+
+        .seriesList .series .contents .numberOfUnreadChapters+.title {
+          padding: 8px 40px 8px 8px;
+        }
+
+      .seriesList .series .contents .title {
+        background-color: #16a085; /* Green Sea */
+        display: block;
+        font-size: 14px;
+        overflow: hidden;
+        padding: 8px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .seriesList .series .contents .previewImage {
+        border: 1px solid #16a085; /* Green Sea */
+        border-top: none;
+        box-sizing: border-box;
+        object-fit: cover;
+        height: calc(100% - 32px);
+        width: 100%;
+      }
+
+      .seriesList .series .contents .provider {
+        background-color: #16a085; /* Green Sea */
+        bottom: 4px;
+        display: block;
+        font-size: 10px;
+        padding: 4px;
+        position: absolute;
+        right: 4px;
+      }

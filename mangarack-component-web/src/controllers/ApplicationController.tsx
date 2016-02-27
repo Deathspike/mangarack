@@ -16,7 +16,7 @@ export class ApplicationController extends mio.StoreComponent<mio.IApplicationSt
    */
   public render(): JSX.Element {
     return (
-      <mio.SeriesController state={this.state.series} />
+      <mio.SeriesController application={this.state} />
     );
   }
 }
