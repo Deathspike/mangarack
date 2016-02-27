@@ -13,7 +13,8 @@ export class FilterGenreTypeComponent extends mio.StatelessComponent<{genreType:
     let className = status.hasValue ? (status.value ? 'fa-check-circle' : 'fa-times-circle') : 'fa-circle';
     return (
       <div className="filterGenreType" onClick={() => mio.filterActions.toggleGenreType(this.props.genreType)}>
-        <i className={`fa ${className}`}></i> {displayName}
+        <span className="title">{displayName}</span>
+        <i className={`fa ${className}`}></i>
       </div>
     );
   }

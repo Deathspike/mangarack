@@ -23,6 +23,8 @@ export * from './components/FilterGenreTypeComponent';
 export * from './components/FilterGenreTypeListComponent';
 export * from './components/FilterLinkGenreTypeComponent';
 export * from './components/MenuComponent';
+export * from './components/MenuSeriesComponent';
+export * from './components/MenuSeriesListComponent';
 export * from './components/SeriesComponent';
 export * from './components/SeriesListComponent';
 

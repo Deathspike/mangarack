@@ -10,7 +10,8 @@ export class FilterLinkGenreTypeComponent extends mio.StatelessComponent<void> {
   public render(): JSX.Element {
     return (
       <div className="filterLink" onClick={() => mio.filterActions.setFilterType(mio.FilterType.GenreType)}>
-        <i className="fa fa-angle-right"></i> Genres
+        <span className="title">Genres</span>
+        <i className="fa fa-angle-right"></i>
       </div>
     );
   }
