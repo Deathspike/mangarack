@@ -1,0 +1,128 @@
+/*
+TURQUOISE     #1abc9c (main color)
+GREEN SEA     #16a085 (hover)
+CLOUDS        #ecf0f1 (whiteness)
+CAROT         #e67e22 (unread)
+*/
+
+* {
+  box-sizing: border-box;
+}
+
+#header {
+  background-color: #1abc9c;
+  color: #ecf0f1;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#container {
+  background-color: #ecf0f1;
+  color: #ecf0f1;
+  overflow-y: scroll !important;
+  padding: 8px;
+}
+
+.series {
+  cursor: pointer;
+  display: inline-block;
+  float: left;
+  position: relative;
+  width: 33.33%;
+}
+
+@media (min-width: 600px) { /* Small Tablet */
+  .series {
+    width: 25%;
+  }
+}
+
+@media (min-width: 768px) { /* Tablet */
+  .series {
+    width: 20%;
+  }
+}
+
+@media (min-width: 992px) { /* Desktop */
+  .series {
+    width: 16.67%;
+  }
+}
+
+@media (min-width: 1200px) { /* Large Desktop */
+  .series {
+    width: 12.5%;
+  }
+}
+
+  .series .push {
+    margin-top: calc(141% + 32px);
+  }
+
+  .series .contents {
+    padding: 8px 8px 0 8px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+    .series .contents:hover .title {
+      background-color: #16a085;
+    }
+
+    .series .contents:hover .preview {
+      border-color: #16a085;
+    }
+
+    .series .contents:hover .provider {
+      background-color: #16a085;
+    }
+
+    .series .contents .numberOfUnreadChapters {
+      background-color: #e67e22;
+      font-family: monospace;
+      height: 32px;
+      line-height: 32px;
+      position: absolute;
+      right: 8px;
+      text-align: center;
+      top: 8px;
+      width: 32px;
+    }
+
+      .series .contents .numberOfUnreadChapters+.title {
+        padding: 8px 40px 8px 8px;
+      }
+
+    .series .contents .title {
+      background-color: #1abc9c;
+      display: block;
+      font-size: 14px; /**/
+      font-weight: bold;
+      overflow: hidden;
+      padding: 8px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .series .contents .previewImage {
+      border: 1px solid #1abc9c;
+      border-top: none;
+      box-sizing: border-box;
+      object-fit: cover;
+      height: calc(100% - 32px);
+      width: 100%;
+    }
+
+    .series .contents .provider {
+      background-color: #1abc9c;
+      bottom: 8px;
+      display: block;
+      font-size: 12px;
+      padding: 4px;
+      position: absolute;
+      right: 8px;
+    }
