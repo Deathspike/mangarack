@@ -18,9 +18,7 @@ export class SeriesItemPreviewComponent extends mio.StatefulComponent<{id: numbe
   public componentWillMount(): void {
     /* TODO: Implement lazy loading. */
     super.componentWillMount();
-    if (Math.random() > 0.5) {
-      this._loadPreviewImageAsync(this.props.id);
-    }
+    this._loadPreviewImageAsync(this.props.id);
   }
 
   /**

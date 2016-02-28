@@ -14,7 +14,7 @@ export class MenuFilterGenreComponent extends mio.StatelessComponent<{menu: mio.
         {Object.keys(mio.GenreType)
           .map(key => parseInt(key, 10))
           .filter(key => isFinite(key))
-          .map(genre => <mio.MenuFilterGenreItemComponent genre={genre} menu={this.props.menu} />)}
+          .map(genre => <mio.MenuFilterGenreItemComponent genre={genre} genres={this.props.menu.genres} />)}
       </div>
     );
   }
