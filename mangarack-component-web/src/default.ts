@@ -29,8 +29,9 @@ export * from './components/MenuSearchComponent';
 export * from './components/MenuSeriesComponent';
 export * from './components/MenuSeriesItemComponent';
 export * from './components/SeriesComponent';
-export * from './components/SeriesItemComponent';
-export * from './components/SeriesItemPreviewComponent';
+export * from './components/SeriesListComponent';
+export * from './components/SeriesListItemComponent';
+export * from './components/SeriesListItemPreviewComponent';
 
 // web/controllers
 export * from './controllers/ApplicationController';

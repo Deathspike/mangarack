@@ -1,9 +1,9 @@
 import * as mio from '../default';
 
 /**
- * Represents a series item preview component.
+ * Represents a series list item preview component.
  */
-export class SeriesItemPreviewComponent extends mio.StatefulComponent<{id: number}, mio.IOption<string>> {
+export class SeriesListItemPreviewComponent extends mio.StatefulComponent<{id: number}, mio.IOption<string>> {
   /**
    * Initializes a new instance of the SeriesItemImageComponent class.
    * @param properties The properties.
@@ -44,7 +44,7 @@ export class SeriesItemPreviewComponent extends mio.StatefulComponent<{id: numbe
    */
   public render(): JSX.Element {
     return (
-      <div className="seriesItemPreview">
+      <div className="seriesListItemPreview">
         {(() => {
           if (this.state.hasValue) {
             return <img src={this.state.value} />;

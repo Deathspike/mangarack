@@ -8,17 +8,19 @@ export class SeriesComponent extends mio.StatelessComponent<{series: mio.IOption
    * Renders the component.
    */
   public render(): JSX.Element {
+    /* TODO: Make these buttons available in menu, too, when on phone. */
+    /* TODO: Make these series buttons do something. */
     return (
       <div className="series">
-        {(() => {
-          if (!this.props.series.hasValue) {
-            return <div className="pending"><i className="fa fa-spin fa-circle-o-notch"></i></div>;
-          } else if (!this.props.series.value.length) {
-            return <div className="none">No series available.</div>;
-          } else {
-            return <div>{this.props.series.value.map(series => <mio.SeriesItemComponent series={series} />)}</div>;
-          }
-        })()}
+        <div className="seriesControl">
+          <span className="title">Local Library</span>
+          <span className="seriesControlButtons">
+            <i className="fa fa-plus"></i>
+            <i className="fa fa-download"></i>
+            <i className="fa fa-refresh"></i>
+          </span>
+        </div>
+        <mio.SeriesListComponent series={this.props.series} />
       </div>
     );
   }
