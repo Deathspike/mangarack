@@ -25,6 +25,7 @@ export * from './components/MenuFilterGenreComponent';
 export * from './components/MenuFilterGenreItemComponent';
 export * from './components/MenuFilterLinkComponent';
 export * from './components/MenuFilterLinkGenreComponent';
+export * from './components/MenuSearchComponent';
 export * from './components/MenuSeriesComponent';
 export * from './components/MenuSeriesItemComponent';
 export * from './components/SeriesComponent';
@@ -36,5 +37,7 @@ export * from './controllers/ApplicationController';
 export * from './controllers/SeriesController';
 
 // web/typings
+export * from './typings/react/InputEventTarget';
+export * from './typings/react/InputFormEvent';
 export * from './typings/IApplicationState';
 export * from './typings/IMenuState';

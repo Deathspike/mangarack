@@ -14,6 +14,14 @@ export let menuActions = {
   }),
 
   /**
+   * Sets the search.
+   * @param search The search.
+   */
+  setSearch: mio.store.reviser('MENU_SETSEARCH', function(state: mio.IApplicationState, search: string): void {
+    state.menu.search = search;
+  }),
+
+  /**
    * Toggles the genre type.
    * @param revisor The genre type.
    */
