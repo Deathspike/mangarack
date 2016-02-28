@@ -255,7 +255,7 @@
         background-color: #1abc9c; /* Turqoise */
       }
 
-      .seriesItemBody:hover .preview {
+      .seriesItemBody:hover .seriesItemPreview {
         border-color: #1abc9c; /* Turqoise */
       }
 
@@ -288,18 +288,32 @@
         white-space: nowrap;
       }
 
-      .seriesItemBody .previewImage {
+      .seriesItemPreview {
         border: 1px solid #16a085; /* Green Sea */
         border-top: none;
-        box-sizing: border-box;
-        object-fit: cover;
         height: calc(100% - 32px);
         width: 100%;
       }
 
+        .seriesItemPreview img {
+          object-fit: cover;
+          height: 100%;
+          width: 100%;
+        }
+
+        .seriesItemPreview .pending {
+          bottom: 50%;
+          color: #2c3e50; /* Midnight Blue */
+          left: calc(50% - 8px);
+          font-size: 20px;
+          position: absolute;
+          right: 50%;
+          top: 50%;
+        }
+
       .seriesItemBody .provider {
         background-color: #16a085; /* Green Sea */
-        bottom: 4px;
+        bottom: 0;
         display: block;
         font-style: italic;
         font-size: 10px;
