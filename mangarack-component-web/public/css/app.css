@@ -91,6 +91,21 @@
         position: relative;
       }
 
+        .menuFilterLinkGenre .numberOfGenreFilters {
+          background-color: #2980b9; /* Blaze Hole */
+          border-radius: 16px;
+          color: #ecf0f1; /* Clouds */
+          font-family: monospace;
+          font-size: 10px;
+          height: 20px;
+          line-height: 20px;
+          position: absolute;
+          right: 20px;
+          text-align: center;
+          top: 6px;
+          width: 24px;
+        }
+
         .menuFilterLinkGenre i {
           font-size: 20px;
           position: absolute;
@@ -137,7 +152,7 @@
       .menuSeriesItem .numberOfUnreadChapters {
         background-color: #d35400; /* Pumpkin */
         border-radius: 16px;
-        color: #ecf0f1;
+        color: #ecf0f1; /* Clouds */
         font-family: monospace;
         font-size: 10px;
         height: 20px;
