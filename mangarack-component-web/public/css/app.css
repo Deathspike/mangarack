@@ -6,13 +6,26 @@
 #header {
   background-color: #16a085; /* Green Sea */
   color: #ecf0f1; /* Clouds */
-  font-size: 20px;
   font-weight: bold;
   text-align: center;
 }
 
+  #header .title {
+    display: block;
+    font-size: 20px;
+  }
+
 #container {
   color: #2c3e50; /* Midnight Blue */
+}
+
+.headerBack {
+  cursor: pointer;
+  left: 0;
+  font-size: 24px;
+  padding: 9px 20px 7px 6px;
+  position: absolute;
+  top: 0;
 }
 
 .menu {

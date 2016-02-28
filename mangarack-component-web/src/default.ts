@@ -18,6 +18,7 @@ export * from './actions/applicationActions';
 export * from './actions/menuActions';
 
 // web/components
+export * from './components/HeaderBackComponent';
 export * from './components/MenuComponent';
 export * from './components/MenuFilterComponent';
 export * from './components/MenuFilterGenreComponent';

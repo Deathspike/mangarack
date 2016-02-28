@@ -19,10 +19,10 @@ export class SeriesController extends mio.StatelessComponent<{application: mio.I
     return (
       <div>
         <div id="header">
-          {/* TODO: Back. */}
+          <mio.HeaderBackComponent />
           {/* TODO: Download. */}
           {/* TODO: Settings. */}
-          MangaRack
+          <span className="title">MangaRack</span>
         </div>
         <div id="container">
           <mio.MenuComponent application={this.props.application} />
