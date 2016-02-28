@@ -13,9 +13,9 @@ export class MenuFilterComponent extends mio.StatelessComponent<{menu: mio.IMenu
         {(() => {
           switch(this.props.menu.type) {
             case mio.MenuType.Genre:
-              return <mio.MenuFilterGenreComponent menu={this.props.menu} />;
+              return <mio.MenuFilterGenreComponent genres={this.props.menu.genres} />;
             default:
-              return <mio.MenuFilterLinkComponent />;
+              return <mio.MenuFilterLinkComponent genres={this.props.menu.genres} />;
           }
         })()}
       </div>

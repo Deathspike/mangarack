@@ -24,7 +24,7 @@ export let menuActions = {
     } else if (genres[genre]) {
       genres[genre] = false;
     } else {
-      genres[genre] = null;
+      delete genres[genre];
     }
   })
 };
