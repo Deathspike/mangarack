@@ -13,9 +13,13 @@ export class MenuComponent extends mio.StatelessComponent<{menu: mio.IMenuState,
         {/* TODO: Search/Add. */}
         <mio.MenuFilterComponent menu={this.props.menu} />
         {/* TODO: Ordering. */}
-        {this.props.menu.type === mio.MenuType.Default ?
-          <mio.MenuSeriesComponent series={this.props.series} /> :
-          null}
+        {(() => {
+          if (this.props.menu.type === mio.MenuType.Default) {
+            return <mio.MenuSeriesComponent series={this.props.series} />;
+          } else {
+            return null;
+          }
+        })()}
       </div>
     );
   }
