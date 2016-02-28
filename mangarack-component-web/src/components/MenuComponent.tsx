@@ -10,7 +10,14 @@ export class MenuComponent extends mio.StatelessComponent<{menu: mio.IMenuState,
   public render(): JSX.Element {
     return (
       <div className="menu">
-        {/* TODO: Search/Add. */}
+        {/* TODO: Add. */}
+        {(() => {
+          if (this.props.menu.type === mio.MenuType.Default) {
+            return <mio.MenuSearchComponent search={this.props.menu.search} />;
+          } else {
+            return null;
+          }
+        })()}
         <mio.MenuFilterComponent menu={this.props.menu} />
         {/* TODO: Ordering. */}
         {(() => {

@@ -113,6 +113,23 @@
           top: 6px;
         }
 
+  .menuSearch {
+  }
+
+    .menuSearch .header {
+      border-bottom: 1px solid #bdc3c7; /* Silver */
+      font-weight: bold;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .menuSearch input {
+      border: none;
+      border-bottom: 1px solid #bdc3c7; /* Silver */
+      padding: 8px;
+      width: 100%;
+    }
+
   .menuSeries {
   }
 
