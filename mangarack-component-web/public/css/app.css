@@ -218,10 +218,7 @@
 .series {
   bottom: 0;
   left: 192px;
-  padding: 4px;
   position: absolute;
-  overflow-x: hidden;
-  overflow-y: scroll;
   right: 0;
   visibility: hidden;
   top: 0;
@@ -233,139 +230,176 @@
   }
 }
 
-  .series .none {
-    bottom: 50%;
-    font-size: 20px;
+  .seriesControl {
+    background-color: #ecf0f1; /* Clouds */
+    border-bottom: 1px solid #bdc3c7; /* Silver */
     font-style: italic;
-    left: 0;
-    right: 0;
-    position: absolute;
-    text-align: center;
-    top: 50%;
+    padding: 8px;
   }
 
-  .series .pending {
-    bottom: 50%;
-    left: 50%;
-    font-size: 32px;
-    position: absolute;
-    right: 50%;
-    top: 50%;
-  }
-
-  .seriesItem {
-    color: #ecf0f1; /* Clouds */
-    cursor: pointer;
-    display: inline-block;
-    float: left;
-    position: relative;
-    width: 33.33%;
-  }
-
-  @media (min-width: 768px) { /* Large Tablet */
-    .seriesItem {
-      width: 25%;
-    }
-  }
-
-  @media (min-width: 992px) { /* Desktop */
-    .seriesItem {
-      width: 20%;
-    }
-  }
-
-  @media (min-width: 1200px) { /* Large Desktop */
-    .seriesItem {
-      width: 16.66%;
-    }
-  }
-
-  @media (min-width: 1600px) { /* Very Large Desktop */
-    .seriesItem {
-      width: 12.5%;
-    }
-  }
-
-    .seriesItem .push {
-      margin-top: calc(141% + 32px);
-    }
-
-    .seriesItemBody {
-      padding: 4px 4px 0 4px;
+    .seriesControlButtons {
+      color: #16a085; /* Green Sea */
+      font-size: 24px;
+      line-height: 32px;
       position: absolute;
+      right: 8px;
       top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
     }
 
-      .seriesItemBody:hover .title {
-        background-color: #1abc9c; /* Turqoise */
+      .seriesControlButtons i {
+        cursor: pointer;
+        margin-left: 12px;
+        vertical-align: middle;
       }
 
-      .seriesItemBody:hover .seriesItemPreview {
-        border-color: #1abc9c; /* Turqoise */
-      }
-
-      .seriesItemBody:hover .provider {
-        background-color: #1abc9c; /* Turqoise */
-      }
-
-      .seriesItemBody .numberOfUnreadChapters {
-        background-color: #d35400; /* Pumpkin */
-        font-family: monospace;
-        height: 32px;
-        line-height: 32px;
-        position: absolute;
-        right: 4px;
-        text-align: center;
-        top: 4px;
-        width: 32px;
-      }
-
-        .seriesItemBody .numberOfUnreadChapters + .title {
-          padding: 8px 40px 8px 8px;
+        .seriesControlButtons i:hover {
+          color: #1abc9c; /* Turqoise */
         }
 
-      .seriesItemBody .title {
-        background-color: #16a085; /* Green Sea */
-        display: block;
-        overflow: hidden;
-        padding: 8px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+  .seriesList {
+    bottom: 0;
+    left: 0;
+    padding: 4px;
+    position: absolute;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    right: 0;
+    top: 32px;
+  }
+
+    .seriesList .none {
+      bottom: 50%;
+      font-size: 20px;
+      font-style: italic;
+      left: 0;
+      right: 0;
+      position: absolute;
+      text-align: center;
+      top: 50%;
+    }
+
+    .seriesList .pending {
+      bottom: 50%;
+      left: 50%;
+      font-size: 32px;
+      position: absolute;
+      right: 50%;
+      top: 50%;
+    }
+
+    .seriesListItem {
+      color: #ecf0f1; /* Clouds */
+      cursor: pointer;
+      display: inline-block;
+      float: left;
+      position: relative;
+      width: 33.33%;
+    }
+
+    @media (min-width: 768px) { /* Large Tablet */
+      .seriesListItem {
+        width: 25%;
+      }
+    }
+
+    @media (min-width: 992px) { /* Desktop */
+      .seriesListItem {
+        width: 20%;
+      }
+    }
+
+    @media (min-width: 1200px) { /* Large Desktop */
+      .seriesListItem {
+        width: 16.66%;
+      }
+    }
+
+    @media (min-width: 1600px) { /* Very Large Desktop */
+      .seriesListItem {
+        width: 12.5%;
+      }
+    }
+
+      .seriesListItem .push {
+        margin-top: calc(141% + 32px);
       }
 
-      .seriesItemPreview {
-        border: 1px solid #16a085; /* Green Sea */
-        border-top: none;
-        height: calc(100% - 32px);
-        width: 100%;
+      .seriesListItemBody {
+        padding: 4px 4px 0 4px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
       }
 
-        .seriesItemPreview img {
-          object-fit: cover;
-          height: 100%;
+        .seriesListItemBody:hover .title {
+          background-color: #1abc9c; /* Turqoise */
+        }
+
+        .seriesListItemBody:hover .seriesItemPreview {
+          border-color: #1abc9c; /* Turqoise */
+        }
+
+        .seriesListItemBody:hover .provider {
+          background-color: #1abc9c; /* Turqoise */
+        }
+
+        .seriesListItemBody .numberOfUnreadChapters {
+          background-color: #d35400; /* Pumpkin */
+          font-family: monospace;
+          height: 32px;
+          line-height: 32px;
+          position: absolute;
+          right: 4px;
+          text-align: center;
+          top: 4px;
+          width: 32px;
+        }
+
+          .seriesListItemBody .numberOfUnreadChapters + .title {
+            padding: 8px 40px 8px 8px;
+          }
+
+        .seriesListItemBody .title {
+          background-color: #16a085; /* Green Sea */
+          display: block;
+          overflow: hidden;
+          padding: 8px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .seriesListItemPreview {
+          border: 1px solid #16a085; /* Green Sea */
+          border-top: none;
+          height: calc(100% - 32px);
           width: 100%;
         }
 
-        .seriesItemPreview .pending {
-          bottom: 50%;
-          color: #2c3e50; /* Midnight Blue */
-          left: calc(50% - 8px);
-          font-size: 20px;
-          position: absolute;
-          right: 50%;
-          top: 50%;
-        }
+          .seriesListItemPreview img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+          }
 
-      .seriesItemBody .provider {
-        background-color: #16a085; /* Green Sea */
-        bottom: 0;
-        display: block;
-        font-style: italic;
-        font-size: 10px;
-        padding: 4px;
-        position: absolute;
-        right: 4px;
-      }
+          .seriesListItemPreview .pending {
+            bottom: 50%;
+            color: #2c3e50; /* Midnight Blue */
+            left: calc(50% - 8px);
+            font-size: 20px;
+            position: absolute;
+            right: 50%;
+            top: 50%;
+          }
+
+        .seriesListItemBody .provider {
+          background-color: #16a085; /* Green Sea */
+          bottom: 0;
+          display: block;
+          font-style: italic;
+          font-size: 10px;
+          padding: 4px;
+          position: absolute;
+          right: 4px;
+        }
