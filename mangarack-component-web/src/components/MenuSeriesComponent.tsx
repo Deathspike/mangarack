@@ -8,7 +8,6 @@ export class MenuSeriesComponent extends mio.StatelessComponent<{series: mio.IOp
    * Renders the component.
    */
   public render(): JSX.Element {
-    /* TODO: A loading indicator for phones is a must. */
     if (this.props.series.hasValue) {
       return (
         <div className="menuSeries">
@@ -17,7 +16,7 @@ export class MenuSeriesComponent extends mio.StatelessComponent<{series: mio.IOp
             if (!this.props.series.hasValue) {
               return <div className="pending"><i className="fa fa-spin fa-circle-o-notch"></i></div>;
             } else if (!this.props.series.value.length) {
-              return <div className="none">Your library is empty.</div>;
+              return <div className="none">No series available.</div>;
             } else {
               return <div>{this.props.series.value.map(series => <mio.MenuSeriesItemComponent series={series} />)}</div>;
             }

@@ -14,7 +14,7 @@ export class SeriesComponent extends mio.StatelessComponent<{series: mio.IOption
           if (!this.props.series.hasValue) {
             return <div className="pending"><i className="fa fa-spin fa-circle-o-notch"></i></div>;
           } else if (!this.props.series.value.length) {
-            return <div className="none">Your library is empty.</div>;
+            return <div className="none">No series available.</div>;
           } else {
             return <div>{this.props.series.value.map(series => <mio.SeriesItemComponent series={series} />)}</div>;
           }
