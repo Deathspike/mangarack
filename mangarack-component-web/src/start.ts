@@ -34,7 +34,7 @@ export function openActiveLibrary(): mio.ILibrary {
  * Represents the application store.
  */
 export let store: mio.IStore<mio.IApplicationState> = mio.createStore<mio.IApplicationState>({
-  filter: {genres: {}, type: mio.FilterType.None},
+  menu: {genres: {}, type: mio.MenuType.Default},
   series: mio.option<mio.ILibrarySeries[]>()
 });
 

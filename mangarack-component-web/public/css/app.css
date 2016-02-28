@@ -33,72 +33,82 @@
     }
   }
 
-  .menu .filter {
+  .menuFilter {
   }
 
-    .menu .filterLink {
-      border-bottom: 1px solid #bdc3c7; /* Silver */
-      cursor: pointer;
-      padding: 8px;
-      position: relative;
+    .menuFilterGenre {
     }
 
-      .menu .filterLink i {
-        font-size: 20px;
-        position: absolute;
-        right: 8px;
-        top: 6px;
-      }
-
-    .menu .filter .filterGenreTypeList {
-    }
-
-      .menu .filter .filterGenreTypeList .filterGenreType {
+      .menuFilterGenreItem {
         border-bottom: 1px solid #bdc3c7; /* Silver */
         cursor: pointer;
         padding: 8px;
         position: relative;
       }
 
-        .menu .filter .filterGenreTypeList .filterGenreType i {
+        .menuFilterGenreItem i {
           font-size: 20px;
           position: absolute;
           right: 8px;
           top: 6px;
         }
 
-        .menu .filter .filterGenreTypeList .filterGenreType .fa-check-circle {
+        .menuFilterGenreItem .fa-check-circle {
           color: #27ae60; /* Nephritis */
         }
 
-        .menu .filter .filterGenreTypeList .filterGenreType .fa-times-circle {
+        .menuFilterGenreItem .fa-times-circle {
           color: #c0392b; /* Pomegranate */
         }
 
-  .menu .menuSeriesList {
+    .menuFilterLink {
+    }
+
+      .menuFilterLink .header {
+        border-bottom: 1px solid #bdc3c7; /* Silver */
+        font-weight: bold;
+        padding: 8px;
+        text-align: center;
+      }
+
+      .menuFilterLinkGenre {
+        border-bottom: 1px solid #bdc3c7; /* Silver */
+        cursor: pointer;
+        padding: 8px;
+        position: relative;
+      }
+
+        .menuFilterLinkGenre i {
+          font-size: 20px;
+          position: absolute;
+          right: 8px;
+          top: 6px;
+        }
+
+  .menuSeries {
   }
 
-    .menu .menuSeriesList .menuSeriesHeader {
+    .menuSeries .header {
       border-bottom: 1px solid #bdc3c7; /* Silver */
       font-weight: bold;
       padding: 8px;
       text-align: center;
     }
 
-    .menu .menuSeries {
+    .menuSeriesItem {
       border-bottom: 1px solid #bdc3c7; /* Silver */
       cursor: pointer;
       position: relative;
     }
 
-      .menu .menuSeries i {
+      .menuSeriesItem i {
         font-size: 20px;
         position: absolute;
         right: 8px;
         top: 6px;
       }
 
-      .menu .menuSeries .numberOfUnreadChapters { /* Padding of the text */
+      .menuSeriesItem .numberOfUnreadChapters { /* Padding of the text */
         background-color: #d35400;
         border-radius: 16px;
         color: #ecf0f1;
@@ -113,7 +123,7 @@
         width: 20px;
       }
 
-      .menu .menuSeries .title {
+      .menuSeriesItem .title {
         display: block;
         overflow: hidden;
         padding: 8px 16px 8px 8px;
@@ -121,11 +131,11 @@
         white-space: nowrap;
       }
 
-        .menu .menuSeries .numberOfUnreadChapters + .title {
+        .menuSeriesItem .numberOfUnreadChapters + .title {
           padding: 8px 44px 8px 8px;
         }
 
-.seriesList {
+.series {
   bottom: 0;
   left: 192px;
   padding: 4px;
@@ -138,12 +148,12 @@
 }
 
 @media (min-width: 600px) { /* Tablet */
-  .seriesList {
+  .series {
     visibility: visible;
   }
 }
 
-  .seriesList .pendingValue {
+  .series .pending {
     bottom: 50%;
     left: 50%;
     font-size: 32px;
@@ -152,7 +162,7 @@
     top: 50%;
   }
 
-  .seriesList .series {
+  .seriesItem {
     color: #ecf0f1; /* Clouds */
     cursor: pointer;
     display: inline-block;
@@ -162,34 +172,34 @@
   }
 
   @media (min-width: 768px) { /* Large Tablet */
-    .seriesList .series {
+    .seriesItem {
       width: 25%;
     }
   }
 
   @media (min-width: 992px) { /* Desktop */
-    .seriesList .series {
+    .seriesItem {
       width: 20%;
     }
   }
 
   @media (min-width: 1200px) { /* Large Desktop */
-    .seriesList .series {
+    .seriesItem {
       width: 16.66%;
     }
   }
 
   @media (min-width: 1600px) { /* Very Large Desktop */
-    .seriesList .series {
+    .seriesItem {
       width: 12.5%;
     }
   }
 
-    .seriesList .series .push {
+    .seriesItem .push {
       margin-top: calc(141% + 32px);
     }
 
-    .seriesList .series .contents {
+    .seriesItemBody {
       padding: 4px 4px 0 4px;
       position: absolute;
       top: 0;
@@ -198,19 +208,19 @@
       right: 0;
     }
 
-      .seriesList .series .contents:hover .title {
+      .seriesItemBody:hover .title {
         background-color: #1abc9c; /* Turqoise */
       }
 
-      .seriesList .series .contents:hover .preview {
+      .seriesItemBody:hover .preview {
         border-color: #1abc9c; /* Turqoise */
       }
 
-      .seriesList .series .contents:hover .provider {
+      .seriesItemBody:hover .provider {
         background-color: #1abc9c; /* Turqoise */
       }
 
-      .seriesList .series .contents .numberOfUnreadChapters {
+      .seriesItemBody .numberOfUnreadChapters {
         background-color: #d35400; /* Pumpkin */
         font-family: monospace;
         height: 32px;
@@ -222,11 +232,11 @@
         width: 32px;
       }
 
-        .seriesList .series .contents .numberOfUnreadChapters + .title {
+        .seriesItemBody .numberOfUnreadChapters + .title {
           padding: 8px 40px 8px 8px;
         }
 
-      .seriesList .series .contents .title {
+      .seriesItemBody .title {
         background-color: #16a085; /* Green Sea */
         display: block;
         overflow: hidden;
@@ -235,7 +245,7 @@
         white-space: nowrap;
       }
 
-      .seriesList .series .contents .previewImage {
+      .seriesItemBody .previewImage {
         border: 1px solid #16a085; /* Green Sea */
         border-top: none;
         box-sizing: border-box;
@@ -244,7 +254,7 @@
         width: 100%;
       }
 
-      .seriesList .series .contents .provider {
+      .seriesItemBody .provider {
         background-color: #16a085; /* Green Sea */
         bottom: 4px;
         display: block;

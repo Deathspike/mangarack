@@ -5,9 +5,9 @@ import * as mio from '../default';
  */
 export interface IApplicationState {
   /**
-   * Contains the filter state.
+   * Contains the menu state.
    */
-  filter: mio.IFilterState;
+  menu: mio.IMenuState;
 
   /**
    * Contains each series.

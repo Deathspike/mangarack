@@ -1,16 +1,16 @@
 import * as mio from '../default';
 
 /**
- * Represents the filter state.
+ * Represents the menu state.
  */
-export interface IFilterState {
+export interface IMenuState {
   /**
-   * Contains each genre type status.
+   * Contains each genre type filter.
    */
   genres: {[key: number]: boolean};
 
   /**
    * Contains the type.
    */
-  type: mio.FilterType;
+  type: mio.MenuType;
 }

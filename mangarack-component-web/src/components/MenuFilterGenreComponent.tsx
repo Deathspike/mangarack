@@ -1,20 +1,20 @@
 import * as mio from '../default';
 
 /**
- * Represents a filter genre type list component.
+ * Represents a menu filter genre component.
  */
-export class FilterGenreTypeListComponent extends mio.StatelessComponent<{filter: mio.IFilterState}> {
+export class MenuFilterGenreComponent extends mio.StatelessComponent<{menu: mio.IMenuState}> {
   /**
    * Renders the component.
    */
   public render(): JSX.Element {
     /* TODO: Limit to the genres currently in the library. */
     return (
-      <div className="filterGenreTypeList">
+      <div className="menuFilterGenre">
         {Object.keys(mio.GenreType)
           .map(key => parseInt(key, 10))
           .filter(key => isFinite(key))
-          .map(genreType => <mio.FilterGenreTypeComponent genreType={genreType} filter={this.props.filter} />)}
+          .map(genre => <mio.MenuFilterGenreItemComponent genre={genre} menu={this.props.menu} />)}
       </div>
     );
   }

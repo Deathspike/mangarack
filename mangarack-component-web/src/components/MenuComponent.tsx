@@ -11,9 +11,9 @@ export class MenuComponent extends mio.StatelessComponent<{application: mio.IApp
     return (
       <div className="menu">
         {/* TODO: Search/Add. */}
-        <mio.FilterComponent filter={this.props.application.filter} />
+        <mio.MenuFilterComponent menu={this.props.application.menu} />
         {/* TODO: Ordering. */}
-        <mio.MenuSeriesListComponent series={this.props.application.series} />
+        <mio.MenuSeriesComponent series={this.props.application.series} />
       </div>
     );
   }

@@ -26,7 +26,7 @@ export class SeriesController extends mio.StatelessComponent<{application: mio.I
         </div>
         <div id="container">
           <mio.MenuComponent application={this.props.application} />
-          <mio.SeriesListComponent series={this.props.application.series} />
+          <mio.SeriesComponent series={this.props.application.series} />
         </div>
       </div>
     );
