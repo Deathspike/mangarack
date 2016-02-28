@@ -147,86 +147,138 @@
 
     .menuSeries .header {
       border-bottom: 1px solid #bdc3c7; /* Silver */
-      font-weight: bold;
       padding: 8px;
       text-align: center;
     }
 
-    .menuSeries .none {
-      font-style: italic;
-      padding: 8px;
-      text-align: center;
-    }
-
-    .menuSeries .pending {
-      font-size: 20px;
-      padding: 8px;
-      text-align: center;
-    }
-
-    .menuSeriesItem {
-      border-bottom: 1px solid #bdc3c7; /* Silver */
-      cursor: pointer;
-      padding: 4px 8px;
-      position: relative;
-    }
-
-      .menuSeriesItem:hover {
-        background-color: #bdc3c7; /* Silver */
-      }
-
-      .menuSeriesItem i {
-        font-size: 20px;
-        position: absolute;
-        right: 8px;
-        top: 8px;
-      }
-
-      .menuSeriesItem .numberOfUnreadChapters {
-        background-color: #d35400; /* Pumpkin */
-        border-radius: 16px;
-        color: #ecf0f1; /* Clouds */
-        font-family: monospace;
-        font-size: 10px;
-        height: 20px;
-        line-height: 20px;
-        position: absolute;
-        right: 20px;
-        text-align: center;
-        top: 8px;
-        width: 24px;
-      }
-
-      .menuSeriesItem .title {
+      .menuSeries .header .text {
         display: block;
-        overflow: hidden;
-        padding-right: 8px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        font-weight: bold;
       }
 
-        .menuSeriesItem .numberOfUnreadChapters + .title {
-          padding-right: 36px;
+      .menuSeries .header .subtext {
+        display: block;
+        font-size: 12px;
+        font-style: italic;
+      }
+
+      @media (min-width: 600px) { /* Tablet */
+        .menuSeries .header .subtext {
+          display: none;
+        }
+      }
+
+    .menuSeriesControl {
+      border-bottom: 1px solid #bdc3c7; /* Silver */
+      color: #16a085; /* Green Sea */
+      font-size: 24px;
+      line-height: 32px;
+    }
+
+    @media (min-width: 600px) { /* Tablet */
+      .menuSeriesControl {
+        display: none;
+      }
+    }
+
+      .menuSeriesControl i {
+        border-right: 1px solid #bdc3c7; /* Silver */
+        cursor: pointer;
+        text-align: center;
+        vertical-align: middle;
+        width: 33.33%;
+      }
+
+        .menuSeriesControl i:last-of-type {
+          border: none;
         }
 
-      .menuSeriesItem .provider {
-        display: block;
-        font-style: italic;
-        font-size: 10px;
+        .menuSeriesControl i:hover {
+          color: #1abc9c; /* Turqoise */
+        }
+
+      .menuSeriesControl .fa-refresh {
+        margin-top: -2px;
       }
+
+    .menuSeriesList {
+    }
+
+      .menuSeriesList .none {
+        font-style: italic;
+        padding: 8px;
+        text-align: center;
+      }
+
+      .menuSeriesList .pending {
+        font-size: 20px;
+        padding: 8px;
+        text-align: center;
+      }
+
+      .menuSeriesListItem {
+        border-bottom: 1px solid #bdc3c7; /* Silver */
+        cursor: pointer;
+        padding: 4px 8px;
+        position: relative;
+      }
+
+        .menuSeriesListItem:hover {
+          background-color: #bdc3c7; /* Silver */
+        }
+
+        .menuSeriesListItem i {
+          font-size: 20px;
+          position: absolute;
+          right: 8px;
+          top: 8px;
+        }
+
+        .menuSeriesListItem .numberOfUnreadChapters {
+          background-color: #d35400; /* Pumpkin */
+          border-radius: 16px;
+          color: #ecf0f1; /* Clouds */
+          font-family: monospace;
+          font-size: 10px;
+          height: 20px;
+          line-height: 20px;
+          position: absolute;
+          right: 20px;
+          text-align: center;
+          top: 8px;
+          width: 24px;
+        }
+
+        .menuSeriesListItem .title {
+          display: block;
+          overflow: hidden;
+          padding-right: 8px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+          .menuSeriesListItem .numberOfUnreadChapters + .title {
+            padding-right: 36px;
+          }
+
+        .menuSeriesListItem .provider {
+          display: block;
+          font-style: italic;
+          font-size: 10px;
+        }
 
 .series {
   bottom: 0;
+  display: none;
   left: 192px;
   position: absolute;
   right: 0;
-  visibility: hidden;
   top: 0;
 }
 
 @media (min-width: 600px) { /* Tablet */
   .series {
-    visibility: visible;
+    display: block;
   }
 }
 
@@ -246,9 +298,13 @@
       top: 0;
     }
 
+      .seriesControlButtons .fa-refresh {
+        margin-top: -2px;
+      }
+
       .seriesControlButtons i {
         cursor: pointer;
-        margin-left: 12px;
+        margin-left: 16px;
         vertical-align: middle;
       }
 
