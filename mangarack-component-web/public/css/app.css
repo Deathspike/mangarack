@@ -95,9 +95,22 @@
       text-align: center;
     }
 
+    .menuSeries .none {
+      font-style: italic;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .menuSeries .pending {
+      font-size: 20px;
+      padding: 8px;
+      text-align: center;
+    }
+
     .menuSeriesItem {
       border-bottom: 1px solid #bdc3c7; /* Silver */
       cursor: pointer;
+      padding: 4px 8px;
       position: relative;
     }
 
@@ -105,11 +118,11 @@
         font-size: 20px;
         position: absolute;
         right: 8px;
-        top: 6px;
+        top: 8px;
       }
 
-      .menuSeriesItem .numberOfUnreadChapters { /* Padding of the text */
-        background-color: #d35400;
+      .menuSeriesItem .numberOfUnreadChapters {
+        background-color: #d35400; /* Pumpkin */
         border-radius: 16px;
         color: #ecf0f1;
         font-family: monospace;
@@ -119,21 +132,27 @@
         position: absolute;
         right: 20px;
         text-align: center;
-        top: 6px;
-        width: 20px;
+        top: 8px;
+        width: 24px;
       }
 
       .menuSeriesItem .title {
         display: block;
         overflow: hidden;
-        padding: 8px 16px 8px 8px;
+        padding-right: 8px;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
 
         .menuSeriesItem .numberOfUnreadChapters + .title {
-          padding: 8px 44px 8px 8px;
+          padding-right: 36px;
         }
+
+      .menuSeriesItem .provider {
+        display: block;
+        font-style: italic;
+        font-size: 10px;
+      }
 
 .series {
   bottom: 0;
@@ -152,6 +171,17 @@
     visibility: visible;
   }
 }
+
+  .series .none {
+    bottom: 50%;
+    font-size: 20px;
+    font-style: italic;
+    left: 0;
+    right: 0;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+  }
 
   .series .pending {
     bottom: 50%;
@@ -258,6 +288,7 @@
         background-color: #16a085; /* Green Sea */
         bottom: 4px;
         display: block;
+        font-style: italic;
         font-size: 10px;
         padding: 4px;
         position: absolute;

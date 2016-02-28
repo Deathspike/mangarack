@@ -35,7 +35,9 @@ export class SeriesItemComponent extends mio.StatelessComponent<{series: mio.ILi
       <div className="seriesItem" key={this.props.series.id}>
         <div className="push"></div>
         <div className="seriesItemBody">
-          {numberOfUnreadChapters > 0 ? <span className="numberOfUnreadChapters">{numberOfUnreadChapters}</span> : null}
+          {numberOfUnreadChapters > 0 ?
+            <span className="numberOfUnreadChapters">{numberOfUnreadChapters}</span> :
+            null}
           <span className="title">{this.props.series.metadata.title}</span>
           <img className="previewImage" src={this._imageUrl.hasValue ? this._imageUrl.value : ''} />
           <span className="provider">{this.props.series.providerName}</span>
