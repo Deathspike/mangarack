@@ -172,7 +172,12 @@
       border-bottom: 1px solid #bdc3c7; /* Silver */
       color: #16a085; /* Green Sea */
       font-size: 24px;
-      line-height: 32px;
+    }
+
+    .menuSeriesControl:after {
+      content: '';
+      clear: both;
+      display: block;
     }
 
     @media (min-width: 600px) { /* Tablet */
@@ -184,8 +189,10 @@
       .menuSeriesControl i {
         border-right: 1px solid #bdc3c7; /* Silver */
         cursor: pointer;
+        display: block;
+        float: left;
+        padding-top: 4px;
         text-align: center;
-        vertical-align: middle;
         width: 33.33%;
       }
 
@@ -198,7 +205,7 @@
         }
 
       .menuSeriesControl .fa-refresh {
-        margin-top: -2px;
+        margin-top: -1px;
       }
 
     .menuSeriesList {
