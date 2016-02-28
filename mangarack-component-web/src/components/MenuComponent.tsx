@@ -13,7 +13,9 @@ export class MenuComponent extends mio.StatelessComponent<{application: mio.IApp
         {/* TODO: Search/Add. */}
         <mio.MenuFilterComponent menu={this.props.application.menu} />
         {/* TODO: Ordering. */}
-        <mio.MenuSeriesComponent series={this.props.application.series} />
+        {this.props.application.menu.type === mio.MenuType.Default ?
+          <mio.MenuSeriesComponent series={this.props.application.series} /> :
+          null}
       </div>
     );
   }
