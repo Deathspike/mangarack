@@ -3,7 +3,7 @@ import * as mio from '../default';
 /**
  * Represents a menu component.
  */
-export class MenuComponent extends mio.StatelessComponent<{application: mio.IApplicationState}> {
+export class MenuComponent extends mio.StatelessComponent<{menu: mio.IMenuState, series: mio.IOption<mio.ILibrarySeries[]>}> {
   /**
    * Renders the component.
    */
@@ -11,10 +11,10 @@ export class MenuComponent extends mio.StatelessComponent<{application: mio.IApp
     return (
       <div className="menu">
         {/* TODO: Search/Add. */}
-        <mio.MenuFilterComponent menu={this.props.application.menu} />
+        <mio.MenuFilterComponent menu={this.props.menu} />
         {/* TODO: Ordering. */}
-        {this.props.application.menu.type === mio.MenuType.Default ?
-          <mio.MenuSeriesComponent series={this.props.application.series} /> :
+        {this.props.menu.type === mio.MenuType.Default ?
+          <mio.MenuSeriesComponent series={this.props.series} /> :
           null}
       </div>
     );
