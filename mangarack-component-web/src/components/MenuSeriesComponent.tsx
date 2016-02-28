@@ -11,16 +11,16 @@ export class MenuSeriesComponent extends mio.StatelessComponent<{series: mio.IOp
     if (this.props.series.hasValue) {
       return (
         <div className="menuSeries">
-          <div className="header">Series</div>
-          {(() => {
-            if (!this.props.series.hasValue) {
-              return <div className="pending"><i className="fa fa-spin fa-circle-o-notch"></i></div>;
-            } else if (!this.props.series.value.length) {
-              return <div className="none">No series available.</div>;
-            } else {
-              return <div>{this.props.series.value.map(series => <mio.MenuSeriesItemComponent series={series} />)}</div>;
-            }
-          })()}
+          <div className="header">
+            <span className="text">Series</span>
+            <span className="subtext">Local Library</span>
+          </div>
+          <div className="menuSeriesControl">
+            <i className="fa fa-plus"></i>
+            <i className="fa fa-download"></i>
+            <i className="fa fa-refresh"></i>
+          </div>
+          <mio.MenuSeriesListComponent series={this.props.series} />
         </div>
       );
     } else {

@@ -8,8 +8,7 @@ export class SeriesComponent extends mio.StatelessComponent<{series: mio.IOption
    * Renders the component.
    */
   public render(): JSX.Element {
-    /* TODO: Make these buttons available in menu, too, when on phone. */
-    /* TODO: Make these series buttons do something. */
+    /* TODO: Make these series buttons do something (idem on the menu buttons for phone). */
     return (
       <div className="series">
         <div className="seriesControl">
