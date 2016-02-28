@@ -29,6 +29,7 @@ export * from './components/MenuSeriesComponent';
 export * from './components/MenuSeriesItemComponent';
 export * from './components/SeriesComponent';
 export * from './components/SeriesItemComponent';
+export * from './components/SeriesItemPreviewComponent';
 
 // web/controllers
 export * from './controllers/ApplicationController';
