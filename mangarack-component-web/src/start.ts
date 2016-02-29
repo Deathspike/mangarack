@@ -35,6 +35,7 @@ export function openActiveLibrary(): mio.ILibrary {
  */
 export let store: mio.IStore<mio.IApplicationState> = mio.createStore<mio.IApplicationState>({
   menu: {genres: {}, type: mio.MenuType.Default, search: ''},
+  modalType: mio.ModalType.None,
   series: mio.option<mio.ILibrarySeries[]>()
 });
 

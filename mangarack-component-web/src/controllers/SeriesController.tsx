@@ -19,9 +19,9 @@ export class SeriesController extends mio.StatelessComponent<{application: mio.I
     let series = this._filterSeries();
     return (
       <div>
+        <mio.ModalComponent modalType={this.props.application.modalType} />
         <div id="header">
           <mio.HeaderBackComponent />
-          {/* TODO: Download. */}
           {/* TODO: Settings. */}
           <span className="title">MangaRack</span>
         </div>

@@ -18,7 +18,15 @@ export let applicationActions = {
 
   /**
    * Sets the series
-   * @param revisor The filter type.
+   * @param revisor The modal type.
+   */
+  setModalType: mio.store.reviser('APPLICATION_SETMODALTYPE', function(state: mio.IApplicationState, modalType: mio.ModalType): void {
+    state.modalType = modalType;
+  }),
+
+  /**
+   * Sets the series
+   * @param revisor The menu type.
    */
   setSeries: mio.store.reviser('APPLICATION_SETSERIES', function(state: mio.IApplicationState, series: mio.ILibrarySeries[]): void {
     state.series = mio.option(series);

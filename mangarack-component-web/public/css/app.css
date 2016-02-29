@@ -3,6 +3,10 @@
   font-size: 14px;
 }
 
+*:focus {
+  outline: none;
+}
+
 #header {
   background-color: #16a085; /* Green Sea */
   color: #ecf0f1; /* Clouds */
@@ -274,6 +278,75 @@
           font-size: 10px;
         }
 
+.modal {
+  bottom: 0;
+  background-color: rgba(44, 62, 80, 0.75); /* Midnight Blue */
+  left: 0;
+  right: 0;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+
+  .modalContainer {
+    background-color: #ecf0f1; /* Clouds */
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+  }
+
+    .modalContainerTitle {
+      background-color: #16a085; /* Green Sea */
+      color: #ecf0f1; /* Clouds */
+      padding: 8px;
+      position: relative;
+    }
+
+      .modalContainerTitle i {
+        color: #ecf0f1; /* Clouds */
+        cursor: pointer;
+        font-size: 20px;
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translate(0, -50%);
+      }
+
+      .modalContainerTitle i:hover {
+        color: #bdc3c7; /* Silver */
+      }
+
+    .modalContainerBody {
+      padding: 8px;
+      width: 320px;
+    }
+
+      .modalContainerBody * + * {
+        margin-top: 8px;
+      }
+
+      .modalContainerBody button {
+        border: 1px solid #bdc3c7; /* Silver */
+        color: #ecf0f1; /* Clouds */
+        padding: 4px;
+        width: 100%;
+      }
+
+        .modalContainerBody button.primary {
+          background-color: #16a085; /* Green Sea */
+        }
+
+          .modalContainerBody button.primary:hover {
+            background-color: #1abc9c; /* Turqoise */
+          }
+
+      .modalContainerBody input {
+        border: 1px solid #bdc3c7; /* Silver */
+        padding: 8px;
+        width: 100%;
+      }
+
 .series {
   bottom: 0;
   display: none;
@@ -331,23 +404,21 @@
   }
 
     .seriesList .none {
-      bottom: 50%;
       font-size: 20px;
       font-style: italic;
-      left: 0;
-      right: 0;
+      left: 50%;
       position: absolute;
       text-align: center;
       top: 50%;
+      transform: translate(-50%, -50%);
     }
 
     .seriesList .pending {
-      bottom: 50%;
-      left: 50%;
       font-size: 32px;
+      left: 50%;
       position: absolute;
-      right: 50%;
       top: 50%;
+      transform: translate(-50%, -50%);
     }
 
     .seriesListItem {
@@ -447,13 +518,8 @@
           }
 
           .seriesListItemPreview .pending {
-            bottom: 50%;
             color: #2c3e50; /* Midnight Blue */
-            left: calc(50% - 8px);
             font-size: 20px;
-            position: absolute;
-            right: 50%;
-            top: 50%;
           }
 
         .seriesListItemBody .provider {
