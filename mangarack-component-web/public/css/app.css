@@ -75,7 +75,8 @@
           font-size: 20px;
           position: absolute;
           right: 8px;
-          top: 6px;
+          top: 50%;
+          transform: translate(0, -50%);
         }
 
         .menuFilterGenreItem .fa-check-circle {
@@ -118,7 +119,8 @@
           position: absolute;
           right: 20px;
           text-align: center;
-          top: 6px;
+          top: 50%;
+          transform: translate(0, -50%);
           width: 24px;
         }
 
@@ -126,7 +128,8 @@
           font-size: 20px;
           position: absolute;
           right: 8px;
-          top: 6px;
+          top: 50%;
+          transform: translate(0, -50%);
         }
 
   .menuSearch {
@@ -242,7 +245,8 @@
           font-size: 20px;
           position: absolute;
           right: 8px;
-          top: 8px;
+          top: 50%;
+          transform: translate(0, -50%);
         }
 
         .menuSeriesListItem .numberOfUnreadChapters {
@@ -256,7 +260,8 @@
           position: absolute;
           right: 20px;
           text-align: center;
-          top: 8px;
+          top: 50%;
+          transform: translate(0, -50%);
           width: 24px;
         }
 
@@ -319,7 +324,7 @@
 
     .modalContainerBody {
       padding: 8px;
-      width: 320px;
+      width: 300px;
     }
 
       .modalContainerBody * + * {
@@ -379,7 +384,7 @@
     }
 
       .seriesControlButtons .fa-refresh {
-        margin-top: -2px;
+        margin-top: -1px;
       }
 
       .seriesControlButtons i {
@@ -400,7 +405,7 @@
     overflow-x: hidden;
     overflow-y: scroll;
     right: 0;
-    top: 32px;
+    top: 33px;
   }
 
     .seriesList .none {
