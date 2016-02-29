@@ -175,6 +175,12 @@
         }
       }
 
+    .menuSeries .pending {
+      font-size: 20px;
+      padding: 8px;
+      text-align: center;
+    }
+
     .menuSeriesControl {
       border-bottom: 1px solid #bdc3c7; /* Silver */
       font-size: 24px;
@@ -219,12 +225,6 @@
 
       .menuSeriesList .none {
         font-style: italic;
-        padding: 8px;
-        text-align: center;
-      }
-
-      .menuSeriesList .pending {
-        font-size: 20px;
         padding: 8px;
         text-align: center;
       }
