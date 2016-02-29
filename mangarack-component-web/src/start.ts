@@ -1,4 +1,5 @@
 import * as mio from './default';
+/* TODO: Handle `await` failures. */
 /* TODO: May want to consider 304 for images to speed things along. */
 /* TODO: Allow local connections without caring for the password. */
 
