@@ -16,6 +16,19 @@
   text-align: center;
 }
 
+  #header .back {
+    cursor: pointer;
+    left: 0;
+    font-size: 24px;
+    padding: 9px 16px 7px 6px;
+    position: absolute;
+    top: 0;
+  }
+
+    #header .back:hover {
+      color: #bdc3c7; /* Silver */
+    }
+
   #header .title {
     display: block;
     font-size: 20px;
@@ -24,19 +37,6 @@
 #container {
   color: #2c3e50; /* Midnight Blue */
 }
-
-.headerBack {
-  cursor: pointer;
-  left: 0;
-  font-size: 24px;
-  padding: 9px 16px 7px 6px;
-  position: absolute;
-  top: 0;
-}
-
-  .headerBack:hover {
-    color: #bdc3c7; /* Silver */
-  }
 
 .menu {
   background-color: #ecf0f1; /* Clouds */
@@ -179,7 +179,6 @@
 
     .menuSeriesControl {
       border-bottom: 1px solid #bdc3c7; /* Silver */
-      color: #16a085; /* Green Sea */
       font-size: 24px;
     }
 
@@ -197,9 +196,9 @@
 
       .menuSeriesControl i {
         border-right: 1px solid #bdc3c7; /* Silver */
+        color: #16a085; /* Green Sea */
         cursor: pointer;
-        display: block;
-        float: left;
+        display: inline-block;
         padding-top: 4px;
         text-align: center;
         width: 33.33%;
@@ -311,7 +310,6 @@
     }
 
       .modalContainerTitle i {
-        color: #ecf0f1; /* Clouds */
         cursor: pointer;
         font-size: 20px;
         padding: 6px;
@@ -342,10 +340,13 @@
 
       .modalContainerBody button {
         border: 1px solid #bdc3c7; /* Silver */
-        color: #2c3e50; /* Midnight Blue */
         padding: 4px;
         width: 100%;
       }
+
+        .modalContainerBody button[disabled] {
+          color: #2c3e50; /* Midnight Blue */
+        }
 
         .modalContainerBody button:not([disabled]).primary {
           background-color: #16a085; /* Green Sea */
@@ -434,7 +435,6 @@
       color: #ecf0f1; /* Clouds */
       cursor: pointer;
       display: inline-block;
-      float: left;
       position: relative;
       width: 33.33%;
     }
@@ -528,7 +528,11 @@
 
           .seriesListItemPreview .pending {
             color: #2c3e50; /* Midnight Blue */
+            left: 50%;
             font-size: 20px;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
           }
 
         .seriesListItemBody .provider {

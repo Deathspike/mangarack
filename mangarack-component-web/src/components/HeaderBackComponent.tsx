@@ -9,7 +9,7 @@ export class HeaderBackComponent extends mio.StatelessComponent<void> {
    */
   public render(): JSX.Element {
     return (
-      <i className="headerBack fa fa-chevron-left" onClick={() => mio.applicationActions.back()}></i>
+      <i className="back fa fa-chevron-left" onClick={() => mio.applicationActions.back()}></i>
     );
   }
 }
