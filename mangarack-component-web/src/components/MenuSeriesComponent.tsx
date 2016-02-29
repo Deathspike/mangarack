@@ -13,10 +13,10 @@ export class MenuSeriesComponent extends mio.StatelessComponent<{series: mio.IOp
         <div className="menuSeries">
           <div className="header">
             <span className="text">Series</span>
-            <span className="subtext">Local Library</span>
+            <span className="subtext">Your Library</span>
           </div>
           <div className="menuSeriesControl">
-            <i className="fa fa-plus"></i>
+            <i className="fa fa-plus" onClick={() => mio.applicationActions.setModalType(mio.ModalType.Series)}></i>
             <i className="fa fa-download"></i>
             <i className="fa fa-refresh"></i>
           </div>

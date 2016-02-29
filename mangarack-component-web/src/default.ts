@@ -6,6 +6,7 @@ export * from 'mangarack-component-library';
 
 // web/enumerators -> web
 export * from './enumerators/MenuType';
+export * from './enumerators/ModalType';
 
 // web/framework -> web
 export * from './framework/default';
@@ -29,6 +30,8 @@ export * from './components/MenuSearchComponent';
 export * from './components/MenuSeriesComponent';
 export * from './components/MenuSeriesListComponent';
 export * from './components/MenuSeriesListItemComponent';
+export * from './components/ModalComponent';
+export * from './components/ModalSeriesComponent';
 export * from './components/SeriesComponent';
 export * from './components/SeriesListComponent';
 export * from './components/SeriesListItemComponent';

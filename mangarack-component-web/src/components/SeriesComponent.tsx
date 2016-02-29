@@ -12,9 +12,9 @@ export class SeriesComponent extends mio.StatelessComponent<{series: mio.IOption
     return (
       <div className="series">
         <div className="seriesControl">
-          <span className="title">Local Library</span>
+          <span className="title">Your Library</span>
           <span className="seriesControlButtons">
-            <i className="fa fa-plus"></i>
+            <i className="fa fa-plus" onClick={() => mio.applicationActions.setModalType(mio.ModalType.Series)}></i>
             <i className="fa fa-download"></i>
             <i className="fa fa-refresh"></i>
           </span>

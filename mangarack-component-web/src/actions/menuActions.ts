@@ -7,7 +7,7 @@ import * as mio from '../default';
 export let menuActions = {
   /**
    * Sets the menu type.
-   * @param revisor The filter type.
+   * @param revisor The menu type.
    */
   setMenuType: mio.store.reviser('MENU_SETTYPE', function(state: mio.IApplicationState, type: mio.MenuType): void {
     state.menu.type = type;
