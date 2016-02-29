@@ -1,3 +1,5 @@
+/* TODO: Fix that .pending inheriting css situation. */
+
 * {
   box-sizing: border-box;
   font-size: 14px;
@@ -27,7 +29,7 @@
   cursor: pointer;
   left: 0;
   font-size: 24px;
-  padding: 9px 20px 7px 6px;
+  padding: 9px 16px 7px 6px;
   position: absolute;
   top: 0;
 }
@@ -203,12 +205,12 @@
         width: 33.33%;
       }
 
-        .menuSeriesControl i:last-of-type {
-          border: none;
-        }
-
         .menuSeriesControl i:hover {
           color: #1abc9c; /* Turqoise */
+        }
+
+        .menuSeriesControl i:last-of-type {
+          border: none;
         }
 
       .menuSeriesControl .fa-refresh {
@@ -241,12 +243,22 @@
           background-color: #bdc3c7; /* Silver */
         }
 
-        .menuSeriesListItem i {
-          font-size: 20px;
-          position: absolute;
-          right: 8px;
-          top: 50%;
-          transform: translate(0, -50%);
+        .menuSeriesListItem .title {
+          display: block;
+          overflow: hidden;
+          padding-right: 8px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+          .menuSeriesListItem .numberOfUnreadChapters + .title {
+            padding-right: 36px;
+          }
+
+        .menuSeriesListItem .provider {
+          display: block;
+          font-style: italic;
+          font-size: 10px;
         }
 
         .menuSeriesListItem .numberOfUnreadChapters {
@@ -265,22 +277,12 @@
           width: 24px;
         }
 
-        .menuSeriesListItem .title {
-          display: block;
-          overflow: hidden;
-          padding-right: 8px;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-
-          .menuSeriesListItem .numberOfUnreadChapters + .title {
-            padding-right: 36px;
-          }
-
-        .menuSeriesListItem .provider {
-          display: block;
-          font-style: italic;
-          font-size: 10px;
+        .menuSeriesListItem i {
+          font-size: 20px;
+          position: absolute;
+          right: 8px;
+          top: 50%;
+          transform: translate(0, -50%);
         }
 
 .modal {
@@ -312,15 +314,16 @@
         color: #ecf0f1; /* Clouds */
         cursor: pointer;
         font-size: 20px;
+        padding: 6px;
         position: absolute;
-        right: 8px;
+        right: 0;
         top: 50%;
         transform: translate(0, -50%);
       }
 
-      .modalContainerTitle i:hover {
-        color: #bdc3c7; /* Silver */
-      }
+        .modalContainerTitle i:hover {
+          color: #bdc3c7; /* Silver */
+        }
 
     .modalContainerBody {
       padding: 8px;
@@ -331,26 +334,27 @@
         margin-top: 8px;
       }
 
-      .modalContainerBody button {
-        border: 1px solid #bdc3c7; /* Silver */
-        color: #ecf0f1; /* Clouds */
-        padding: 4px;
-        width: 100%;
-      }
-
-        .modalContainerBody button.primary {
-          background-color: #16a085; /* Green Sea */
-        }
-
-          .modalContainerBody button.primary:hover {
-            background-color: #1abc9c; /* Turqoise */
-          }
-
       .modalContainerBody input {
         border: 1px solid #bdc3c7; /* Silver */
         padding: 8px;
         width: 100%;
       }
+
+      .modalContainerBody button {
+        border: 1px solid #bdc3c7; /* Silver */
+        color: #2c3e50; /* Midnight Blue */
+        padding: 4px;
+        width: 100%;
+      }
+
+        .modalContainerBody button:not([disabled]).primary {
+          background-color: #16a085; /* Green Sea */
+          color: #ecf0f1; /* Clouds */
+        }
+
+          .modalContainerBody button:not([disabled]).primary:hover {
+            background-color: #1abc9c; /* Turqoise */
+          }
 
 .series {
   bottom: 0;
@@ -375,27 +379,27 @@
   }
 
     .seriesControlButtons {
-      color: #16a085; /* Green Sea */
       font-size: 24px;
-      line-height: 32px;
       position: absolute;
-      right: 8px;
+      right: 0;
       top: 0;
     }
 
-      .seriesControlButtons .fa-refresh {
-        margin-top: -1px;
-      }
-
       .seriesControlButtons i {
+        color: #16a085; /* Green Sea */
         cursor: pointer;
-        margin-left: 16px;
+        padding: 6px 8px 2px 8px;
         vertical-align: middle;
       }
 
         .seriesControlButtons i:hover {
           color: #1abc9c; /* Turqoise */
         }
+
+      .seriesControlButtons .fa-refresh {
+        padding-bottom: 3px;
+        margin-top: -1px;
+      }
 
   .seriesList {
     bottom: 0;
@@ -484,6 +488,15 @@
           background-color: #1abc9c; /* Turqoise */
         }
 
+        .seriesListItemBody .title {
+          background-color: #16a085; /* Green Sea */
+          display: block;
+          overflow: hidden;
+          padding: 8px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
         .seriesListItemBody .numberOfUnreadChapters {
           background-color: #d35400; /* Pumpkin */
           font-family: monospace;
@@ -499,15 +512,6 @@
           .seriesListItemBody .numberOfUnreadChapters + .title {
             padding: 8px 40px 8px 8px;
           }
-
-        .seriesListItemBody .title {
-          background-color: #16a085; /* Green Sea */
-          display: block;
-          overflow: hidden;
-          padding: 8px;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
 
         .seriesListItemPreview {
           border: 1px solid #16a085; /* Green Sea */
