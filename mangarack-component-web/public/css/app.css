@@ -1,5 +1,3 @@
-/* TODO: Fix that .pending inheriting css situation. */
-
 * {
   box-sizing: border-box;
   font-size: 14px;
@@ -328,8 +326,13 @@
       width: 300px;
     }
 
-      .modalContainerBody * + * {
+      .modalContainerBody *:not(label) + * {
         margin-top: 8px;
+      }
+
+      .modalContainerBody label {
+        font-size: 12px;
+        font-style: italic;
       }
 
       .modalContainerBody input {
@@ -339,13 +342,13 @@
       }
 
       .modalContainerBody button {
-        border: 1px solid #bdc3c7; /* Silver */
+        border: none;
         padding: 4px;
         width: 100%;
       }
 
         .modalContainerBody button[disabled] {
-          color: #2c3e50; /* Midnight Blue */
+          color: #bdc3c7; /* Silver */
         }
 
         .modalContainerBody button:not([disabled]).primary {
