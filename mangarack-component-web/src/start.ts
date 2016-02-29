@@ -1,4 +1,6 @@
 import * as mio from './default';
+/* TODO: May want to consider 304 for images to speed things along. */
+/* TODO: Allow local connections without caring for the password. */
 
 
 /* TODO: Move this somewhere a little more sane. */
