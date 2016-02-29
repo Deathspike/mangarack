@@ -9,7 +9,7 @@ export class SeriesController extends mio.StatelessComponent<{application: mio.I
    */
   public componentWillMount(): void {
     super.componentWillMount();
-    this._loadSeries();
+    mio.applicationActions.refreshSeries();
   }
 
   /**
@@ -63,13 +63,5 @@ export class SeriesController extends mio.StatelessComponent<{application: mio.I
     } else {
       return this.props.application.series;
     }
-  }
-
-  /**
-   * Promises to load the series.
-   */
-  private async _loadSeries(): Promise<void> {
-    let series = await mio.openActiveLibrary().listAsync();
-    mio.applicationActions.setSeries(series);
   }
 }

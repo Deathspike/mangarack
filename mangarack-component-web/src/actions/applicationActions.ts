@@ -17,6 +17,16 @@ export let applicationActions = {
   }),
 
   /**
+   * Refreshes the series.
+   * @param revisor The menu type.
+   */
+  refreshSeries: mio.store.reviser('APPLICATION_REFRESHSERIES', async function(state: mio.IApplicationState): Promise<void> {
+    applicationActions.setSeries(null);
+    let series = await mio.openActiveLibrary().listAsync();
+    applicationActions.setSeries(series);
+  }),
+
+  /**
    * Sets the series
    * @param revisor The modal type.
    */
