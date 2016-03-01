@@ -84,7 +84,7 @@ async function cleanAsync(series: mio.ISeries): Promise<void> {
   let seriesName = getSeriesName(series);
   if (seriesName.hasValue) {
     let seriesExists = await mio.promise<boolean>(callback => fs.exists(seriesName.value, exists => callback(null, exists)));
-    if (seriesExists.hasValue) {
+    if (seriesExists.hasValue && seriesExists.value) {
       let fileNames = await mio.promise<string[]>(callback => fs.readdir(seriesName.value, callback));
       if (fileNames.hasValue) {
         let chapterPaths = series.chapters.map(chapter => getChapterPath(series, chapter).value);
