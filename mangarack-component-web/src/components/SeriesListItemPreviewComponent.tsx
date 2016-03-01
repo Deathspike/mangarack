@@ -71,9 +71,15 @@ export class SeriesListItemPreviewComponent extends mio.StatefulComponent<{id: n
    * @param seriesId The series identifier.
    */
   private async _loadPreviewImageAsync(seriesId: number): Promise<void> {
-    let blob = await mio.openActiveLibrary().imageAsync(seriesId);
-    if (blob.hasValue) {
-      this.setState(mio.option(URL.createObjectURL(blob.value)));
+    try {
+      let blob = await mio.openActiveLibrary().imageAsync(seriesId);
+      if (blob.hasValue) {
+        this.setState(mio.option(URL.createObjectURL(blob.value)));
+      } else {
+        /* TODO: Placeholder missing image. */
+      }
+    } catch (error) {
+      /* TODO: Placeholder failed-to-load image. */
     }
   }
 }

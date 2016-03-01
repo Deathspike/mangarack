@@ -14,10 +14,18 @@ export let modalActions = {
     if (seriesId.hasValue) {
       /* TODO: Redirect to seriesId instead of refreshing (which is temporary to actually give me feedback). */
       mio.applicationActions.refreshSeries();
-      modalActions.setType(mio.ModalType.None);
     } else {
       throw new Error(`Invalid series address: ${address}`);
     }
+  }),
+
+  /**
+   * Downloads series to the library.
+   * @param reviser The address.
+   */
+  downloadSeries: wrapAsync('MODAL_DOWNLOADSERIES', async function(state: mio.IApplicationState, revision: {existingChapters: boolean, newChapters: boolean}): Promise<void> {
+    await mio.openActiveLibrary().download().runAsync(revision.existingChapters, revision.newChapters);
+    mio.applicationActions.refreshSeries();
   }),
 
   /**
@@ -50,6 +58,7 @@ function wrapAsync<T>(name: string, reviser: mio.IStoreReviserWithParameter<mio.
       state.modal.error = error;
     } finally {
       modalActions.toggleIsPending();
+      modalActions.setType(mio.ModalType.None);
     }
   });
 }

@@ -33,7 +33,7 @@ export class ModalSeriesComponent extends mio.StatefulComponent<void, {text: str
         <div className="modalContainerBody">
           <label>Series Address:</label>
           <input autoFocus={true} type="text" value={this.state.text} onChange={(e: mio.InputFormEvent) => this._onChange(e.target.value)} />
-          <button className="primary" disabled={!Boolean(this.state.text)} onClick={() => this._onClick()}>Add</button>
+          <button className="primary" disabled={!Boolean(this.state.text)} onClick={() => this._onClick()}>Start</button>
         </div>
       </div>
     );

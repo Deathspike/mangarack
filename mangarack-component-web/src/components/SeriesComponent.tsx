@@ -8,14 +8,13 @@ export class SeriesComponent extends mio.StatelessComponent<{series: mio.IOption
    * Renders the component.
    */
   public render(): JSX.Element {
-    /* TODO: Make these series buttons do something (idem on the menu buttons for phone). */
     return (
       <div className="series">
         <div className="seriesControl">
           <span className="title">Your Library</span>
           <span className="seriesControlButtons">
             <i className="fa fa-plus" onClick={() => mio.modalActions.setType(mio.ModalType.Series)}></i>
-            <i className="fa fa-download"></i>
+            <i className="fa fa-download" onClick={() => mio.modalActions.setType(mio.ModalType.Download)}></i>
             <i className="fa fa-refresh" onClick={() => mio.applicationActions.refreshSeries()}></i>
           </span>
         </div>

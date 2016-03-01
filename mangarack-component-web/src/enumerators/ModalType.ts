@@ -8,6 +8,11 @@ export enum ModalType {
   None,
 
   /**
+   * Represents a download modal.
+   */
+  Download,
+
+  /**
    * Represents a series modal.
    */
   Series
