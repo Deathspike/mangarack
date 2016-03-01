@@ -10,10 +10,10 @@
   "private": true,
   "repository": "git://github.com/Deathspike/mangarack",
   "typings": "dist/default",
-  "version": "4.0.7",
+  "version": "4.0.8",
   "dependencies": {
-    "mangarack-component-library": "4.0.7",
-    "mangarack-node-core": "4.0.7"
+    "mangarack-component-library": "4.0.8",
+    "mangarack-node-core": "4.0.8"
   },
   "devDependencies": {
     "tsd": "0.6.5",
