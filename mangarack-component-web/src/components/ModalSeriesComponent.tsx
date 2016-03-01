@@ -32,7 +32,9 @@ export class ModalSeriesComponent extends mio.StatefulComponent<void, {text: str
         </div>
         <div className="modalContainerBody">
           <label>Series Address:</label>
-          <input autoFocus={true} type="text" value={this.state.text} onChange={(e: mio.InputFormEvent) => this._onChange(e.target.value)} />
+          <input autoFocus={true} type="text" value={this.state.text}
+            onChange={(e: mio.InputFormEvent) => this._onChange(e.target.value)}
+            onKeyDown={(e) => this._onKeyDown(e.keyCode)} />
           <button className="primary" disabled={!Boolean(this.state.text)} onClick={() => this._onClick()}>Start</button>
         </div>
       </div>
@@ -51,6 +53,18 @@ export class ModalSeriesComponent extends mio.StatefulComponent<void, {text: str
    * Occurs when the button is clicked.
    */
   private _onClick(): void {
-    mio.modalActions.addSeries(this.state.text);
+    if (Boolean(this.state.text)) {
+      mio.modalActions.addSeries(this.state.text);
+    }
+  }
+
+  /**
+   * Occurs when a key is pressed down.
+   * @param keyCode The key code.
+   */
+  private _onKeyDown(keyCode: number): void {
+    if (keyCode === 13) {
+      this._onClick();
+    }
   }
 }
