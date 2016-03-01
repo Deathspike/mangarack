@@ -330,6 +330,11 @@
         margin-top: 8px;
       }
 
+      .modalContainerBody div {
+        color: #2c3e50; /* Midnight Blue */
+        cursor: pointer;
+      }
+
       .modalContainerBody label {
         font-size: 12px;
         font-style: italic;
@@ -339,6 +344,11 @@
         border: 1px solid #bdc3c7; /* Silver */
         padding: 8px;
         width: 100%;
+      }
+
+      .modalContainerBody i {
+        padding: 4px 0;
+        width: 16px;
       }
 
       .modalContainerBody button {

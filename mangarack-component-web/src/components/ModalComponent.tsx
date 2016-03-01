@@ -16,6 +16,8 @@ export class ModalComponent extends mio.StatelessComponent<{modal: mio.IModalSta
           <div className="modalContainer">
             {(() => {
               switch (this.props.modal.type) {
+                case mio.ModalType.Download:
+                  return <mio.ModalDownloadComponent />;
                 case mio.ModalType.Series:
                   return <mio.ModalSeriesComponent />;
                 default:

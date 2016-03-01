@@ -32,6 +32,7 @@ export * from './components/MenuSeriesComponent';
 export * from './components/MenuSeriesListComponent';
 export * from './components/MenuSeriesListItemComponent';
 export * from './components/ModalComponent';
+export * from './components/ModalDownloadComponent';
 export * from './components/ModalSeriesComponent';
 export * from './components/SeriesComponent';
 export * from './components/SeriesListComponent';
