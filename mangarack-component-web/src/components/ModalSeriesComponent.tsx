@@ -28,7 +28,7 @@ export class ModalSeriesComponent extends mio.StatefulComponent<void, {text: str
       <div>
         <div className="modalContainerTitle">
           <span className="text">Add Series</span>
-          <i className="fa fa-times-circle" onClick={() => mio.applicationActions.setModalType(mio.ModalType.None)} />
+          <i className="fa fa-times-circle" onClick={() => mio.modalActions.setType(mio.ModalType.None)} />
         </div>
         <div className="modalContainerBody">
           <label>Series Address:</label>
@@ -51,7 +51,6 @@ export class ModalSeriesComponent extends mio.StatefulComponent<void, {text: str
    * Occurs when the button is clicked.
    */
   private _onClick(): void {
-    /* TODO: implement this and explain how we want addresses (add label) and not searches ;-) */
-    console.log(this.state.text);
+    mio.modalActions.addSeries(this.state.text);
   }
 }

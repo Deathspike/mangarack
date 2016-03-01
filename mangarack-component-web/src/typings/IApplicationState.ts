@@ -10,9 +10,9 @@ export interface IApplicationState {
   menu: mio.IMenuState;
 
   /**
-   * Contains the modal type.
+   * Contains the modal state.
    */
-  modalType: mio.ModalType;
+  modal: mio.IModalState;
 
   /**
    * Contains each series.

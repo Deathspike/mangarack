@@ -19,7 +19,7 @@ export class MenuSeriesComponent extends mio.StatelessComponent<{series: mio.IOp
             return (
               <div>
                 <div className="menuSeriesControl">
-                  <i className="fa fa-plus" onClick={() => mio.applicationActions.setModalType(mio.ModalType.Series)}></i>
+                  <i className="fa fa-plus" onClick={() => mio.modalActions.setType(mio.ModalType.Series)}></i>
                   <i className="fa fa-download"></i>
                   <i className="fa fa-refresh" onClick={() => mio.applicationActions.refreshSeries()}></i>
                 </div>

@@ -19,7 +19,7 @@ export class SeriesController extends mio.StatelessComponent<{application: mio.I
     let series = this._filterSeries();
     return (
       <div>
-        <mio.ModalComponent modalType={this.props.application.modalType} />
+        <mio.ModalComponent modal={this.props.application.modal} />
         <div id="header">
           <mio.HeaderBackComponent />
           {/* TODO: Settings. */}
