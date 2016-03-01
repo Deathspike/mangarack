@@ -322,17 +322,13 @@
         }
 
     .modalContainerBody {
+      color: #2c3e50; /* Midnight Blue */
       padding: 8px;
       width: 300px;
     }
 
       .modalContainerBody *:not(label) + * {
         margin-top: 8px;
-      }
-
-      .modalContainerBody div {
-        color: #2c3e50; /* Midnight Blue */
-        cursor: pointer;
       }
 
       .modalContainerBody label {
@@ -344,11 +340,6 @@
         border: 1px solid #bdc3c7; /* Silver */
         padding: 8px;
         width: 100%;
-      }
-
-      .modalContainerBody i {
-        padding: 4px 0;
-        width: 16px;
       }
 
       .modalContainerBody button {
@@ -369,6 +360,21 @@
           .modalContainerBody button:not([disabled]).primary:hover {
             background-color: #1abc9c; /* Turqoise */
           }
+
+      .modalContainerBody .checkbox {
+        cursor: pointer;
+      }
+
+        .modalContainerBody .checkbox i {
+          padding: 4px 0;
+          width: 16px;
+        }
+
+      .modalContainerBody .pending {
+        font-size: 20px;
+        padding: 8px;
+        text-align: center;
+      }
 
 .series {
   bottom: 0;

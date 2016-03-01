@@ -13,6 +13,16 @@ export enum ModalType {
   Download,
 
   /**
+   * Represents an error modal.
+   */
+  Error,
+
+  /**
+   * Represents a pending modal.
+   */
+  Pending,
+
+  /**
    * Represents a series modal.
    */
   Series

@@ -29,13 +29,6 @@ export let modalActions = {
   }),
 
   /**
-   * Toggles the pending state.
-   */
-  toggleIsPending: mio.store.reviser('MODAL_TOGGLEISPENDING', function(state: mio.IApplicationState): void {
-    state.modal.isPending = !state.modal.isPending;
-  }),
-
-  /**
    * Sets the type.
    * @param revisor The type.
    */
@@ -52,13 +45,12 @@ export let modalActions = {
 function wrapAsync<T>(name: string, reviser: mio.IStoreReviserWithParameter<mio.IApplicationState, T>): (revision: T) => void {
   return mio.store.reviser(name, async function(state: mio.IApplicationState, revision: T): Promise<void> {
     try {
-      modalActions.toggleIsPending();
+      modalActions.setType(mio.ModalType.Pending);
       await reviser(state, revision);
-    } catch (error) {
-      state.modal.error = error;
-    } finally {
-      modalActions.toggleIsPending();
       modalActions.setType(mio.ModalType.None);
+    } catch (error) {
+      state.modal.error = mio.option(String(error.message));
+      modalActions.setType(mio.ModalType.Error);
     }
   });
 }

@@ -10,11 +10,6 @@ export interface IModalState {
   error: mio.IOption<string>;
 
   /**
-   * Indicates a model is pending on an asynchronous operation.
-   */
-  isPending: boolean;
-
-  /**
    * Contains the type.
    */
   type: mio.ModalType;

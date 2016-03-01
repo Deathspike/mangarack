@@ -8,8 +8,6 @@ export class ModalComponent extends mio.StatelessComponent<{modal: mio.IModalSta
    * Renders the component.
    */
   public render(): JSX.Element {
-    /* TODO: Modal pending. */
-    /* TODO: Modal error. */
     if (this.props.modal.type !== mio.ModalType.None) {
       return (
         <div className="modal">
@@ -18,6 +16,10 @@ export class ModalComponent extends mio.StatelessComponent<{modal: mio.IModalSta
               switch (this.props.modal.type) {
                 case mio.ModalType.Download:
                   return <mio.ModalDownloadComponent />;
+                case mio.ModalType.Error:
+                  return <mio.ModalErrorComponent error={this.props.modal.error} />;
+                case mio.ModalType.Pending:
+                  return <mio.ModalPendingComponent />;
                 case mio.ModalType.Series:
                   return <mio.ModalSeriesComponent />;
                 default:
