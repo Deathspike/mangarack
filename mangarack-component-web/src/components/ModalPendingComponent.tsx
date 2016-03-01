@@ -11,7 +11,7 @@ export class ModalPendingComponent extends mio.StatelessComponent<void> {
     return (
       <div>
         <div className="modalContainerTitle">
-          <span className="text">Awaiting Operation</span>
+          <span className="text">Busy</span>
         </div>
         <div className="modalContainerBody">
           <div className="pending">
