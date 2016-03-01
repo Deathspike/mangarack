@@ -17,6 +17,7 @@ export * from './start';
 // web/actions
 export * from './actions/applicationActions';
 export * from './actions/menuActions';
+export * from './actions/modalActions';
 
 // web/components
 export * from './components/HeaderBackComponent';
@@ -46,3 +47,4 @@ export * from './typings/react/InputEventTarget';
 export * from './typings/react/InputFormEvent';
 export * from './typings/IApplicationState';
 export * from './typings/IMenuState';
+export * from './typings/IModalState';
