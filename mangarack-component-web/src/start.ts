@@ -25,6 +25,7 @@ export function openActiveLibrary(): mio.ILibrary {
   if (library.hasValue) {
     console.log('Stand by, ready. Set up.');
     (window as any).library = library.value;
+    (window as any).mio = mio;
   } else {
     console.log(':-(');
   }
@@ -36,7 +37,7 @@ export function openActiveLibrary(): mio.ILibrary {
  */
 export let store: mio.IStore<mio.IApplicationState> = mio.createStore<mio.IApplicationState>({
   menu: {genres: {}, type: mio.MenuType.Default, search: ''},
-  modal: {error: mio.option<string>(), isPending: false, type: mio.ModalType.None},
+  modal: {error: mio.option<string>(), type: mio.ModalType.None},
   series: mio.option<mio.ILibrarySeries[]>()
 });
 

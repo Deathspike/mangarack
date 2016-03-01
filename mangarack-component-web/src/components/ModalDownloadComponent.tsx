@@ -31,7 +31,7 @@ export class ModalDownloadComponent extends mio.StatefulComponent<void, {existin
           <i className="fa fa-times-circle" onClick={() => mio.modalActions.setType(mio.ModalType.None)} />
         </div>
         <div className="modalContainerBody">
-          <div onClick={() => this._onChangeExistingChapters()}>
+          <div className="checkbox" onClick={() => this._onChangeExistingChapters()}>
             {(() => {
               if (this.state.existingChapters) {
                 return <i className="fa fa-check-square-o"></i>;
@@ -41,7 +41,7 @@ export class ModalDownloadComponent extends mio.StatefulComponent<void, {existin
             })()}
             <span className="text">Queue non-available existing chapters</span>
           </div>
-          <div onClick={() => this._onChangeNewChapters()}>
+          <div className="checkbox" onClick={() => this._onChangeNewChapters()}>
             {(() => {
               if (this.state.newChapters) {
                 return <i className="fa fa-check-square-o"></i>;

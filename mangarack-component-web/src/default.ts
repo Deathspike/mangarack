@@ -33,6 +33,8 @@ export * from './components/MenuSeriesListComponent';
 export * from './components/MenuSeriesListItemComponent';
 export * from './components/ModalComponent';
 export * from './components/ModalDownloadComponent';
+export * from './components/ModalErrorComponent';
+export * from './components/ModalPendingComponent';
 export * from './components/ModalSeriesComponent';
 export * from './components/SeriesComponent';
 export * from './components/SeriesListComponent';
