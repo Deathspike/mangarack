@@ -61,7 +61,6 @@ export class SeriesListItemPreviewComponent extends mio.StatefulComponent<{id: n
    */
   private _clearPreviewImage(): void {
     if (this.state.hasValue) {
-      URL.revokeObjectURL(this.state.value);
       this.setState(mio.option<string>());
     }
   }
@@ -71,15 +70,21 @@ export class SeriesListItemPreviewComponent extends mio.StatefulComponent<{id: n
    * @param seriesId The series identifier.
    */
   private async _loadPreviewImageAsync(seriesId: number): Promise<void> {
-    try {
-      let blob = await mio.openActiveLibrary().imageAsync(seriesId);
-      if (blob.hasValue) {
-        this.setState(mio.option(URL.createObjectURL(blob.value)));
-      } else {
-        /* TODO: Placeholder missing image. */
+    if (mio.cache[seriesId]) {
+      this.setState(mio.option(mio.cache[seriesId]));
+    } else {
+      try {
+        let blob = await mio.openActiveLibrary().imageAsync(seriesId);
+        if (blob.hasValue) {
+          let url = URL.createObjectURL(blob.value);
+          mio.cache[seriesId] = url;
+          this.setState(mio.option(url));
+        } else {
+          /* TODO: Placeholder missing image. */
+        }
+      } catch (error) {
+        /* TODO: Placeholder failed-to-load image. */
       }
-    } catch (error) {
-      /* TODO: Placeholder failed-to-load image. */
     }
   }
 }
