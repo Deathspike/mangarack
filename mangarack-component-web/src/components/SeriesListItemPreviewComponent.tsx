@@ -4,9 +4,9 @@ import * as mio from '../default';
  * Represents a series list item preview component.
  */
 export class SeriesListItemPreviewComponent extends mio.StatefulComponent<{id: number}, mio.IOption<string>> {
-  private _container: mio.IOption<HTMLElement>;
   private _element: HTMLElement;
-  private _listener: () => void;
+  private _elementContainer: mio.IOption<HTMLElement>;
+  private _handler: () => void;
 
   /**
    * Initializes a new instance of the SeriesItemImageComponent class.
@@ -21,15 +21,15 @@ export class SeriesListItemPreviewComponent extends mio.StatefulComponent<{id: n
    */
   public componentDidMount(): void {
     this._element = (this.refs as any).preview.getDOMNode();
-    this._container = findScrollableParent(this._element);
-    this._listener = this._checkLazyLoad.bind(this);
-    this._checkLazyLoad();
-    if (this._container.hasValue) {
-      this._container.value.addEventListener('scroll', this._listener);
-      window.addEventListener('resize', this._listener);
+    this._elementContainer = findScrollableParent(this._element);
+    this._handler = this._checkLazyLoad.bind(this);
+    this._handler();
+    if (this._elementContainer.hasValue) {
+      this._elementContainer.value.addEventListener('scroll', this._handler);
+      window.addEventListener('resize', this._handler);
     } else {
-      window.addEventListener('scroll', this._listener)
-      window.addEventListener('resize', this._listener);
+      window.addEventListener('scroll', this._handler)
+      window.addEventListener('resize', this._handler);
     }
   }
 
@@ -38,12 +38,12 @@ export class SeriesListItemPreviewComponent extends mio.StatefulComponent<{id: n
    */
   public componentWillUnmount(): void {
     this._clearPreviewImage();
-    if (this._container.hasValue) {
-      this._container.value.removeEventListener('scroll', this._listener);
-      window.removeEventListener('resize', this._listener);
+    if (this._elementContainer.hasValue) {
+      this._elementContainer.value.removeEventListener('scroll', this._handler);
+      window.removeEventListener('resize', this._handler);
     } else {
-      window.removeEventListener('scroll', this._listener)
-      window.removeEventListener('resize', this._listener);
+      window.removeEventListener('scroll', this._handler)
+      window.removeEventListener('resize', this._handler);
     }
   }
 
@@ -54,7 +54,7 @@ export class SeriesListItemPreviewComponent extends mio.StatefulComponent<{id: n
   public componentWillReceiveProps(newProperties: {id: number}) {
     if (this.props.id !== newProperties.id) {
       this._clearPreviewImage();
-      this._loadPreviewImageAsync(newProperties.id);
+      this._checkLazyLoad();
     }
   }
 
@@ -79,7 +79,7 @@ export class SeriesListItemPreviewComponent extends mio.StatefulComponent<{id: n
    * Checks if the preview image should be lazy loaded.
    */
   private _checkLazyLoad(): void {
-    if (!this.state.hasValue && !isHidden(this._element) && isInViewPort(this._element, this._container)) {
+    if (!this.state.hasValue && !isHidden(this._element) && isInViewPort(this._element, this._elementContainer)) {
       this._loadPreviewImageAsync(this.props.id);
     }
   }
