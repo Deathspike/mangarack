@@ -43,17 +43,17 @@ export class SeriesController extends mio.StatelessComponent<{application: mio.I
       let requiredGenres = Object.keys(menu.genres).map(genre => parseInt(genre, 10)).filter(genre => menu.genres[genre] === true);
       let searchTerms = menu.search.split(/\s/).map(term => term.toLowerCase());
       return mio.option(this.props.application.series.value.filter(series => {
-        for (var genre of series.metadata.genres) {
+        for (let genre of series.metadata.genres) {
           if (menu.genres[genre] === false) {
             return false;
           }
         }
-        for (var requiredGenre of requiredGenres) {
+        for (let requiredGenre of requiredGenres) {
           if (series.metadata.genres.indexOf(requiredGenre) === -1) {
             return false;
           }
         }
-        for (var searchTerm of searchTerms) {
+        for (let searchTerm of searchTerms) {
           if (searchTerm && series.metadata.title.toLowerCase().indexOf(searchTerm) === -1) {
             return false;
           }

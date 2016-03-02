@@ -8,7 +8,7 @@ let timeoutInMilliseconds = 30000;
  * Represents a HTTP service.
  * @internal
  */
-export var httpService: mio.IHttpService = {
+export let httpService: mio.IHttpService = {
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as a blob.
    * @param address The address, or addresses.
@@ -143,8 +143,8 @@ function fetchAsync<T>(method: string, responseType: ResponseType, address: stri
       xhr.setRequestHeader(key, headers[key]);
     }
     if (Object.keys(formData).length) {
-      var formString = ''
-      for (var key in formData) {
+      let formString = ''
+      for (let key in formData) {
         if (formString) {
           formString += '&';
         }
