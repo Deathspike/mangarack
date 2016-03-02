@@ -2,8 +2,9 @@ import * as mio from './default';
 /* TODO: Allow local connections without caring for the password. */
 /* TODO: Consider making modal operations background supported. Because, honestly, who wants to wait on downloads prior to reading?!
 /* TODO: Consider giving preview images an URL in application state. Because, only on refresh should we care to get NEW ones. */
-
+/* TODO: Make enter on search input onfucos the element so mobile can more easily use it. */
 /* TODO: Move this somewhere a little more sane. */
+
 import {httpService} from './services/httpService';
 // If none provided, stub with XHR.
 try {

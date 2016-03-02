@@ -54,6 +54,10 @@
     }
   }
 
+  .menu::-webkit-scrollbar {
+    display: none;
+  }
+
   .menuFilter {
   }
 
@@ -109,7 +113,7 @@
         }
 
         .menuFilterLinkGenre .numberOfGenreFilters {
-          background-color: #2980b9; /* Blaze Hole */
+          background-color: #8e44ad; /* Wisteria */
           border-radius: 16px;
           color: #ecf0f1; /* Clouds */
           font-family: monospace;
@@ -155,6 +159,7 @@
     .menuSeries .header {
       border-bottom: 1px solid #bdc3c7; /* Silver */
       padding: 8px;
+      position: relative;
       text-align: center;
     }
 
@@ -175,6 +180,28 @@
         }
       }
 
+      .menuSeries .numberOfSeries {
+        background-color: #2980b9; /* Belize Hole */
+        border-radius: 16px;
+        color: #ecf0f1;
+        font-family: monospace;
+        font-size: 10px;
+        height: 20px;
+        line-height: 20px;
+        position: absolute;
+        right: 20px;
+        text-align: center;
+        top: 50%;
+        transform: translate(0, -50%);
+        width: 24px;
+      }
+
+      @media (min-width: 600px) { /* Tablet */
+        .menuSeries .numberOfSeries {
+          display: none;
+        }
+      }
+
     .menuSeries .pending {
       font-size: 20px;
       padding: 8px;
@@ -184,12 +211,6 @@
     .menuSeriesControl {
       border-bottom: 1px solid #bdc3c7; /* Silver */
       font-size: 24px;
-    }
-
-    .menuSeriesControl:after {
-      content: '';
-      clear: both;
-      display: block;
     }
 
     @media (min-width: 600px) { /* Tablet */
@@ -397,6 +418,26 @@
     font-style: italic;
     padding: 8px;
   }
+
+    .seriesControlStatus {
+      position: relative;
+    }
+
+      .seriesControlStatus .numberOfSeries {
+        background-color: #2980b9; /* Belize Hole */
+        border-radius: 16px;
+        color: #ecf0f1;
+        font-family: monospace;
+        font-size: 10px;
+        height: 24px;
+        line-height: 24px;
+        position: absolute;
+        right: -32px;
+        text-align: center;
+        top: 50%;
+        transform: translate(0, -50%);
+        width: 28px;
+      }
 
     .seriesControlButtons {
       font-size: 24px;

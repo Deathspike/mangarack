@@ -13,6 +13,13 @@ export class MenuSeriesComponent extends mio.StatelessComponent<{series: mio.IOp
         <div className="header">
           <span className="text">Series</span>
           <span className="subtext">Your Library</span>
+          {(() => {
+            if (this.props.series.hasValue) {
+              return <span className="numberOfSeries">{this.props.series.value.length}</span>;
+            } else {
+              return null;
+            }
+          })()}
         </div>
         {(() => {
           if (this.props.series.hasValue) {
