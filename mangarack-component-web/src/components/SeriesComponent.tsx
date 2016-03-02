@@ -11,7 +11,16 @@ export class SeriesComponent extends mio.StatelessComponent<{series: mio.IOption
     return (
       <div className="series">
         <div className="seriesControl">
-          <span className="title">Your Library</span>
+          <span className="seriesControlStatus">
+            <span className="title">Your Library</span>
+            {(() => {
+              if (this.props.series.hasValue) {
+                return <span className="numberOfSeries">{this.props.series.value.length}</span>;
+              } else {
+                return null;
+              }
+            })()}
+          </span>
           <span className="seriesControlButtons">
             <i className="fa fa-plus" onClick={() => mio.modalActions.setType(mio.ModalType.Series)}></i>
             <i className="fa fa-download" onClick={() => mio.modalActions.setType(mio.ModalType.Download)}></i>
