@@ -32,5 +32,14 @@ export let applicationActions = {
    */
   setSeries: mio.store.reviser('APPLICATION_SETSERIES', function(state: mio.IApplicationState, series: mio.ILibrarySeries[]): void {
     state.series = mio.option(series);
+    if (!state.series.hasValue) {
+      for (var seriesId in mio.cache) {
+        let url = mio.cache[seriesId];
+        if (url) {
+          URL.revokeObjectURL(url);
+          delete mio.cache[seriesId];
+        }
+      }
+    }
   })
 };
