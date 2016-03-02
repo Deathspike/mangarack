@@ -12,6 +12,7 @@ export class ModalPendingComponent extends mio.StatelessComponent<void> {
       <div>
         <div className="modalContainerTitle">
           <span className="text">Busy</span>
+          <i className="fa fa-times-circle" onClick={() => mio.modalActions.setType(mio.ModalType.None)} />
         </div>
         <div className="modalContainerBody">
           <div className="pending">

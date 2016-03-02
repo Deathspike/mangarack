@@ -9,7 +9,6 @@ export class MenuFilterGenreComponent extends mio.StatelessComponent<{genres: {[
    */
   public render(): JSX.Element {
     /* TODO: Add a 'reset all' button. */
-    /* TODO: Limit to the genres currently in the library? */
     return (
       <div className="menuFilterGenre">
         {Object.keys(mio.GenreType)
