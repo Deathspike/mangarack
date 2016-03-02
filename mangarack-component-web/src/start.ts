@@ -1,9 +1,8 @@
 import * as mio from './default';
 /* TODO: Allow local connections without caring for the password. */
-/* TODO: Consider making modal operations background supported. Because, honestly, who wants to wait on downloads prior to reading?!
-/* TODO: Make enter on search input onfucos the element so mobile can more easily use it. */
-/* TODO: Move this somewhere a little more sane. */
 
+
+/* TODO: Move this somewhere a little more sane. */
 import {httpService} from './services/httpService';
 // If none provided, stub with XHR.
 try {
@@ -11,7 +10,6 @@ try {
 } catch (error) {
   mio.dependency.set('IHttpService', httpService);
 }
-/* TODO: Move this somewhere a little more sane. */
 let library = mio.option<mio.ILibrary>();
 export function openActiveLibrary(): mio.ILibrary {
   if (library.hasValue) {
@@ -31,6 +29,7 @@ export function openActiveLibrary(): mio.ILibrary {
     console.log(':-(');
   }
 })();
+
 
 /**
  * Represents the preview image cache.
