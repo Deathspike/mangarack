@@ -11,8 +11,8 @@ export class MenuSelectLinkComponent extends mio.StatelessComponent<{menu: mio.I
     return (
       <div className="menuSelectLink">
         {/* TODO: Status filter (All/Read/Unread). */}
-        <mio.MenuSelectLinkOrderComponent order={this.props.menu.order} />
         <mio.MenuSelectLinkGenreComponent genres={this.props.menu.genres} />
+        <mio.MenuSelectLinkOrderComponent order={this.props.menu.order} />
       </div>
     );
   }

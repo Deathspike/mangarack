@@ -91,6 +91,19 @@
           width: 24px;
         }
 
+        .menuSelectLinkGenre .text {
+          display: block;
+        }
+
+        .menuSelectLinkGenre .subtext {
+          display: block;
+          font-size: 10px;
+          overflow: hidden;
+          padding-right: 40px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
         .menuSelectLinkGenre i {
           font-size: 20px;
           position: absolute;
@@ -325,7 +338,7 @@
         }
 
           .menuSeriesListItem .numberOfUnreadChapters + .title {
-            padding-right: 36px;
+            padding-right: 40px;
           }
 
         .menuSeriesListItem .provider {

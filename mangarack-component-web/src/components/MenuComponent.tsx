@@ -11,7 +11,6 @@ export class MenuComponent extends mio.StatelessComponent<{menu: mio.IMenuState,
     return (
       <div className="menu">
         <mio.MenuSelectComponent menu={this.props.menu} />
-        {/* TODO: Ordering. */}
         {(() => {
           if (this.props.menu.type === mio.MenuType.Default) {
             return <mio.MenuSeriesComponent series={this.props.series} />;
