@@ -1,16 +1,16 @@
 import * as mio from '../default';
 
 /**
- * Represents a menu search component.
+ * Represents a menu select search component.
  */
-export class MenuSearchComponent extends mio.StatelessComponent<{search: string}> {
+export class MenuSelectSearchComponent extends mio.StatelessComponent<{search: string}> {
   /**
    * Renders the component.
    */
   public render(): JSX.Element {
     return (
-      <div className="menuSearch">
-        <div className="header">Search</div>
+      <div className="menuSelectSearch">
+        <i className="fa fa-search"></i>
         <input type="text" value={this.props.search} onChange={(e: mio.InputFormEvent) => mio.menuActions.setSearch(e.target.value)} onKeyDown={e => this._onKeyDown(e.keyCode, e.currentTarget)} />
       </div>
     );

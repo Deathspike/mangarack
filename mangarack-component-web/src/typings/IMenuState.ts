@@ -10,6 +10,11 @@ export interface IMenuState {
   genres: {[key: number]: boolean};
 
   /**
+   * Contains the order direction and type.
+   */
+  order: mio.IMenuOrderState;
+
+  /**
    * Contains the search.
    */
   search: string;

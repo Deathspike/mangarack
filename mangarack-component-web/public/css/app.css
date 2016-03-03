@@ -58,61 +58,24 @@
     display: none;
   }
 
-  .menuFilter {
+  .menuSelect {
   }
 
-    .menuFilterGenre {
+    .menuSelectLink {
     }
 
-      .menuFilterGenreItem {
+      .menuSelectLinkGenre {
         border-bottom: 1px solid #bdc3c7; /* Silver */
         cursor: pointer;
         padding: 8px;
         position: relative;
       }
 
-        .menuFilterGenreItem:hover {
+        .menuSelectLinkGenre:hover {
           background-color: #bdc3c7; /* Silver */
         }
 
-        .menuFilterGenreItem i {
-          font-size: 20px;
-          position: absolute;
-          right: 8px;
-          top: 50%;
-          transform: translate(0, -50%);
-        }
-
-        .menuFilterGenreItem .fa-check-circle {
-          color: #27ae60; /* Nephritis */
-        }
-
-        .menuFilterGenreItem .fa-times-circle {
-          color: #c0392b; /* Pomegranate */
-        }
-
-    .menuFilterLink {
-    }
-
-      .menuFilterLink .header {
-        border-bottom: 1px solid #bdc3c7; /* Silver */
-        font-weight: bold;
-        padding: 8px;
-        text-align: center;
-      }
-
-      .menuFilterLinkGenre {
-        border-bottom: 1px solid #bdc3c7; /* Silver */
-        cursor: pointer;
-        padding: 8px;
-        position: relative;
-      }
-
-        .menuFilterLinkGenre:hover {
-          background-color: #bdc3c7; /* Silver */
-        }
-
-        .menuFilterLinkGenre .numberOfGenreFilters {
+        .menuSelectLinkGenre .numberOfGenreFilters {
           background-color: #8e44ad; /* Wisteria */
           border-radius: 16px;
           color: #ecf0f1; /* Clouds */
@@ -128,7 +91,7 @@
           width: 24px;
         }
 
-        .menuFilterLinkGenre i {
+        .menuSelectLinkGenre i {
           font-size: 20px;
           position: absolute;
           right: 8px;
@@ -136,22 +99,114 @@
           transform: translate(0, -50%);
         }
 
-  .menuSearch {
+      .menuSelectLinkOrder {
+        border-bottom: 1px solid #bdc3c7; /* Silver */
+        cursor: pointer;
+        padding: 8px;
+        position: relative;
+      }
+
+        .menuSelectLinkOrder:hover {
+          background-color: #bdc3c7; /* Silver */
+        }
+
+        .menuSelectLinkOrder .direction {
+          background-color: #8e44ad; /* Wisteria */
+          border-radius: 16px;
+          color: #ecf0f1; /* Clouds */
+          font-family: monospace;
+          font-size: 10px;
+          height: 20px;
+          line-height: 20px;
+          position: absolute;
+          right: 20px;
+          text-align: center;
+          top: 50%;
+          transform: translate(0, -50%);
+          width: 24px;
+        }
+
+        .menuSelectLinkOrder i {
+          font-size: 20px;
+          position: absolute;
+          right: 8px;
+          top: 50%;
+          transform: translate(0, -50%);
+        }
+
+    .menuSelectSearch {
+      position: relative;
+    }
+
+      .menuSelectSearch i {
+        margin-top: -1px;
+        right: 6px;
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+      }
+
+      .menuSelectSearch input {
+        border: none;
+        border-bottom: 1px solid #bdc3c7; /* Silver */
+        padding: 8px 28px 8px 8px;
+        width: 100%;
+      }
+
+  .menuView {
   }
 
-    .menuSearch .header {
-      border-bottom: 1px solid #bdc3c7; /* Silver */
-      font-weight: bold;
-      padding: 8px;
-      text-align: center;
+    .menuViewGenre {
     }
 
-    .menuSearch input {
-      border: none;
-      border-bottom: 1px solid #bdc3c7; /* Silver */
-      padding: 8px;
-      width: 100%;
-    }
+      .menuViewGenreItem {
+        border-bottom: 1px solid #bdc3c7; /* Silver */
+        cursor: pointer;
+        padding: 8px;
+        position: relative;
+      }
+
+        .menuViewGenreItem:hover {
+          background-color: #bdc3c7; /* Silver */
+        }
+
+        .menuViewGenreItem i {
+          font-size: 20px;
+          position: absolute;
+          right: 8px;
+          top: 50%;
+          transform: translate(0, -50%);
+        }
+
+        .menuViewGenreItem .fa-check-circle {
+          color: #27ae60; /* Nephritis */
+        }
+
+        .menuViewGenreItem .fa-times-circle {
+          color: #c0392b; /* Pomegranate */
+        }
+
+      .menuViewOrder {
+      }
+
+        .menuViewOrderItem {
+          border-bottom: 1px solid #bdc3c7; /* Silver */
+          cursor: pointer;
+          padding: 8px;
+          position: relative;
+        }
+
+          .menuViewOrderItem:hover {
+            background-color: #bdc3c7; /* Silver */
+          }
+
+          .menuViewOrderItem i {
+            font-size: 20px;
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translate(0, -50%);
+          }
 
   .menuSeries {
   }

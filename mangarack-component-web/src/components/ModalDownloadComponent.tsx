@@ -1,5 +1,7 @@
 import * as mio from '../default';
 
+/* TODO: Make this download modal a little less ugly. It's a key feature after all. */
+
 /**
  * Represents a modal series component.
  */
