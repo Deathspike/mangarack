@@ -10,5 +10,10 @@ export enum MenuType {
   /**
    * Represents the genre menu.
    */
-  Genre
+  Genre,
+
+  /**
+   * Represents the order menu.
+   */
+  Order
 }

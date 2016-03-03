@@ -1,16 +1,16 @@
 import * as mio from '../default';
 
 /**
- * Represents a menu filter link genre component.
+ * Represents a menu select link genre component.
  */
-export class MenuFilterLinkGenreComponent extends mio.StatelessComponent<{genres: {[key: number]: boolean}}> {
+export class MenuSelectLinkGenreComponent extends mio.StatelessComponent<{genres: {[key: number]: boolean}}> {
   /**
    * Renders the component.
    */
   public render(): JSX.Element {
     let numberOfGenreFilters = Object.keys(this.props.genres).length;
     return (
-      <div className="menuFilterLinkGenre" onClick={() => mio.menuActions.setMenuType(mio.MenuType.Genre)}>
+      <div className="menuSelectLinkGenre" onClick={() => mio.menuActions.setType(mio.MenuType.Genre)}>
         {(() => {
           if (numberOfGenreFilters > 0) {
             return <span className="numberOfGenreFilters">{numberOfGenreFilters}</span>;

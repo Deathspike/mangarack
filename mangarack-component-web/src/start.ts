@@ -1,6 +1,6 @@
 import * as mio from './default';
 /* TODO: Allow local connections without caring for the password. */
-
+/* TODO: If HDD is unreachable.. bleh. */
 
 /* TODO: Move this somewhere a little more sane. */
 import {httpService} from './services/httpService';
@@ -40,7 +40,7 @@ export let cache: {[seriesId: number]: string} = {};
  * Represents the application store.
  */
 export let store: mio.IStore<mio.IApplicationState> = mio.createStore<mio.IApplicationState>({
-  menu: {genres: {}, type: mio.MenuType.Default, search: ''},
+  menu: {genres: {}, order: {ascending: true, type: mio.OrderType.Title}, type: mio.MenuType.Default, search: ''},
   modal: {error: mio.option<string>(), type: mio.ModalType.None},
   series: mio.option<mio.ILibrarySeries[]>()
 });
