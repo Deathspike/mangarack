@@ -3,22 +3,22 @@
  */
 export enum OrderType {
   /**
-   * Represents an ordering by date added.
-   */
-  Added,
-
-  /**
-   * Represents an ordering by date chapter added.
+   * Represents an ordering by date a chapter was added.
    */
   ChapterAdded,
 
   /**
-   * Represents an ordering by date chapter read.
+   * Represents an ordering by date a chapter was read.
    */
   ChapterRead,
 
   /**
-   * Represents an ordering by title.
+   * Represents an ordering by date the was series added.
    */
-  Title
+  SeriesAdded,
+
+  /**
+   * Represents an ordering by series title.
+   */
+  SeriesTitle
 }
