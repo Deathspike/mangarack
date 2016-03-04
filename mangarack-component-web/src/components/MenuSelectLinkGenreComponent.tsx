@@ -18,18 +18,18 @@ export class MenuSelectLinkGenreComponent extends mio.StatelessComponent<{genres
             return null;
           }
         })()}
-        <span className="text">Filter Genres</span>
-        <span className="subtext">{this._getVisualizedGenreFilters()}</span>
+        <span className="text">Genres</span>
+        <span className="minorText">{this.getMinorText() || 'No active filters.'}</span>
         <i className="fa fa-angle-right"></i>
       </div>
     );
   }
 
   /**
-   * Retrieves the visualized genre filters.
-   * @return The visaluzed genre filters.
+   * Retrieves the minor text.
+   * @return The minor text.
    */
-  private _getVisualizedGenreFilters(): string {
+  private getMinorText(): string {
     return Object.keys(this.props.genres)
       .map(key => parseInt(key, 10))
       .filter(key => isFinite(key))

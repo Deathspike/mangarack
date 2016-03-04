@@ -14,7 +14,7 @@
   text-align: center;
 }
 
-  #header .back {
+  #header .fa-chevron-left {
     cursor: pointer;
     left: 0;
     font-size: 24px;
@@ -23,7 +23,7 @@
     top: 0;
   }
 
-    #header .back:hover {
+    #header .fa-chevron-left:hover {
       color: #bdc3c7; /* Silver */
     }
 
@@ -67,12 +67,25 @@
       .menuSelectLinkGenre {
         border-bottom: 1px solid #bdc3c7; /* Silver */
         cursor: pointer;
-        padding: 8px;
+        padding: 4px 8px;
         position: relative;
       }
 
         .menuSelectLinkGenre:hover {
           background-color: #bdc3c7; /* Silver */
+        }
+
+        .menuSelectLinkGenre .text {
+          display: block;
+        }
+
+        .menuSelectLinkGenre .minorText {
+          display: block;
+          font-size: 10px;
+          overflow: hidden;
+          padding-right: 40px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
 
         .menuSelectLinkGenre .numberOfGenreFilters {
@@ -91,20 +104,7 @@
           width: 24px;
         }
 
-        .menuSelectLinkGenre .text {
-          display: block;
-        }
-
-        .menuSelectLinkGenre .subtext {
-          display: block;
-          font-size: 10px;
-          overflow: hidden;
-          padding-right: 40px;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-
-        .menuSelectLinkGenre i {
+        .menuSelectLinkGenre .fa-angle-right {
           font-size: 20px;
           position: absolute;
           right: 8px;
@@ -115,12 +115,17 @@
       .menuSelectLinkOrder {
         border-bottom: 1px solid #bdc3c7; /* Silver */
         cursor: pointer;
-        padding: 8px;
+        padding: 4px 8px;
         position: relative;
       }
 
         .menuSelectLinkOrder:hover {
           background-color: #bdc3c7; /* Silver */
+        }
+
+        .menuSelectLinkOrder .minorText {
+          display: block;
+          font-size: 10px;
         }
 
         .menuSelectLinkOrder .direction {
@@ -139,7 +144,7 @@
           width: 24px;
         }
 
-        .menuSelectLinkOrder i {
+        .menuSelectLinkOrder .fa-angle-right {
           font-size: 20px;
           position: absolute;
           right: 8px;
@@ -151,7 +156,14 @@
       position: relative;
     }
 
-      .menuSelectSearch i {
+      .menuSelectSearch input {
+        border: none;
+        border-bottom: 1px solid #bdc3c7; /* Silver */
+        padding: 8px 28px 8px 8px;
+        width: 100%;
+      }
+
+      .menuSelectSearch .fa-search {
         margin-top: -1px;
         right: 6px;
         position: absolute;
@@ -159,12 +171,154 @@
         transform: translate(0, -50%);
       }
 
-      .menuSelectSearch input {
-        border: none;
-        border-bottom: 1px solid #bdc3c7; /* Silver */
-        padding: 8px 28px 8px 8px;
-        width: 100%;
+  .menuSeries {
+  }
+
+    .menuSeries .header {
+      border-bottom: 1px solid #bdc3c7; /* Silver */
+      padding: 8px;
+      position: relative;
+      text-align: center;
+    }
+
+      .menuSeries .header .text {
+        display: block;
+        font-weight: bold;
       }
+
+      .menuSeries .header .minorText {
+        display: block;
+        font-size: 12px;
+        font-style: italic;
+      }
+
+      @media (min-width: 600px) { /* Tablet */
+        .menuSeries .header .minorText {
+          display: none;
+        }
+      }
+
+      .menuSeries .numberOfSeries {
+        background-color: #2980b9; /* Belize Hole */
+        border-radius: 16px;
+        color: #ecf0f1;
+        font-family: monospace;
+        font-size: 10px;
+        height: 20px;
+        line-height: 20px;
+        position: absolute;
+        right: 20px;
+        text-align: center;
+        top: 50%;
+        transform: translate(0, -50%);
+        width: 24px;
+      }
+
+      @media (min-width: 600px) { /* Tablet */
+        .menuSeries .numberOfSeries {
+          display: none;
+        }
+      }
+
+    .menuSeries .fa-circle-o-notch {
+      font-size: 20px;
+      left: calc(50% - 18px);
+      padding: 8px;
+      position: absolute;
+    }
+
+    .menuSeriesControl {
+      border-bottom: 1px solid #bdc3c7; /* Silver */
+      font-size: 24px;
+    }
+
+    @media (min-width: 600px) { /* Tablet */
+      .menuSeriesControl {
+        display: none;
+      }
+    }
+
+      .menuSeriesControl .fa-download, .menuSeriesControl .fa-plus, .menuSeriesControl .fa-refresh {
+        border-right: 1px solid #bdc3c7; /* Silver */
+        color: #16a085; /* Green Sea */
+        cursor: pointer;
+        display: inline-block;
+        padding-top: 4px;
+        text-align: center;
+        width: 33.33%;
+      }
+
+        .menuSeriesControl .fa-download:hover, .menuSeriesControl .fa-plus:hover, .menuSeriesControl .fa-refresh:hover {
+          color: #1abc9c; /* Turqoise */
+        }
+
+      .menuSeriesControl .fa-refresh {
+        border: none;
+        margin-top: -1px;
+      }
+
+    .menuSeriesList {
+    }
+
+      .menuSeriesList .none {
+        display: block;
+        font-style: italic;
+        padding: 8px;
+        text-align: center;
+      }
+
+      .menuSeriesListItem {
+        border-bottom: 1px solid #bdc3c7; /* Silver */
+        cursor: pointer;
+        padding: 4px 8px;
+        position: relative;
+      }
+
+        .menuSeriesListItem:hover {
+          background-color: #bdc3c7; /* Silver */
+        }
+
+        .menuSeriesListItem .title {
+          display: block;
+          overflow: hidden;
+          padding-right: 8px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+          .menuSeriesListItem .numberOfUnreadChapters + .title {
+            padding-right: 40px;
+          }
+
+        .menuSeriesListItem .numberOfUnreadChapters {
+          background-color: #d35400; /* Pumpkin */
+          border-radius: 16px;
+          color: #ecf0f1; /* Clouds */
+          font-family: monospace;
+          font-size: 10px;
+          height: 20px;
+          line-height: 20px;
+          position: absolute;
+          right: 20px;
+          text-align: center;
+          top: 50%;
+          transform: translate(0, -50%);
+          width: 24px;
+        }
+
+        .menuSeriesListItem .provider {
+          display: block;
+          font-style: italic;
+          font-size: 10px;
+        }
+
+        .menuSeriesListItem .fa-angle-right {
+          font-size: 20px;
+          position: absolute;
+          right: 8px;
+          top: 50%;
+          transform: translate(0, -50%);
+        }
 
   .menuView {
   }
@@ -183,7 +337,7 @@
           background-color: #bdc3c7; /* Silver */
         }
 
-        .menuViewGenreItem i {
+        .menuViewGenreItem .fa-circle, .menuViewGenreItem .fa-check-circle, .menuViewGenreItem .fa-times-circle {
           font-size: 20px;
           position: absolute;
           right: 8px;
@@ -213,163 +367,13 @@
             background-color: #bdc3c7; /* Silver */
           }
 
-          .menuViewOrderItem i {
+          .menuViewOrderItem .fa-circle, .menuViewOrderItem .fa-arrow-circle-up, .menuViewOrderItem .fa-arrow-circle-down {
             font-size: 20px;
             position: absolute;
             right: 8px;
             top: 50%;
             transform: translate(0, -50%);
           }
-
-  .menuSeries {
-  }
-
-    .menuSeries .header {
-      border-bottom: 1px solid #bdc3c7; /* Silver */
-      padding: 8px;
-      position: relative;
-      text-align: center;
-    }
-
-      .menuSeries .header .text {
-        display: block;
-        font-weight: bold;
-      }
-
-      .menuSeries .header .subtext {
-        display: block;
-        font-size: 12px;
-        font-style: italic;
-      }
-
-      @media (min-width: 600px) { /* Tablet */
-        .menuSeries .header .subtext {
-          display: none;
-        }
-      }
-
-      .menuSeries .numberOfSeries {
-        background-color: #2980b9; /* Belize Hole */
-        border-radius: 16px;
-        color: #ecf0f1;
-        font-family: monospace;
-        font-size: 10px;
-        height: 20px;
-        line-height: 20px;
-        position: absolute;
-        right: 20px;
-        text-align: center;
-        top: 50%;
-        transform: translate(0, -50%);
-        width: 24px;
-      }
-
-      @media (min-width: 600px) { /* Tablet */
-        .menuSeries .numberOfSeries {
-          display: none;
-        }
-      }
-
-    .menuSeries .pending {
-      font-size: 20px;
-      padding: 8px;
-      text-align: center;
-    }
-
-    .menuSeriesControl {
-      border-bottom: 1px solid #bdc3c7; /* Silver */
-      font-size: 24px;
-    }
-
-    @media (min-width: 600px) { /* Tablet */
-      .menuSeriesControl {
-        display: none;
-      }
-    }
-
-      .menuSeriesControl i {
-        border-right: 1px solid #bdc3c7; /* Silver */
-        color: #16a085; /* Green Sea */
-        cursor: pointer;
-        display: inline-block;
-        padding-top: 4px;
-        text-align: center;
-        width: 33.33%;
-      }
-
-        .menuSeriesControl i:hover {
-          color: #1abc9c; /* Turqoise */
-        }
-
-        .menuSeriesControl i:last-of-type {
-          border: none;
-        }
-
-      .menuSeriesControl .fa-refresh {
-        margin-top: -1px;
-      }
-
-    .menuSeriesList {
-    }
-
-      .menuSeriesList .none {
-        font-style: italic;
-        padding: 8px;
-        text-align: center;
-      }
-
-      .menuSeriesListItem {
-        border-bottom: 1px solid #bdc3c7; /* Silver */
-        cursor: pointer;
-        padding: 4px 8px;
-        position: relative;
-      }
-
-        .menuSeriesListItem:hover {
-          background-color: #bdc3c7; /* Silver */
-        }
-
-        .menuSeriesListItem .title {
-          display: block;
-          overflow: hidden;
-          padding-right: 8px;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-
-          .menuSeriesListItem .numberOfUnreadChapters + .title {
-            padding-right: 40px;
-          }
-
-        .menuSeriesListItem .provider {
-          display: block;
-          font-style: italic;
-          font-size: 10px;
-        }
-
-        .menuSeriesListItem .numberOfUnreadChapters {
-          background-color: #d35400; /* Pumpkin */
-          border-radius: 16px;
-          color: #ecf0f1; /* Clouds */
-          font-family: monospace;
-          font-size: 10px;
-          height: 20px;
-          line-height: 20px;
-          position: absolute;
-          right: 20px;
-          text-align: center;
-          top: 50%;
-          transform: translate(0, -50%);
-          width: 24px;
-        }
-
-        .menuSeriesListItem i {
-          font-size: 20px;
-          position: absolute;
-          right: 8px;
-          top: 50%;
-          transform: translate(0, -50%);
-        }
 
 .modal {
   bottom: 0;
@@ -396,7 +400,7 @@
       position: relative;
     }
 
-      .modalContainerTitle i {
+      .modalContainerTitle .fa-times-circle {
         cursor: pointer;
         font-size: 20px;
         padding: 6px;
@@ -406,13 +410,14 @@
         transform: translate(0, -50%);
       }
 
-        .modalContainerTitle i:hover {
+        .modalContainerTitle .fa-times-circle:hover {
           color: #bdc3c7; /* Silver */
         }
 
     .modalContainerBody {
       color: #2c3e50; /* Midnight Blue */
       padding: 8px;
+      min-height: 36px;
       width: 300px;
     }
 
@@ -441,28 +446,50 @@
           color: #bdc3c7; /* Silver */
         }
 
-        .modalContainerBody button:not([disabled]).primary {
+        .modalContainerBody button:not([disabled]) {
           background-color: #16a085; /* Green Sea */
           color: #ecf0f1; /* Clouds */
         }
 
-          .modalContainerBody button:not([disabled]).primary:hover {
+          .modalContainerBody button:not([disabled]):hover {
             background-color: #1abc9c; /* Turqoise */
           }
 
-      .modalContainerBody .checkbox {
-        cursor: pointer;
+      .modalContainerBody .fa-circle-o-notch {
+        font-size: 20px;
+        left: calc(50% - 18px);
+        position: absolute;
       }
 
-        .modalContainerBody .checkbox i {
-          padding: 4px 0;
-          width: 16px;
+    .modalContainerDownload {
+    }
+
+      .modalContainerDownload .fa-times-circle, .modalContainerDownload .fa-check-circle {
+        font-size: 18px;
+        left: 0;
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+      }
+
+      .modalContainerDownload p {
+        cursor: pointer;
+        margin: 0;
+        padding: 4px 4px 4px 20px;
+        position: relative;
+      }
+
+        .modalContainerDownload p:hover {
+          background-color: #bdc3c7; /* Silver */
+          padding-left: 24px;
         }
 
-      .modalContainerBody .pending {
-        font-size: 20px;
-        padding: 8px;
-        text-align: center;
+      .modalContainerDownload .fa-check-circle {
+        color: #27ae60; /* Nephritis */
+      }
+
+      .modalContainerDownload .fa-times-circle {
+        color: #c0392b; /* Pomegranate */
       }
 
 .series {
@@ -514,14 +541,14 @@
       top: 0;
     }
 
-      .seriesControlButtons i {
+      .seriesControlButtons .fa-download, .seriesControlButtons .fa-plus, .seriesControlButtons .fa-refresh {
         color: #16a085; /* Green Sea */
         cursor: pointer;
         padding: 6px 8px 2px 8px;
         vertical-align: middle;
       }
 
-        .seriesControlButtons i:hover {
+        .seriesControlButtons .fa-download:hover, .seriesControlButtons .fa-plus:hover, .seriesControlButtons .fa-refresh:hover {
           color: #1abc9c; /* Turqoise */
         }
 
@@ -551,12 +578,11 @@
       transform: translate(-50%, -50%);
     }
 
-    .seriesList .pending {
+    .seriesList .fa-circle-o-notch {
       font-size: 32px;
-      left: 50%;
+      left: calc(50% - 16px);
       position: absolute;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      top: calc(50% - 16px);
     }
 
     .seriesListItem {
@@ -648,19 +674,18 @@
           width: 100%;
         }
 
+          .seriesListItemBody .preview .fa-circle-o-notch {
+            color: #2c3e50; /* Midnight Blue */
+            left: calc(50% - 10px);
+            font-size: 20px;
+            position: absolute;
+            top: calc(50% - 10px);
+          }
+
           .seriesListItemBody .preview img {
             object-fit: cover;
             height: 100%;
             width: 100%;
-          }
-
-          .seriesListItemBody .preview i {
-            color: #2c3e50; /* Midnight Blue */
-            left: 50%;
-            font-size: 20px;
-            position: absolute;
-            top: 50%;
-            transform: translate(-50%, -50%);
           }
 
         .seriesListItemBody .provider {

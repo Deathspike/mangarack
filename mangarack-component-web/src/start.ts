@@ -1,7 +1,8 @@
 import * as mio from './default';
 /* TODO: Allow local connections without caring for the password. */
 /* TODO: If HDD is unreachable.. bleh. */
-
+/* TODO: Uhm. the mobile view badge for number of series is a little out of place. */
+/* TODO: Check the bind mechanism. I'm doing binds where it should not be necessary.. */
 /* TODO: Move this somewhere a little more sane. */
 import {httpService} from './services/httpService';
 // If none provided, stub with XHR.

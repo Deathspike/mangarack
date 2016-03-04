@@ -18,10 +18,10 @@ export class MenuSelectComponent extends mio.StatelessComponent<{menu: mio.IMenu
               return <mio.MenuViewOrderComponent order={this.props.menu.order} />;
             default:
               return (
-                <div>
+                <span>
                   <mio.MenuSelectSearchComponent search={this.props.menu.search} />
                   <mio.MenuSelectLinkComponent menu={this.props.menu} />
-                </div>
+                </span>
               );
           }
         })()}

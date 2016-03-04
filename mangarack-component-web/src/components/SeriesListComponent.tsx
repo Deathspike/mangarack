@@ -12,11 +12,11 @@ export class SeriesListComponent extends mio.StatelessComponent<{series: mio.IOp
       <div className="seriesList">
         {(() => {
           if (!this.props.series.hasValue) {
-            return <div className="pending"><i className="fa fa-spin fa-circle-o-notch"></i></div>;
+            return <i className="fa fa-spin fa-circle-o-notch"></i>;
           } else if (!this.props.series.value.length) {
             return <div className="none">No series available.</div>;
           } else {
-            return <div>{this.props.series.value.map(series => <mio.SeriesListItemComponent series={series} />)}</div>;
+            return <span>{this.props.series.value.map(series => <mio.SeriesListItemComponent series={series} />)}</span>;
           }
         })()}
       </div>
