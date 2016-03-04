@@ -10,7 +10,7 @@ let userAgent = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
  * Represents a HTTP service.
  * @internal
  */
-export var httpService: mio.IHttpService = {
+export let httpService: mio.IHttpService = {
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as a blob.
    * @param address The address, or addresses.

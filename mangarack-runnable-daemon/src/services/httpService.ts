@@ -54,7 +54,7 @@ export function httpService() {
 function createHandler(handler: any): any {
   return async function(request: express.Request, response: express.Response): Promise<void> {
     try {
-      var authentication = basicAuth(request);
+      let authentication = basicAuth(request);
       let library = await mio.openLibraryAsync(mio.option(authentication ? authentication.pass : ''));
       if (library.hasValue) {
         await handler.default(request, response, library.value);

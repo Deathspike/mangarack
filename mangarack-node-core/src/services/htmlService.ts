@@ -5,7 +5,7 @@ import * as mio from '../default';
  * Represents a HTML service.
  * @internal
  */
-export var htmlService: mio.IHtmlService = {
+export let htmlService: mio.IHtmlService = {
   /**
    * Loads the string of raw HTML into a HTML document.
    * @param rawHtml The string of raw HTML.

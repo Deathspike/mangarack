@@ -4,7 +4,7 @@ import * as mio from '../../default';
  * Represents the collection of site settings.
  * @internal
  */
-export var site = {
+export let site = {
   /**
    * Contains each reader header.
    */

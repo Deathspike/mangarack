@@ -165,8 +165,8 @@ function format(minimumWholeNumberLength: number, number: number): string {
  */
 function prettyElapsedTime(beginTime: number): string {
   let elapsedTime = Date.now() - beginTime;
-  var seconds = format(2, Math.floor(elapsedTime / 1000) % 60);
-  var minutes = format(2, Math.floor(elapsedTime / 1000 / 60) % 60);
-  var hours = format(2, Math.floor(elapsedTime / 1000 / 60 / 60));
+  let seconds = format(2, Math.floor(elapsedTime / 1000) % 60);
+  let minutes = format(2, Math.floor(elapsedTime / 1000 / 60) % 60);
+  let hours = format(2, Math.floor(elapsedTime / 1000 / 60 / 60));
   return `(${hours}:${minutes}:${seconds})`;
 }
