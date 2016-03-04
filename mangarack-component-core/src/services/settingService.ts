@@ -4,7 +4,7 @@ let items: mio.IDictionary = {};
 /**
  * Represents a setting service.
  */
-export var settingService = {
+export let settingService = {
   /**
    * Gets the setting with the key as a boolean.
    * @param key The key.

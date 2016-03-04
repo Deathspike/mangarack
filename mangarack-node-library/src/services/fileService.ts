@@ -6,7 +6,7 @@ import * as path from 'path';
  * Represents a file service.
  * @internal
  */
-export var fileService: mio.IFileService = {
+export let fileService: mio.IFileService = {
   /**
    * Promises to delete the folder resource.
    * @param folderPath The folder path.
@@ -117,7 +117,7 @@ async function deleteAsync(fileOrFolderPath: string): Promise<void> {
     } else {
       let relativePaths = await mio.promise<string[]>(callback => fs.readdir(fileOrFolderPath, callback));
       if (relativePaths.hasValue) {
-        for (var relativePath of relativePaths.value) {
+        for (let relativePath of relativePaths.value) {
           let absolutePath = path.join(fileOrFolderPath, relativePath);
           await deleteAsync(absolutePath);
         }
