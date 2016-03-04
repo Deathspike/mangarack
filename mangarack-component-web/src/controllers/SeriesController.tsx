@@ -62,9 +62,9 @@ export class SeriesController extends mio.StatelessComponent<{application: mio.I
       }).sort((a, b) => {
         let flipOrder = this.props.application.menu.order.ascending ? 1 : -1;
         switch (this.props.application.menu.order.type) {
-          case mio.OrderType.SeriesAdded: return (a.addedAt > b.addedAt ? 1 : -1) * flipOrder;
-          case mio.OrderType.ChapterAdded: return (a.chapterLastAddedAt > b.chapterLastAddedAt ? 1 : -1) * flipOrder;
-          case mio.OrderType.ChapterRead: return (a.chapterLastReadAt > b.chapterLastReadAt ? 1 : -1) * flipOrder;
+          case mio.OrderType.DateSeriesAdded: return (a.addedAt > b.addedAt ? 1 : -1) * flipOrder;
+          case mio.OrderType.DateChapterAdded: return (a.chapterLastAddedAt > b.chapterLastAddedAt ? 1 : -1) * flipOrder;
+          case mio.OrderType.DateChapterRead: return (a.chapterLastReadAt > b.chapterLastReadAt ? 1 : -1) * flipOrder;
           default: return (a.metadata.title > b.metadata.title ? 1 : -1) * flipOrder;
         }
       }));

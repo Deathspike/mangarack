@@ -9,17 +9,15 @@ export class ModalPendingComponent extends mio.StatelessComponent<void> {
    */
   public render(): JSX.Element {
     return (
-      <div>
+      <span>
         <div className="modalContainerTitle">
           <span className="text">Busy</span>
           <i className="fa fa-times-circle" onClick={() => mio.modalActions.setType(mio.ModalType.None)} />
         </div>
         <div className="modalContainerBody">
-          <div className="pending">
-            <i className="fa fa-spin fa-circle-o-notch"></i>
-          </div>
+          <i className="fa fa-spin fa-circle-o-notch"></i>
         </div>
-      </div>
+      </span>
     );
   }
 }

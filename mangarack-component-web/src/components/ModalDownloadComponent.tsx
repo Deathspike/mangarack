@@ -1,7 +1,5 @@
 import * as mio from '../default';
 
-/* TODO: Make this download modal a little less ugly. It's a key feature after all. */
-
 /**
  * Represents a modal series component.
  */
@@ -27,35 +25,35 @@ export class ModalDownloadComponent extends mio.StatefulComponent<void, {existin
    */
   public render(): JSX.Element {
     return (
-      <div>
+      <span>
         <div className="modalContainerTitle">
           <span className="text">Update Series</span>
           <i className="fa fa-times-circle" onClick={() => mio.modalActions.setType(mio.ModalType.None)} />
         </div>
-        <div className="modalContainerBody">
-          <div className="checkbox" onClick={() => this._onChangeExistingChapters()}>
+        <div className="modalContainerBody modalContainerDownload">
+          <p onClick={() => this._onChangeExistingChapters()}>
             {(() => {
               if (this.state.existingChapters) {
-                return <i className="fa fa-check-square-o"></i>;
+                return <i className="fa fa-check-circle"></i>;
               } else {
-                return <i className="fa fa-square-o"></i>
+                return <i className="fa fa-times-circle"></i>
               }
             })()}
             <span className="text">Queue existing chapters download</span>
-          </div>
-          <div className="checkbox" onClick={() => this._onChangeNewChapters()}>
+          </p>
+          <p onClick={() => this._onChangeNewChapters()}>
             {(() => {
               if (this.state.newChapters) {
-                return <i className="fa fa-check-square-o"></i>;
+                return <i className="fa fa-check-circle"></i>;
               } else {
-                return <i className="fa fa-square-o"></i>
+                return <i className="fa fa-times-circle"></i>
               }
             })()}
             <span className="text">Queue new chapters download</span>
-          </div>
-          <button className="primary" onClick={() => this._onClick()}>Start</button>
+          </p>
+          <button onClick={() => this._onClick()}>Start</button>
         </div>
-      </div>
+      </span>
     );
   }
 

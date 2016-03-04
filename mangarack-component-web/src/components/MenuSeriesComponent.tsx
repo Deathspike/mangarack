@@ -12,7 +12,7 @@ export class MenuSeriesComponent extends mio.StatelessComponent<{series: mio.IOp
       <div className="menuSeries">
         <div className="header">
           <span className="text">Series</span>
-          <span className="subtext">Your Library</span>
+          <span className="minorText">Your Library</span>
           {(() => {
             if (this.props.series.hasValue) {
               return <span className="numberOfSeries">{this.props.series.value.length}</span>;
@@ -24,17 +24,17 @@ export class MenuSeriesComponent extends mio.StatelessComponent<{series: mio.IOp
         {(() => {
           if (this.props.series.hasValue) {
             return (
-              <div>
+              <span>
                 <div className="menuSeriesControl">
                   <i className="fa fa-plus" onClick={() => mio.modalActions.setType(mio.ModalType.Series)}></i>
                   <i className="fa fa-download" onClick={() => mio.modalActions.setType(mio.ModalType.Download)}></i>
                   <i className="fa fa-refresh" onClick={() => mio.applicationActions.refreshSeries()}></i>
                 </div>
                 <mio.MenuSeriesListComponent series={this.props.series.value} />
-              </div>
+              </span>
             );
           } else {
-            return <div className="pending"><i className="fa fa-spin fa-circle-o-notch"></i></div>;
+            return <i className="fa fa-spin fa-circle-o-notch"></i>;
           }
         })()}
       </div>

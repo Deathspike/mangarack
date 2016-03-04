@@ -5,17 +5,17 @@ export enum OrderType {
   /**
    * Represents an ordering by date a chapter was added.
    */
-  ChapterAdded,
+  DateChapterAdded,
 
   /**
    * Represents an ordering by date a chapter was read.
    */
-  ChapterRead,
+  DateChapterRead,
 
   /**
    * Represents an ordering by date the was series added.
    */
-  SeriesAdded,
+  DateSeriesAdded,
 
   /**
    * Represents an ordering by series title.

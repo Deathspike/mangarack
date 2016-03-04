@@ -25,7 +25,7 @@ export class ModalSeriesComponent extends mio.StatefulComponent<void, {text: str
    */
   public render(): JSX.Element {
     return (
-      <div>
+      <span>
         <div className="modalContainerTitle">
           <span className="text">Add Series</span>
           <i className="fa fa-times-circle" onClick={() => mio.modalActions.setType(mio.ModalType.None)} />
@@ -33,9 +33,9 @@ export class ModalSeriesComponent extends mio.StatefulComponent<void, {text: str
         <div className="modalContainerBody">
           <label>Series Address:</label>
           <input autoFocus={true} type="text" value={this.state.text} onChange={(e: mio.InputFormEvent) => this._onChange(e.target.value)} onKeyDown={e => this._onKeyDown(e.keyCode)} />
-          <button className="primary" disabled={!Boolean(this.state.text)} onClick={() => this._onClick()}>Start</button>
+          <button disabled={!Boolean(this.state.text)} onClick={() => this._onClick()}>Start</button>
         </div>
-      </div>
+      </span>
     );
   }
 
