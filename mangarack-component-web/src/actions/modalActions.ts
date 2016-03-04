@@ -13,13 +13,11 @@ export let modalActions = {
    */
   addSeries: wrapAsync('MODAL_ADDSERIES', async function(state: mio.IApplicationState, modalId: number, address: string): Promise<void> {
     let seriesId = await mio.openActiveLibrary().create().runAsync(address);
-    if (seriesId.hasValue) {
-      /* TODO: Redirect to seriesId instead of refreshing (which is temporary to actually give me feedback). */
-      if (!closedModal[modalId]) {
-        mio.applicationActions.refreshSeries();
-      }
-    } else {
+    if (!seriesId.hasValue) {
       throw new Error(`Invalid series address: ${address}`);
+    } else if (!closedModal[modalId]) {
+      /* TODO: Redirect to seriesId instead of refreshing (which is temporary to actually give me feedback). */
+      mio.applicationActions.refreshSeries();
     }
   }),
 

@@ -22,6 +22,7 @@ export * from './actions/modalActions';
 
 // web/components
 export * from './components/HeaderBackComponent';
+export * from './components/LazyComponent';
 export * from './components/MenuComponent';
 export * from './components/MenuSelectComponent';
 export * from './components/MenuSelectLinkComponent';
@@ -41,9 +42,9 @@ export * from './components/ModalErrorComponent';
 export * from './components/ModalPendingComponent';
 export * from './components/ModalSeriesComponent';
 export * from './components/SeriesComponent';
+export * from './components/SeriesImageComponent';
 export * from './components/SeriesListComponent';
 export * from './components/SeriesListItemComponent';
-export * from './components/SeriesListItemPreviewComponent';
 
 // web/controllers
 export * from './controllers/ApplicationController';

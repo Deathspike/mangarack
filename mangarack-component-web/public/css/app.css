@@ -608,7 +608,7 @@
           background-color: #1abc9c; /* Turqoise */
         }
 
-        .seriesListItemBody:hover .seriesItemPreview {
+        .seriesListItemBody:hover .preview {
           border-color: #1abc9c; /* Turqoise */
         }
 
@@ -641,20 +641,20 @@
             padding: 8px 40px 8px 8px;
           }
 
-        .seriesListItemPreview {
+        .seriesListItemBody .preview {
           border: 1px solid #16a085; /* Green Sea */
           border-top: none;
           height: calc(100% - 32px);
           width: 100%;
         }
 
-          .seriesListItemPreview img {
+          .seriesListItemBody .preview img {
             object-fit: cover;
             height: 100%;
             width: 100%;
           }
 
-          .seriesListItemPreview .pending {
+          .seriesListItemBody .preview i {
             color: #2c3e50; /* Midnight Blue */
             left: 50%;
             font-size: 20px;
