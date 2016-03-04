@@ -9,7 +9,7 @@ export class SeriesComponent extends mio.StatelessComponent<{series: mio.IOption
    */
   public render(): JSX.Element {
     return (
-      <div className="series">
+      <mio.LazyComponent className="series">
         <div className="seriesControl">
           <span className="seriesControlStatus">
             <span className="title">Your Library</span>
@@ -28,7 +28,7 @@ export class SeriesComponent extends mio.StatelessComponent<{series: mio.IOption
           </span>
         </div>
         <mio.SeriesListComponent series={this.props.series} />
-      </div>
+      </mio.LazyComponent>
     );
   }
 }

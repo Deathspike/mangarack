@@ -21,7 +21,9 @@ export class SeriesListItemComponent extends mio.StatelessComponent<{series: mio
             }
           })()}
           <span className="title">{this.props.series.metadata.title}</span>
-          <mio.SeriesListItemPreviewComponent id={this.props.series.id} />
+          <mio.LazyComponent className="preview">
+            <mio.SeriesImageComponent id={this.props.series.id} />
+          </mio.LazyComponent>
           <span className="provider">{this.props.series.providerName}</span>
         </div>
       </div>
