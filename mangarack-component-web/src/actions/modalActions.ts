@@ -16,8 +16,7 @@ export let modalActions = {
     if (!seriesId.hasValue) {
       throw new Error(`Invalid series address: ${address}`);
     } else if (!closedModal[modalId]) {
-      /* TODO: Redirect to seriesId instead of refreshing (which is temporary to actually give me feedback). */
-      mio.applicationActions.refreshSeries();
+      mio.applicationActions.navigateSeries(seriesId.value);
     }
   }),
 

@@ -10,6 +10,7 @@ export class MenuComponent extends mio.StatelessComponent<{menu: mio.IMenuState,
   public render(): JSX.Element {
     return (
       <mio.LazyComponent className="menu">
+        <mio.MenuControlComponent />
         <mio.MenuSelectComponent menu={this.props.menu} />
         {(() => {
           if (this.props.menu.type === mio.MenuType.Default) {
