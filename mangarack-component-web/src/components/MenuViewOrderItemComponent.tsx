@@ -13,7 +13,7 @@ export class MenuViewOrderItemComponent extends mio.StatelessComponent<{order: m
     let className = isSelected ? (this.props.order.ascending ? 'fa-arrow-circle-up' : 'fa-arrow-circle-down') : 'fa-circle';
     return (
       <div className="menuViewOrderItem" onClick={() => mio.menuActions.toggleOrder(this.props.type)}>
-        <span className="text">{displayName}</span>
+        <div className="text">{displayName}</div>
         <i className={`fa ${className}`}></i>
       </div>
     );

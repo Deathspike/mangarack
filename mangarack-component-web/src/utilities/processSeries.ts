@@ -22,7 +22,7 @@ export function processSeries(menu: mio.IMenuState, series: mio.IOption<mio.ILib
         }
       }
       for (let searchTerm of searchTerms) {
-        if (searchTerm && series.metadata.title.toLowerCase().indexOf(searchTerm) === -1) {
+        if (searchTerm && series.providerName.toLowerCase().indexOf(searchTerm) === -1 && series.metadata.title.toLowerCase().indexOf(searchTerm) === -1) {
           return false;
         }
       }

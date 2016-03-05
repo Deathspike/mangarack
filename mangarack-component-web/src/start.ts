@@ -4,6 +4,8 @@ import * as mio from './default';
 /* TODO: Allow local connections without caring for the password. */
 /* TODO: If HDD is unreachable.. bleh. */
 /* TODO: Move this somewhere a little more sane. */
+/* TODO: Consider swapping ascending/descending on first click of genre */
+
 import {httpService} from './services/httpService';
 // If none provided, stub with XHR.
 try {

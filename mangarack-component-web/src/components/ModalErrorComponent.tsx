@@ -11,7 +11,7 @@ export class ModalErrorComponent extends mio.StatelessComponent<{error: mio.IOpt
     return (
       <span>
         <div className="modalContainerTitle">
-          <span className="text">Error</span>
+          <div className="text">Error</div>
           <i className="fa fa-times-circle" onClick={() => mio.modalActions.setType(mio.ModalType.None)} />
         </div>
         <div className="modalContainerBody">

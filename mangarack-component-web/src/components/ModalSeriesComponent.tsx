@@ -27,7 +27,7 @@ export class ModalSeriesComponent extends mio.StatefulComponent<void, {text: str
     return (
       <span>
         <div className="modalContainerTitle">
-          <span className="text">Add Series</span>
+          <div className="text">Add Series</div>
           <i className="fa fa-times-circle" onClick={() => mio.modalActions.setType(mio.ModalType.None)} />
         </div>
         <div className="modalContainerBody">

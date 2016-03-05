@@ -12,7 +12,7 @@ export class SeriesListComponent extends mio.StatelessComponent<{series: mio.ILi
       <div className="seriesList">
         {(() => {
           if (!this.props.series.length) {
-            return <span className="none">No series available.</span>;
+            return <div className="none">No series available.</div>;
           } else {
             return <span>{this.props.series.map(series => <mio.SeriesListItemComponent series={series} />)}</span>;
           }

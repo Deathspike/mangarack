@@ -13,7 +13,7 @@ export class MenuViewGenreItemComponent extends mio.StatelessComponent<{genres: 
     let className = status.hasValue ? (status.value ? 'fa-check-circle' : 'fa-times-circle') : 'fa-circle';
     return (
       <div className="menuViewGenreItem" onClick={() => mio.menuActions.toggleGenre(this.props.type)}>
-        <span className="text">{displayName}</span>
+        <div className="text">{displayName}</div>
         <i className={`fa ${className}`}></i>
       </div>
     );

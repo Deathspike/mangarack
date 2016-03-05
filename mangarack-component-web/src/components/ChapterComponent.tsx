@@ -9,7 +9,7 @@ export class ChapterComponent extends mio.StatelessComponent<{chapters: mio.IOpt
    */
   public render(): JSX.Element {
     return (
-      <mio.LazyComponent className="chapters">
+      <mio.LazyComponent className="chapter">
         <mio.ControlComponent />
         {(() => {
           if (!this.props.chapters.hasValue || !this.props.series.hasValue) {
@@ -17,9 +17,13 @@ export class ChapterComponent extends mio.StatelessComponent<{chapters: mio.IOpt
           } else {
             let series = mio.option(this.props.series.value.find(series => series.id === this.props.seriesId));
             if (!series.hasValue) {
-              return <span className="unknown">Unknown series.</span>;
+              return <div className="unknown">Unknown series.</div>;
             } else {
-              return <span>Chapter placeholder for {this.props.seriesId}.</span>
+              return (
+                <span>
+                  <mio.ChapterListComponent chapters={this.props.chapters.value} />
+                </span>
+              );
             }
           }
         })()}

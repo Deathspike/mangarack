@@ -12,7 +12,7 @@ export class MenuSeriesListComponent extends mio.StatelessComponent<{series: mio
       <div className="menuSeriesList">
         {(() => {
           if (!this.props.series.length) {
-            return <span className="none">No series available.</span>;
+            return <div className="none">No series available.</div>;
           } else {
             return <span>{this.props.series.map(series => <mio.MenuSeriesListItemComponent series={series} />)}</span>;
           }
