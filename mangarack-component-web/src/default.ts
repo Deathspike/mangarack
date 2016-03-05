@@ -21,6 +21,7 @@ export * from './actions/menuActions';
 export * from './actions/modalActions';
 
 // web/components
+export * from './components/ChaptersComponent';
 export * from './components/HeaderBackComponent';
 export * from './components/LazyComponent';
 export * from './components/MenuComponent';

@@ -28,7 +28,6 @@
     }
 
   #header .title {
-    display: block;
     font-size: 20px;
   }
 
@@ -40,6 +39,7 @@
   background-color: #ecf0f1; /* Clouds */
   border-right: 1px solid #bdc3c7; /* Silver */
   bottom: 0;
+  display: none;
   left: 0;
   right: 0;
   overflow-x: hidden;
@@ -48,8 +48,13 @@
   top: 0;
 }
 
+.menu-controller-series {
+  display: unset;
+}
+
   @media (min-width: 600px) { /* Tablet */
     .menu {
+      display: unset;
       right: calc(100% - 192px);
     }
   }
@@ -243,7 +248,6 @@
     }
 
       .menuSeriesList .none {
-        display: block;
         font-style: italic;
         padding: 8px;
         text-align: center;
@@ -485,7 +489,7 @@
 
 @media (min-width: 600px) { /* Tablet */
   .series {
-    display: block;
+    display: unset;
   }
 }
 
@@ -630,3 +634,24 @@
           position: absolute;
           right: 4px;
         }
+
+.chapters {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+  @media (min-width: 600px) { /* Tablet */
+    .chapters {
+      left: 192px;
+    }
+  }
+
+  .chapters .fa-circle-o-notch {
+    font-size: 32px;
+    left: calc(50% - 16px);
+    position: absolute;
+    top: calc(50% - 16px);
+  }
