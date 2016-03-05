@@ -9,7 +9,7 @@ export class MenuComponent extends mio.StatelessComponent<{menu: mio.IMenuState,
    */
   public render(): JSX.Element {
     return (
-      <div className="menu">
+      <mio.LazyComponent className="menu">
         <mio.MenuSelectComponent menu={this.props.menu} />
         {(() => {
           if (this.props.menu.type === mio.MenuType.Default) {
@@ -18,7 +18,7 @@ export class MenuComponent extends mio.StatelessComponent<{menu: mio.IMenuState,
             return null;
           }
         })()}
-      </div>
+      </mio.LazyComponent>
     );
   }
 }

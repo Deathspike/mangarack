@@ -11,7 +11,7 @@ export let modalActions = {
    * Adds a series to the library.
    * @param reviser The address.
    */
-  addSeries: wrapAsync('MODAL_ADDSERIES', async function(state: mio.IApplicationState, modalId: number, address: string): Promise<void> {
+  addSeries: wrapReviserAsync('MODAL_ADDSERIES', async function(state: mio.IApplicationState, modalId: number, address: string): Promise<void> {
     let seriesId = await mio.openActiveLibrary().create().runAsync(address);
     if (!seriesId.hasValue) {
       throw new Error(`Invalid series address: ${address}`);
@@ -25,7 +25,7 @@ export let modalActions = {
    * Downloads series to the library.
    * @param reviser The address.
    */
-  downloadSeries: wrapAsync('MODAL_DOWNLOADSERIES', async function(state: mio.IApplicationState, modalId: number, revision: {existingChapters: boolean, newChapters: boolean}): Promise<void> {
+  downloadSeries: wrapReviserAsync('MODAL_DOWNLOADSERIES', async function(state: mio.IApplicationState, modalId: number, revision: {existingChapters: boolean, newChapters: boolean}): Promise<void> {
     await mio.openActiveLibrary().download().runAsync(revision.existingChapters, revision.newChapters);
     if (!closedModal[modalId]) {
       mio.applicationActions.refreshSeries();
@@ -71,8 +71,9 @@ function endPendingModal(modalId: number): void {
  * Wraps the reviser in a pending toggle and error handler.
  * @param name The name.
  * @param reviser The reviser.
+ * @return The wrapped reviser.
  */
-function wrapAsync<T>(name: string, reviser: (state: mio.IApplicationState, modalId: number, revision: T) => PromiseLike<void>|void): (revision: T) => void {
+function wrapReviserAsync<T>(name: string, reviser: (state: mio.IApplicationState, modalId: number, revision: T) => PromiseLike<void>|void): (revision: T) => void {
   return mio.store.reviser(name, async function(state: mio.IApplicationState, revision: T): Promise<void> {
     let modalId = beginPendingModal();
     try {

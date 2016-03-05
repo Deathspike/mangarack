@@ -1,8 +1,9 @@
 import * as mio from './default';
-/* TODO: Allow local connections without caring for the password. */
-/* TODO: If HDD is unreachable.. bleh. */
+/* TODO: Gray-out genres that no longer can filter further... */
 /* TODO: Uhm. the mobile view badge for number of series is a little out of place. */
 /* TODO: Check the bind mechanism. I'm doing binds where it should not be necessary.. */
+/* TODO: Allow local connections without caring for the password. */
+/* TODO: If HDD is unreachable.. bleh. */
 /* TODO: Move this somewhere a little more sane. */
 import {httpService} from './services/httpService';
 // If none provided, stub with XHR.
@@ -43,7 +44,7 @@ export let cache: {[seriesId: number]: string} = {};
 export let store: mio.IStore<mio.IApplicationState> = mio.createStore<mio.IApplicationState>({
   menu: {genres: {}, order: {ascending: true, type: mio.OrderType.SeriesTitle}, type: mio.MenuType.Default, search: ''},
   modal: {error: mio.option<string>(), type: mio.ModalType.None},
-  series: mio.option<mio.ILibrarySeries[]>()
+  series: {all: mio.option<mio.ILibrarySeries[]>(), processed: mio.option<mio.ILibrarySeries[]>()}
 });
 
 /*

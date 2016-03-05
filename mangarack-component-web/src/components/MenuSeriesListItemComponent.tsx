@@ -10,7 +10,7 @@ export class MenuSeriesListItemComponent extends mio.StatelessComponent<{series:
   public render(): JSX.Element {
     let numberOfUnreadChapters = this.props.series.numberOfChapters - this.props.series.numberOfReadChapters;
     return (
-      <div className="menuSeriesListItem" key={this.props.series.id}>
+      <div className="menuSeriesListItem" key={this.props.series.id} onClick={() => mio.applicationActions.navigateSeries(this.props.series.id)}>
         {(() => {
           if (numberOfUnreadChapters > 0) {
             return <span className="numberOfUnreadChapters">{numberOfUnreadChapters}</span>;

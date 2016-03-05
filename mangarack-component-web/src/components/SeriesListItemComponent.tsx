@@ -10,7 +10,7 @@ export class SeriesListItemComponent extends mio.StatelessComponent<{series: mio
   public render(): JSX.Element {
     let numberOfUnreadChapters = this.props.series.numberOfChapters - this.props.series.numberOfReadChapters;
     return (
-      <div className="seriesListItem" key={this.props.series.id}>
+      <div className="seriesListItem" key={this.props.series.id} onClick={() => mio.applicationActions.navigateSeries(this.props.series.id)}>
         <div className="push"></div>
         <div className="seriesListItemBody">
           {(() => {
