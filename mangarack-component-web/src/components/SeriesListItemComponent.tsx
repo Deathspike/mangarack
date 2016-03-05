@@ -15,16 +15,16 @@ export class SeriesListItemComponent extends mio.StatelessComponent<{series: mio
         <div className="seriesListItemBody">
           {(() => {
             if (numberOfUnreadChapters > 0) {
-              return <span className="numberOfUnreadChapters">{numberOfUnreadChapters}</span>;
+              return <div className="numberOfUnreadChapters">{numberOfUnreadChapters}</div>;
             } else {
               return null;
             }
           })()}
-          <span className="title">{this.props.series.metadata.title}</span>
+          <div className="title">{this.props.series.metadata.title}</div>
           <mio.LazyComponent className="preview">
             <mio.SeriesImageComponent id={this.props.series.id} />
           </mio.LazyComponent>
-          <span className="provider">{this.props.series.providerName}</span>
+          <div className="provider">{this.props.series.providerName}</div>
         </div>
       </div>
     );

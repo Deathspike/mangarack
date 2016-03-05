@@ -13,13 +13,13 @@ export class MenuSelectLinkGenreComponent extends mio.StatelessComponent<{genres
         {(() => {
           let numberOfGenreFilters = Object.keys(this.props.genres).length;
           if (numberOfGenreFilters > 0) {
-            return <span className="numberOfGenreFilters">{numberOfGenreFilters}</span>;
+            return <div className="numberOfGenreFilters">{numberOfGenreFilters}</div>;
           } else {
             return null;
           }
         })()}
-        <span className="text">Genres</span>
-        <span className="minorText">{this.getMinorText() || 'No active filters.'}</span>
+        <div className="text">Genres</div>
+        <div className="minorText">{this.getMinorText() || 'No active filters.'}</div>
         <i className="fa fa-angle-right"></i>
       </div>
     );

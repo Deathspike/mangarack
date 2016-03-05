@@ -13,13 +13,13 @@ export class MenuSeriesListItemComponent extends mio.StatelessComponent<{series:
       <div className="menuSeriesListItem" key={this.props.series.id} onClick={() => mio.applicationActions.navigateSeries(this.props.series.id)}>
         {(() => {
           if (numberOfUnreadChapters > 0) {
-            return <span className="numberOfUnreadChapters">{numberOfUnreadChapters}</span>;
+            return <div className="numberOfUnreadChapters">{numberOfUnreadChapters}</div>;
           } else {
             return null;
           }
         })()}
-        <span className="title">{this.props.series.metadata.title}</span>
-        <span className="provider">{this.props.series.providerName}</span>
+        <div className="title">{this.props.series.metadata.title}</div>
+        <div className="provider">{this.props.series.providerName}</div>
         <i className="fa fa-angle-right"></i>
       </div>
     );

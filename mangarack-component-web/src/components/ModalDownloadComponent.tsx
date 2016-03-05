@@ -27,7 +27,7 @@ export class ModalDownloadComponent extends mio.StatefulComponent<void, {existin
     return (
       <span>
         <div className="modalContainerTitle">
-          <span className="text">Update Series</span>
+          <div className="text">Update Series</div>
           <i className="fa fa-times-circle" onClick={() => mio.modalActions.setType(mio.ModalType.None)} />
         </div>
         <div className="modalContainerBody modalContainerDownload">
@@ -39,7 +39,7 @@ export class ModalDownloadComponent extends mio.StatefulComponent<void, {existin
                 return <i className="fa fa-times-circle"></i>
               }
             })()}
-            <span className="text">Queue existing chapters download</span>
+            <span className="text">Queue download for existing chapters</span>
           </p>
           <p onClick={() => this._onChangeNewChapters()}>
             {(() => {
@@ -49,7 +49,7 @@ export class ModalDownloadComponent extends mio.StatefulComponent<void, {existin
                 return <i className="fa fa-times-circle"></i>
               }
             })()}
-            <span className="text">Queue new chapters download</span>
+            <span className="text">Queue download for new chapters</span>
           </p>
           <button onClick={() => this._onClick()}>Start</button>
         </div>

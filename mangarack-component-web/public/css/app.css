@@ -20,7 +20,7 @@ body {
   height: 30px;
 }
 
-  .control span {
+  .control div {
     border-right: 1px solid #bdc3c7; /* Silver */
     color: #16a085; /* Green Sea */
     cursor: pointer;
@@ -31,26 +31,26 @@ body {
     width: 25%;
   }
 
-    .control span:hover {
+    .control div:hover {
       color: #1abc9c; /* Turqoise */
     }
 
-    .control span:last-of-type {
+    .control div:last-of-type {
       border: none;
     }
 
-    .control span .fa-chevron-left, .control span .fa-download, .control span .fa-plus, .control span .fa-refresh {
+    .control div .fa-chevron-left, .control div .fa-download, .control div .fa-plus, .control div .fa-refresh {
       left: 50%;
       position: absolute;
       top: 50%;
       transform: translate(-50%, -50%);
     }
 
-    .control span .fa-chevron-left {
+    .control div .fa-chevron-left {
       margin-left: -1px;
     }
 
-    .control span .fa-refresh {
+    .control div .fa-refresh {
       margin-top: -1px;
     }
 
@@ -103,12 +103,7 @@ body {
           background-color: #bdc3c7; /* Silver */
         }
 
-        .menuSelectLinkGenre .text {
-          display: block;
-        }
-
         .menuSelectLinkGenre .minorText {
-          display: block;
           font-size: 10px;
           overflow: hidden;
           padding-right: 40px;
@@ -152,7 +147,6 @@ body {
         }
 
         .menuSelectLinkOrder .minorText {
-          display: block;
           font-size: 10px;
         }
 
@@ -210,12 +204,10 @@ body {
     }
 
       .menuSeries .header .text {
-        display: block;
         font-weight: bold;
       }
 
       .menuSeries .header .minorText {
-        display: block;
         font-size: 10px;
         font-style: italic;
       }
@@ -265,7 +257,6 @@ body {
         }
 
         .menuSeriesListItem .title {
-          display: block;
           overflow: hidden;
           padding-right: 8px;
           text-overflow: ellipsis;
@@ -293,7 +284,6 @@ body {
         }
 
         .menuSeriesListItem .provider {
-          display: block;
           font-style: italic;
           font-size: 10px;
         }
@@ -380,8 +370,7 @@ body {
   }
 
     .modalContainerTitle {
-      background-color: #16a085; /* Green Sea */
-      color: #ecf0f1; /* Clouds */
+      background-color: #bdc3c7; /* Silver */
       padding: 8px;
       position: relative;
     }
@@ -397,7 +386,7 @@ body {
       }
 
         .modalContainerTitle .fa-times-circle:hover {
-          color: #bdc3c7; /* Silver */
+          color: #34495e; /* Wet Asphalt */
         }
 
     .modalContainerBody {
@@ -451,19 +440,24 @@ body {
     }
 
       .modalContainerDownload .fa-times-circle, .modalContainerDownload .fa-check-circle {
-        font-size: 18px;
-        left: 0;
+        font-size: 20px;
         position: absolute;
+        right: 8px;
         top: 50%;
         transform: translate(0, -50%);
       }
 
       .modalContainerDownload p {
+        border: 1px solid #bdc3c7; /* Silver */
         cursor: pointer;
         margin: 0;
-        padding: 4px 4px 4px 20px;
+        padding: 8px;
         position: relative;
       }
+
+        .modalContainerDownload p + p {
+          border-top: none;
+        }
 
         .modalContainerDownload p:hover {
           background-color: #bdc3c7; /* Silver */
@@ -569,17 +563,12 @@ body {
           background-color: #1abc9c; /* Turqoise */
         }
 
-        .seriesListItemBody:hover .preview {
-          border-color: #1abc9c; /* Turqoise */
-        }
-
         .seriesListItemBody:hover .provider {
           background-color: #1abc9c; /* Turqoise */
         }
 
         .seriesListItemBody .title {
           background-color: #16a085; /* Green Sea */
-          display: block;
           overflow: hidden;
           padding: 8px;
           text-overflow: ellipsis;
@@ -603,8 +592,6 @@ body {
           }
 
         .seriesListItemBody .preview {
-          border: 1px solid #16a085; /* Green Sea */
-          border-top: none;
           height: calc(100% - 32px);
           width: 100%;
         }
@@ -626,7 +613,6 @@ body {
         .seriesListItemBody .provider {
           background-color: #16a085; /* Green Sea */
           bottom: 0;
-          display: block;
           font-style: italic;
           font-size: 10px;
           padding: 4px;
@@ -634,28 +620,30 @@ body {
           right: 4px;
         }
 
-.chapters {
+.chapter {
   bottom: 0;
   left: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
   position: absolute;
   right: 0;
   top: 0;
 }
 
   @media (min-width: 600px) { /* Tablet */
-    .chapters {
+    .chapter {
       left: 192px;
     }
   }
 
-  .chapters .fa-circle-o-notch {
+  .chapter .fa-circle-o-notch {
     font-size: 32px;
     left: calc(50% - 16px);
     position: absolute;
     top: calc(50% - 16px);
   }
 
-  .chapters .unknown {
+  .chapter .unknown {
     font-size: 20px;
     font-style: italic;
     left: 50%;
@@ -665,21 +653,107 @@ body {
     transform: translate(-50%, -50%);
   }
 
-  .chapters .control {
+  .chapter .control {
     background-color: #ecf0f1; /* Clouds */
     border-bottom: 1px solid #bdc3c7; /* Silver */
   }
 
     @media (min-width: 600px) { /* Tablet */
-      .chapters .control {
+      .chapter .control {
         display: none;
       }
     }
 
-    .chapters .control span {
+    .chapter .control div {
       width: 33.33%;
     }
 
-    .chapters .control .plus {
+    .chapter .control .plus {
       display: none;
     }
+
+    .chapterList {
+      padding: 8px;
+    }
+
+      .chapterListHeader {
+        background-color: #ecf0f1; /* Silver */
+        font-style: italic;
+      }
+
+        .chapterListHeader .volume, .chapterListItem .volume {
+          border-right: 1px solid #bdc3c7; /* Silver */
+          float: left;
+          height: 32px;
+          padding: 8px;
+          width: 72px;
+        }
+
+        .chapterListHeader .number, .chapterListItem .number {
+          border-right: 1px solid #bdc3c7; /* Silver */
+          float: left;
+          height: 32px;
+          padding: 8px;
+          width: 72px;
+        }
+
+        .chapterListHeader .title, .chapterListItem .title {
+          float: left;
+          height: 32px;
+          padding: 8px;
+          width: calc(100% - 144px);
+        }
+
+      .chapterListHeader, .chapterListItem {
+        border: 1px solid #bdc3c7; /* Silver */
+        border-bottom: 0;
+      }
+
+        .chapterListHeader:after, .chapterListItem:after {
+          content: '';
+          clear: both;
+          display: block;
+        }
+
+      .chapterListItem {
+        cursor: pointer;
+        position: relative;
+      }
+
+        .chapterListItem:nth-of-type(2n+1) {
+          background-color: #ecf0f1; /* Clouds */
+        }
+
+        .chapterListItem:hover {
+          background-color: #bdc3c7; /* Silver */
+        }
+
+      .chapterListItem .title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .chapterListItem .available, .chapterListItem .unavailable {
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        position: absolute;
+        right: 0;
+      }
+
+      .chapterListItem .available {
+        background-color: #d35400; /* Pumpkin */
+      }
+
+        .chapterListItem .available div {
+          background-color: #16a085; /* Green Sea */
+          display: inline-block;
+          left: 0;
+          height: 2px;
+          position: absolute;
+        }
+
+      .chapterListItem .unavailable {
+        background-color: #2c3e50; /* Midnight Blue */
+      }

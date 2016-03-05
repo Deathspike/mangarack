@@ -11,9 +11,9 @@ export class MenuSelectLinkOrderComponent extends mio.StatelessComponent<{order:
     let displayName = mio.splitCamelCase(mio.OrderType[this.props.order.type]);
     return (
       <div className="menuSelectLinkOrder" onClick={() => mio.menuActions.setType(mio.MenuType.Order)}>
-        <span className="direction">{this.props.order.ascending ? 'asc' : 'dsc'}</span>
-        <span className="text">Order By</span>
-        <span className="minorText">{displayName}</span>
+        <div className="direction">{this.props.order.ascending ? 'asc' : 'dsc'}</div>
+        <div className="text">Order By</div>
+        <div className="minorText">{displayName}</div>
         <i className="fa fa-angle-right"></i>
       </div>
     );
