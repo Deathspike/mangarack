@@ -33,7 +33,12 @@ export function processSeries(menu: mio.IMenuState, series: mio.IOption<mio.ILib
         case mio.OrderType.DateSeriesAdded: return (a.addedAt > b.addedAt ? 1 : -1) * flipOrder;
         case mio.OrderType.DateChapterAdded: return (a.chapterLastAddedAt > b.chapterLastAddedAt ? 1 : -1) * flipOrder;
         case mio.OrderType.DateChapterRead: return (a.chapterLastReadAt > b.chapterLastReadAt ? 1 : -1) * flipOrder;
-        default: return (a.metadata.title > b.metadata.title ? 1 : -1) * flipOrder;
+        default:
+          if (a.metadata.title === b.metadata.title) {
+            return (a.providerName > b.providerName ? 1 : -1) * flipOrder;
+          } else {
+            return (a.metadata.title > b.metadata.title ? 1 : -1) * flipOrder;
+          }
       }
     }));
   } else {
