@@ -6,6 +6,7 @@ import * as mio from '../default';
 export abstract class StoreComponent<T> extends mio.StatefulComponent<{}, T> {
   private _observer: mio.IObservableObserver<T>;
   private _store: mio.IStore<T>;
+  private _timeoutHandle = 0;
 
   /**
    * Initializes a new instance of the StoreComponent class.
@@ -31,12 +32,17 @@ export abstract class StoreComponent<T> extends mio.StatefulComponent<{}, T> {
   public componentWillUnmount(): void {
     this._store.unregister(this._observer);
   }
-
+  
   /**
    * Occurs when the observable sends a notification about a change in state.
    * @param state The state.
    */
   private _onNotify(state: T) {
-    this.setState(state);
+    if (!this._timeoutHandle) {
+      this._timeoutHandle = setTimeout(() => {
+        this._timeoutHandle = 0;
+        this.setState(state);
+      }, 0);
+    }
   }
 }

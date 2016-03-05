@@ -27,7 +27,7 @@ export let modalActions = {
   downloadSeries: wrapReviserAsync('MODAL_DOWNLOADSERIES', async function(state: mio.IApplicationState, modalId: number, revision: {existingChapters: boolean, newChapters: boolean}): Promise<void> {
     await mio.openActiveLibrary().download().runAsync(revision.existingChapters, revision.newChapters);
     if (!closedModal[modalId]) {
-      mio.applicationActions.refreshSeries();
+      mio.applicationActions.refresh();
     }
   }),
 

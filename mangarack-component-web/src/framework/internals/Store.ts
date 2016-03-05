@@ -23,12 +23,12 @@ export class Store<TState> extends mioInternal.Observable<TState> implements mio
    * Dispatches the action.
    * @param The action.
    */
-  public dispatch<TRevision>(action: mio.IAction<TRevision>): void {
+  public dispatch<TRevision>(action: mio.IAction<TRevision>): PromiseLike<void>|void {
     if (this._revisers[action.name]) {
       let done = this.notify.bind(this, this._state);
       let thenable = this._revisers[action.name](this._state, action.revision);
       if (thenable && (thenable as PromiseLike<void>).then) {
-        (thenable as PromiseLike<void>).then(done, done);
+        return (thenable as PromiseLike<void>).then<void>(done, done);
       } else {
         done();
       }

@@ -21,7 +21,7 @@ export * from './actions/menuActions';
 export * from './actions/modalActions';
 
 // web/components
-export * from './components/ChaptersComponent';
+export * from './components/ChapterComponent';
 export * from './components/HeaderBackComponent';
 export * from './components/LazyComponent';
 export * from './components/MenuComponent';
@@ -50,7 +50,7 @@ export * from './components/SeriesListItemComponent';
 
 // web/controllers
 export * from './controllers/ApplicationController';
-export * from './controllers/ChaptersController';
+export * from './controllers/ChapterController';
 export * from './controllers/SeriesController';
 
 // web/typings

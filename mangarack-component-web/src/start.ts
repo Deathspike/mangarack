@@ -41,6 +41,7 @@ export let cache: {[seriesId: number]: string} = {};
  * Represents the application store.
  */
 export let store: mio.IStore<mio.IApplicationState> = mio.createStore<mio.IApplicationState>({
+  chapters: mio.option<mio.ILibraryChapter[]>(),
   menu: {genres: {}, order: {ascending: true, type: mio.OrderType.SeriesTitle}, type: mio.MenuType.Default, search: ''},
   modal: {error: mio.option<string>(), type: mio.ModalType.None},
   series: {all: mio.option<mio.ILibrarySeries[]>(), processed: mio.option<mio.ILibrarySeries[]>()}
