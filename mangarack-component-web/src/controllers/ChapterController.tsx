@@ -1,7 +1,7 @@
 import * as mio from '../default';
 
 /**
- * Represents a chapters controller.
+ * Represents a chapter controller.
  */
 export class ChapterController extends mio.StatelessComponent<{application: mio.IApplicationState, seriesId: number}> {
   /**
@@ -24,7 +24,7 @@ export class ChapterController extends mio.StatelessComponent<{application: mio.
         </div>
         <div id="container">
           <mio.MenuComponent controller="chapters" menu={this.props.application.menu} series={this.props.application.series.processed} />
-          <mio.ChaptersComponent series={this.props.application.series.all} seriesId={this.props.seriesId} />
+          <mio.ChapterComponent chapters={this.props.application.chapters} series={this.props.application.series.all} seriesId={this.props.seriesId} />
         </div>
       </div>
     );

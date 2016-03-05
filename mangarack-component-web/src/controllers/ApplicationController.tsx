@@ -16,7 +16,7 @@ export class ApplicationController extends mio.StoreComponent<mio.IApplicationSt
    */
   public componentWillMount(): void {
     super.componentWillMount();
-    mio.applicationActions.refreshSeries();
+    mio.applicationActions.refresh();
     window.addEventListener('hashchange', () => this.forceUpdate());
   }
 
@@ -28,9 +28,9 @@ export class ApplicationController extends mio.StoreComponent<mio.IApplicationSt
       <span>
         <mio.ModalComponent modal={this.state.modal} />
         {(() => {
-          let hash = mio.parseLocation();
-          if (hash.seriesId.hasValue) {
-            return <mio.ChapterController application={this.state} seriesId={hash.seriesId.value} />;
+          let location = mio.parseLocation();
+          if (location.seriesId.hasValue) {
+            return <mio.ChapterController application={this.state} seriesId={location.seriesId.value} />;
           } else {
             return <mio.SeriesController application={this.state} />;
           }

@@ -655,3 +655,13 @@
     position: absolute;
     top: calc(50% - 16px);
   }
+
+  .chapters .unknown {
+    font-size: 20px;
+    font-style: italic;
+    left: 50%;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }

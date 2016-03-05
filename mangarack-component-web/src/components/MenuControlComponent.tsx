@@ -12,7 +12,7 @@ export class MenuControlComponent extends mio.StatelessComponent<void> {
       <div className="menuControl">
         <i className="fa fa-plus" onClick={() => mio.modalActions.setType(mio.ModalType.Series)}></i>
         <i className="fa fa-download" onClick={() => mio.modalActions.setType(mio.ModalType.Download)}></i>
-        <i className="fa fa-refresh" onClick={() => mio.applicationActions.refreshSeries()}></i>
+        <i className="fa fa-refresh" onClick={() => mio.applicationActions.refresh()}></i>
       </div>
     );
   }

@@ -5,6 +5,11 @@ import * as mio from '../default';
  */
 export interface IApplicationState {
   /**
+   * Contains each chapter.
+   */
+  chapters: mio.IOption<mio.ILibraryChapter[]>;
+
+  /**
    * Contains the menu state.
    */
   menu: mio.IMenuState;

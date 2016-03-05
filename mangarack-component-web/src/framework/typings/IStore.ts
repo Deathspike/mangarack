@@ -30,5 +30,5 @@ export interface IStore<TState> extends mio.IObservable<TState> {
    * @param reviser The reviser.
    * @return The revision dispatcher.
    */
-  reviser<TRevision>(name: string, reviser: mio.IStoreReviserWithParameter<TState, TRevision>): (revision: TRevision) => void;
+  reviser<TRevision>(name: string, reviser: mio.IStoreReviserWithParameter<TState, TRevision>): (revision: TRevision) => PromiseLike<void>|void;
 }
