@@ -58,6 +58,30 @@
     display: none;
   }
 
+  .menuControl {
+    border-bottom: 1px solid #bdc3c7; /* Silver */
+    font-size: 24px;
+  }
+
+    .menuControl .fa-download, .menuControl .fa-plus, .menuControl .fa-refresh {
+      border-right: 1px solid #bdc3c7; /* Silver */
+      color: #16a085; /* Green Sea */
+      cursor: pointer;
+      display: inline-block;
+      padding-top: 4px;
+      text-align: center;
+      width: 33.33%;
+    }
+
+      .menuControl .fa-download:hover, .menuControl .fa-plus:hover, .menuControl .fa-refresh:hover {
+        color: #1abc9c; /* Turqoise */
+      }
+
+    .menuControl .fa-refresh {
+      border: none;
+      margin-top: -1px;
+    }
+
   .menuSelect {
   }
 
@@ -176,7 +200,7 @@
 
     .menuSeries .header {
       border-bottom: 1px solid #bdc3c7; /* Silver */
-      padding: 8px;
+      padding: 4px 8px;
       position: relative;
       text-align: center;
     }
@@ -188,14 +212,8 @@
 
       .menuSeries .header .minorText {
         display: block;
-        font-size: 12px;
+        font-size: 10px;
         font-style: italic;
-      }
-
-      @media (min-width: 600px) { /* Tablet */
-        .menuSeries .header .minorText {
-          display: none;
-        }
       }
 
       .menuSeries .numberOfSeries {
@@ -214,48 +232,12 @@
         width: 24px;
       }
 
-      @media (min-width: 600px) { /* Tablet */
-        .menuSeries .numberOfSeries {
-          display: none;
-        }
-      }
-
     .menuSeries .fa-circle-o-notch {
       font-size: 20px;
       left: calc(50% - 18px);
       padding: 8px;
       position: absolute;
     }
-
-    .menuSeriesControl {
-      border-bottom: 1px solid #bdc3c7; /* Silver */
-      font-size: 24px;
-    }
-
-    @media (min-width: 600px) { /* Tablet */
-      .menuSeriesControl {
-        display: none;
-      }
-    }
-
-      .menuSeriesControl .fa-download, .menuSeriesControl .fa-plus, .menuSeriesControl .fa-refresh {
-        border-right: 1px solid #bdc3c7; /* Silver */
-        color: #16a085; /* Green Sea */
-        cursor: pointer;
-        display: inline-block;
-        padding-top: 4px;
-        text-align: center;
-        width: 33.33%;
-      }
-
-        .menuSeriesControl .fa-download:hover, .menuSeriesControl .fa-plus:hover, .menuSeriesControl .fa-refresh:hover {
-          color: #1abc9c; /* Turqoise */
-        }
-
-      .menuSeriesControl .fa-refresh {
-        border: none;
-        margin-top: -1px;
-      }
 
     .menuSeriesList {
     }
@@ -507,56 +489,6 @@
   }
 }
 
-  .seriesControl {
-    background-color: #ecf0f1; /* Clouds */
-    border-bottom: 1px solid #bdc3c7; /* Silver */
-    font-style: italic;
-    padding: 8px;
-  }
-
-    .seriesControlStatus {
-      position: relative;
-    }
-
-      .seriesControlStatus .numberOfSeries {
-        background-color: #2980b9; /* Belize Hole */
-        border-radius: 16px;
-        color: #ecf0f1; /* Clouds */
-        font-family: monospace;
-        font-size: 10px;
-        height: 24px;
-        line-height: 24px;
-        position: absolute;
-        right: -32px;
-        text-align: center;
-        top: 50%;
-        transform: translate(0, -50%);
-        width: 28px;
-      }
-
-    .seriesControlButtons {
-      font-size: 24px;
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-
-      .seriesControlButtons .fa-download, .seriesControlButtons .fa-plus, .seriesControlButtons .fa-refresh {
-        color: #16a085; /* Green Sea */
-        cursor: pointer;
-        padding: 6px 8px 2px 8px;
-        vertical-align: middle;
-      }
-
-        .seriesControlButtons .fa-download:hover, .seriesControlButtons .fa-plus:hover, .seriesControlButtons .fa-refresh:hover {
-          color: #1abc9c; /* Turqoise */
-        }
-
-      .seriesControlButtons .fa-refresh {
-        padding-bottom: 3px;
-        margin-top: -1px;
-      }
-
   .seriesList {
     bottom: 0;
     left: 0;
@@ -565,7 +497,7 @@
     overflow-x: hidden;
     overflow-y: scroll;
     right: 0;
-    top: 33px;
+    top: 0;
   }
 
     .seriesList .none {

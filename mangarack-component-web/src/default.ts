@@ -24,6 +24,7 @@ export * from './actions/modalActions';
 export * from './components/HeaderBackComponent';
 export * from './components/LazyComponent';
 export * from './components/MenuComponent';
+export * from './components/MenuControlComponent';
 export * from './components/MenuSelectComponent';
 export * from './components/MenuSelectLinkComponent';
 export * from './components/MenuSelectLinkGenreComponent';
