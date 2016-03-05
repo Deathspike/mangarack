@@ -8,7 +8,6 @@
   loadStyleSync('css/lib/normalize-3.0.3.min.css');
   loadStyleSync('css/lib/font-awesome-4.5.0.min.css');
   loadStyleSync('css/app.css');
-  loadStyleSync('css/layout.css');
   loadStyleSync('css/mobile.css');
 
   /**
