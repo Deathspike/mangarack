@@ -22,10 +22,9 @@ export * from './actions/modalActions';
 
 // web/components
 export * from './components/ChapterComponent';
-export * from './components/HeaderBackComponent';
+export * from './components/ControlComponent';
 export * from './components/LazyComponent';
 export * from './components/MenuComponent';
-export * from './components/MenuControlComponent';
 export * from './components/MenuSelectComponent';
 export * from './components/MenuSelectLinkComponent';
 export * from './components/MenuSelectLinkGenreComponent';

@@ -17,16 +17,10 @@ export class ChapterController extends mio.StatelessComponent<{application: mio.
   public render(): JSX.Element {
     /* TODO: Be sure to check if the menu component is actually unmounted on mobile. It probably isn't causing unnecessary rendering. */
     return (
-      <div>
-        <div id="header">
-          <mio.HeaderBackComponent />
-          <span className="title">MangaRack</span>
-        </div>
-        <div id="container">
-          <mio.MenuComponent controller="chapters" menu={this.props.application.menu} series={this.props.application.series.processed} />
-          <mio.ChapterComponent chapters={this.props.application.chapters} series={this.props.application.series.all} seriesId={this.props.seriesId} />
-        </div>
-      </div>
+      <span>
+        <mio.MenuComponent controller="chapters" menu={this.props.application.menu} series={this.props.application.series.processed} />
+        <mio.ChapterComponent chapters={this.props.application.chapters} series={this.props.application.series.all} seriesId={this.props.seriesId} />
+      </span>
     );
   }
 }

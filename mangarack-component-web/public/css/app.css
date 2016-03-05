@@ -7,33 +7,52 @@
   outline: none;
 }
 
-#header {
-  background-color: #16a085; /* Green Sea */
-  color: #ecf0f1; /* Clouds */
-  font-weight: bold;
-  text-align: center;
+html, body {
+  margin: 0;
+  padding: 0;
 }
 
-  #header .fa-chevron-left {
-    cursor: pointer;
-    left: 0;
-    font-size: 24px;
-    padding: 9px 16px 7px 6px;
-    position: absolute;
-    top: 0;
-  }
-
-    #header .fa-chevron-left:hover {
-      color: #bdc3c7; /* Silver */
-    }
-
-  #header .title {
-    font-size: 20px;
-  }
-
-#container {
+body {
   color: #2c3e50; /* Midnight Blue */
 }
+
+.control {
+  height: 30px;
+}
+
+  .control span {
+    border-right: 1px solid #bdc3c7; /* Silver */
+    color: #16a085; /* Green Sea */
+    cursor: pointer;
+    display: inline-block;
+    font-size: 20px;
+    height: 32px;
+    position: relative;
+    width: 25%;
+  }
+
+    .control span:hover {
+      color: #1abc9c; /* Turqoise */
+    }
+
+    .control span:last-of-type {
+      border: none;
+    }
+
+    .control span .fa-chevron-left, .control span .fa-download, .control span .fa-plus, .control span .fa-refresh {
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .control span .fa-chevron-left {
+      margin-left: -1px;
+    }
+
+    .control span .fa-refresh {
+      margin-top: -1px;
+    }
 
 .menu {
   background-color: #ecf0f1; /* Clouds */
@@ -63,29 +82,9 @@
     display: none;
   }
 
-  .menuControl {
+  .menu .control {
     border-bottom: 1px solid #bdc3c7; /* Silver */
-    font-size: 24px;
   }
-
-    .menuControl .fa-download, .menuControl .fa-plus, .menuControl .fa-refresh {
-      border-right: 1px solid #bdc3c7; /* Silver */
-      color: #16a085; /* Green Sea */
-      cursor: pointer;
-      display: inline-block;
-      padding-top: 4px;
-      text-align: center;
-      width: 33.33%;
-    }
-
-      .menuControl .fa-download:hover, .menuControl .fa-plus:hover, .menuControl .fa-refresh:hover {
-        color: #1abc9c; /* Turqoise */
-      }
-
-    .menuControl .fa-refresh {
-      border: none;
-      margin-top: -1px;
-    }
 
   .menuSelect {
   }
@@ -665,3 +664,22 @@
     top: 50%;
     transform: translate(-50%, -50%);
   }
+
+  .chapters .control {
+    background-color: #ecf0f1; /* Clouds */
+    border-bottom: 1px solid #bdc3c7; /* Silver */
+  }
+
+    @media (min-width: 600px) { /* Tablet */
+      .chapters .control {
+        display: none;
+      }
+    }
+
+    .chapters .control span {
+      width: 33.33%;
+    }
+
+    .chapters .control .plus {
+      display: none;
+    }

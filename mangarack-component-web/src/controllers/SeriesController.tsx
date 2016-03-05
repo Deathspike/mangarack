@@ -9,17 +9,10 @@ export class SeriesController extends mio.StatelessComponent<{application: mio.I
    */
   public render(): JSX.Element {
     return (
-      <div>
-        <div id="header">
-          <mio.HeaderBackComponent />
-          {/* TODO: Settings. */}
-          <span className="title">MangaRack</span>
-        </div>
-        <div id="container">
-          <mio.MenuComponent controller="series" menu={this.props.application.menu} series={this.props.application.series.processed} />
-          <mio.SeriesComponent series={this.props.application.series.processed} />
-        </div>
-      </div>
+      <span>
+        <mio.MenuComponent controller="series" menu={this.props.application.menu} series={this.props.application.series.processed} />
+        <mio.SeriesComponent series={this.props.application.series.processed} />
+      </span>
     );
   }
 }
