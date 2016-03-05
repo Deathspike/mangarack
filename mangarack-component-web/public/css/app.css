@@ -489,6 +489,13 @@
   }
 }
 
+  .series .fa-circle-o-notch {
+    font-size: 32px;
+    left: calc(50% - 16px);
+    position: absolute;
+    top: calc(50% - 16px);
+  }
+
   .seriesList {
     bottom: 0;
     left: 0;
@@ -508,13 +515,6 @@
       text-align: center;
       top: 50%;
       transform: translate(-50%, -50%);
-    }
-
-    .seriesList .fa-circle-o-notch {
-      font-size: 32px;
-      left: calc(50% - 16px);
-      position: absolute;
-      top: calc(50% - 16px);
     }
 
     .seriesListItem {
