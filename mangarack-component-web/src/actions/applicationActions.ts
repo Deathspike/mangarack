@@ -8,11 +8,24 @@ export let applicationActions = {
   /**
    * Navigates back through the menu or history.
    */
-  back: mio.store.reviser('APPLICATION_BACK', function(state: mio.IApplicationState): void {
+  navigateBack: mio.store.reviser('APPLICATION_NAVIGATEBACK', function(state: mio.IApplicationState): void {
     if (state.menu.type !== mio.MenuType.Default) {
       state.menu.type = mio.MenuType.Default;
     } else {
-      history.back();
+      window.history.back();
+    }
+  }),
+
+  /**
+   * Navigates to the series.
+   */
+  navigateSeries: mio.store.reviser('APPLICATION_NAVIGATESERIES', function(state: mio.IApplicationState, seriesId: number): void {
+    let hash = mio.parseLocation();
+    let newHash = `#/${seriesId}`;
+    if (hash.seriesId.hasValue) {
+      window.history.replaceState(undefined, undefined, newHash);
+    } else {
+      window.history.pushState(undefined, undefined, newHash);
     }
   }),
 
@@ -31,8 +44,9 @@ export let applicationActions = {
    * @param series The series.
    */
   setSeries: mio.store.reviser('APPLICATION_SETSERIES', function(state: mio.IApplicationState, series: mio.ILibrarySeries[]): void {
-    state.series = mio.option(series);
-    if (!state.series.hasValue) {
+    state.series.all = mio.option(series);
+    state.series.processed = mio.processSeries(state.menu, state.series.all);
+    if (!state.series.all.hasValue) {
       for (let seriesId in mio.cache) {
         let url = mio.cache[seriesId];
         if (url) {

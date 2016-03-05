@@ -48,6 +48,7 @@ export * from './components/SeriesListItemComponent';
 
 // web/controllers
 export * from './controllers/ApplicationController';
+export * from './controllers/ChaptersController';
 export * from './controllers/SeriesController';
 
 // web/typings
@@ -59,4 +60,6 @@ export * from './typings/IMenuState';
 export * from './typings/IModalState';
 
 // web/utilities
+export * from './utilities/parseLocation';
+export * from './utilities/processSeries';
 export * from './utilities/splitCamelCase';

@@ -17,5 +17,5 @@ export interface IApplicationState {
   /**
    * Contains each series.
    */
-  series: mio.IOption<mio.ILibrarySeries[]>;
+  series: {all: mio.IOption<mio.ILibrarySeries[]>, processed: mio.IOption<mio.ILibrarySeries[]>};
 }
