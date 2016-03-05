@@ -19,7 +19,7 @@ export class ModalErrorComponent extends mio.StatelessComponent<{error: mio.IOpt
             if (this.props.error.hasValue) {
               return this.props.error.value;
             } else {
-              return 'An error has occurred.';
+              return 'An unknown error has occurred.';
             }
           })()}
         </div>
