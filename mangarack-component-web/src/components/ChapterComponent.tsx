@@ -10,25 +10,27 @@ export class ChapterComponent extends mio.StatelessComponent<{chapters: mio.IOpt
   public render(): JSX.Element {
     // Delete series always visible (modal for delete or empty -> new library functionality)
     return (
-      <mio.LazyComponent className="chapter">
+      <div className="chapter">
         <mio.ControlComponent />
-        {(() => {
-          if (!this.props.chapters.hasValue || !this.props.series.hasValue) {
-            return <i className="fa fa-spin fa-circle-o-notch"></i>;
-          } else {
-            let series = mio.option(this.props.series.value.find(series => series.id === this.props.seriesId));
-            if (!series.hasValue) {
-              return <div className="unknown">Unknown series.</div>;
+        <div className="chapterBody">
+          {(() => {
+            if (!this.props.chapters.hasValue || !this.props.series.hasValue) {
+              return <i className="fa fa-spin fa-circle-o-notch"></i>;
             } else {
-              return (
-                <span>
-                  <mio.ChapterListComponent chapters={this.props.chapters.value} />
-                </span>
-              );
+              let series = mio.option(this.props.series.value.find(series => series.id === this.props.seriesId));
+              if (!series.hasValue) {
+                return <div className="unknown">Unknown series.</div>;
+              } else {
+                return (
+                  <span>
+                    <mio.ChapterListComponent chapters={this.props.chapters.value} />
+                  </span>
+                );
+              }
             }
-          }
-        })()}
-      </mio.LazyComponent>
+          })()}
+        </div>
+      </div>
     );
   }
 }
