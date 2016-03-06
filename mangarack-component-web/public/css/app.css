@@ -3,55 +3,57 @@
   font-size: 14px;
 }
 
-*:focus {
-  outline: none;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-}
+  *:focus {
+    outline: none;
+  }
 
 body {
   color: #2c3e50; /* Midnight Blue */
 }
 
 .control {
-  height: 30px;
+  height: 32px;
 }
 
-  .control div {
+  .control:after {
+    content: '';
+    clear: both;
+    display: block;
+  }
+
+  .control > div {
     border-right: 1px solid #bdc3c7; /* Silver */
     color: #16a085; /* Green Sea */
     cursor: pointer;
-    display: inline-block;
+    float:left;
     font-size: 20px;
-    height: 32px;
+    height: 100%;
     position: relative;
     width: 25%;
   }
 
-    .control div:hover {
+    .control > div:hover {
       color: #1abc9c; /* Turqoise */
     }
 
-    .control div:last-of-type {
+    .control > div:last-of-type {
       border: none;
     }
 
-    .control div .fa-chevron-left, .control div .fa-download, .control div .fa-plus, .control div .fa-refresh {
+    .control > div > i {
       left: 50%;
+      margin-top: 1px;
       position: absolute;
       top: 50%;
       transform: translate(-50%, -50%);
     }
 
-    .control div .fa-chevron-left {
+    .control > div > .fa-chevron-left {
       margin-left: -1px;
     }
 
-    .control div .fa-refresh {
-      margin-top: -1px;
+    .control > div > .fa-refresh {
+      margin-top: 0;
     }
 
 .menu {
@@ -82,12 +84,27 @@ body {
     display: none;
   }
 
-  .menu .control {
-    border-bottom: 1px solid #bdc3c7; /* Silver */
-  }
-
   .menuSelect {
   }
+
+    .menuSelectSearch {
+      position: relative;
+    }
+
+      .menuSelectSearch > input {
+        border: 1px solid #bdc3c7; /* Silver */
+        border-left: none;
+        border-right: none;
+        padding: 8px 28px 8px 8px;
+        width: 100%;
+      }
+
+      .menuSelectSearch > i {
+        right: 6px;
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+      }
 
     .menuSelectLink {
     }
@@ -103,7 +120,7 @@ body {
           background-color: #bdc3c7; /* Silver */
         }
 
-        .menuSelectLinkGenre .minorText {
+        .menuSelectLinkGenre > .minorText {
           font-size: 10px;
           overflow: hidden;
           padding-right: 40px;
@@ -111,7 +128,7 @@ body {
           white-space: nowrap;
         }
 
-        .menuSelectLinkGenre .numberOfGenreFilters {
+        .menuSelectLinkGenre > .numberOfGenreFilters {
           background-color: #8e44ad; /* Wisteria */
           border-radius: 16px;
           color: #ecf0f1; /* Clouds */
@@ -127,7 +144,7 @@ body {
           width: 24px;
         }
 
-        .menuSelectLinkGenre .fa-angle-right {
+        .menuSelectLinkGenre > i {
           font-size: 20px;
           position: absolute;
           right: 8px;
@@ -146,11 +163,11 @@ body {
           background-color: #bdc3c7; /* Silver */
         }
 
-        .menuSelectLinkOrder .minorText {
+        .menuSelectLinkOrder > .minorText {
           font-size: 10px;
         }
 
-        .menuSelectLinkOrder .direction {
+        .menuSelectLinkOrder > .direction {
           background-color: #8e44ad; /* Wisteria */
           border-radius: 16px;
           color: #ecf0f1; /* Clouds */
@@ -166,7 +183,7 @@ body {
           width: 24px;
         }
 
-        .menuSelectLinkOrder .fa-angle-right {
+        .menuSelectLinkOrder > i {
           font-size: 20px;
           position: absolute;
           right: 8px;
@@ -174,45 +191,26 @@ body {
           transform: translate(0, -50%);
         }
 
-    .menuSelectSearch {
-      position: relative;
-    }
-
-      .menuSelectSearch input {
-        border: none;
-        border-bottom: 1px solid #bdc3c7; /* Silver */
-        padding: 8px 28px 8px 8px;
-        width: 100%;
-      }
-
-      .menuSelectSearch .fa-search {
-        margin-top: -1px;
-        right: 6px;
-        position: absolute;
-        top: 50%;
-        transform: translate(0, -50%);
-      }
-
   .menuSeries {
   }
 
-    .menuSeries .header {
+    .menuSeries > .header {
       border-bottom: 1px solid #bdc3c7; /* Silver */
       padding: 4px 8px;
       position: relative;
       text-align: center;
     }
 
-      .menuSeries .header .text {
+      .menuSeries > .header > .text {
         font-weight: bold;
       }
 
-      .menuSeries .header .minorText {
+      .menuSeries > .header > .minorText {
         font-size: 10px;
         font-style: italic;
       }
 
-      .menuSeries .numberOfSeries {
+      .menuSeries > .header > .numberOfSeries {
         background-color: #2980b9; /* Belize Hole */
         border-radius: 16px;
         color: #ecf0f1; /* Clouds */
@@ -228,7 +226,7 @@ body {
         width: 24px;
       }
 
-    .menuSeries .fa-circle-o-notch {
+    .menuSeries > i {
       font-size: 20px;
       left: calc(50% - 18px);
       padding: 8px;
@@ -238,7 +236,7 @@ body {
     .menuSeriesList {
     }
 
-      .menuSeriesList .none {
+      .menuSeriesList > .none {
         font-style: italic;
         padding: 8px;
         text-align: center;
@@ -256,18 +254,19 @@ body {
           background-color: #bdc3c7; /* Silver */
         }
 
-        .menuSeriesListItem .title {
+        .menuSeriesListItem > .title {
           overflow: hidden;
-          padding-right: 8px;
+          padding-right: 12px;
           text-overflow: ellipsis;
           white-space: nowrap;
         }
 
-          .menuSeriesListItem .numberOfUnreadChapters + .title {
-            padding-right: 40px;
-          }
+        .menuSeriesListItem > .provider {
+          font-style: italic;
+          font-size: 10px;
+        }
 
-        .menuSeriesListItem .numberOfUnreadChapters {
+        .menuSeriesListItem > .numberOfUnreadChapters {
           background-color: #d35400; /* Pumpkin */
           border-radius: 16px;
           color: #ecf0f1; /* Clouds */
@@ -283,12 +282,11 @@ body {
           width: 24px;
         }
 
-        .menuSeriesListItem .provider {
-          font-style: italic;
-          font-size: 10px;
-        }
+          .menuSeriesListItem > .numberOfUnreadChapters + .title {
+            padding-right: 40px;
+          }
 
-        .menuSeriesListItem .fa-angle-right {
+        .menuSeriesListItem > i {
           font-size: 20px;
           position: absolute;
           right: 8px;
@@ -313,7 +311,7 @@ body {
           background-color: #bdc3c7; /* Silver */
         }
 
-        .menuViewGenreItem .fa-circle, .menuViewGenreItem .fa-check-circle, .menuViewGenreItem .fa-times-circle {
+        .menuViewGenreItem > i {
           font-size: 20px;
           position: absolute;
           right: 8px;
@@ -321,11 +319,11 @@ body {
           transform: translate(0, -50%);
         }
 
-        .menuViewGenreItem .fa-check-circle {
+        .menuViewGenreItem > .fa-check-circle {
           color: #27ae60; /* Nephritis */
         }
 
-        .menuViewGenreItem .fa-times-circle {
+        .menuViewGenreItem > .fa-times-circle {
           color: #c0392b; /* Pomegranate */
         }
 
@@ -343,7 +341,7 @@ body {
             background-color: #bdc3c7; /* Silver */
           }
 
-          .menuViewOrderItem .fa-circle, .menuViewOrderItem .fa-arrow-circle-up, .menuViewOrderItem .fa-arrow-circle-down {
+          .menuViewOrderItem > i {
             font-size: 20px;
             position: absolute;
             right: 8px;
@@ -375,7 +373,7 @@ body {
       position: relative;
     }
 
-      .modalContainerTitle .fa-times-circle {
+      .modalContainerTitle > i {
         cursor: pointer;
         font-size: 20px;
         padding: 6px;
@@ -385,7 +383,7 @@ body {
         transform: translate(0, -50%);
       }
 
-        .modalContainerTitle .fa-times-circle:hover {
+        .modalContainerTitle > i:hover {
           color: #34495e; /* Wet Asphalt */
         }
 
@@ -396,58 +394,44 @@ body {
       width: 300px;
     }
 
-      .modalContainerBody *:not(label) + * {
+      .modalContainerBody > *:not(label) + * {
         margin-top: 8px;
       }
 
-      .modalContainerBody label {
+      .modalContainerBody > label {
         font-size: 12px;
         font-style: italic;
       }
 
-      .modalContainerBody input {
+      .modalContainerBody > input {
         border: 1px solid #bdc3c7; /* Silver */
         padding: 8px;
         width: 100%;
       }
 
-      .modalContainerBody button {
+      .modalContainerBody > button {
         border: none;
         padding: 4px;
         width: 100%;
       }
 
-        .modalContainerBody button[disabled] {
+        .modalContainerBody > button[disabled] {
           color: #bdc3c7; /* Silver */
         }
 
-        .modalContainerBody button:not([disabled]) {
+        .modalContainerBody > button:not([disabled]) {
           background-color: #16a085; /* Green Sea */
           color: #ecf0f1; /* Clouds */
         }
 
-          .modalContainerBody button:not([disabled]):hover {
+          .modalContainerBody > button:not([disabled]):hover {
             background-color: #1abc9c; /* Turqoise */
           }
-
-      .modalContainerBody .fa-circle-o-notch {
-        font-size: 20px;
-        left: calc(50% - 18px);
-        position: absolute;
-      }
 
     .modalContainerDownload {
     }
 
-      .modalContainerDownload .fa-times-circle, .modalContainerDownload .fa-check-circle {
-        font-size: 20px;
-        position: absolute;
-        right: 8px;
-        top: 50%;
-        transform: translate(0, -50%);
-      }
-
-      .modalContainerDownload p {
+      .modalContainerDownload > p {
         border: 1px solid #bdc3c7; /* Silver */
         cursor: pointer;
         margin: 0;
@@ -455,20 +439,37 @@ body {
         position: relative;
       }
 
-        .modalContainerDownload p + p {
-          border-top: none;
-        }
-
-        .modalContainerDownload p:hover {
+        .modalContainerDownload > p:hover {
           background-color: #bdc3c7; /* Silver */
         }
 
-      .modalContainerDownload .fa-check-circle {
-        color: #27ae60; /* Nephritis */
-      }
+        .modalContainerDownload > p + p {
+          border-top: none;
+        }
 
-      .modalContainerDownload .fa-times-circle {
-        color: #c0392b; /* Pomegranate */
+        .modalContainerDownload > p > i {
+          font-size: 20px;
+          position: absolute;
+          right: 8px;
+          top: 50%;
+          transform: translate(0, -50%);
+        }
+
+        .modalContainerDownload > p > .fa-check-circle {
+          color: #27ae60; /* Nephritis */
+        }
+
+        .modalContainerDownload > p > .fa-times-circle {
+          color: #c0392b; /* Pomegranate */
+        }
+
+    .modalContainerPending {
+    }
+
+      .modalContainerPending > i {
+        font-size: 20px;
+        left: calc(50% - 18px);
+        position: absolute;
       }
 
 .series {
@@ -486,7 +487,7 @@ body {
   }
 }
 
-  .series .fa-circle-o-notch {
+  .series > i {
     font-size: 32px;
     left: calc(50% - 16px);
     position: absolute;
@@ -504,7 +505,7 @@ body {
     top: 0;
   }
 
-    .seriesList .none {
+    .seriesList > .none {
       font-size: 20px;
       font-style: italic;
       left: 50%;
@@ -546,7 +547,7 @@ body {
       }
     }
 
-      .seriesListItem .push {
+      .seriesListItem > .push {
         margin-top: calc(141% + 32px);
       }
 
@@ -559,15 +560,7 @@ body {
         right: 0;
       }
 
-        .seriesListItemBody:hover .title {
-          background-color: #1abc9c; /* Turqoise */
-        }
-
-        .seriesListItemBody:hover .provider {
-          background-color: #1abc9c; /* Turqoise */
-        }
-
-        .seriesListItemBody .title {
+        .seriesListItemBody > .title {
           background-color: #16a085; /* Green Sea */
           overflow: hidden;
           padding: 8px;
@@ -575,7 +568,11 @@ body {
           white-space: nowrap;
         }
 
-        .seriesListItemBody .numberOfUnreadChapters {
+          .seriesListItemBody:hover > .title {
+            background-color: #1abc9c; /* Turqoise */
+          }
+
+        .seriesListItemBody > .numberOfUnreadChapters {
           background-color: #d35400; /* Pumpkin */
           font-family: monospace;
           height: 32px;
@@ -587,16 +584,16 @@ body {
           width: 32px;
         }
 
-          .seriesListItemBody .numberOfUnreadChapters + .title {
+          .seriesListItemBody > .numberOfUnreadChapters + .title {
             padding: 8px 40px 8px 8px;
           }
 
-        .seriesListItemBody .preview {
+        .seriesListItemBody > .preview {
           height: calc(100% - 32px);
           width: 100%;
         }
 
-          .seriesListItemBody .preview .fa-circle-o-notch {
+          .seriesListItemBody > .preview > i {
             color: #2c3e50; /* Midnight Blue */
             left: calc(50% - 10px);
             font-size: 20px;
@@ -604,13 +601,13 @@ body {
             top: calc(50% - 10px);
           }
 
-          .seriesListItemBody .preview img {
+          .seriesListItemBody > .preview > img {
             object-fit: cover;
             height: 100%;
             width: 100%;
           }
 
-        .seriesListItemBody .provider {
+        .seriesListItemBody > .provider {
           background-color: #16a085; /* Green Sea */
           bottom: 0;
           font-style: italic;
@@ -620,57 +617,59 @@ body {
           right: 4px;
         }
 
+          .seriesListItemBody:hover > .provider {
+            background-color: #1abc9c; /* Turqoise */
+          }
+
 .chapter {
-  bottom: 0;
-  left: 0;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  position: absolute;
-  right: 0;
-  top: 0;
 }
 
-  @media (min-width: 600px) { /* Tablet */
-    .chapter {
-      left: 192px;
-    }
-  }
-
-  .chapter .fa-circle-o-notch {
-    font-size: 32px;
-    left: calc(50% - 16px);
-    position: absolute;
-    top: calc(50% - 16px);
-  }
-
-  .chapter .unknown {
-    font-size: 20px;
-    font-style: italic;
-    left: 50%;
-    position: absolute;
-    text-align: center;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .chapter .control {
+  .chapter > .control {
     background-color: #ecf0f1; /* Clouds */
     border-bottom: 1px solid #bdc3c7; /* Silver */
   }
 
     @media (min-width: 600px) { /* Tablet */
-      .chapter .control {
+      .chapter > .control {
         display: none;
       }
     }
 
-    .chapter .control div {
-      width: 33.33%;
+  .chapterBody {
+    bottom: 0;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: absolute;
+    right: 0;
+    top: 32px;
+  }
+
+    @media (min-width: 600px) { /* Tablet */
+      .chapterBody {
+        top: 0;
+        left: 192px;
+      }
     }
 
-    .chapter .control .plus {
-      display: none;
+    .chapterBody > i {
+      font-size: 32px;
+      left: calc(50% - 16px);
+      position: absolute;
+      top: calc(50% - 16px);
     }
+
+    .chapterBody > .unknown {
+      font-size: 20px;
+      font-style: italic;
+      left: 50%;
+      position: absolute;
+      text-align: center;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+
 
     .chapterList {
       padding: 8px;
@@ -681,7 +680,7 @@ body {
         font-style: italic;
       }
 
-        .chapterListHeader .volume, .chapterListItem .volume {
+        .chapterListHeader > .volume, .chapterListItem > .volume {
           border-right: 1px solid #bdc3c7; /* Silver */
           float: left;
           height: 32px;
@@ -689,7 +688,7 @@ body {
           width: 72px;
         }
 
-        .chapterListHeader .number, .chapterListItem .number {
+        .chapterListHeader > .number, .chapterListItem > .number {
           border-right: 1px solid #bdc3c7; /* Silver */
           float: left;
           height: 32px;
@@ -697,7 +696,7 @@ body {
           width: 72px;
         }
 
-        .chapterListHeader .title, .chapterListItem .title {
+        .chapterListHeader > .title, .chapterListItem > .title {
           float: left;
           height: 32px;
           padding: 8px;
@@ -728,15 +727,15 @@ body {
           background-color: #bdc3c7; /* Silver */
         }
 
-      .chapterListItem .volume {
+      .chapterListItem > .volume {
         text-align: right;
       }
 
-      .chapterListItem .number {
+      .chapterListItem > .number {
         text-align: right;
       }
 
-      .chapterListItem .title {
+      .chapterListItem > .title {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -744,7 +743,7 @@ body {
 
 
 
-      .chapterListItem .available, .chapterListItem .unavailable {
+      .chapterListItem > .available, .chapterListItem > .unavailable {
         bottom: 0;
         left: 0;
         height: 2px;
@@ -752,11 +751,11 @@ body {
         right: 0;
       }
 
-      .chapterListItem .available {
+      .chapterListItem > .available {
         background-color: #d35400; /* Pumpkin */
       }
 
-        .chapterListItem .available div {
+        .chapterListItem > .available > div {
           background-color: #16a085; /* Green Sea */
           display: inline-block;
           left: 0;
@@ -764,6 +763,6 @@ body {
           position: absolute;
         }
 
-      .chapterListItem .unavailable {
+      .chapterListItem > .unavailable {
         background-color: #2c3e50; /* Midnight Blue */
       }
