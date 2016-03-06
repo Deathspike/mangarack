@@ -8,6 +8,7 @@ export class ChapterComponent extends mio.StatelessComponent<{chapters: mio.IOpt
    * Renders the component.
    */
   public render(): JSX.Element {
+    // Delete series always visible (modal for delete or empty -> new library functionality)
     return (
       <mio.LazyComponent className="chapter">
         <mio.ControlComponent />

@@ -52,6 +52,7 @@ export let applicationActions = {
 let refreshChapters = mio.store.reviser('APPLICATION_REFRESHCHAPTERS', async function(state: mio.IApplicationState): Promise<void> {
   let location = mio.parseLocation();
   if (location.seriesId.hasValue) {
+    setChapters(mio.option<mio.ILibraryChapter[]>());
     let chapters = await mio.openActiveLibrary().listAsync(location.seriesId.value);
     setChapters(chapters);
   }
@@ -61,10 +62,10 @@ let refreshChapters = mio.store.reviser('APPLICATION_REFRESHCHAPTERS', async fun
  * Refreshes the series.
  */
 let refreshSeries = mio.store.reviser('APPLICATION_REFRESHSERIES', async function(state: mio.IApplicationState): Promise<void> {
+  setSeries(mio.option<mio.ILibrarySeries[]>());
   let series = await mio.openActiveLibrary().listAsync();
   setSeries(mio.option(series));
 });
-
 
 /**
  * Sets the chapters

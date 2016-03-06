@@ -16,8 +16,11 @@ export let modalActions = {
     if (!seriesId.hasValue) {
       throw new Error(`Invalid series address: ${address}`);
     } else if (!closedModal[modalId]) {
+      /* TODO: Refresh active chapter list is pointless when we're about to switch. */
       await mio.applicationActions.refresh();
-      await mio.applicationActions.navigateSeries(seriesId.value);
+      if (!closedModal[modalId]) {
+        await mio.applicationActions.navigateSeries(seriesId.value);
+      }
     }
   }),
 

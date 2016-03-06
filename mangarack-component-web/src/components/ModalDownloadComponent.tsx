@@ -39,7 +39,7 @@ export class ModalDownloadComponent extends mio.StatefulComponent<void, {existin
                 return <i className="fa fa-times-circle"></i>
               }
             })()}
-            <span className="text">Queue download for existing chapters</span>
+            <span className="text">Queue existing chapters</span>
           </p>
           <p onClick={() => this._onChangeNewChapters()}>
             {(() => {
@@ -49,7 +49,7 @@ export class ModalDownloadComponent extends mio.StatefulComponent<void, {existin
                 return <i className="fa fa-times-circle"></i>
               }
             })()}
-            <span className="text">Queue download for new chapters</span>
+            <span className="text">Queue new chapters</span>
           </p>
           <button onClick={() => this._onClick()}>Start</button>
         </div>
