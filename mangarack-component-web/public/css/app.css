@@ -728,11 +728,21 @@ body {
           background-color: #bdc3c7; /* Silver */
         }
 
+      .chapterListItem .volume {
+        text-align: right;
+      }
+
+      .chapterListItem .number {
+        text-align: right;
+      }
+
       .chapterListItem .title {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
+
+
 
       .chapterListItem .available, .chapterListItem .unavailable {
         bottom: 0;

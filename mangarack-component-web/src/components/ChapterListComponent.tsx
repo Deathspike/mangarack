@@ -8,6 +8,25 @@ export class ChapterListComponent extends mio.StatelessComponent<{chapters: mio.
    * Renders the component.
    */
   public render(): JSX.Element {
+    // Series:
+    //  Back
+    //  Add
+    //  Download
+    //  Refresh
+    // Chapters (Mobile-only):
+    //  Back
+    //  Delete/Empty (On Desktop, shown at series information, via Modal).
+    //  Download (On Desktop, shown at series information, via Modal -- consider merging with menu).
+    //  Refresh
+    // Pages:
+    //  Back
+    //  Delete (On Desktop, in floating status bar)
+    //  PageOrientation (On Desktop, in floating status bar)
+    //  CurrentPage/NumberOfPages (On Desktop, in floating status bar)
+
+    // Delete chapter.
+    // Download chapter (on read tap?)
+    // Make download button apply on to this series.
     return (
       <div className="chapterList">
         {(() => {
