@@ -447,7 +447,7 @@ body {
         }
 
         .modalContainerDownload > p + p {
-          border-top: none;
+          margin-top: 8px;
         }
 
         .modalContainerDownload > p > i {
@@ -460,10 +460,6 @@ body {
 
         .modalContainerDownload > p > .fa-check-circle {
           color: #27ae60; /* Nephritis */
-        }
-
-        .modalContainerDownload > p > .fa-times-circle {
-          color: #c0392b; /* Pomegranate */
         }
 
     .modalContainerPending {

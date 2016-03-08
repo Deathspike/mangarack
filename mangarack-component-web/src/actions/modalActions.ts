@@ -16,7 +16,6 @@ export let modalActions = {
     if (!seriesId.hasValue) {
       throw new Error(`Invalid series address: ${address}`);
     } else if (!closedModal[modalId]) {
-      /* TODO: Refresh active chapter list is pointless when we're about to switch. */
       await mio.applicationActions.refreshSeries();
       if (!closedModal[modalId]) {
         await mio.applicationActions.navigateSeries(seriesId.value);
@@ -29,9 +28,17 @@ export let modalActions = {
    * @param reviser The address.
    */
   downloadSeries: wrapReviserAsync('MODAL_DOWNLOADSERIES', async function(state: mio.IApplicationState, modalId: number, revision: {existingChapters: boolean, newChapters: boolean}): Promise<void> {
-    await mio.openActiveLibrary().download().runAsync(revision.existingChapters, revision.newChapters);
-    if (!closedModal[modalId]) {
-      mio.applicationActions.refreshSeries();
+    let location = mio.parseLocation();
+    if (location.seriesId.hasValue) {
+      await mio.openActiveLibrary().download(location.seriesId.value).runAsync(revision.existingChapters, revision.newChapters);
+      if (!closedModal[modalId]) {
+        mio.applicationActions.refreshChapters();
+      }
+    } else {
+      await mio.openActiveLibrary().download().runAsync(revision.existingChapters, revision.newChapters);
+      if (!closedModal[modalId]) {
+        mio.applicationActions.refreshSeries();
+      }
     }
   }),
 
