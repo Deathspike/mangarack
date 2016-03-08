@@ -8,7 +8,6 @@ export class MenuViewGenreComponent extends mio.StatelessComponent<{genres: {[ke
    * Renders the component.
    */
   public render(): JSX.Element {
-    /* TODO: Add a 'reset all' button. */
     return (
       <div className="menuViewGenre">
         {Object.keys(mio.GenreType)
