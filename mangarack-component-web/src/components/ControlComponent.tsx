@@ -27,7 +27,7 @@ export class ControlComponent extends mio.StatelessComponent<void> {
 
     let location = mio.parseLocation();
     if (location.seriesId.hasValue) {
-      /* TODO: Hook up the 'trash' and 'download' logic. */
+      /* TODO: Hook up the 'trash' */
       return (
         <div className="control">
           <div className="chevron-left" onClick={() => mio.applicationActions.navigateBack()}><i className="fa fa-chevron-left"></i></div>
