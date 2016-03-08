@@ -16,8 +16,11 @@ export class ApplicationController extends mio.StoreComponent<mio.IApplicationSt
    */
   public componentWillMount(): void {
     super.componentWillMount();
-    mio.applicationActions.refresh();
     window.addEventListener('hashchange', () => this.forceUpdate());
+    (async function(): Promise<void> {
+      await mio.applicationActions.refreshSeries();
+      await mio.applicationActions.refreshChapters();
+    }());
   }
 
   /**

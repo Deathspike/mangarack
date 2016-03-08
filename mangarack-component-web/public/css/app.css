@@ -52,7 +52,7 @@ body {
       margin-left: -1px;
     }
 
-    .control > div > .fa-refresh {
+    .control > div > .fa-refresh, .control > div > .fa-trash {
       margin-top: 0;
     }
 
@@ -84,6 +84,10 @@ body {
     display: none;
   }
 
+  .menu > .control {
+    border-bottom: 1px solid #bdc3c7; /* Silver */
+  }
+
   .menuSelect {
   }
 
@@ -92,9 +96,8 @@ body {
     }
 
       .menuSelectSearch > input {
-        border: 1px solid #bdc3c7; /* Silver */
-        border-left: none;
-        border-right: none;
+        border: none;
+        border-bottom: 1px solid #bdc3c7; /* Silver */
         padding: 8px 28px 8px 8px;
         width: 100%;
       }
@@ -129,7 +132,7 @@ body {
         }
 
         .menuSelectLinkGenre > .numberOfGenreFilters {
-          background-color: #8e44ad; /* Wisteria */
+          background-color: #2980b9; /* Belize Hole */
           border-radius: 16px;
           color: #ecf0f1; /* Clouds */
           font-family: monospace;
@@ -168,7 +171,7 @@ body {
         }
 
         .menuSelectLinkOrder > .direction {
-          background-color: #8e44ad; /* Wisteria */
+          background-color: #2980b9; /* Belize Hole */
           border-radius: 16px;
           color: #ecf0f1; /* Clouds */
           font-family: monospace;
@@ -669,100 +672,86 @@ body {
       transform: translate(-50%, -50%);
     }
 
-
-
-    .chapterList {
-      padding: 8px;
+    .chapterBodyList {
     }
 
-      .chapterListHeader {
-        background-color: #ecf0f1; /* Silver */
-        font-style: italic;
+      @media (min-width: 600px) { /* Tablet */
+        .chapterBodyList {
+          margin: 8px;
+        }
       }
 
-        .chapterListHeader > .volume, .chapterListItem > .volume {
-          border-right: 1px solid #bdc3c7; /* Silver */
-          float: left;
-          height: 32px;
+      .chapterBodyListVolume {
+        border-top: 1px solid #bdc3c7; /* Silver */
+        background-color: #ecf0f1; /* Clouds */
+        margin-top: 8px;
+      }
+
+        @media (min-width: 600px) { /* Tablet */
+          .chapterBodyListVolume {
+            border: 1px solid #bdc3c7; /* Silver */
+            border-bottom: none;
+          }
+        }
+
+        .chapterBodyListVolume > .header {
+          border-bottom: 1px solid #bdc3c7; /* Silver */
+          font-weight: bold;
           padding: 8px;
-          width: 72px;
         }
 
-        .chapterListHeader > .number, .chapterListItem > .number {
-          border-right: 1px solid #bdc3c7; /* Silver */
-          float: left;
-          height: 32px;
+        .chapterBodyListVolumeItem {
+          border-bottom: 1px solid #bdc3c7; /* Silver */
+          cursor: pointer;
           padding: 8px;
-          width: 72px;
+          position: relative;
         }
 
-        .chapterListHeader > .title, .chapterListItem > .title {
-          float: left;
-          height: 32px;
-          padding: 8px;
-          width: calc(100% - 144px);
-        }
+          .chapterBodyListVolumeItem:hover {
+            background-color: #bdc3c7; /* Silver */
+          }
 
-      .chapterListHeader, .chapterListItem {
-        border: 1px solid #bdc3c7; /* Silver */
-        border-bottom: 0;
-      }
+          .chapterBodyListVolumeItem > .title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
 
-        .chapterListHeader:after, .chapterListItem:after {
-          content: '';
-          clear: both;
-          display: block;
-        }
+            .chapterBodyListVolumeItem > .title > span:nth-of-type(1) {
+              margin-right: 4px;
+            }
 
-      .chapterListItem {
-        cursor: pointer;
-        position: relative;
-      }
+          .chapterBodyListVolumeItem > .numberOfUnreadPages, .chapterBodyListVolumeItem > .unknownNumberOfPages {
+            border-radius: 16px;
+            color: #ecf0f1; /* Clouds */
+            font-family: monospace;
+            font-size: 10px;
+            height: 20px;
+            line-height: 20px;
+            position: absolute;
+            right: 20px;
+            text-align: center;
+            top: 50%;
+            transform: translate(0, -50%);
+            width: 24px;
+          }
 
-        .chapterListItem:nth-of-type(2n+1) {
-          background-color: #ecf0f1; /* Clouds */
-        }
+            .chapterBodyListVolumeItem > .numberOfUnreadPages + .title, .chapterBodyListVolumeItem > .unknownNumberOfPages + .title {
+              padding: 0 40px 0 0;
+            }
 
-        .chapterListItem:hover {
-          background-color: #bdc3c7; /* Silver */
-        }
+          .chapterBodyListVolumeItem > .numberOfUnreadPages {
+            background-color: #d35400; /* Pumpkin */
+          }
 
-      .chapterListItem > .volume {
-        text-align: right;
-      }
+          .chapterBodyListVolumeItem > .unknownNumberOfPages {
+            background-color: #8e44ad; /* Wisteria */
+          }
 
-      .chapterListItem > .number {
-        text-align: right;
-      }
-
-      .chapterListItem > .title {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-
-
-      .chapterListItem > .available, .chapterListItem > .unavailable {
-        bottom: 0;
-        left: 0;
-        height: 2px;
-        position: absolute;
-        right: 0;
-      }
-
-      .chapterListItem > .available {
-        background-color: #d35400; /* Pumpkin */
-      }
-
-        .chapterListItem > .available > div {
-          background-color: #16a085; /* Green Sea */
-          display: inline-block;
-          left: 0;
-          height: 2px;
-          position: absolute;
-        }
-
-      .chapterListItem > .unavailable {
-        background-color: #2c3e50; /* Midnight Blue */
-      }
+          .chapterBodyListVolumeItem > i {
+            font-size: 20px;
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translate(0, -50%);
+          }

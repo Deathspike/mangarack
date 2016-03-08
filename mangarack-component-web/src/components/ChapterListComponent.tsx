@@ -8,39 +8,26 @@ export class ChapterListComponent extends mio.StatelessComponent<{chapters: mio.
    * Renders the component.
    */
   public render(): JSX.Element {
-    // Series:
-    //  Back
-    //  Add
-    //  Download
-    //  Refresh
-    // Chapters (Mobile-only):
-    //  Back
-    //  Delete/Empty (On Desktop, shown at series information, via Modal).
-    //  Download (On Desktop, shown at series information, via Modal -- consider merging with menu).
-    //  Refresh
-    // Pages:
-    //  Back
-    //  Delete (On Desktop, in floating status bar)
-    //  PageOrientation (On Desktop, in floating status bar)
-    //  CurrentPage/NumberOfPages (On Desktop, in floating status bar)
-
-    // Delete chapter.
-    // Download chapter (on read tap?)
-    // Make download button apply on to this series.
     return (
-      <div className="chapterList">
+      <div className="chapterBodyList">
         {(() => {
           if (!this.props.chapters.length) {
             return <div className="none">No chapters available.</div>;
           } else {
+            let result = assignVolumes(this.props.chapters);
             return (
               <span>
-                <div className="chapterListHeader">
-                  <div className="volume">Volume</div>
-                  <div className="number">Number</div>
-                  <div className="title">Title</div>
-                </div>
-                {this.props.chapters.map(chapter => <mio.ChapterListItemComponent chapter={chapter} />)}
+                {(() => {
+                  if (result.unknownVolume.length) {
+                    return <mio.ChapterListVolumeComponent chapters={result.unknownVolume} volume={mio.option<number>()} />;
+                  } else {
+                    return null;
+                  }
+                })()}
+                {Object.keys(result.volumes)
+                  .map(key => parseInt(key, 10))
+                  .sort((a, b) => a > b ? 1 : -1)
+                  .map(key => <mio.ChapterListVolumeComponent chapters={result.volumes[key]} volume={mio.option(key)} />)}
               </span>
             );
           }
@@ -48,4 +35,26 @@ export class ChapterListComponent extends mio.StatelessComponent<{chapters: mio.
       </div>
     );
   }
+}
+
+/**
+ * Assigns the chapters to volumes.
+ * @param chapters The chapters.
+ * @return The chapters assigned to volumes.
+ */
+function assignVolumes(chapters: mio.ILibraryChapter[]): {unknownVolume: mio.ILibraryChapter[], volumes: {[key: number]: mio.ILibraryChapter[]}} {
+  let unknownVolume: mio.ILibraryChapter[] = [];
+  let volumes: {[key: number]: mio.ILibraryChapter[]} = {};
+  for (let chapter of chapters) {
+    if (chapter.metadata.volume.hasValue) {
+      if (!volumes[chapter.metadata.volume.value]) {
+        volumes[chapter.metadata.volume.value] = [chapter];
+      } else {
+        volumes[chapter.metadata.volume.value].push(chapter);
+      }
+    } else {
+      unknownVolume.push(chapter);
+    }
+  }
+  return {unknownVolume: unknownVolume, volumes: volumes};
 }

@@ -19,53 +19,41 @@ export let applicationActions = {
   /**
    * Navigates to the series.
    */
-  navigateSeries: mio.store.reviser('APPLICATION_NAVIGATESERIES', function(state: mio.IApplicationState, seriesId: number): void {
+  navigateSeries: mio.store.reviser('APPLICATION_NAVIGATESERIES', async function(state: mio.IApplicationState, seriesId: number): Promise<void> {
     let location = mio.parseLocation();
-    if (!location.seriesId.hasValue || location.seriesId.value !== seriesId) {
-      let newLocation = `#/${seriesId}`;
-      if (location.seriesId.hasValue) {
-        window.history.replaceState(undefined, undefined, newLocation);
-        refreshChapters();
-      } else {
-        window.history.pushState(undefined, undefined, newLocation);
-        refreshChapters();
-      }
+    let newLocation = `#/${seriesId}`;
+    if (location.seriesId.hasValue) {
+      window.history.replaceState(undefined, undefined, newLocation);
+      await applicationActions.refreshChapters();
+    } else {
+      window.history.pushState(undefined, undefined, newLocation);
+      await applicationActions.refreshChapters();
     }
   }),
 
   /**
-   * Refreshes the application.
+   * Refreshes the chapters.
    */
-  refresh: mio.store.reviser('APPLICATION_REFRESH', async function(state: mio.IApplicationState): Promise<void> {
-    /* TODO: Handle refresh series/chapters errors. */
-    /* TODO: On mobile, refreshing series is entirely pointless when you're in the chapter screen. */
-    setChapters(mio.option<mio.ILibraryChapter[]>());
+  refreshChapters: mio.store.reviser('APPLICATION_REFRESHCHAPTERS', async function(state: mio.IApplicationState): Promise<void> {
+    /* TODO: Handle refresh chapters errors. */
+    let location = mio.parseLocation();
+    if (location.seriesId.hasValue) {
+      setChapters(mio.option<mio.ILibraryChapter[]>());
+      let chapters = await mio.openActiveLibrary().listAsync(location.seriesId.value);
+      setChapters(chapters);
+    }
+  }),
+
+  /**
+   * Refreshes the series.
+   */
+  refreshSeries: mio.store.reviser('APPLICATION_REFRESH', async function(state: mio.IApplicationState): Promise<void> {
+    /* TODO: Handle refresh series errors. */
     setSeries(mio.option<mio.ILibrarySeries[]>());
-    await refreshSeries();
-    await refreshChapters();
+    let series = await mio.openActiveLibrary().listAsync();
+    setSeries(mio.option(series));
   })
 };
-
-/**
- * Refreshes the chapters.
- */
-let refreshChapters = mio.store.reviser('APPLICATION_REFRESHCHAPTERS', async function(state: mio.IApplicationState): Promise<void> {
-  let location = mio.parseLocation();
-  if (location.seriesId.hasValue) {
-    setChapters(mio.option<mio.ILibraryChapter[]>());
-    let chapters = await mio.openActiveLibrary().listAsync(location.seriesId.value);
-    setChapters(chapters);
-  }
-});
-
-/**
- * Refreshes the series.
- */
-let refreshSeries = mio.store.reviser('APPLICATION_REFRESHSERIES', async function(state: mio.IApplicationState): Promise<void> {
-  setSeries(mio.option<mio.ILibrarySeries[]>());
-  let series = await mio.openActiveLibrary().listAsync();
-  setSeries(mio.option(series));
-});
 
 /**
  * Sets the chapters
