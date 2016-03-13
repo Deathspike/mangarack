@@ -22,6 +22,7 @@ export class ChapterComponent extends mio.StatelessComponent<{chapters: mio.IOpt
               } else {
                 return (
                   <span>
+                    <mio.ChapterSeriesComponent series={series.value} />
                     <mio.ChapterListComponent chapters={this.props.chapters.value} />
                   </span>
                 );

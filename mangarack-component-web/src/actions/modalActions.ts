@@ -28,6 +28,7 @@ export let modalActions = {
    * @param reviser The address.
    */
   downloadSeries: wrapReviserAsync('MODAL_DOWNLOADSERIES', async function(state: mio.IApplicationState, modalId: number, revision: {existingChapters: boolean, newChapters: boolean}): Promise<void> {
+    /* TODO: Split DOWNLOADSERIES up for logging purposes. */
     let location = mio.parseLocation();
     if (location.seriesId.hasValue) {
       await mio.openActiveLibrary().download(location.seriesId.value).runAsync(revision.existingChapters, revision.newChapters);

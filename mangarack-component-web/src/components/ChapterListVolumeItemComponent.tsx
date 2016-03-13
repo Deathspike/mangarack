@@ -30,7 +30,7 @@ export class ChapterListVolumeItemComponent extends mio.StatelessComponent<{chap
             if (this.props.chapter.metadata.title) {
               return <span>{this.props.chapter.metadata.title}</span>;
             } else {
-              return <span className="unknown">Unknown title</span>;
+              return <span className="unknownTitle">Unknown title</span>;
             }
           })()}
         </div>
