@@ -39,15 +39,15 @@ export class ChapterSeriesComponent extends mio.StatelessComponent<{series: mio.
         </div>
         <div className="chapterBodySeriesInfo">
           <div className="chapterBodySeriesInfoArtists">
-            <div className="header">Artists:</div>
+            <div className="header">Artist(s):</div>
             <div className="text">{this.props.series.metadata.artists.reduce((p, c) => p + (p ? ', ' : '') + c, '')}</div>
           </div>
           <div className="chapterBodySeriesInfoArtists">
-            <div className="header">Authors:</div>
+            <div className="header">Author(s):</div>
             <div className="text">{this.props.series.metadata.authors.reduce((p, c) => p + (p ? ', ' : '') + c, '')}</div>
           </div>
           <div className="chapterBodySeriesInfoGenres">
-            <div className="header">Genres:</div>
+            <div className="header">Genre(s):</div>
             <div className="text">{this.props.series.metadata.genres.reduce((p, c) => p + (p ? ', ' : '') + mio.splitCamelCase(mio.GenreType[c]), '')}</div>
           </div>
           <div className="chapterBodySeriesInfoType">

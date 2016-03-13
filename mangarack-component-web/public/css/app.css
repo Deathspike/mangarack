@@ -794,14 +794,14 @@ body {
         .chapterBodySeriesInfo > div > .header {
           float: left;
           font-style: italic;
-          width: 60px;
+          width: 64px;
         }
 
         .chapterBodySeriesInfo > div > .text {
           float: right;
           overflow: hidden;
           text-overflow: ellipsis;
-          width: calc(100% - 60px);
+          width: calc(100% - 64px);
           white-space: nowrap;
         }
 
