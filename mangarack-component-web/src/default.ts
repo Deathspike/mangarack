@@ -25,6 +25,7 @@ export * from './components/ChapterComponent';
 export * from './components/ChapterListComponent';
 export * from './components/ChapterListVolumeComponent';
 export * from './components/ChapterListVolumeItemComponent';
+export * from './components/ChapterSeriesComponent';
 export * from './components/ControlComponent';
 export * from './components/LazyComponent';
 export * from './components/MenuComponent';
