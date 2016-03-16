@@ -11,10 +11,15 @@ import * as mio from '../default';
  */
 export default async function(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
   let seriesId = request.params.seriesId as number;
-  let result = await library.deleteAsync(seriesId);
-  if (result) {
-    response.sendStatus(200);
+  let removeMetadata = mio.helperService.parseBoolean(request.body.removeMetadata);
+  if (!removeMetadata.hasValue) {
+    response.sendStatus(400);
   } else {
-    response.sendStatus(404);
+    let result = await library.deleteAsync(seriesId).runAsync(removeMetadata.value);
+    if (result) {
+      response.sendStatus(200);
+    } else {
+      response.sendStatus(404);
+    }
   }
 }

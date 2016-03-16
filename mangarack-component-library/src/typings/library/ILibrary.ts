@@ -19,7 +19,7 @@ export interface ILibrary {
   create(): mio.ILibraryHandler<(seriesAddress: string) => mio.IOptionPromise<number>>;
 
   /**
-   * [DELETE /api/library/:seriesId] (200, 404)
+   * [DELETE /api/library/:seriesId] (200, 400, 404)
    * Promises to delete the series.
    * @param seriesId The series identifier.
    * @return The promise to delete the series.
