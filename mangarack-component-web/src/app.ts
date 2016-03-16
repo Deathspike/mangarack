@@ -6,7 +6,26 @@
 /* TODO: [Chapter] 'Continue reading'-button. */
 /* TODO: [Chapter] 'Order By'-filter. */
 /* TODO: [Chapter] Selection-based actions: Delete/Mark as Read/Mark as Unread. */
+/* TODO: [Chapter] Add a 'number of chapters' somewhere. */
 /* TODO: [Logging] Consider removing `window.history.back` in favor of an URL independent state replication. */
+
+// Series:
+//  Back
+//  Add
+//  Download
+//  Refresh
+// Chapters:
+//  Back
+//  Delete/Empty
+//  Download
+//  Refresh
+// Pages:
+//  Back
+//  Delete
+//  PageOrientation
+//  Filters (Image Normalisation, etc)
+//  CurrentPage/NumberOfPages -> Hovering Status
+
 'use strict';
 
 (function(): void {
