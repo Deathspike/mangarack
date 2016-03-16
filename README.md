@@ -68,3 +68,4 @@ Download the series listed in the `MangaRack.txt` file:
 * `--component.core.batoto.password <password>` provides a password for *Batoto*.
 * `--runnable.cli.disableMangafoxHeuristicCrop 1` disables *MangaFox* image cropping.
 * `--runnable.cli.disableNormalize 1` disables image normalization.
+* `--runnable.cli.metaUnknownVolume 99` overrides unknown volumes in *ComicInfo.xml* ([See #44](https://github.com/Deathspike/mangarack/issues/44)).

@@ -25,7 +25,7 @@ export let metaService: mio.IMetaService = {
       series: series.title,
       summary: series.summary,
       title: chapter.title,
-      volume: chapter.volume.hasValue ? String(chapter.volume.value) : '',
+      volume: chapter.volume.hasValue ? String(chapter.volume.value) : mio.settingService.getString('runnable.cli.metaUnknownVolume'),
       writer: series.authors.join(', ')
     }));
   }
