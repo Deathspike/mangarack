@@ -27,7 +27,7 @@ export function createChapter(externalAddress: string, metadata: mio.IChapterMet
  * @return The promise for the document.
  */
 async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument> {
-  let body = await httpService().text(`${address}&p=1`, site.readerHeaders, mio.RequestType.TimeoutWithRetry).getAsync();
+  let body = await httpService().text(`${address}&p=1&supress_webtoon=t`, site.readerHeaders, mio.RequestType.TimeoutWithRetry).getAsync();
   return htmlService().load(body);
 }
 
