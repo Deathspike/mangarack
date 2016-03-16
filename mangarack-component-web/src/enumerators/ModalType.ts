@@ -13,6 +13,11 @@ export enum ModalType {
   Download,
 
   /**
+   * Represents a delete modal.
+   */
+  Delete,
+
+  /**
    * Represents an error modal.
    */
   Error,
