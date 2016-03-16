@@ -41,34 +41,41 @@ export let library: mio.ILibrary = {
    * @param chapterId= The chapter identifier.
    * @return The promise to delete the series/chapter.
    */
-  deleteAsync: async function(seriesId: number, chapterId?: number): Promise<boolean> {
-    let context = await mio.contextService.getContextAsync();
+  deleteAsync: function(seriesId: number, chapterId?: number): any {
     if (chapterId == null) {
-      let seriesResult = mio.findContextSeries(context, seriesId);
-      if (seriesResult.hasValue) {
-        await fileService().deleteFolderAsync(`${seriesId}`);
-        delete seriesResult.value.provider.series[seriesResult.value.seriesAddress];
-        mio.contextService.saveChanges();
-        return true;
-      }
-    } else {
-      let chapterResult = mio.findContextChapter(context, seriesId, chapterId);
-      if (chapterResult.hasValue) {
-        if (chapterResult.value.chapter.downloadedAt.hasValue) {
-          await fileService().deleteFolderAsync(`${seriesId}/${chapterId}`);
-        }
-        if (chapterResult.value.chapter.deletedAt.hasValue) {
-          delete chapterResult.value.series.chapters[chapterResult.value.chapterMetadataDerivedKey];
+      return mio.createHandler(async (removeMetadata: boolean) => {
+        let context = await mio.contextService.getContextAsync();
+        let seriesResult = mio.findContextSeries(context, seriesId);
+        if (seriesResult.hasValue) {
+          if (removeMetadata) {
+            await fileService().deleteFolderAsync(`${seriesId}`);
+            delete seriesResult.value.provider.series[seriesResult.value.seriesAddress];
+          } else {
+            let series = seriesResult.value.provider.series[seriesResult.value.seriesAddress];
+            for (let chapterMetadataDerivedKey in series.chapters) {
+              let chapter = series.chapters[chapterMetadataDerivedKey];
+              await deleteChapterAsync(series, series.chapters[chapterMetadataDerivedKey], chapterMetadataDerivedKey);
+            }
+          }
           mio.contextService.saveChanges();
           return true;
         } else {
-          chapterResult.value.chapter.downloadedAt = mio.option<number>();
+          return false;
+        }
+      });
+    } else {
+      return mio.createHandler(async () => {
+        let context = await mio.contextService.getContextAsync();
+        let chapterResult = mio.findContextChapter(context, seriesId, chapterId);
+        if (chapterResult.hasValue) {
+          await deleteChapterAsync(chapterResult.value.series, chapterResult.value.chapter, chapterResult.value.chapterMetadataDerivedKey);
           mio.contextService.saveChanges();
           return true;
+        } else {
+          return false;
         }
-      }
+      });
     }
-    return false;
   },
 
   /**
@@ -197,6 +204,24 @@ function createValid(seriesAddress: string): boolean {
     return true;
   } catch (error) {
     return false;
+  }
+}
+
+/**
+ * Promises to delete the chapter.
+ * @param series The series.
+ * @param chapter The chapter.
+ * @param chapterMetadataDerivedKey The chapter metadata derived key.
+ * @return The promise to delete the chapter.
+ */
+async function deleteChapterAsync(series: mio.IContextSeries, chapter: mio.IContextChapter, chapterMetadataDerivedKey: string): Promise<void> {
+  if (chapter.downloadedAt.hasValue) {
+    await fileService().deleteFolderAsync(`${series.id}/${chapter.id}`);
+  }
+  if (chapter.deletedAt.hasValue) {
+    delete series.chapters[chapterMetadataDerivedKey];
+  } else {
+    chapter.downloadedAt = mio.option<number>();
   }
 }
 

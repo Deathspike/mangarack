@@ -24,7 +24,7 @@ export interface ILibrary {
    * @param seriesId The series identifier.
    * @return The promise to delete the series.
    */
-  deleteAsync(seriesId: number): Promise<boolean>;
+  deleteAsync(seriesId: number): mio.ILibraryHandler<(removeMetadata: boolean) => Promise<boolean>>;
 
   /**
    * [DELETE /api/library/:seriesId/:chapterId] (200, 404)
@@ -33,7 +33,7 @@ export interface ILibrary {
    * @param chapterId The chapter identifier.
    * @return The promise to delete the chapter.
    */
-  deleteAsync(seriesId: number, chapterId: number): Promise<boolean>;
+  deleteAsync(seriesId: number, chapterId: number): mio.ILibraryHandler<() => Promise<boolean>>;
 
   /**
    * [POST /api/download] (200, 400)
