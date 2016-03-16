@@ -806,6 +806,7 @@ body {
         }
 
     .chapterBodyList {
+      margin-top: 8px;
     }
 
       @media (min-width: 600px) { /* Tablet */
@@ -814,12 +815,21 @@ body {
         }
       }
 
+      .chapterBodyList .none {
+        font-size: 20px;
+        font-style: italic;
+        text-align: center;
+      }
+
       .chapterBodyListVolume {
         border-top: 1px solid #bdc3c7; /* Silver */
         background-color: #ecf0f1; /* Clouds */
-        margin-top: 8px;
       }
 
+        .chapterBodyListVolume + .chapterBodyListVolume {
+          margin-top: 8px;
+        }
+        
         @media (min-width: 600px) { /* Tablet */
           .chapterBodyListVolume {
             border: 1px solid #bdc3c7; /* Silver */
@@ -895,7 +905,8 @@ body {
 
   @media (min-width: 992px) { /* Desktop */
     .chapterBodySeries {
-      float: left;
+      float: right;
+      margin: 8px 8px 0 0;
       width: calc(50% - 16px);
     }
 
@@ -906,8 +917,8 @@ body {
       }
 
     .chapterBodyList {
-      float: right;
-      margin: 0 8px 0 0;
+      float: left;
+      margin: 8px 0 0 8px;
       width: calc(50% - 8px);
     }
 
