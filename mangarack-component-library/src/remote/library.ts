@@ -39,16 +39,19 @@ export class RemoteLibrary implements mio.ILibrary {
    * @param chapterId= The chapter identifier.
    * @return The promise to delete the series/chapter.
    */
-  public async deleteAsync(seriesId: number, chapterId?: number): Promise<boolean> {
-    return this._handleNotFound(false, async () => {
-      if (chapterId == null) {
-        await this._fetch().text(`${this._address}/api/library/${seriesId}`, {}, mio.RequestType.Basic).deleteAsync({});
+  public deleteAsync(seriesId: number, chapterId?: number): mio.ILibraryHandler<any> {
+    if (chapterId == null) {
+      return mio.createHandler(async (removeMetadata: boolean) => {
+        let formData: mio.IDictionary = {removeMetadata: String(removeMetadata)};
+        await this._fetch().text(`${this._address}/api/library/${seriesId}`, {}, mio.RequestType.Basic).deleteAsync(formData);
         return true;
-      } else {
+      });
+    } else {
+      return mio.createHandler(async () => {
         await this._fetch().text(`${this._address}/api/library/${seriesId}/${chapterId}`, {}, mio.RequestType.Basic).deleteAsync({});
         return true;
-      }
-    });
+      });
+    }
   }
 
   /**
