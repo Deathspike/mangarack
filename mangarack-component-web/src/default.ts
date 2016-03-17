@@ -42,6 +42,7 @@ export * from './components/MenuViewGenreItemComponent';
 export * from './components/MenuViewOrderComponent';
 export * from './components/MenuViewOrderItemComponent';
 export * from './components/ModalComponent';
+export * from './components/ModalDeleteComponent';
 export * from './components/ModalDownloadComponent';
 export * from './components/ModalErrorComponent';
 export * from './components/ModalPendingComponent';
