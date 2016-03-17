@@ -13,18 +13,15 @@ export class ChapterListVolumeItemComponent extends mio.StatelessComponent<{chap
     return (
       <div className="chapterBodyListVolumeItem">
         {(() => {
-          if (!this.props.chapter.numberOfPages.hasValue) {
-            return <div className="unknownNumberOfPages">??</div>;
-          } else {
+          if (this.props.chapter.numberOfPages.hasValue) {
             let numberOfUnreadPages = this.props.chapter.numberOfPages.value - this.props.chapter.numberOfReadPages;
             if (numberOfUnreadPages > 0) {
               return <div className="numberOfUnreadPages">{numberOfUnreadPages}</div>;
-            } else {
-              return null;
             }
           }
+          return null;
         })()}
-        <div className="title">
+        <div className={`title ${this.props.chapter.downloadedAt.hasValue ? 'available' : 'unavailable'}`}>
           {`#${format(3, this.props.chapter.metadata.number.value)}`}
           {(() => {
             if (this.props.chapter.metadata.title) {
