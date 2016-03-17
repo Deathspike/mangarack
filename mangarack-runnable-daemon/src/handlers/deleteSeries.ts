@@ -15,7 +15,7 @@ export default async function(request: express.Request, response: express.Respon
   if (!removeMetadata.hasValue) {
     response.sendStatus(400);
   } else {
-    let result = await library.deleteAsync(seriesId).runAsync(removeMetadata.value);
+    let result = await library.delete(seriesId).runAsync(removeMetadata.value);
     if (result) {
       response.sendStatus(200);
     } else {

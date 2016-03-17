@@ -41,7 +41,7 @@ export let library: mio.ILibrary = {
    * @param chapterId= The chapter identifier.
    * @return The promise to delete the series/chapter.
    */
-  deleteAsync: function(seriesId: number, chapterId?: number): any {
+  delete: function(seriesId: number, chapterId?: number): any {
     if (chapterId == null) {
       return mio.createHandler(async (removeMetadata: boolean) => {
         let context = await mio.contextService.getContextAsync();
