@@ -24,7 +24,41 @@ export let modalActions = {
   }),
 
   /**
-   * Downloads series to the library.
+   * Deletes the chapter from the library.
+   * @param reviser
+   */
+  deleteChapter: wrapReviserAsync('MODAL_DELETECHAPTER', async function(state: mio.IApplicationState, modalId: number): Promise<void> {
+    let location = mio.parseLocation();
+    if (location.seriesId.hasValue && location.chapterId.hasValue) {
+      await mio.openActiveLibrary().delete(location.seriesId.value, location.chapterId.value).runAsync();
+      if (!closedModal[modalId]) {
+        await mio.applicationActions.refreshChapters();
+        await mio.applicationActions.navigateBack();
+      }
+    }
+  }),
+
+  /**
+   * Deletes the series from the library.
+   * @param reviser
+   */
+  deleteSeries: wrapReviserAsync('MODAL_DELETESERIES', async function(state: mio.IApplicationState, modalId: number, removeMetadata: boolean): Promise<void> {
+    let location = mio.parseLocation();
+    if (location.seriesId.hasValue) {
+      await mio.openActiveLibrary().delete(location.seriesId.value).runAsync(removeMetadata);
+      if (!closedModal[modalId]) {
+        if (removeMetadata) {
+          await mio.applicationActions.refreshSeries();
+          await mio.applicationActions.navigateBack();
+        } else {
+          mio.applicationActions.refreshChapters();
+        }
+      }
+    }
+  }),
+
+  /**
+   * Downloads (the) series to the library.
    * @param reviser The address.
    */
   downloadSeries: wrapReviserAsync('MODAL_DOWNLOADSERIES', async function(state: mio.IApplicationState, modalId: number, revision: {existingChapters: boolean, newChapters: boolean}): Promise<void> {
