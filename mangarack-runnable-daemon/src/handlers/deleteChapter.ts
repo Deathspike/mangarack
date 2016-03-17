@@ -12,7 +12,7 @@ import * as mio from '../default';
 export default async function(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
   let seriesId = request.params.seriesId as number;
   let chapterId = request.params.chapterId as number;
-  let result = await library.deleteAsync(seriesId, chapterId).runAsync();
+  let result = await library.delete(seriesId, chapterId).runAsync();
   if (result) {
     response.sendStatus(200);
   } else {

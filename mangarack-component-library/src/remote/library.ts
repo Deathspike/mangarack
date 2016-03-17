@@ -39,7 +39,7 @@ export class RemoteLibrary implements mio.ILibrary {
    * @param chapterId= The chapter identifier.
    * @return The promise to delete the series/chapter.
    */
-  public deleteAsync(seriesId: number, chapterId?: number): mio.ILibraryHandler<any> {
+  public delete(seriesId: number, chapterId?: number): mio.ILibraryHandler<any> {
     if (chapterId == null) {
       return mio.createHandler(async (removeMetadata: boolean) => {
         let formData: mio.IDictionary = {removeMetadata: String(removeMetadata)};
