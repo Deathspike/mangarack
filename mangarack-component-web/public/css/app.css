@@ -868,6 +868,10 @@ body {
             white-space: nowrap;
           }
 
+          .chapterBodyListVolumeItem > .unavailable {
+            color: #c0392b; /* Pomegranate */
+          }
+
             .chapterBodyListVolumeItem > .title > span:nth-of-type(1) {
               margin-right: 4px;
             }
@@ -876,7 +880,8 @@ body {
               font-style: italic;
             }
 
-          .chapterBodyListVolumeItem > .numberOfUnreadPages, .chapterBodyListVolumeItem > .unknownNumberOfPages {
+          .chapterBodyListVolumeItem > .numberOfUnreadPages {
+            background-color: #d35400; /* Pumpkin */
             border-radius: 16px;
             color: #ecf0f1; /* Clouds */
             font-family: monospace;
@@ -891,17 +896,9 @@ body {
             width: 24px;
           }
 
-            .chapterBodyListVolumeItem > .numberOfUnreadPages + .title, .chapterBodyListVolumeItem > .unknownNumberOfPages + .title {
+            .chapterBodyListVolumeItem > .numberOfUnreadPages + .title {
               padding: 0 40px 0 0;
             }
-
-          .chapterBodyListVolumeItem > .numberOfUnreadPages {
-            background-color: #d35400; /* Pumpkin */
-          }
-
-          .chapterBodyListVolumeItem > .unknownNumberOfPages {
-            background-color: #8e44ad; /* Wisteria */
-          }
 
           .chapterBodyListVolumeItem > i {
             font-size: 20px;
