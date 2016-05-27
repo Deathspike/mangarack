@@ -15,7 +15,7 @@
     "mangarack-component-core": "4.0.9"
   },
   "devDependencies": {
-    "typescript": "1.8.2"
+    "typescript": "1.9.0-dev.20160527-1.0"
   },
   "scripts": {
     "prepublish": "tsc"
