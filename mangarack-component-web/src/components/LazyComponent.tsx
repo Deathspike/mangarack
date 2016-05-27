@@ -22,7 +22,7 @@ export class LazyComponent extends mio.StatefulComponent<{className: string}, {i
    * Occurs when the component has mounted.
    */
   public componentDidMount(): void {
-    this._element = (this.refs as any).self.getDOMNode();
+    this._element = ReactDOM.findDOMNode(this) as HTMLElement;
     this._elementContainer = findScrollableParent(this._element);
     this._handler = this._updateHandler.bind(this);
     this._handler();
