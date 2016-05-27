@@ -55,6 +55,7 @@ export * from './components/SeriesListItemComponent';
 // web/controllers
 export * from './controllers/ApplicationController';
 export * from './controllers/ChapterController';
+export * from './controllers/PageController';
 export * from './controllers/SeriesController';
 
 // web/typings

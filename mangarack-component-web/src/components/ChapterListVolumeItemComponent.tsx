@@ -8,6 +8,7 @@ export class ChapterListVolumeItemComponent extends mio.StatelessComponent<{chap
    * Renders the component.
    */
   public render(): JSX.Element {
+    /* TODO: Show when an entry was deleted on the server... */
     /* TODO: On tap, navigate, or download prompt. */
     let numberOfUnreadChapters = this.props.chapter.numberOfPages.hasValue
     return (
