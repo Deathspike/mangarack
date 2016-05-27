@@ -1,11 +1,11 @@
-import * as mio from '../default';
+import * as fw from '../default';
 
 /**
  * Represents an observable.
  * @internal
  */
-export class Observable<T> implements mio.IObservable<T> {
-  private _observers: mio.IObservableObserver<T>[];
+export class Observable<T> implements fw.IObservable<T> {
+  private _observers: fw.IObservableObserver<T>[];
 
   /**
    * Initializes a new instance of the Observable class.
@@ -20,7 +20,9 @@ export class Observable<T> implements mio.IObservable<T> {
    */
   public notify(state: T): void {
     for (let observer of this._observers) {
-      observer(state);
+      if (!fw.isNull(observer)) {
+        observer(state);
+      }
     }
   }
 
@@ -28,7 +30,7 @@ export class Observable<T> implements mio.IObservable<T> {
    * Registers an observer.
    * @param observer The observer.
    */
-  public register(observer: mio.IObservableObserver<T>): void {
+  public register(observer: fw.IObservableObserver<T>): void {
     this._observers.push(observer);
   }
 
@@ -36,7 +38,7 @@ export class Observable<T> implements mio.IObservable<T> {
    * Unregisters an observer.
    * @param observer The observer.
    */
-  public unregister(observer: mio.IObservableObserver<T>): void {
+  public unregister(observer: fw.IObservableObserver<T>): void {
     let index = this._observers.indexOf(observer);
     if (index !== -1) {
       this._observers.splice(index, 1);

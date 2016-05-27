@@ -10,10 +10,7 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "outDir": "dist",
-    "removeComments": false,
     "stripInternal": true,
-    "suppressExcessPropertyErrors": false,
-    "suppressImplicitAnyIndexErrors": false,
     "target": "es6"
   },
   "exclude": [

@@ -29,6 +29,11 @@
 
 'use strict';
 
+/*
+ * This file, `web/src/app.ts` is the entry point when served as a we
+ * application. It mocks `require` to enable a seamless development experience.
+ * When served under Cordova, the entry point is `web/src/default.ts`.
+ */
 (function(): void {
   if (typeof require === 'undefined') {
     let request = new XMLHttpRequest();
@@ -36,8 +41,5 @@
     request.send();
     (new Function(request.responseText))();
   }
-})();
-
-(function(): void {
   require('./default');
 })();

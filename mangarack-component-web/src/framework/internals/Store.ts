@@ -1,11 +1,13 @@
-import * as mio from '../default';
-import * as mioInternal from '../module';
+import * as fw from '../default';
+import * as fwInternal from '../internals';
 
 /**
  * Represents a store.
  * @internal
  */
-export class Store<TState> extends mioInternal.Observable<TState> implements mio.IStore<TState> {
+export class Store<TState> extends fwInternal.Observable<TState> implements fw.IStore<TState> {
+  private _activeRevisions: number;
+  private _errorHandlers: ((error: any) => void)[];
   private _revisers: {[name: string]: any};
   private _state: TState;
 
@@ -15,6 +17,8 @@ export class Store<TState> extends mioInternal.Observable<TState> implements mio
    */
   public constructor(initialState: TState) {
     super();
+    this._activeRevisions = 0;
+    this._errorHandlers = [];
     this._revisers = {};
     this._state = initialState;
   }
@@ -23,14 +27,49 @@ export class Store<TState> extends mioInternal.Observable<TState> implements mio
    * Dispatches the action.
    * @param The action.
    */
-  public dispatch<TRevision>(action: mio.IAction<TRevision>): PromiseLike<void>|void {
+  public dispatch<TRevision>(action: fw.IAction<TRevision>): PromiseLike<void>|void {
+    // Keep track of each revision.
+    if (this._activeRevisions === 0 && console.log) {
+      console.log(action);
+    }
+
+    // Check if the revisor is available and initialize.
     if (this._revisers[action.name]) {
-      let done = this.notify.bind(this, this._state);
-      let thenable = this._revisers[action.name](this._state, action.revision);
+      let thenable: any;
+      let done = () => {
+        this._activeRevisions--;
+        this.notify(this._state);
+      };
+
+      // Increment the active number of revisions and run the revisor.
+      try {
+        this._activeRevisions++;
+        thenable = this._revisers[action.name](this._state, action.revision);
+      } catch(error) {
+        this.dispatchError(error);
+        return;
+      }
+
+      // Attach to the promise completion or run the completion handler.
       if (thenable && (thenable as PromiseLike<void>).then) {
-        return (thenable as PromiseLike<void>).then<void>(done, done);
+        return (thenable as PromiseLike<void>).then<void>(done, error => {
+          this.dispatchError(error);
+          done();
+        });
       } else {
         done();
+      }
+    }
+  }
+
+  /**
+   * Dispatches the error.
+   * @param error The error.
+   */
+  public dispatchError(error: any): void {
+    for (let errorHandler of this._errorHandlers) {
+      if (!fw.isNull(errorHandler)) {
+        errorHandler(error);
       }
     }
   }
@@ -56,5 +95,13 @@ export class Store<TState> extends mioInternal.Observable<TState> implements mio
     } else {
       throw new Error(`Failed to register reviser '${name}'.`);
     }
+  }
+
+  /**
+   * Registers the error handler.
+   * @param errorHandler The error handler.
+   */
+  public reviserError(errorHandler: (error: any) => void): void {
+    this._errorHandlers.push(errorHandler);
   }
 }
