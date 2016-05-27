@@ -8,6 +8,7 @@
 /* TODO: [Chapter] Selection-based actions: Delete/Mark as Read/Mark as Unread. */
 /* TODO: [Chapter] Add a 'number of chapters' somewhere. */
 /* TODO: [Logging] Consider removing `window.history.back` in favor of an URL independent state replication. */
+/* TODO: [Purity] Remove `mio.parseLocation` from anything that is supposedly stateless. */
 
 // Series:
 //  Back

@@ -38,7 +38,9 @@ export class ApplicationController extends mio.StoreComponent<mio.IApplicationSt
         <mio.ModalComponent modal={this.state.modal} />
         {(() => {
           let location = mio.parseLocation();
-          if (location.seriesId.hasValue) {
+          if (location.chapterId.hasValue && location.pageNumber.hasValue) {
+            return <mio.PageController application={this.state} seriesId={location.seriesId.value} chapterId={location.chapterId.value} pageNumber={location.pageNumber.value} />;
+          } else if (location.seriesId.hasValue) {
             return <mio.ChapterController application={this.state} seriesId={location.seriesId.value} />;
           } else {
             return <mio.SeriesController application={this.state} />;
