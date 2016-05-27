@@ -12,17 +12,17 @@
   "typings": "dist/default",
   "version": "4.0.9",
   "dependencies": {
-    "basic-auth": "1.0.3",
-    "body-parser": "1.15.0",
-    "compression": "1.6.1",
+    "basic-auth": "1.0.4",
+    "body-parser": "1.15.1",
+    "compression": "1.6.2",
     "express": "4.13.4",
     "mangarack-node-library": "4.0.9"
   },
   "devDependencies": {
-    "tsd": "0.6.5",
-    "typescript": "1.8.2"
+    "typescript": "1.9.0-dev.20160527-1.0",
+    "typings": "1.0.4"
   },
   "scripts": {
-    "prepublish": "tsd install && tsc"
+    "prepublish": "typings install && tsc"
   }
 }
