@@ -1,5 +1,5 @@
 // web/framework
-export * from './create';
+export * from './functions';
 
 // web/framework/components
 export * from './components/StatefulComponent';

@@ -1,4 +1,4 @@
-import * as mio from '../default';
+import * as fw from '../default';
 
 /**
  * Represents an observable.
@@ -14,11 +14,11 @@ export interface IObservable<T> {
    * Registers an observer.
    * @param observer The observer.
    */
-  register(observer: mio.IObservableObserver<T>): void;
+  register(observer: fw.IObservableObserver<T>): void;
 
   /**
    * Unregisters an observer.
    * @param observer The observer.
    */
-  unregister(observer: mio.IObservableObserver<T>): void;
+  unregister(observer: fw.IObservableObserver<T>): void;
 }

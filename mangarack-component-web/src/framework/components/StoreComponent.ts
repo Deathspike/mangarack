@@ -1,19 +1,19 @@
-import * as mio from '../default';
+import * as fw from '../default';
 
 /**
  * Represents a store component.
  */
-export abstract class StoreComponent<T> extends mio.StatefulComponent<{}, T> {
-  private _observer: mio.IObservableObserver<T>;
-  private _store: mio.IStore<T>;
+export abstract class StoreComponent<T> extends fw.StatefulComponent<void, T> {
+  private _observer: fw.IObservableObserver<T>;
+  private _store: fw.IStore<T>;
   private _timeoutHandle = 0;
 
   /**
    * Initializes a new instance of the StoreComponent class.
    * @param store The store.
    */
-  public constructor(store: mio.IStore<T>) {
-    super({}, store.getState());
+  public constructor(store: fw.IStore<T>) {
+    super(undefined, store.getState());
     this._observer = this._onNotify.bind(this);
     this._store = store;
   }
@@ -32,7 +32,7 @@ export abstract class StoreComponent<T> extends mio.StatefulComponent<{}, T> {
   public componentWillUnmount(): void {
     this._store.unregister(this._observer);
   }
-  
+
   /**
    * Occurs when the observable sends a notification about a change in state.
    * @param state The state.

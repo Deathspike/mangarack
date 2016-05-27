@@ -1,0 +1,18 @@
+{
+  "name": "mangarack-component-web",
+  "globalDependencies": {
+    "fastclick": "github:DefinitelyTyped/DefinitelyTyped/fastclick/fastclick.d.ts#dade4414712ce84e3c63393f1aae407e9e7e6af7",
+    "react": "github:DefinitelyTyped/DefinitelyTyped/react/react.d.ts#dade4414712ce84e3c63393f1aae407e9e7e6af7",
+    "react-addons-create-fragment": "github:DefinitelyTyped/DefinitelyTyped/react/react-addons-create-fragment.d.ts#dade4414712ce84e3c63393f1aae407e9e7e6af7",
+    "react-addons-css-transition-group": "github:DefinitelyTyped/DefinitelyTyped/react/react-addons-css-transition-group.d.ts#dade4414712ce84e3c63393f1aae407e9e7e6af7",
+    "react-addons-linked-state-mixin": "github:DefinitelyTyped/DefinitelyTyped/react/react-addons-linked-state-mixin.d.ts#dade4414712ce84e3c63393f1aae407e9e7e6af7",
+    "react-addons-perf": "github:DefinitelyTyped/DefinitelyTyped/react/react-addons-perf.d.ts#dade4414712ce84e3c63393f1aae407e9e7e6af7",
+    "react-addons-pure-render-mixin": "github:DefinitelyTyped/DefinitelyTyped/react/react-addons-pure-render-mixin.d.ts#dade4414712ce84e3c63393f1aae407e9e7e6af7",
+    "react-addons-shallow-compare": "github:DefinitelyTyped/DefinitelyTyped/react/react-addons-shallow-compare.d.ts#dade4414712ce84e3c63393f1aae407e9e7e6af7",
+    "react-addons-test-utils": "github:DefinitelyTyped/DefinitelyTyped/react/react-addons-test-utils.d.ts#dade4414712ce84e3c63393f1aae407e9e7e6af7",
+    "react-addons-transition-group": "github:DefinitelyTyped/DefinitelyTyped/react/react-addons-transition-group.d.ts#dade4414712ce84e3c63393f1aae407e9e7e6af7",
+    "react-addons-update": "github:DefinitelyTyped/DefinitelyTyped/react/react-addons-update.d.ts#dade4414712ce84e3c63393f1aae407e9e7e6af7",
+    "react-dom": "github:DefinitelyTyped/DefinitelyTyped/react/react-dom.d.ts#dade4414712ce84e3c63393f1aae407e9e7e6af7",
+    "react-global": "github:DefinitelyTyped/DefinitelyTyped/react/react-global.d.ts#dade4414712ce84e3c63393f1aae407e9e7e6af7"
+  }
+}
