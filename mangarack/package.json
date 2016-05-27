@@ -15,10 +15,10 @@
     "mangarack-daemon": "./bin/mangarack-daemon"
   },
   "devDependencies": {
-    "browserify": "12.0.1",
-    "mangarack-runnable-cli": "4.0.0",
+    "browserify": "13.0.1",
+    "mangarack-runnable-cli": "4.0.9",
     "npm-build-tools": "2.2.5",
-    "source-map-support": "0.3.3"
+    "source-map-support": "0.4.0"
   },
   "scripts": {
     "bundle-cli": "browserify --debug --node src/cli.js | n-pipe dist/cli.js",
