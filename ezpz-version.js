@@ -16,6 +16,12 @@ fs.readdirSync(__dirname).forEach(function(folderName) {
             package.dependencies[dependencyName] = version;
         });
     }
+    if (package.devDependencies) {
+      Object.keys(package.devDependencies).forEach(function(dependencyName) {
+          if (!isMangarack(dependencyName)) return;
+          package.devDependencies[dependencyName] = version;
+      });
+    }
     package.version = version;
     fs.writeFileSync(packagePath, JSON.stringify(package, null, '  ') + '\n');
 });
