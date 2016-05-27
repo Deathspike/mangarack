@@ -12,7 +12,7 @@
   "typings": "dist/default",
   "version": "4.0.10",
   "devDependencies": {
-    "typescript": "1.9.0-dev.20160527-1.0",
+    "typescript": "1.9.0-dev.20160526-1.0",
     "typings": "1.0.4"
   },
   "scripts": {
