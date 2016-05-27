@@ -3,13 +3,13 @@
     "declaration": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "noImplicitAny": true,
     "module": "commonjs",
     "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
     "outDir": "dist",
-    "removeComments": false,
     "stripInternal": true,
-    "suppressImplicitAnyIndexErrors": false,
     "target": "es6"
   },
   "exclude": [
