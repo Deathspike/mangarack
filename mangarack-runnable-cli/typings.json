@@ -1,0 +1,9 @@
+{
+  "name": "mangarack-runnable-cli",
+  "globalDependencies": {
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#3191f6e0088eee07c4d8fd24e4d27a40a60d9eb9",
+    "archiver": "github:DefinitelyTyped/DefinitelyTyped/archiver/archiver.d.ts#3191f6e0088eee07c4d8fd24e4d27a40a60d9eb9",
+    "gm": "github:DefinitelyTyped/DefinitelyTyped/gm/gm.d.ts#3191f6e0088eee07c4d8fd24e4d27a40a60d9eb9",
+    "xml2js": "github:DefinitelyTyped/DefinitelyTyped/xml2js/xml2js.d.ts#3191f6e0088eee07c4d8fd24e4d27a40a60d9eb9"
+  }
+}
