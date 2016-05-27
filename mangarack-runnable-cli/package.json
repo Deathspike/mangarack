@@ -9,10 +9,9 @@
   "name": "mangarack-runnable-cli",
   "repository": "git://github.com/Deathspike/mangarack",
   "typings": "dist/default",
-  "version": "4.0.9",
+  "version": "4.0.10",
   "dependencies": {
     "archiver": "1.0.0",
-    "mangarack-node-core": "4.0.9",
     "gm": "1.22.0",
     "xml2js": "0.4.16"
   },

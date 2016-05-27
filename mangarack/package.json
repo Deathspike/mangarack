@@ -8,7 +8,7 @@
   "main": "src/default",
   "name": "mangarack",
   "repository": "git://github.com/Deathspike/mangarack",
-  "version": "4.0.9",
+  "version": "4.0.10",
   "bin": {
     "mangarack": "./bin/mangarack",
     "mangarack-cli": "./bin/mangarack-cli",
@@ -16,7 +16,6 @@
   },
   "devDependencies": {
     "browserify": "13.0.1",
-    "mangarack-runnable-cli": "4.0.9",
     "npm-build-tools": "2.2.5",
     "source-map-support": "0.4.0"
   },

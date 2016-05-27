@@ -9,10 +9,9 @@
   "name": "mangarack-node-core",
   "repository": "git://github.com/Deathspike/mangarack",
   "typings": "dist/default",
-  "version": "4.0.9",
+  "version": "4.0.10",
   "dependencies": {
     "cheerio": "0.20.0",
-    "mangarack-component-core": "4.0.9",
     "request": "2.72.0"
   },
   "devDependencies": {
