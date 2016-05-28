@@ -10,7 +10,7 @@
   "repository": "git://github.com/Deathspike/mangarack",
   "private": true,
   "typings": "dist/default",
-  "version": "4.0.10",
+  "version": "4.0.11",
   "dependencies": {
     "basic-auth": "1.0.4",
     "body-parser": "1.15.1",
