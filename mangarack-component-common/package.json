@@ -9,7 +9,7 @@
   "name": "mangarack-component-common",
   "repository": "git://github.com/Deathspike/mangarack",
   "typings": "dist/default",
-  "version": "4.0.10",
+  "version": "4.0.11",
   "devDependencies": {
     "npm-build-tools": "2.2.5",
     "typescript": "1.9.0-dev.20160527-1.0"
