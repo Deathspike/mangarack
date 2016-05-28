@@ -22,6 +22,6 @@
   "scripts": {
     "bundle-cli": "browserify --debug --node src/cli.js | n-pipe dist/cli.js",
     "bundle-daemon": "browserify --debug --node src/daemon.js | n-pipe dist/daemon.js",
-    "prepublish": "npm run bundle-cli -s && npm run bundle-daemon -s"
+    "prepublish": "n-clean dist && npm run bundle-cli -s && npm run bundle-daemon -s"
   }
 }
