@@ -18,10 +18,11 @@
     "express": "4.13.4"
   },
   "devDependencies": {
+    "npm-build-tools": "2.2.5",
     "typescript": "1.9.0-dev.20160526-1.0",
     "typings": "1.0.4"
   },
   "scripts": {
-    "prepublish": "typings install && tsc"
+    "prepublish": "n-clean dist typings && typings install && tsc"
   }
 }
