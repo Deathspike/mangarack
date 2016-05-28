@@ -109,7 +109,7 @@ function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
     let address = $(a).attr('href');
     let isValid = /id=([0-9]+)$/i.test(address);
     if (address && isValid) {
-      let metadata = scan($(a).text().replace(/\.0+/, '.').substr(title.length));
+      let metadata = scan($(a).text().replace(/([0-9])\.0+/, '$1.').substr(title.length));
       results.push(createChapter(`${providerDomain}/${address.replace(/^\//, '')}`, metadata));
     }
   });
