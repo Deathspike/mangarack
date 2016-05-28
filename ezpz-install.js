@@ -2,6 +2,10 @@ var childProcess = require('child_process');
 var fs = require('fs');
 var path = require('path');
 
+  console.log('ERROR: The containing folder must be named "node_modules".');
+  process.exit(1);
+}
+
 fs.readdirSync(__dirname)
   .sort()
   .filter(folderName => folderName !== 'mangarack')
