@@ -69,3 +69,27 @@ Download the series listed in the `MangaRack.txt` file:
 * `--runnable.cli.disableMangafoxHeuristicCrop 1` disables *MangaFox* image cropping.
 * `--runnable.cli.disableNormalize 1` disables image normalization.
 * `--runnable.cli.metaUnknownVolume 99` overrides unknown volumes in *ComicInfo.xml* ([See #44](https://github.com/Deathspike/mangarack/issues/44)).
+
+## Developers
+
+MangaRack is developed in `TypeScript`, a typed superset of `JavaScript`, and is designed to run in any *JavaScript*-enabled platform, including but not limited to *cordova*, *electron*, and *nodejs*. All code has been split into modules that have been tagged with a specific label:
+
+* `component` modules are environment agnostic and define required services.
+* `cordova` modules implement `component`-required services for *cordova*.
+* `node` modules implement `component`-required services for *nodejs*.
+* `runnable` modules are intended to be executable entry points.
+
+Each module has its own package definition, but none of the modules specify inter-module dependencies. This means that modules do not explicitly depend on each other through their package definition, even thought they might need another module to function properly. If you wish to install a module through `npm`:
+
+1. Install the preferred `component` module and its `component` dependencies.
+2. Install the preferred *environment* module and its *environment* dependencies.
+3. Use the API (documented through definitions) to use `mangarack` functionality.
+
+If you wish to contribute to this repository:
+
+1. Clone this repository into a folder named `node_modules` (for module resolution).
+2. Run `node ezpz-install` in the folder using *Command Prompt*/*Terminal*.
+3. Open the folder with *Atom* (using the *TypeStrong* plugin) or *VSCode*.
+4. To test a *runnable*, run `node mangarack-runnable-*/dist/app` (replace `*`).
+
+Please open an issue for further questions.
