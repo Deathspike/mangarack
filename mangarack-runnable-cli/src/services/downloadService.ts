@@ -90,7 +90,7 @@ async function cleanAsync(series: mio.ISeries): Promise<void> {
         let chapterPaths = series.chapters.map(chapter => getChapterPath(series, chapter).value);
         let filePaths = fileNames.value.map(fileName => `${seriesName.value}/${fileName}`);
         for (let filePath of filePaths) {
-          if (chapterPaths.indexOf(filePath) === -1 && !/\.(mrdel|mrtmp)$/.test(filePath)) {
+          if (chapterPaths.indexOf(filePath) === -1 && /\.cbz$/.test(filePath)) {
             await mio.promise<void>(callback => fs.rename(filePath, `${filePath}.mrdel`, callback));
           }
         }
