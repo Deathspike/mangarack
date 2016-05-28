@@ -11,9 +11,10 @@
   "typings": "dist/default",
   "version": "4.0.10",
   "devDependencies": {
+    "npm-build-tools": "2.2.5",
     "typescript": "1.9.0-dev.20160526-1.0"
   },
   "scripts": {
-    "prepublish": "tsc"
+    "prepublish": "n-clean dist && tsc"
   }
 }
