@@ -2,8 +2,8 @@ var childProcess = require('child_process');
 var fs = require('fs');
 var path = require('path');
 
-function isMangarack(key) {
-    return /^mangarack/.test(key);
+  console.log('ERROR: The containing folder must be named "node_modules".');
+  process.exit(1);
 }
 
 fs.readdirSync(__dirname)
@@ -11,7 +11,7 @@ fs.readdirSync(__dirname)
   .filter(folderName => folderName !== 'mangarack')
   .concat('mangarack')
   .forEach(function(folderName) {
-    if (!isMangarack(folderName)) return;
+    if (!/^mangarack/.test(folderName)) return;
     var packagePath = path.join(__dirname, folderName, 'package.json');
     var package = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
     if (!package.private) {
