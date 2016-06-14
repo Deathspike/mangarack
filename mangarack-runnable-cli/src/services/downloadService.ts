@@ -17,13 +17,17 @@ export let downloadService: mio.IDownloadService = {
     let chapterName = getChapterName(series, chapter);
     let chapterPath = getChapterPath(series, chapter);
     if (chapterName.hasValue && chapterPath.hasValue) {
-      let chapterExists = await mio.promise<boolean>(callback => fs.exists(chapterPath.value, exists => callback(null, exists)));
-      if (chapterExists.hasValue && chapterExists.hasValue && !chapterExists.value) {
-        console.log(`Fetching ${chapterName.value}`);
-        let beginTime = Date.now();
-        let pages = await chapter.pagesAsync();
-        await downloadService.pagesAsync(provider, series, seriesPreviewImage, chapter, pages);
-        console.log(`Finished ${chapterName.value} ${prettyElapsedTime(beginTime)}`);
+      if( passesChapterFilter(chapter) ) {
+        let chapterExists = await mio.promise<boolean>(callback => fs.exists(chapterPath.value, exists => callback(null, exists)));
+        if (chapterExists.hasValue && chapterExists.hasValue && !chapterExists.value) {
+          console.log(`Fetching ${chapterName.value}`);
+          if (!mio.settingService.getBoolean('runnable.cli.dryRun')) {
+            let beginTime = Date.now();
+            let pages = await chapter.pagesAsync();
+            await downloadService.pagesAsync(provider, series, seriesPreviewImage, chapter, pages);
+            console.log(`Finished ${chapterName.value} ${prettyElapsedTime(beginTime)}`);
+          }
+        }
       }
     }
   },
@@ -141,6 +145,29 @@ function getSeriesName(series: mio.ISeries): mio.IOption<string> {
   return mio.option(series.title
     .replace(/["<>\|:\*\?\\\/]/g, '')
     .replace(/\.$/, '. (Suffixed)') || null);
+}
+
+/**
+ * Checks if a single chapter should be considered for
+ * downloading, based on user-supplied command line parameters.
+ * @param chapter The chapter.
+ * @return True if the chapter should be considered.
+ */
+function passesChapterFilter(chapter: mio.IChapter): boolean {
+  let singleChapter = mio.settingService.getString('runnable.cli.filter.chapter.single');
+  let fromChapter = mio.settingService.getString('runnable.cli.filter.chapter.from');
+  let toChapter = mio.settingService.getString('runnable.cli.filter.chapter.to');
+  if( !chapter.number.hasValue ) {
+    return false;
+  } else if( singleChapter.length > 0 && chapter.number.value != Number(singleChapter) ) {
+    return false;
+  } else if( fromChapter.length > 0 && chapter.number.value < Number(fromChapter) ) {
+    return false;
+  } else if( toChapter.length > 0 && chapter.number.value > Number(toChapter) ) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 /**
