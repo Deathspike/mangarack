@@ -100,7 +100,10 @@ function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
             number: mio.option(numberMatch ? parseFloat(numberMatch[0]) : null),
             title: /^Read Onl?ine$/i.test(title) ? '' : title,
             version: mio.option<number>(),
-            volume: mio.option(parseFloat(match[1]))
+            volume: mio.option(parseFloat(match[1])),
+            group: mio.option<string>(),
+            language: mio.option<string>(),
+            uploadDate: mio.option<number>()
           }));
         }
       });

@@ -165,9 +165,19 @@ function passesChapterFilter(chapter: mio.IChapter): boolean {
     return false;
   } else if( toChapter.length > 0 && chapter.number.value > Number(toChapter) ) {
     return false;
-  } else {
-    return true;
-  }
+	}
+	let fromDate = Date.parse(mio.settingService.getString('runnable.cli.filter.uploaddate.from'));
+	let toDate = Date.parse(mio.settingService.getString('runnable.cli.filter.uploaddate.to'));
+	if( !isNaN(fromDate) && chapter.uploadDate.hasValue && !isNaN(chapter.uploadDate.value) && chapter.uploadDate.value < fromDate ) {
+		return false;
+	} else if( !isNaN(toDate) && chapter.uploadDate.hasValue && !isNaN(chapter.uploadDate.value) && chapter.uploadDate.value > toDate ) {
+		return false;
+	}
+	let targetGroup = mio.settingService.getString('runnable.cli.filter.group');
+	if( targetGroup.length > 0 && chapter.group.hasValue && !chapter.group.value.match(targetGroup) ) {
+		return false;
+	}
+	return true;
 }
 
 /**
