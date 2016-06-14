@@ -116,10 +116,20 @@ function getChapterName(series: mio.ISeries, chapter: mio.IChapter): mio.IOption
     let title = getSeriesName(series);
     if (!title.hasValue) {
       return mio.option<string>();
-    } else if (!chapter.volume.hasValue) {
-      return mio.option(`${title.value} #${format(3, chapter.number.value)}.cbz`);
     } else {
-      return mio.option(`${title.value} V${format(2, chapter.volume.value)} #${format(3, chapter.number.value)}.cbz`);
+			let chapterName = title.value;
+			if( chapter.volume.hasValue ) {
+				chapterName += ` V${format(2, chapter.volume.value)}`;
+			}
+			chapterName += ` #${format(3, chapter.number.value)}`;
+			if( mio.settingService.getBoolean('runnable.cli.filename.addLanguage') && chapter.language.hasValue ) {
+				chapterName += ` (${chapter.language.value})`;
+			}
+			if( mio.settingService.getBoolean('runnable.cli.filename.addGroup') && chapter.group.hasValue ) {
+				chapterName += ` [${chapter.group.value}]`;
+			}
+			chapterName += '.cbz';
+			return mio.option(chapterName);
     }
   }
 }
