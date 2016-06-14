@@ -132,10 +132,7 @@ function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
 					results.push(createChapter(address, metadata));
 					foundMatch = true;
 				} else if( address.match('group') ) {
-					if( results[results.length-1].group.hasValue )
-						results[results.length-1].group = mio.option<string>(results[results.length-1].group.value + ' & ' + $(td).text());
-					else
-						results[results.length-1].group = mio.option<string>($(td).text());
+					results[results.length-1].group = mio.option<string>($(td).text());
 					foundMatch = true;
 				} else if( address.match('user') ) {
 					foundMatch = true;
