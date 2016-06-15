@@ -148,52 +148,9 @@ function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
 		});
 		if( !foundMatch ) {
 			let possibleDate = $(td).text();
-			let matchArchive = possibleDate.match(/^(.*) \[A\]$/i);
-			if( matchArchive ) {
-				possibleDate = matchArchive[1];
-			}
-			let matchAMinute = possibleDate.match(/^A minute ago$/i); // Not seen
-			let matchRecentMinutes = possibleDate.match(/^(\d*) minutes ago$/i); // Seen
-			let matchAnHour = possibleDate.match(/^An hour ago$/i); // Seen
-			let matchRecentHours = possibleDate.match(/^(\d*) hours ago$/i); // Seen
-			let matchADay = possibleDate.match(/^A day ago$/i); // Seen
-			let matchRecentDays = possibleDate.match(/^(\d*) days ago$/i); // Seen
-			let matchAWeek = possibleDate.match(/^A week ago$/i); // Seen
-			let matchRecentWeeks = possibleDate.match(/^(\d*) weeks ago$/i); // Seen
-			if( matchAMinute ) {
-				results[results.length-1].uploadDate = mio.option<number>(Date.now() - 60 * 1000);
-			} else if( matchRecentMinutes ) {
-				results[results.length-1].uploadDate = mio.option<number>(Date.now() - +matchRecentMinutes[1] * 60 * 1000);
-			} else if( matchAnHour ) {
-				results[results.length-1].uploadDate = mio.option<number>(Date.now() - 60 * 60 * 1000);
-			} else if( matchRecentHours ) {
-				results[results.length-1].uploadDate = mio.option<number>(Date.now() - +matchRecentHours[1] * 60 * 60 * 1000);
-			} else if( matchADay ) {
-				results[results.length-1].uploadDate = mio.option<number>(Date.now() - 24 * 60 * 60 * 1000);
-			} else if( matchRecentDays ) {
-				results[results.length-1].uploadDate = mio.option<number>(Date.now() - +matchRecentDays[1] * 24 * 60 * 60 * 1000);
-			} else if( matchAWeek ) {
-				results[results.length-1].uploadDate = mio.option<number>(Date.now() - 7 * 24 * 60 * 60 * 1000);
-			} else if( matchRecentWeeks ) {
-				results[results.length-1].uploadDate = mio.option<number>(Date.now() - +matchRecentWeeks[1] * 7 * 24 * 60 * 60 * 1000);
-			} else {
-				let pm = possibleDate.match(/^(.*) PM$/i);
-				let matchMidday = possibleDate.match(/^(.*) \- 12:\d\d PM$/i);
-				let matchAMPM = possibleDate.match(/^(.*) [AP]M$/i);
-				if( matchAMPM ) {
-					possibleDate = matchAMPM[1];
-				}
-				let matchRemoveDash = possibleDate.match(/^(.*) \- (.*)$/);
-				if( matchRemoveDash ) {
-					possibleDate = matchRemoveDash[1] + ' ' + matchRemoveDash[2];
-				}
-				let convertedDate = Date.parse(possibleDate);
-				if( !isNaN(convertedDate) ) {
-					if( pm && !matchMidday ) {
-						convertedDate += 12 * 60 * 60 * 1000;
-					}
-					results[results.length-1].uploadDate = mio.option<number>(convertedDate);
-				}
+			let convertedDate = getChapterDate(possibleDate);
+			if( convertedDate.hasValue ) {
+				results[results.length-1].uploadDate = convertedDate;
 			}
 		}
 	 });
@@ -244,4 +201,61 @@ function getType($: mio.IHtmlDocument): string {
   let text = $('td:contains(Type:)').next(mio.option<string>()).text();
   let match = text.match(/^(.*)\s+\(.*\)$/);
   return match ? match[1] : text;
+}
+
+/**
+ * Converts a string to a date, using the known
+ * formats from Batato.
+ * @param possibleDate The input string
+ * @return the date, if valid
+ */
+function getChapterDate( possibleDate: string ) : mio.IOption<number> {
+	let matchArchive = possibleDate.match(/^(.*) \[A\]$/i);
+	if( matchArchive ) {
+		possibleDate = matchArchive[1];
+	}
+	let matchAMinute = possibleDate.match(/^A minute ago$/i); // Not seen
+	let matchRecentMinutes = possibleDate.match(/^(\d*) minutes ago$/i); // Seen
+	let matchAnHour = possibleDate.match(/^An hour ago$/i); // Seen
+	let matchRecentHours = possibleDate.match(/^(\d*) hours ago$/i); // Seen
+	let matchADay = possibleDate.match(/^A day ago$/i); // Seen
+	let matchRecentDays = possibleDate.match(/^(\d*) days ago$/i); // Seen
+	let matchAWeek = possibleDate.match(/^A week ago$/i); // Seen
+	let matchRecentWeeks = possibleDate.match(/^(\d*) weeks ago$/i); // Seen
+	if( matchAMinute ) {
+		return mio.option<number>(Date.now() - 60 * 1000);
+	} else if( matchRecentMinutes ) {
+		return mio.option<number>(Date.now() - +matchRecentMinutes[1] * 60 * 1000);
+	} else if( matchAnHour ) {
+		return mio.option<number>(Date.now() - 60 * 60 * 1000);
+	} else if( matchRecentHours ) {
+		return mio.option<number>(Date.now() - +matchRecentHours[1] * 60 * 60 * 1000);
+	} else if( matchADay ) {
+		return mio.option<number>(Date.now() - 24 * 60 * 60 * 1000);
+	} else if( matchRecentDays ) {
+		return mio.option<number>(Date.now() - +matchRecentDays[1] * 24 * 60 * 60 * 1000);
+	} else if( matchAWeek ) {
+		return mio.option<number>(Date.now() - 7 * 24 * 60 * 60 * 1000);
+	} else if( matchRecentWeeks ) {
+		return mio.option<number>(Date.now() - +matchRecentWeeks[1] * 7 * 24 * 60 * 60 * 1000);
+	} else {
+		let pm = possibleDate.match(/^(.*) PM$/i);
+		let matchMidday = possibleDate.match(/^(.*) \- 12:\d\d PM$/i);
+		let matchAMPM = possibleDate.match(/^(.*) [AP]M$/i);
+		if( matchAMPM ) {
+			possibleDate = matchAMPM[1];
+		}
+		let matchRemoveDash = possibleDate.match(/^(.*) \- (.*)$/);
+		if( matchRemoveDash ) {
+			possibleDate = matchRemoveDash[1] + ' ' + matchRemoveDash[2];
+		}
+		let convertedDate = Date.parse(possibleDate);
+		if( !isNaN(convertedDate) ) {
+			if( pm && !matchMidday ) {
+				convertedDate += 12 * 60 * 60 * 1000;
+			}
+			return mio.option<number>(convertedDate);
+		}
+	}
+	return mio.option<number>();
 }
