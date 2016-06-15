@@ -16,7 +16,10 @@ export function createChapter(address: string, metadata: mio.IChapterMetadata): 
     pagesAsync: () => downloadPagesAsync(address),
     title: metadata.title,
     version: metadata.version,
-    volume: metadata.volume
+    volume: metadata.volume,
+    group: metadata.group,
+    language: metadata.language,
+    uploadDate: metadata.uploadDate
   };
 }
 

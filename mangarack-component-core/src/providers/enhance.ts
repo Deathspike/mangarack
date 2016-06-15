@@ -12,7 +12,10 @@ export function enhance(chapters: mio.IChapter[]): mio.IChapter[] {
     number: estimateNumber(chapters, chapter),
     title: chapter.title,
     version: chapter.version,
-    volume: chapter.volume
+    volume: chapter.volume,
+    group: chapter.group,
+    language: chapter.language,
+    uploadDate: chapter.uploadDate
   });
 }
 

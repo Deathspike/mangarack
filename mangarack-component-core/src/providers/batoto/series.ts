@@ -110,16 +110,53 @@ function getAuthors($: mio.IHtmlDocument): string[] {
  * @return Each child.
  */
 function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
-  let results: mio.IChapter[] = [];
-  $('tr.lang_English').find('a[href*=\'/reader\']').map((index, a) => {
-    let address = $(a).attr('href');
-    if (address) {
-      let metadata = scan($(a).text());
-      results.push(createChapter(address, metadata));
-    }
-  });
-  return results.reverse();
-}
+	let results: mio.IChapter[] = [];
+	let langMatch = 'tr';
+	let targetLanguage = mio.settingService.getString('runnable.cli.filter.language');
+	if( targetLanguage.length == 0 ) {
+		langMatch +=	'.lang_English';
+	} else if( targetLanguage != 'All' ) {
+		langMatch +=	'.lang_' + targetLanguage;
+	}
+	/**
+	 * Relies on the fact that the page definition used by bata.to
+	 * has the reader element before the other elements.
+	 */
+	$(langMatch).find('td').map((index, td) => {
+		let foundMatch = false;
+		$(td).find('a').map((index, a) => {
+			let address = $(a).attr('href');
+			if (address) {
+				if( address.match('reader') ) {
+					let metadata = scan($(td).text());
+					results.push(createChapter(address, metadata));
+					foundMatch = true;
+				} else if( address.match('group') ) {
+					results[results.length-1].group = mio.option<string>($(td).text());
+					foundMatch = true;
+				} else if( address.match('user') ) {
+					foundMatch = true;
+				}
+			}
+		});
+		$(td).find('div').map((index, div) => {
+			let title = $(div).attr('title');
+			if( title && $(td).html().indexOf('all_flags') > 0 ) {
+				results[results.length-1].language = mio.option<string>(title);
+				foundMatch = true;
+			}
+		});
+		if( !foundMatch ) {
+			let possibleDate = $(td).text();
+			let convertedDate = getChapterDate(possibleDate);
+			if( convertedDate.hasValue ) {
+				results[results.length-1].uploadDate = convertedDate;
+			}
+		}
+	 });
+	 return results.reverse();
+ }
+
 
 /**
  * Retrieves each genre.
@@ -164,4 +201,61 @@ function getType($: mio.IHtmlDocument): string {
   let text = $('td:contains(Type:)').next(mio.option<string>()).text();
   let match = text.match(/^(.*)\s+\(.*\)$/);
   return match ? match[1] : text;
+}
+
+/**
+ * Converts a string to a date, using the known
+ * formats from Batato.
+ * @param possibleDate The input string
+ * @return the date, if valid
+ */
+function getChapterDate( possibleDate: string ) : mio.IOption<number> {
+	let matchArchive = possibleDate.match(/^(.*) \[A\]$/i);
+	if( matchArchive ) {
+		possibleDate = matchArchive[1];
+	}
+	let matchAMinute = possibleDate.match(/^A minute ago$/i); // Not seen
+	let matchRecentMinutes = possibleDate.match(/^(\d*) minutes ago$/i); // Seen
+	let matchAnHour = possibleDate.match(/^An hour ago$/i); // Seen
+	let matchRecentHours = possibleDate.match(/^(\d*) hours ago$/i); // Seen
+	let matchADay = possibleDate.match(/^A day ago$/i); // Seen
+	let matchRecentDays = possibleDate.match(/^(\d*) days ago$/i); // Seen
+	let matchAWeek = possibleDate.match(/^A week ago$/i); // Seen
+	let matchRecentWeeks = possibleDate.match(/^(\d*) weeks ago$/i); // Seen
+	if( matchAMinute ) {
+		return mio.option<number>(Date.now() - 60 * 1000);
+	} else if( matchRecentMinutes ) {
+		return mio.option<number>(Date.now() - +matchRecentMinutes[1] * 60 * 1000);
+	} else if( matchAnHour ) {
+		return mio.option<number>(Date.now() - 60 * 60 * 1000);
+	} else if( matchRecentHours ) {
+		return mio.option<number>(Date.now() - +matchRecentHours[1] * 60 * 60 * 1000);
+	} else if( matchADay ) {
+		return mio.option<number>(Date.now() - 24 * 60 * 60 * 1000);
+	} else if( matchRecentDays ) {
+		return mio.option<number>(Date.now() - +matchRecentDays[1] * 24 * 60 * 60 * 1000);
+	} else if( matchAWeek ) {
+		return mio.option<number>(Date.now() - 7 * 24 * 60 * 60 * 1000);
+	} else if( matchRecentWeeks ) {
+		return mio.option<number>(Date.now() - +matchRecentWeeks[1] * 7 * 24 * 60 * 60 * 1000);
+	} else {
+		let pm = possibleDate.match(/^(.*) PM$/i);
+		let matchMidday = possibleDate.match(/^(.*) \- 12:\d\d PM$/i);
+		let matchAMPM = possibleDate.match(/^(.*) [AP]M$/i);
+		if( matchAMPM ) {
+			possibleDate = matchAMPM[1];
+		}
+		let matchRemoveDash = possibleDate.match(/^(.*) \- (.*)$/);
+		if( matchRemoveDash ) {
+			possibleDate = matchRemoveDash[1] + ' ' + matchRemoveDash[2];
+		}
+		let convertedDate = Date.parse(possibleDate);
+		if( !isNaN(convertedDate) ) {
+			if( pm && !matchMidday ) {
+				convertedDate += 12 * 60 * 60 * 1000;
+			}
+			return mio.option<number>(convertedDate);
+		}
+	}
+	return mio.option<number>();
 }

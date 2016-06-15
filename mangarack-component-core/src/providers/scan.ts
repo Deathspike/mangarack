@@ -42,7 +42,10 @@ function createMetadata(match: RegExpMatchArray): mio.IChapterMetadata {
     number: mio.option(createNumber(match[2], match[4])),
     title: match[5] ? match[5].trim() : '',
     version: mio.option(parseFloat(match[3])),
-    volume: mio.option(parseFloat(match[1]))
+    volume: mio.option(parseFloat(match[1])),
+    group: mio.option<string>(),
+    language: mio.option<string>(),
+    uploadDate: mio.option<number>()
   };
 }
 

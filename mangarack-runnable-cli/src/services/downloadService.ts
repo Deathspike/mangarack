@@ -17,13 +17,17 @@ export let downloadService: mio.IDownloadService = {
     let chapterName = getChapterName(series, chapter);
     let chapterPath = getChapterPath(series, chapter);
     if (chapterName.hasValue && chapterPath.hasValue) {
-      let chapterExists = await mio.promise<boolean>(callback => fs.exists(chapterPath.value, exists => callback(null, exists)));
-      if (chapterExists.hasValue && chapterExists.hasValue && !chapterExists.value) {
-        console.log(`Fetching ${chapterName.value}`);
-        let beginTime = Date.now();
-        let pages = await chapter.pagesAsync();
-        await downloadService.pagesAsync(provider, series, seriesPreviewImage, chapter, pages);
-        console.log(`Finished ${chapterName.value} ${prettyElapsedTime(beginTime)}`);
+      if( passesChapterFilter(chapter) ) {
+        let chapterExists = await mio.promise<boolean>(callback => fs.exists(chapterPath.value, exists => callback(null, exists)));
+        if (chapterExists.hasValue && chapterExists.hasValue && !chapterExists.value) {
+          console.log(`Fetching ${chapterName.value}`);
+          if (!mio.settingService.getBoolean('runnable.cli.dryRun')) {
+            let beginTime = Date.now();
+            let pages = await chapter.pagesAsync();
+            await downloadService.pagesAsync(provider, series, seriesPreviewImage, chapter, pages);
+            console.log(`Finished ${chapterName.value} ${prettyElapsedTime(beginTime)}`);
+          }
+        }
       }
     }
   },
@@ -112,10 +116,20 @@ function getChapterName(series: mio.ISeries, chapter: mio.IChapter): mio.IOption
     let title = getSeriesName(series);
     if (!title.hasValue) {
       return mio.option<string>();
-    } else if (!chapter.volume.hasValue) {
-      return mio.option(`${title.value} #${format(3, chapter.number.value)}.cbz`);
     } else {
-      return mio.option(`${title.value} V${format(2, chapter.volume.value)} #${format(3, chapter.number.value)}.cbz`);
+			let chapterName = title.value;
+			if( chapter.volume.hasValue ) {
+				chapterName += ` V${format(2, chapter.volume.value)}`;
+			}
+			chapterName += ` #${format(3, chapter.number.value)}`;
+			if( mio.settingService.getBoolean('runnable.cli.filename.addLanguage') && chapter.language.hasValue ) {
+				chapterName += ` (${chapter.language.value})`;
+			}
+			if( mio.settingService.getBoolean('runnable.cli.filename.addGroup') && chapter.group.hasValue ) {
+				chapterName += ` [${chapter.group.value.replace(/[:\\\\/*?|<>]/g, '_').replace(/\p{Cntrl}/g, '_')}]`;
+			}
+			chapterName += '.cbz';
+			return mio.option(chapterName);
     }
   }
 }
@@ -141,6 +155,39 @@ function getSeriesName(series: mio.ISeries): mio.IOption<string> {
   return mio.option(series.title
     .replace(/["<>\|:\*\?\\\/]/g, '')
     .replace(/\.$/, '. (Suffixed)') || null);
+}
+
+/**
+ * Checks if a single chapter should be considered for
+ * downloading, based on user-supplied command line parameters.
+ * @param chapter The chapter.
+ * @return True if the chapter should be considered.
+ */
+function passesChapterFilter(chapter: mio.IChapter): boolean {
+  let singleChapter = mio.settingService.getString('runnable.cli.filter.chapter.single');
+  let fromChapter = mio.settingService.getString('runnable.cli.filter.chapter.from');
+  let toChapter = mio.settingService.getString('runnable.cli.filter.chapter.to');
+  if( !chapter.number.hasValue ) {
+    return false;
+  } else if( singleChapter.length > 0 && chapter.number.value != Number(singleChapter) ) {
+    return false;
+  } else if( fromChapter.length > 0 && chapter.number.value < Number(fromChapter) ) {
+    return false;
+  } else if( toChapter.length > 0 && chapter.number.value > Number(toChapter) ) {
+    return false;
+	}
+	let fromDate = Date.parse(mio.settingService.getString('runnable.cli.filter.uploaddate.from'));
+	let toDate = Date.parse(mio.settingService.getString('runnable.cli.filter.uploaddate.to'));
+	if( !isNaN(fromDate) && chapter.uploadDate.hasValue && !isNaN(chapter.uploadDate.value) && chapter.uploadDate.value < fromDate ) {
+		return false;
+	} else if( !isNaN(toDate) && chapter.uploadDate.hasValue && !isNaN(chapter.uploadDate.value) && chapter.uploadDate.value > toDate ) {
+		return false;
+	}
+	let targetGroup = mio.settingService.getString('runnable.cli.filter.group');
+	if( targetGroup.length > 0 && chapter.group.hasValue && !chapter.group.value.match(targetGroup) ) {
+		return false;
+	}
+	return true;
 }
 
 /**
