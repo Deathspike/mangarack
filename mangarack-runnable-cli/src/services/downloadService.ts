@@ -126,7 +126,7 @@ function getChapterName(series: mio.ISeries, chapter: mio.IChapter): mio.IOption
 				chapterName += ` (${chapter.language.value})`;
 			}
 			if( mio.settingService.getBoolean('runnable.cli.filename.addGroup') && chapter.group.hasValue ) {
-				chapterName += ` [${chapter.group.value}]`;
+				chapterName += ` [${chapter.group.value.replace(/[:\\\\/*?|<>]/g, '_').replace(/\p{Cntrl}/g, '_')}]`;
 			}
 			chapterName += '.cbz';
 			return mio.option(chapterName);
