@@ -80,7 +80,7 @@ export interface IHtmlObject {
    * @param iterator The function that will be invoked for each element.
    * @return The result mapped to a new object.
    */
-  map<T>(iterator: (index: number, element: IHtmlElement) => T): {get(): T[]}
+  map<T>(iterator: (index: number, element: IHtmlElement) => T): {get(): T[]};
 
   /**
    * Gets the immediately following sibling of each element.
