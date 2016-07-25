@@ -88,7 +88,7 @@ function getAuthors($: mio.IHtmlDocument): string[] {
  */
 function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
   let results: mio.IChapter[] = [];
-  $('h3.volume').each((index, h3) => {
+  $('h3.volume').each((ignoredIndex, h3) => {
     let match = $(h3).text().trim().match(/^Volume\s(.+)$/i);
     if (match) {
       $(h3).parent(mio.option<string>()).next(mio.option<string>()).find('a[href*=\'/manga/\']').each((index, a) => {

@@ -8,8 +8,8 @@ import * as mio from '../default';
  */
 export function enhance(chapters: mio.IChapter[]): mio.IChapter[] {
   return chapters.map(chapter => chapter.number.hasValue ? chapter : {
-    pagesAsync: chapter.pagesAsync,
     number: estimateNumber(chapters, chapter),
+    pagesAsync: chapter.pagesAsync,
     title: chapter.title,
     version: chapter.version,
     volume: chapter.volume
@@ -67,10 +67,12 @@ function limitNumber(current: number, minimum: number, maximum: number): number 
 function prioritizeDifference(differences: {[key: string]: number}): number {
   let best: {amount: mio.IOption<number>, count: mio.IOption<number>} = {amount: mio.option<number>(), count: mio.option<number>()};
   for (let difference in differences) {
-    let count = differences[difference];
-    if (!best.count.hasValue || differences[difference] > best.count.value) {
-      best.amount = mio.option(parseInt(difference, 10));
-      best.count = mio.option(count);
+    if (differences.hasOwnProperty(difference)) {
+      let count = differences[difference];
+      if (!best.count.hasValue || differences[difference] > best.count.value) {
+        best.amount = mio.option(parseInt(difference, 10));
+        best.count = mio.option(count);
+      }
     }
   }
   return best.amount.hasValue ? best.amount.value : 0;

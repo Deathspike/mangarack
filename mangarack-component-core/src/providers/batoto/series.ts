@@ -53,9 +53,9 @@ async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean
       let loginAddress = 'https://bato.to/forums/index.php?app=core&module=global&section=login&do=process';
       await httpService().text(loginAddress, {origin: 'https://bato.to'}, mio.RequestType.TimeoutWithRetry).postAsync({
         auth_key: document('input[name=auth_key]').attr('value'),
-        referer: document('input[name=referer]').attr('value'),
-        ips_username: username,
         ips_password: password,
+        ips_username: username,
+        referer: document('input[name=referer]').attr('value'),
         rememberMe: '1'
       });
       await mio.promise(callback => setTimeout(callback, 1000));

@@ -12,9 +12,11 @@
   "version": "4.0.11",
   "devDependencies": {
     "npm-build-tools": "2.2.5",
+    "tslint": "3.13.0",
     "typescript": "1.8.10"
   },
   "scripts": {
-    "prepublish": "n-clean dist && tsc"
+    "prepublish": "n-clean dist && tsc && npm test",
+    "test": "n-run \"tslint $g[src/**/*.ts]\""
   }
 }

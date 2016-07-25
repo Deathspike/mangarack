@@ -7,11 +7,6 @@ import {createSeriesAsync} from './series';
  */
 export let mangafox: mio.IProvider = {
   /**
-   * Contains the name.
-   */
-  name: 'mangafox',
-
-  /**
    * Determines whether the address is a supported address.
    * @param address The address.
    * @return Indicates whether the address is a supported address.
@@ -19,6 +14,11 @@ export let mangafox: mio.IProvider = {
   isSupported: function(address: string): boolean {
     return /^http:\/\/mangafox\.me\/manga\/.+\/$/i.test(address);
   },
+
+  /**
+   * Contains the name.
+   */
+  name: 'mangafox',
 
   /**
    * Promises the series.

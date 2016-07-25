@@ -3,6 +3,16 @@
  */
 export class HttpServiceError extends Error {
   /**
+   * Contains the body.
+   */
+  public body: string;
+
+  /**
+   * Contains the status code.
+   */
+  public statusCode: number;
+
+  /**
    * Initializes a new instance of the HttpError class.
    * @param currentState The current state.
    * @param message The message.
@@ -12,14 +22,4 @@ export class HttpServiceError extends Error {
     this.body = currentState.body;
     this.statusCode = currentState.statusCode;
   }
-
-  /**
-   * Contains the body.
-   */
-  public body: string;
-
-  /**
-   * Contains the status code.
-   */
-  public statusCode: number;
 }

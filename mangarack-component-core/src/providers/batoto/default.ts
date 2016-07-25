@@ -7,11 +7,6 @@ import {createSeriesAsync} from './series';
  */
 export let batoto: mio.IProvider = {
   /**
-   * Contains the name.
-   */
-  name: 'batoto',
-
-  /**
    * Determines whether the address is a supported address.
    * @param address The address.
    * @return Indicates whether the address is a supported address.
@@ -19,6 +14,11 @@ export let batoto: mio.IProvider = {
   isSupported: function(address: string): boolean {
     return /^https?:\/\/bato\.to\/comic\/_\/comics\/.*-r[0-9]+$/i.test(address);
   },
+
+  /**
+   * Contains the name.
+   */
+  name: 'batoto',
 
   /**
    * Promises the series.
