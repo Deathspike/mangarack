@@ -3,8 +3,8 @@
 (function(): void {
   clearStyles();
   loadScriptSync('js/lib/fastclick-1.0.6.min.js');
-  loadScriptSync('js/lib/react-15.1.0.min.js');
-  loadScriptSync('js/lib/react-dom-15.1.0.min.js');
+  loadScriptSync('js/lib/react-15.2.1.min.js');
+  loadScriptSync('js/lib/react-dom-15.2.1.min.js');
   loadStyleSync('css/lib/normalize-4.1.1.min.css');
   loadStyleSync('css/lib/font-awesome-4.6.3.min.css');
   loadStyleSync('css/app.css');
