@@ -1,0 +1,18 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "max-line-length": [true, 140],
+    "member-ordering": [true, {"order": "fields-first"}],
+    "quotemark": [true, "single"],
+    "no-string-literal": false,
+    "trailing-comma": [true, {
+      "multiline": "never",
+      "singleline": "never"
+    }],
+    "variable-name": [true,
+      "allow-leading-underscore",
+      "ban-keywords",
+      "check-format"
+    ]
+  }
+}
