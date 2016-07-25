@@ -16,9 +16,9 @@ export let taskService = {
   enqueue: async function<T>(priorityType: mio.PriorityType, runAsync: () => Promise<T>): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       if (!queue[priorityType]) {
-        queue[priorityType] = [{resolve: resolve, reject: reject, runAsync: runAsync}];
+        queue[priorityType] = [{reject: reject, resolve: resolve, runAsync: runAsync}];
       } else {
-        queue[priorityType].push({resolve: resolve, reject: reject, runAsync: runAsync});
+        queue[priorityType].push({reject: reject, resolve: resolve, runAsync: runAsync});
       }
       tryRun();
     });

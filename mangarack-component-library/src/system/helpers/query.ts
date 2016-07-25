@@ -27,9 +27,11 @@ export function queryCount<T>(items: {[key: string]: T}, selector: (item: T) => 
 export function queryMax<T>(items: {[key: string]: T}, selector: (item: T) => mio.IOption<number>): mio.IOption<number> {
   let best = mio.option<number>();
   for (let key in items) {
-    let result = selector(items[key]);
-    if (!best.hasValue || best.value < result.value) {
-      best = result;
+    if (items.hasOwnProperty(key)) {
+      let result = selector(items[key]);
+      if (!best.hasValue || best.value < result.value) {
+        best = result;
+      }
     }
   }
   return best;

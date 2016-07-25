@@ -9,7 +9,7 @@ import * as mioInternal from './module';
 export async function openLibraryAsync(password: mio.IOption<string>): Promise<mio.IOption<mio.ILibrary>> {
   if (password.hasValue) {
     let context = await mioInternal.contextService.getContextAsync();
-    if (context.password.hasValue && context.password.value != password.value) {
+    if (context.password.hasValue && context.password.value !== password.value) {
       return mio.option<mio.ILibrary>();
     }
   }

@@ -19,13 +19,15 @@ export let contextService = {
       if (!context.hasValue) {
         if (!deserializedContext.hasValue) {
           let password = mio.option<string>();
-          context = mio.option<mio.IContext>({lastId: 0, providers: {}, password: password, settings: {}, version: mio.version});
+          context = mio.option<mio.IContext>({lastId: 0, password: password, providers: {}, settings: {}, version: mio.version});
           contextService.saveChanges();
         } else {
           context = deserializedContext;
-          tryUpgrade(context.value);
+          tryUpgrade();
           for (let key in context.value.settings) {
-            mio.settingService.set(key, context.value.settings[key]);
+            if (context.value.settings.hasOwnProperty(key)) {
+              mio.settingService.set(key, context.value.settings[key]);
+            }
           }
         }
       }
@@ -59,12 +61,11 @@ function done(): void {
 
 /**
  * Tries to upgrade the context to support the latest version.
- * @param context The context.
  */
-function tryUpgrade(context: mio.IContext): void {
+function tryUpgrade(): void {
   // [20160219] Added settings and versioning.
-  if (!context.settings) {
-    context.settings = {};
-    context.version = 2;
+  if (context.hasValue) {
+    context.value.settings = {};
+    context.value.version = 2;
   }
 }
