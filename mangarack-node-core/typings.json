@@ -1,9 +1,9 @@
 {
   "name": "mangarack-node-core",
   "globalDependencies": {
-    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#3191f6e0088eee07c4d8fd24e4d27a40a60d9eb9",
-    "cheerio": "github:DefinitelyTyped/DefinitelyTyped/cheerio/cheerio.d.ts#3191f6e0088eee07c4d8fd24e4d27a40a60d9eb9",
-    "request": "github:DefinitelyTyped/DefinitelyTyped/request/request.d.ts#3191f6e0088eee07c4d8fd24e4d27a40a60d9eb9",
-    "form-data": "github:DefinitelyTyped/DefinitelyTyped/form-data/form-data.d.ts#3191f6e0088eee07c4d8fd24e4d27a40a60d9eb9"
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#c42b2ba16cc7f06869be1934ae829861296c2323",
+    "cheerio": "github:DefinitelyTyped/DefinitelyTyped/cheerio/cheerio.d.ts#c42b2ba16cc7f06869be1934ae829861296c2323",
+    "request": "github:DefinitelyTyped/DefinitelyTyped/request/request.d.ts#c42b2ba16cc7f06869be1934ae829861296c2323",
+    "form-data": "github:DefinitelyTyped/DefinitelyTyped/form-data/form-data.d.ts#c42b2ba16cc7f06869be1934ae829861296c2323"
   }
 }
