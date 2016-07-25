@@ -2,13 +2,13 @@
 
 (function(): void {
   clearStyles();
-  loadScriptSync('js/lib/fastclick-1.0.6.min.js');
-  loadScriptSync('js/lib/react-15.2.1.min.js');
-  loadScriptSync('js/lib/react-dom-15.2.1.min.js');
-  loadStyleSync('css/lib/normalize-4.1.1.min.css');
-  loadStyleSync('css/lib/font-awesome-4.6.3.min.css');
-  loadStyleSync('css/app.css');
-  loadStyleSync('css/mobile.css');
+  loadScriptSync('fastclick/lib/fastclick.js');
+  loadScriptSync('react/dist/react-with-addons.min.js');
+  loadScriptSync('react-dom/dist/react-dom.min.js');
+  loadStyle('normalize.css/normalize.css');
+  loadStyle('font-awesome/css/font-awesome.css');
+  loadStyle('css/app.css');
+  loadStyle('css/mobile.css');
 
   /**
    * Remove existing styles.
@@ -48,12 +48,13 @@
   }
 
   /**
-   * Synchronously loads the style.
+   * Loads the style.
    * @param filePath The file path.
    */
-  function loadStyleSync(filePath: string): void {
-    let style = document.createElement('style');
-    style.innerHTML = fetchSync(filePath);
-    document.head.appendChild(style);
+  function loadStyle(filePath: string): void {
+    let link = document.createElement('link');
+    link.href = filePath;
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
   }
 })();
