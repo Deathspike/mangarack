@@ -8,5 +8,5 @@ export interface IContextProvider {
   /**
    * Contains each series.
    */
-  series: {[seriesAddress: string]: mio.IContextSeries}
+  series: {[seriesAddress: string]: mio.IContextSeries};
 }

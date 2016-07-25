@@ -189,7 +189,7 @@ export class RemoteLibrary implements mio.ILibrary {
           headers['Authorization'] = this._authorization;
           return httpService().text(address, headers, strategy);
         }
-      }
+      };
     }
   }
 

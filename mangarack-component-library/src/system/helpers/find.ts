@@ -13,16 +13,18 @@ export function findContextChapter(context: mio.IContext, seriesId: number, chap
   if (seriesResult.hasValue) {
     let series = seriesResult.value.series;
     for (let chapterMetadataDerivedKey in series.chapters) {
-      let chapter = series.chapters[chapterMetadataDerivedKey];
-      if (chapter.id === chapterId) {
-        return mio.option<mio.IFindContextChapterResult>({
-          chapter: chapter,
-          chapterMetadataDerivedKey: chapterMetadataDerivedKey,
-          provider: seriesResult.value.provider,
-          providerName: seriesResult.value.providerName,
-          series: seriesResult.value.series,
-          seriesAddress: seriesResult.value.seriesAddress
-        });
+      if (series.chapters.hasOwnProperty(chapterMetadataDerivedKey)) {
+        let chapter = series.chapters[chapterMetadataDerivedKey];
+        if (chapter.id === chapterId) {
+          return mio.option<mio.IFindContextChapterResult>({
+            chapter: chapter,
+            chapterMetadataDerivedKey: chapterMetadataDerivedKey,
+            provider: seriesResult.value.provider,
+            providerName: seriesResult.value.providerName,
+            series: seriesResult.value.series,
+            seriesAddress: seriesResult.value.seriesAddress
+          });
+        }
       }
     }
   }
@@ -38,16 +40,20 @@ export function findContextChapter(context: mio.IContext, seriesId: number, chap
  */
 export function findContextSeries(context: mio.IContext, seriesId: number): mio.IOption<mio.IFindContextSeriesResult> {
   for (let providerName in context.providers) {
-    let provider = context.providers[providerName];
-    for (let seriesAddress in provider.series) {
-      let series = provider.series[seriesAddress];
-      if (series.id === seriesId) {
-        return mio.option<mio.IFindContextSeriesResult>({
-          provider: provider,
-          providerName: providerName,
-          series: series,
-          seriesAddress: seriesAddress
-        });
+    if (context.providers.hasOwnProperty(providerName)) {
+      let provider = context.providers[providerName];
+      for (let seriesAddress in provider.series) {
+        if (provider.series.hasOwnProperty(seriesAddress)) {
+          let series = provider.series[seriesAddress];
+          if (series.id === seriesId) {
+            return mio.option<mio.IFindContextSeriesResult>({
+              provider: provider,
+              providerName: providerName,
+              series: series,
+              seriesAddress: seriesAddress
+            });
+          }
+        }
       }
     }
   }
