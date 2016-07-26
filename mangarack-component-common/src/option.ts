@@ -1,3 +1,4 @@
+/* tslint:disable:no-null-keyword */
 import * as mio from './default';
 
 /**
@@ -10,11 +11,11 @@ export function option<T>(value?: T): mio.IOption<T> {
     return {hasValue: true, value: value};
   } else if (typeof value === 'number') {
     let hasValue = isFinite(value as any);
-    return {hasValue: hasValue, value: hasValue ? value : null};
+    return {hasValue: hasValue, value: hasValue ? value : undefined};
   } else if (typeof value === 'undefined') {
-    return {hasValue: false, value: null};
+    return {hasValue: false, value: undefined};
   } else {
     let hasValue = value != null;
-    return {hasValue: hasValue, value: hasValue ? value : null};
+    return {hasValue: hasValue, value: hasValue ? value : undefined};
   }
 }

@@ -97,7 +97,7 @@ function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
           let numberMatch = $(a).text().match(/[0-9\.]+$/);
           let title = $(a).next(mio.option('span.title')).text();
           results.push(createChapter(address, {
-            number: mio.option(numberMatch ? parseFloat(numberMatch[0]) : null),
+            number: mio.option(numberMatch ? parseFloat(numberMatch[0]) : undefined),
             title: /^Read Onl?ine$/i.test(title) ? '' : title,
             version: mio.option<number>(),
             volume: mio.option(parseFloat(match[1]))

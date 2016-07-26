@@ -28,7 +28,7 @@ export let taskService = {
 /**
  * Completes the task.
  */
-function completeTask() {
+function completeTask(): void {
   isBusy = false;
   tryRun();
 }
@@ -36,7 +36,7 @@ function completeTask() {
 /**
  * Tries to run a task from the queue.
  */
-function tryRun() {
+function tryRun(): void {
   tryRunWithPriority(mio.PriorityType.High);
   tryRunWithPriority(mio.PriorityType.Normal);
   tryRunWithPriority(mio.PriorityType.Low);
@@ -46,7 +46,7 @@ function tryRun() {
  * Tries to run a task from the queue with a priority.
  * @param priorityType The priority type.
  */
-function tryRunWithPriority(priorityType: mio.PriorityType) {
+function tryRunWithPriority(priorityType: mio.PriorityType): void {
   if (!isBusy && queue[priorityType] && queue[priorityType].length > 0) {
     let entry = queue[priorityType].shift();
     isBusy = true;
