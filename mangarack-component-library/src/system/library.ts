@@ -42,7 +42,7 @@ export let library: mio.ILibrary = {
    * @return The promise to delete the series/chapter.
    */
   delete: function(seriesId: number, chapterId?: number): any {
-    if (chapterId == null) {
+    if (chapterId) {
       return mio.createHandler(async (removeMetadata: boolean) => {
         let context = await mio.contextService.getContextAsync();
         let seriesResult = mio.findContextSeries(context, seriesId);
@@ -87,11 +87,11 @@ export let library: mio.ILibrary = {
    * @return The promise to download each `series metadata/the series metadata/the chapter`.
    */
   download: function(seriesId?: number, chapterId?: number): mio.ILibraryHandler<any> {
-    if (seriesId == null && chapterId == null) {
+    if (seriesId && chapterId) {
       return mio.createHandler((existingChapters: boolean, newChapters: boolean) => {
         return mio.taskService.enqueue(mio.PriorityType.Normal, () => downloadAsync(existingChapters, newChapters));
       });
-    } else if (chapterId == null) {
+    } else if (chapterId) {
       return mio.createHandler((existingChapters: boolean, newChapters: boolean) => {
         return mio.taskService.enqueue(mio.PriorityType.High, () => downloadSeriesAsync(seriesId, existingChapters, newChapters));
       });
@@ -110,7 +110,7 @@ export let library: mio.ILibrary = {
    * @return The promise for the series/page image.
    */
   imageAsync: function(seriesId: number, chapterId?: number, pageNumber?: number): mio.IOptionPromise<mio.IBlob> {
-    if (chapterId == null || pageNumber == null) {
+    if (chapterId || pageNumber) {
       return fileService().readBlobAsync(`${seriesId}/previewImage.mrx`);
     } else {
       return fileService().readBlobAsync(`${seriesId}/${chapterId}/${pageNumber}.mrx`);
@@ -124,7 +124,7 @@ export let library: mio.ILibrary = {
    */
   listAsync: async function(seriesId?: number): Promise<any> {
     let context = await mio.contextService.getContextAsync();
-    if (seriesId == null) {
+    if (seriesId) {
       return listSeries(context);
     } else {
       let seriesResult = mio.findContextSeries(context, seriesId);

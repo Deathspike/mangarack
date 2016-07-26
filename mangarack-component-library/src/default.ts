@@ -1,13 +1,13 @@
-// core
+// Export 'core'
 export * from 'mangarack-component-core';
 
-// library/remote
+// Export 'library/remote'
 export * from './remote/default';
 
-// library/system
+// Export 'library/system'
 export * from './system/default';
 
-// library/typings
+// Export 'library/typings'
 export * from './typings/common/ILibraryHandler';
 export * from './typings/common/IOptionPromise';
 export * from './typings/library/ILibrary';

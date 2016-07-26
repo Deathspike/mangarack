@@ -51,6 +51,6 @@ function getPages(address: string, $: mio.IHtmlDocument): mio.IPage[] {
   return $('select.m').first().find('option:not(:last-child)').map((index, option) => createPage(
     fullAddress.replace(/[0-9]+\.html$/i, `${$(option).text()}.html`),
     {number: index + 1},
-    mio.option(index ? null : $)
+    mio.option(index ? undefined : $)
   )).get();
 }
