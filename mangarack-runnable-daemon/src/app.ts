@@ -6,7 +6,7 @@ import * as path from 'path';
 /*
  * Starts the process.
  */
-(function() {
+(function(): void {
   let rootPath = path.join(os.homedir(), '.mangarack');
   let rootPathKey = 'node.library.rootPath';
   let redirectFilePath = path.join(rootPath, 'redirect.mrx');

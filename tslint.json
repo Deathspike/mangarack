@@ -8,7 +8,7 @@
   "extends": "tslint:recommended",
   "rules": {
     "comment-format": [true, "check-space", "check-uppercase"],
-    "max-line-length": [true, 140],
+    "max-line-length": [true, 200],
     "member-access": [true, "check-accessor", "check-constructor"],
     "member-ordering": [true, {"order": "fields-first"}],
     "no-angle-bracket-type-assertion": true,

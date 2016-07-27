@@ -1,3 +1,4 @@
+/* tslint:disable:no-require-imports */
 import * as basicAuth from 'basic-auth';
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
@@ -8,7 +9,7 @@ import * as path from 'path';
 /**
  * Represents the http service.
  */
-export function httpService() {
+export function httpService(): void {
   let app = express();
   app.use(compression());
   app.use(bodyParser.json());
@@ -57,12 +58,12 @@ function createHandler(handler: any): any {
       let authentication = basicAuth(request);
       let library = await mio.openLibraryAsync(mio.option(authentication ? authentication.pass : ''));
       if (library.hasValue) {
-        await handler.default(request, response, library.value);
+        await handler.handleAsync(request, response, library.value);
       } else {
         response.set('WWW-Authenticate', 'Basic realm=Authorization Required');
         response.sendStatus(401);
-      };
-    } catch(error) {
+      }
+    } catch (error) {
       console.log(error.stack || error);
     } finally {
       if (!response.headersSent) {
@@ -78,7 +79,7 @@ function createHandler(handler: any): any {
  * @return The validation handler for the parameter.
  */
 function createValidation(parameterName: string): any {
-  return function(request: express.Request, response: express.Response, next: () => void) {
+  return (request: express.Request, response: express.Response, next: () => void) => {
     request.params[parameterName] = parseInt(request.params[parameterName], 10);
     if (isFinite(request.params[parameterName])) {
       next();
@@ -93,11 +94,9 @@ function createValidation(parameterName: string): any {
  * @param app The application.
  */
 function serveStatic(app: express.Application): void {
-  // This function requires some explaining. Prior to publishing, each runnable
-  // is bundled into a self-contained file, which speeds up installation. But,
-  // having to bundle each time to test changes is a nuisance. So, the bundling
-  // flags the output file with `isBundled`, which is switched upon here. We
-  // thefore serve the GUI directly from the web component during development.
+  // This requires some explaining: Each runnable is bundled prior to publish.
+  // Developing while waiting for a bundle on each change is really frustrating.
+  // Therefore, I serve files directly during development. This speeds it up.
   if ((process as any).isBundled) {
     app.use(express.static(path.join(process.argv[1], '../public')));
   } else {

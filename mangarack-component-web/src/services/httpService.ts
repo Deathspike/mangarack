@@ -85,7 +85,7 @@ function delayAsync(): Promise<mio.IOption<void>> {
 async function fetchAnyAsync(method: string, responseType: ResponseType, addresses: string[], headers: mio.IDictionary, requestType: mio.RequestType, formData: mio.IDictionary): Promise<any> {
   let attempts = requestType === mio.RequestType.BasicWithRetry || requestType === mio.RequestType.TimeoutWithRetry ? maximumAttempts : 1;
   let previousError: any;
-  for (let currentAttempt of Array(attempts).keys()) {
+  for (let currentAttempt = 0; currentAttempt < attempts; currentAttempt++) {
     for (let currentAddress of addresses) {
       try {
         return await fetchAsync(method, responseType, currentAddress, headers, requestType, formData);
@@ -140,15 +140,19 @@ function fetchAsync<T>(method: string, responseType: ResponseType, address: stri
     }
     xhr.open(method, address);
     for (let key in headers) {
-      xhr.setRequestHeader(key, headers[key]);
+      if (headers.hasOwnProperty(key)) {
+        xhr.setRequestHeader(key, headers[key]);
+      }
     }
     if (Object.keys(formData).length) {
-      let formString = ''
+      let formString = '';
       for (let key in formData) {
-        if (formString) {
-          formString += '&';
+        if (formData.hasOwnProperty(key)) {
+          if (formString) {
+            formString += '&';
+          }
+          formString += encodeURIComponent(key) + '=' + encodeURIComponent(formData[key]);
         }
-        formString += encodeURIComponent(key) + '=' + encodeURIComponent(formData[key]);
       }
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.send(formString);

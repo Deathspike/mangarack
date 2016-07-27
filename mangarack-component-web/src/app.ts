@@ -27,6 +27,7 @@
 //  Filters (Image Normalisation, etc)
 //  CurrentPage/NumberOfPages -> Hovering Status
 
+/* tslint:disable:no-require-imports */
 'use strict';
 
 /*

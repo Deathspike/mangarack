@@ -38,9 +38,9 @@ export let applicationActions = {
     /* TODO: Handle refresh chapters errors. */
     let location = mio.parseLocation();
     if (location.seriesId.hasValue) {
-      setChapters({chapters: mio.option<mio.ILibraryChapter[]>(), seriesId: mio.option<number>()});
+      mio.applicationActions.setChapters({chapters: mio.option<mio.ILibraryChapter[]>(), seriesId: mio.option<number>()});
       let chapters = await mio.openActiveLibrary().listAsync(location.seriesId.value);
-      setChapters({chapters: chapters, seriesId: location.seriesId});
+      mio.applicationActions.setChapters({chapters: chapters, seriesId: location.seriesId});
     }
   }),
 
@@ -49,9 +49,37 @@ export let applicationActions = {
    */
   refreshSeries: mio.store.reviser('APPLICATION_REFRESH', async function(state: mio.IApplicationState): Promise<void> {
     /* TODO: Handle refresh series errors. */
-    setSeries(mio.option<mio.ILibrarySeries[]>());
+    mio.applicationActions.setSeries(mio.option<mio.ILibrarySeries[]>());
     let series = await mio.openActiveLibrary().listAsync();
-    setSeries(mio.option(series));
+    mio.applicationActions.setSeries(mio.option(series));
+  }),
+
+  /**
+   * Sets the chapters
+   * @param seriesId The series identifier.
+   * @param chapters The chapters.
+   */
+  setChapters: mio.store.reviser('APPLICATION_SETCHAPTERS', function(state: mio.IApplicationState, revision: {chapters: mio.IOption<mio.ILibraryChapter[]>, seriesId: mio.IOption<number>}): void {
+    state.chapters = revision.chapters;
+    if (revision.seriesId.hasValue && mio.cache[revision.seriesId.value]) {
+      deleteImageFromCache(revision.seriesId.value);
+    }
+  }),
+
+  /**
+   * Sets the series
+   * @param series The series.
+   */
+  setSeries: mio.store.reviser('APPLICATION_SETSERIES', function(state: mio.IApplicationState, series: mio.IOption<mio.ILibrarySeries[]>): void {
+    state.series.all = series;
+    state.series.processed = mio.processSeries(state.menu, state.series.all);
+    if (!state.series.all.hasValue) {
+      for (let seriesId in mio.cache) {
+        if (mio.cache.hasOwnProperty(seriesId)) {
+          deleteImageFromCache(parseInt(seriesId, 10));
+        }
+      }
+    }
   })
 };
 
@@ -66,29 +94,3 @@ function deleteImageFromCache(seriesId: number): void {
     delete mio.cache[seriesId];
   }
 }
-
-/**
- * Sets the chapters
- * @param seriesId The series identifier.
- * @param chapters The chapters.
- */
-let setChapters = mio.store.reviser('APPLICATION_SETCHAPTERS', function(state: mio.IApplicationState, revision: {chapters: mio.IOption<mio.ILibraryChapter[]>, seriesId: mio.IOption<number>}): void {
-  state.chapters = revision.chapters;
-  if (revision.seriesId.hasValue && mio.cache[revision.seriesId.value]) {
-    deleteImageFromCache(revision.seriesId.value);
-  }
-});
-
-/**
- * Sets the series
- * @param series The series.
- */
-let setSeries = mio.store.reviser('APPLICATION_SETSERIES', function(state: mio.IApplicationState, series: mio.IOption<mio.ILibrarySeries[]>): void {
-  state.series.all = series;
-  state.series.processed = mio.processSeries(state.menu, state.series.all);
-  if (!state.series.all.hasValue) {
-    for (let seriesId in mio.cache) {
-      deleteImageFromCache(parseInt(seriesId, 10));
-    }
-  }
-});

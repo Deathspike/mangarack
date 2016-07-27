@@ -9,7 +9,7 @@ import * as mio from '../default';
  * @param library The library.
  * @return The promise to propagate and archive the setting.
  */
-export default async function(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
+export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
   let key = mio.option<string>(request.body.key);
   let value = mio.option<string>(request.body.value);
   if (!key.hasValue || !value.hasValue) {

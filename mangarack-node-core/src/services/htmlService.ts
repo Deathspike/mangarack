@@ -22,9 +22,7 @@ export let htmlService: mio.IHtmlService = {
  * @return The HTML object.
  */
 function encapsulateDocument(cheerioStatic: CheerioStatic): (elementOrSelector: mio.IHtmlElement|string) => mio.IHtmlObject {
-  return function(elementOrSelector: mio.IHtmlElement|string) {
-    return encapsulateObject(cheerioStatic(elementOrSelector));
-  };
+  return (elementOrSelector: mio.IHtmlElement|string) => encapsulateObject(cheerioStatic(elementOrSelector));
 }
 
 /**
@@ -76,7 +74,7 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
       * @return The current HTML object.
       */
     html: function(htmlString?: string): any {
-      return htmlString == null
+      return mio.isNull(htmlString)
         ? cheerioObject.html()
         : encapsulateObject(cheerioObject.html(htmlString));
     },
@@ -88,7 +86,7 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
      */
     map: function<T>(iterator: (index: number, element: mio.IHtmlElement) => T): {get(): T[]} {
       let cheerioMap = cheerioObject.map(iterator);
-      return {get: () => <T[]>(cheerioMap.get() as any)};
+      return {get: () => cheerioMap.get() as any};
     },
 
     /**

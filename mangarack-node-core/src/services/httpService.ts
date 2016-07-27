@@ -87,7 +87,7 @@ function delayAsync(): Promise<mio.IOption<void>> {
 async function fetchAnyAsync(method: string, responseType: ResponseType, addresses: string[], headers: mio.IDictionary, requestType: mio.RequestType, formData: mio.IDictionary): Promise<any> {
   let attempts = requestType === mio.RequestType.BasicWithRetry || requestType === mio.RequestType.TimeoutWithRetry ? maximumAttempts : 1;
   let previousError: any;
-  for (let currentAttempt of Array(attempts).keys()) {
+  for (let currentAttempt = 0; currentAttempt < attempts; currentAttempt++) {
     for (let currentAddress of addresses) {
       try {
         return await fetchAsync(method, responseType, currentAddress, headers, requestType, formData);
@@ -115,14 +115,14 @@ async function fetchAnyAsync(method: string, responseType: ResponseType, address
  * @return The promise for the contents of the HTTP resource.
  */
 function fetchAsync<T>(method: string, responseType: ResponseType, address: string, headers: mio.IDictionary, requestType: mio.RequestType, formData: mio.IDictionary): Promise<any> {
-  let encoding = responseType == ResponseType.Blob ? null : 'utf8';
+  let encoding = responseType === ResponseType.Blob ? undefined : 'utf8';
   let timeout = requestType === mio.RequestType.Basic || requestType === mio.RequestType.BasicWithRetry ? 0 : timeoutInMilliseconds;
   return new Promise((resolve, reject) => {
-    let options = {encoding: encoding, headers: headers, form: formData, gzip: true, jar: true, method: method, timeout: timeout, url: address};
+    let options = {encoding: encoding, form: formData, gzip: true, headers: headers, jar: true, method: method, timeout: timeout, url: address};
     headers['User-Agent'] = headers['User-Agent'] || userAgent;
     request(options, (error, response, body) => {
       if (!error && response.statusCode === 200) {
-        if (responseType == ResponseType.Json) {
+        if (responseType === ResponseType.Json) {
           resolve(JSON.parse(body));
         } else {
           resolve(body);

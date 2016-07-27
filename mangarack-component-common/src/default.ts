@@ -1,7 +1,6 @@
 // Export 'common'
 export * from './dependency';
-export * from './option';
-export * from './promise';
+export * from './functions';
 
 // Export 'common/typings'
 export * from './typings/IBlob';

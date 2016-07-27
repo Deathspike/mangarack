@@ -5,10 +5,10 @@
  * @author Roel van Uden
  * @license MIT
  */
-let require = (<any> window).require = (function(): any {
+let require = (window as any).require = (function(): any {
   let scriptElement = document.querySelector('script[src$=\'require.js\']');
   let moduleCache: {[key: string]: any} = {};
-  let basePath = (scriptElement ? scriptElement.getAttribute('data-base') : null) || 'js';
+  let basePath = (scriptElement ? scriptElement.getAttribute('data-base') : undefined) || 'js';
 
   /**
    * Synchronously fetches file contents.

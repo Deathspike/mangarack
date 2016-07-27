@@ -15,7 +15,7 @@ export let metaService: mio.IMetaService = {
   createXml: function(series: mio.ISeries, chapter: mio.IChapter, pages: mio.IPage[]): string {
     return new xml2js.Builder({
       rootName: 'ComicInfo',
-      xmldec: {version: '1.0', encoding: 'utf-8'}
+      xmldec: {encoding: 'utf-8', version: '1.0'}
     }).buildObject(titleCase({
       genres: series.genres.map(genre => mio.GenreType[genre].replace(/([a-z])([A-Z])/g, '$1 $2')).join(', '),
       manga: series.type === mio.SeriesType.Manga ? 'YesAndRightToLeft' : '',
@@ -39,10 +39,12 @@ export let metaService: mio.IMetaService = {
 function titleCase(item: any): any {
   let result: any = Array.isArray(item) ? [] : {};
   for (let key in item) {
-    let value = item[key];
-    if (item.hasOwnProperty(key) && value != null) {
-      let title = key.charAt(0).toUpperCase() + key.substr(1);
-      result[title] = typeof value === 'object' ? titleCase(value) : value;
+    if (item.hasOwnProperty(key)) {
+      let value = item[key];
+      if (!mio.isNull(value)) {
+        let title = key.charAt(0).toUpperCase() + key.substr(1);
+        result[title] = typeof value === 'object' ? titleCase(value) : value;
+      }
     }
   }
   return result;

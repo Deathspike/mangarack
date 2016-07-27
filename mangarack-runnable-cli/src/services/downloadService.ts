@@ -17,7 +17,7 @@ export let downloadService: mio.IDownloadService = {
     let chapterName = getChapterName(series, chapter);
     let chapterPath = getChapterPath(series, chapter);
     if (chapterName.hasValue && chapterPath.hasValue) {
-      let chapterExists = await mio.promise<boolean>(callback => fs.exists(chapterPath.value, exists => callback(null, exists)));
+      let chapterExists = await mio.promise<boolean>(callback => fs.exists(chapterPath.value, exists => callback(undefined, exists)));
       if (chapterExists.hasValue && chapterExists.hasValue && !chapterExists.value) {
         console.log(`Fetching ${chapterName.value}`);
         let beginTime = Date.now();
@@ -83,7 +83,7 @@ export let downloadService: mio.IDownloadService = {
 async function cleanAsync(series: mio.ISeries): Promise<void> {
   let seriesName = getSeriesName(series);
   if (seriesName.hasValue) {
-    let seriesExists = await mio.promise<boolean>(callback => fs.exists(seriesName.value, exists => callback(null, exists)));
+    let seriesExists = await mio.promise<boolean>(callback => fs.exists(seriesName.value, exists => callback(undefined, exists)));
     if (seriesExists.hasValue && seriesExists.value) {
       let fileNames = await mio.promise<string[]>(callback => fs.readdir(seriesName.value, callback));
       if (fileNames.hasValue) {
@@ -129,7 +129,7 @@ function getChapterName(series: mio.ISeries, chapter: mio.IChapter): mio.IOption
 function getChapterPath(series: mio.ISeries, chapter: mio.IChapter): mio.IOption<string> {
   let seriesName = getSeriesName(series);
   let chapterName = getChapterName(series, chapter);
-  return mio.option(seriesName.hasValue && chapterName.hasValue ? `${seriesName.value}/${chapterName.value}` : null);
+  return mio.option(seriesName.hasValue && chapterName.hasValue ? `${seriesName.value}/${chapterName.value}` : undefined);
 }
 
 /**
@@ -140,22 +140,22 @@ function getChapterPath(series: mio.ISeries, chapter: mio.IChapter): mio.IOption
 function getSeriesName(series: mio.ISeries): mio.IOption<string> {
   return mio.option(series.title
     .replace(/["<>\|:\*\?\\\/]/g, '')
-    .replace(/\.$/, '. (Suffixed)') || null);
+    .replace(/\.$/, '. (Suffixed)') || undefined);
 }
 
 /**
  * Formats the number (with possible fraction digits) to be prefixed with leading zeros.
  * @param minimumWholeNumberLength The minimum length of whole numbers.
- * @param number The number.
+ * @param value The value.
  * @return The number prefixed with leading zeros.
  */
-function format(minimumWholeNumberLength: number, number: number): string {
-  let value = number.toString();
-  let index = value.indexOf('.');
-  for (let i = minimumWholeNumberLength - (index >= 0 ? index : value.length); i > 0; i--) {
-    value = '0' + value;
+function format(minimumWholeNumberLength: number, value: number): string {
+  let result = value.toString();
+  let index = result.indexOf('.');
+  for (let i = minimumWholeNumberLength - (index >= 0 ? index : result.length); i > 0; i--) {
+    result = '0' + result;
   }
-  return value;
+  return result;
 }
 
 /**

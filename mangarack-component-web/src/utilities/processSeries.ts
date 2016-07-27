@@ -10,19 +10,19 @@ export function processSeries(menu: mio.IMenuState, series: mio.IOption<mio.ILib
   if (series.hasValue) {
     let requiredGenres = Object.keys(menu.genres).map(genre => parseInt(genre, 10)).filter(genre => menu.genres[genre] === true);
     let searchTerms = menu.search.split(/\s/).map(term => term.toLowerCase());
-    return mio.option(series.value.filter(series => {
-      for (let genre of series.metadata.genres) {
+    return mio.option(series.value.filter(item => {
+      for (let genre of item.metadata.genres) {
         if (menu.genres[genre] === false) {
           return false;
         }
       }
       for (let requiredGenre of requiredGenres) {
-        if (series.metadata.genres.indexOf(requiredGenre) === -1) {
+        if (item.metadata.genres.indexOf(requiredGenre) === -1) {
           return false;
         }
       }
       for (let searchTerm of searchTerms) {
-        if (searchTerm && series.providerName.toLowerCase().indexOf(searchTerm) === -1 && series.metadata.title.toLowerCase().indexOf(searchTerm) === -1) {
+        if (searchTerm && item.providerName.toLowerCase().indexOf(searchTerm) === -1 && item.metadata.title.toLowerCase().indexOf(searchTerm) === -1) {
           return false;
         }
       }

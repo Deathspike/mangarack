@@ -9,7 +9,7 @@ import * as mio from '../default';
  * @param library The library.
  * @return The promise to create the series.
  */
-export default async function(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
+export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
   let seriesAddress = mio.option<string>(request.body.seriesAddress);
   if (!seriesAddress.hasValue) {
     response.sendStatus(400);
