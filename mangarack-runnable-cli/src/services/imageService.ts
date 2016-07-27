@@ -91,7 +91,7 @@ export async function normalizeAsync(image: mio.IBlob): Promise<mio.IOption<mio.
  * @param y The position on the y-axis.
  */
 function readLineAverageOrContainsBlack(buffer: Buffer, width: number, y: number): mio.IOption<{r: number, g: number, b: number}> {
-  let totals = {r: 0, g: 0, b: 0};
+  let totals = {b: 0, g: 0, r: 0};
   for (let x = 0, index = y * width * 3; x < width; x++, index += 3) {
     let r = buffer.readUInt8(index);
     let g = buffer.readUInt8(index + 1);
@@ -104,7 +104,7 @@ function readLineAverageOrContainsBlack(buffer: Buffer, width: number, y: number
       return mio.option<{r: number, b: number, g: number}>();
     }
   }
-  return mio.option({r: Math.round(totals.r / width), g: Math.round(totals.g / width), b: Math.round(totals.b / width)});
+  return mio.option({b: Math.round(totals.b / width), g: Math.round(totals.g / width), r: Math.round(totals.r / width)});
 }
 
 /**

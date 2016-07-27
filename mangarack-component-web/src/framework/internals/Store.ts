@@ -68,7 +68,7 @@ export class Store<TState> extends fwInternal.Observable<TState> implements fw.I
    */
   public dispatchError(error: any): void {
     for (let errorHandler of this._errorHandlers) {
-      if (!fw.isNull(errorHandler)) {
+      if (errorHandler) {
         errorHandler(error);
       }
     }

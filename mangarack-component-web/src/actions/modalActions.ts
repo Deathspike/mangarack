@@ -85,10 +85,12 @@ export let modalActions = {
     state.modal.type = modalType;
     if (modalType === mio.ModalType.None) {
       for (let modalId in closedModal) {
-        closedModal[modalId] = true;
+        if (closedModal.hasOwnProperty(modalId)) {
+          closedModal[modalId] = true;
+        }
       }
     }
-  }),
+  })
 };
 
 /**

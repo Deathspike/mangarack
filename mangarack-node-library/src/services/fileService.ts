@@ -28,7 +28,7 @@ export let fileService: mio.IFileService = {
         if (error) {
           callback();
         } else {
-          callback(null, data);
+          callback(undefined, data);
         }
       });
     });
@@ -46,8 +46,8 @@ export let fileService: mio.IFileService = {
           callback();
         } else {
           try {
-            callback(null, JSON.parse(data));
-          } catch(error) {
+            callback(undefined, JSON.parse(data));
+          } catch (error) {
             callback();
           }
         }

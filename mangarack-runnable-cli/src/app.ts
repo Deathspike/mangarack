@@ -5,7 +5,7 @@ let queue = Promise.resolve();
 /*
  * Starts the process.
  */
-(function() {
+(function(): void {
   let args = process.argv.splice(2);
   populateStore(args);
   if (hasAnySeries(args)) {

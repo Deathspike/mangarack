@@ -6,7 +6,7 @@ import * as fw from '../default';
 export abstract class StoreComponent<T> extends fw.StatefulComponent<void, T> {
   private _observer: fw.IObservableObserver<T>;
   private _store: fw.IStore<T>;
-  private _timeoutHandle = 0;
+  private _timeoutHandle: number;
 
   /**
    * Initializes a new instance of the StoreComponent class.
@@ -16,6 +16,7 @@ export abstract class StoreComponent<T> extends fw.StatefulComponent<void, T> {
     super(undefined, store.getState());
     this._observer = this._onNotify.bind(this);
     this._store = store;
+    this._timeoutHandle = 0;
   }
 
   /**
@@ -37,7 +38,7 @@ export abstract class StoreComponent<T> extends fw.StatefulComponent<void, T> {
    * Occurs when the observable sends a notification about a change in state.
    * @param state The state.
    */
-  private _onNotify(state: T) {
+  private _onNotify(state: T): void {
     if (!this._timeoutHandle) {
       this._timeoutHandle = setTimeout(() => {
         this._timeoutHandle = 0;

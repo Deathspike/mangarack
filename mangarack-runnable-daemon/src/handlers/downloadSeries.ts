@@ -9,7 +9,7 @@ import * as mio from '../default';
  * @param library The library.
  * @return The promise to download the series metadata.
  */
-export default async function(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
+export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
   let seriesId = request.params.seriesId as number;
   let existingChapters = mio.helperService.parseBoolean(request.body.existingChapters);
   let newChapters = mio.helperService.parseBoolean(request.body.newChapters);

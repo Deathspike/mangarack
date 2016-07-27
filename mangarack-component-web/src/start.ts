@@ -16,21 +16,17 @@ export function openActiveLibrary(): mio.ILibrary {
   if (library.hasValue) {
     return library.value;
   } else {
-    throw new Error('No library is currently active.')
+    throw new Error('No library is currently active.');
   }
 }
 // Provide library for testing purposes.
-(async function() {
+(async function(): Promise<void> {
   library = await mio.openRemoteLibraryAsync(mio.option<string>(), mio.option<string>());
   if (library.hasValue) {
-    console.log('Stand by, ready. Set up.');
     (window as any).library = library.value;
     (window as any).mio = mio;
-  } else {
-    console.log(':-(');
   }
 })();
-
 
 /**
  * Represents the preview image cache.
@@ -42,7 +38,7 @@ export let cache: {[seriesId: number]: string} = {};
  */
 export let store: mio.IStore<mio.IApplicationState> = mio.createStore<mio.IApplicationState>({
   chapters: mio.option<mio.ILibraryChapter[]>(),
-  menu: {genres: {}, order: {ascending: true, type: mio.OrderType.SeriesTitle}, type: mio.MenuType.Default, search: ''},
+  menu: {genres: {}, order: {ascending: true, type: mio.OrderType.SeriesTitle}, search: '', type: mio.MenuType.Default},
   modal: {error: mio.option<string>(), type: mio.ModalType.None},
   series: {all: mio.option<mio.ILibrarySeries[]>(), processed: mio.option<mio.ILibrarySeries[]>()}
 });
