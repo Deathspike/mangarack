@@ -1,3 +1,4 @@
+/* tslint:disable:no-console */
 import * as fw from '../default';
 import * as fwInternal from '../internals';
 
@@ -27,7 +28,7 @@ export class Store<TState> extends fwInternal.Observable<TState> implements fw.I
    * Dispatches the action.
    * @param The action.
    */
-  public dispatch<TRevision>(action: fw.IAction<TRevision>): PromiseLike<void>|void {
+  public dispatch<T>(action: fw.IAction<T>): PromiseLike<void>|void {
     // Keep track of each revision.
     if (this._activeRevisions === 0 && console.log) {
       console.log(action);
@@ -45,7 +46,7 @@ export class Store<TState> extends fwInternal.Observable<TState> implements fw.I
       try {
         this._activeRevisions++;
         thenable = this._revisers[action.name](this._state, action.revision);
-      } catch(error) {
+      } catch (error) {
         this.dispatchError(error);
         return;
       }
@@ -68,7 +69,7 @@ export class Store<TState> extends fwInternal.Observable<TState> implements fw.I
    */
   public dispatchError(error: any): void {
     for (let errorHandler of this._errorHandlers) {
-      if (errorHandler) {
+      if (!fw.isNull(errorHandler)) {
         errorHandler(error);
       }
     }
@@ -88,10 +89,10 @@ export class Store<TState> extends fwInternal.Observable<TState> implements fw.I
    * @param reviser The reviser.
    * @return The revision dispatcher.
    */
-  public reviser<TRevision>(name: string, reviser: any): any {
+  public reviser<T>(name: string, reviser: any): any {
     if (!this._revisers[name]) {
       this._revisers[name] = reviser;
-      return (revision: TRevision) => this.dispatch({name: name, revision: revision});
+      return (revision: T) => this.dispatch({name: name, revision: revision});
     } else {
       throw new Error(`Failed to register reviser '${name}'.`);
     }

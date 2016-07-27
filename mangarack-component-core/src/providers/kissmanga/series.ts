@@ -1,3 +1,4 @@
+declare let setTimeout: (callback: () => void, timeout: number) => void;
 import * as mio from '../../default';
 import {createChapter} from './chapter';
 import {enhance} from '../enhance';
@@ -20,7 +21,7 @@ export async function createSeriesAsync(address: string): Promise<mio.ISeries> {
 
 /**
  * Creates the series.
- * @param address The address.
+ * @param address The address.7
  * @param document The selector.
  * @return The series.
  */

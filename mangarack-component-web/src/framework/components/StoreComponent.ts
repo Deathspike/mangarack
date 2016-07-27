@@ -43,7 +43,7 @@ export abstract class StoreComponent<T> extends fw.StatefulComponent<void, T> {
       this._timeoutHandle = setTimeout(() => {
         this._timeoutHandle = 0;
         this.setState(state);
-      }, 0);
+      }, 1);
     }
   }
 }

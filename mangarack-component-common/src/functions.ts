@@ -25,7 +25,7 @@ export function option<T>(value?: T): mio.IOption<T> {
  * @param value The value.
  * @return Indicates whether the value is null.
  */
-export function isNull<T>(value: any): value is void {
+export function isNull(value: any): value is void {
   return value === null || value === undefined;
 }
 

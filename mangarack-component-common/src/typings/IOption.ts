@@ -10,5 +10,5 @@ export interface IOption<T> {
   /**
    * Contains the value.
    */
-  value: T;
+  value?: T;
 }
