@@ -20,7 +20,7 @@ export class Observable<T> implements fw.IObservable<T> {
    */
   public notify(state: T): void {
     for (let observer of this._observers) {
-      if (observer) {
+      if (!fw.isNull(observer)) {
         observer(state);
       }
     }

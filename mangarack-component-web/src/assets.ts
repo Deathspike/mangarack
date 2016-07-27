@@ -1,14 +1,16 @@
 'use strict';
 
 (function(): void {
-  clearStyles();
-  loadScriptSync('fastclick/lib/fastclick.js');
-  loadScriptSync('react/dist/react-with-addons.min.js');
-  loadScriptSync('react-dom/dist/react-dom.min.js');
-  loadStyle('normalize.css/normalize.css');
-  loadStyle('font-awesome/css/font-awesome.css');
-  loadStyle('css/app.css');
-  loadStyle('css/mobile.css');
+  createReferences([
+    'fastclick/lib/fastclick.js',
+    'react/dist/react-with-addons.min.js',
+    'react-dom/dist/react-dom.min.js'
+  ], [
+    'normalize.css/normalize.css',
+    'font-awesome/css/font-awesome.css',
+    'css/app.css',
+    'css/mobile.css'
+  ]);
 
   /**
    * Remove existing styles.
@@ -23,14 +25,24 @@
   }
 
   /**
+   * Creates script and style references.
+   * @param scripts The scripts.
+   * @param styles The styles.
+   */
+  function createReferences(scripts: string[], styles: string[]): void {
+    clearStyles();
+    scripts.forEach(loadScriptSync);
+    styles.forEach(loadStyleSync);
+  }
+
+  /**
    * Synchronously fetches file contents.
    * @param filePath The file path.
    * @return The file contents.
    */
   function fetchSync(filePath: string): string {
-    let assetsOverrides = (window as any).assetsOverrides;
-    if (assetsOverrides && assetsOverrides[filePath]) {
-      return assetsOverrides[filePath];
+    if (window.assetOverrides && window.assetOverrides[filePath]) {
+      return window.assetOverrides[filePath];
     } else {
       let request = new XMLHttpRequest();
       request.open('GET', filePath, false);
@@ -44,17 +56,16 @@
    * @param filePath The file path.
    */
   function loadScriptSync(filePath: string): void {
-    (new Function(fetchSync(filePath)))();
+    (new Function(fetchSync(filePath))).call(window);
   }
 
   /**
-   * Loads the style.
+   * Synchronously loads the style.
    * @param filePath The file path.
    */
-  function loadStyle(filePath: string): void {
-    let link = document.createElement('link');
-    link.href = filePath;
-    link.rel = 'stylesheet';
-    document.head.appendChild(link);
+  function loadStyleSync(filePath: string): void {
+    let style = document.createElement('style');
+    style.innerHTML = fetchSync(filePath);
+    document.head.appendChild(style);
   }
 })();

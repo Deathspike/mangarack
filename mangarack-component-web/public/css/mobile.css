@@ -20,6 +20,7 @@ html {
 body {
   -moz-text-size-adjust: none;
   -moz-user-select: none;
+  -ms-overflow-style: none;
   -ms-text-size-adjust: none;
   -ms-user-select: none;
   -webkit-overflow-scrolling: touch;
@@ -52,4 +53,8 @@ select::-ms-expand {
 select:focus::-ms-value {
   background-color: transparent;
   color: inherit;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }

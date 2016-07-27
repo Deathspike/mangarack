@@ -30,17 +30,28 @@
 /* tslint:disable:no-require-imports */
 'use strict';
 
-/*
- * This file, `web/src/app.ts` is the entry point when served as a we
- * application. It mocks `require` to enable a seamless development experience.
- * When served under Cordova, the entry point is `web/src/default.ts`.
- */
 (function(): void {
+  // Initialize the require function when applicable.
   if (typeof require === 'undefined') {
     let request = new XMLHttpRequest();
-    request.open('GET', 'js/require.js', false);
+    request.open('GET', 'js/framework/support/require.js', false);
     request.send();
     (new Function(request.responseText))();
   }
-  require('./default');
+
+  // Initialize the asset overrides when applicable.
+  if (!window.assetLoading) {
+    let webPath = 'js/web.js';
+    window.assetOverrides = JSON.parse(localStorage.getItem('assetOverrides'));
+
+    // Check if the asset overrides define an entry point.
+    if (window.assetOverrides && window.assetOverrides[webPath]) {
+      window.assetLoading = true;
+      return (new Function(window.assetOverrides[webPath]))();
+    }
+  }
+
+  // Run the application.
+  window.assetLoading = false;
+  (window as any).app = require('./default');
 })();

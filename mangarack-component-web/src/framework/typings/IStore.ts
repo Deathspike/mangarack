@@ -8,10 +8,10 @@ export interface IStore<TState> extends mio.IObservable<TState> {
    * Dispatches the action.
    * @param The action.
    */
-  dispatch<TRevision>(action: mio.IAction<TRevision>): void;
+  dispatch<T>(action: mio.IAction<T>): void;
 
   /**
-   * Dispatches the error.
+   * Dispatches the revision error.
    * @param error The error.
    */
   dispatchError(error: any): void;
@@ -36,7 +36,7 @@ export interface IStore<TState> extends mio.IObservable<TState> {
    * @param reviser The reviser.
    * @return The revision dispatcher.
    */
-  reviser<TRevision>(name: string, reviser: mio.IStoreReviserWithParameter<TState, TRevision>): (revision: TRevision) => PromiseLike<void>|void;
+  reviser<T>(name: string, reviser: mio.IStoreReviserWithParameter<TState, T>): (revision: T) => PromiseLike<void>|void;
 
   /**
    * Registers the error handler.
