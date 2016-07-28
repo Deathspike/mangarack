@@ -3,7 +3,7 @@ import * as mio from '../default';
 /**
  * Represents a series component.
  */
-export class SeriesComponent extends mio.StatelessComponent<{series: mio.IOption<mio.ILibrarySeries[]>}> {
+export class SeriesComponent extends mio.StatelessComponent<{series?: mio.ILibrarySeries[]}> {
   /**
    * Renders the component.
    */

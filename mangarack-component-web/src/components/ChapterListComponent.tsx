@@ -19,7 +19,7 @@ export class ChapterListComponent extends mio.StatelessComponent<{chapters: mio.
               <span>
                 {(() => {
                   if (result.unknownVolume.length) {
-                    return <mio.ChapterListVolumeComponent chapters={result.unknownVolume} volume={mio.option<number>()} />;
+                    return <mio.ChapterListVolumeComponent chapters={result.unknownVolume} volume={undefined} />;
                   } else {
                     return null;
                   }

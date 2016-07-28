@@ -1,5 +1,3 @@
-import * as mio from '../../default';
-
 /**
  * Represents a HTML document.
  */
@@ -87,21 +85,21 @@ export interface IHtmlObject {
    * @param selector The string containing the selector expression.
    * @return The immediately following sibling of each element
    */
-  next(selector: mio.IOption<string>): IHtmlObject;
+  next(selector?: string): IHtmlObject;
 
   /**
    * Gets the parent of each element.
    * @param selector The string containing the selector expression.
    * @return The parent of each element.
    */
-  parent(selector: mio.IOption<string>): IHtmlObject;
+  parent(selector?: string): IHtmlObject;
 
   /**
    * Gets the immediately preceding sibling of each element.
    * @param selector? The string containing the selector expression.
    * @return The immediately preceding sibling of each element.
    */
-  prev(selector: mio.IOption<string>): IHtmlObject;
+  prev(selector?: string): IHtmlObject;
 
   /**
    * Gets the text contents of each element, including their descendants.

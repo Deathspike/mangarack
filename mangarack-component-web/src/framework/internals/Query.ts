@@ -9,7 +9,7 @@ export class Query<T> implements fw.ILazyQuery<T> {
   private _filterIndex: number;
   private _filterItems: T[];
   private _items: T[];
-  private _nextItem: T|void;
+  private _nextItem: T | undefined;
 
   /**
    * Initializes a new instance of the LazyQuery class.
@@ -26,7 +26,7 @@ export class Query<T> implements fw.ILazyQuery<T> {
   /**
    * Retrieves an item.
    */
-  public getItem(): T|void {
+  public getItem(): T | undefined {
     if (this.hasItem() && !fw.isNull(this._nextItem)) {
       let currentItem = this._nextItem;
       this._filterItems.push(this._nextItem);

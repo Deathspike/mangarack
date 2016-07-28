@@ -39,10 +39,10 @@ export function scan(input: string): mio.IChapterMetadata {
  */
 function createMetadata(match: RegExpMatchArray): mio.IChapterMetadata {
   return {
-    number: mio.option(createNumber(match[2], match[4])),
+    number: createNumber(match[2], match[4]),
     title: match[5] ? match[5].trim() : '',
-    version: mio.option(parseFloat(match[3])),
-    volume: mio.option(parseFloat(match[1]))
+    version: parseFloat(match[3]),
+    volume: parseFloat(match[1])
   };
 }
 
@@ -57,8 +57,8 @@ function createNumber(chapter: string, part: string): number {
   if (match) {
     return parseFloat(match[1]) + (match[2].charCodeAt(0) - 96) / 10;
   } else if (part) {
-    let parsedPart = mio.option(parseFloat(part));
-    return parseFloat(chapter) + (parsedPart.hasValue ? parsedPart.value : 0) / 10;
+    let parsedPart = parseFloat(part);
+    return parseFloat(chapter) + (mio.isOk(parsedPart) ? parsedPart : 0) / 10;
   } else {
     return parseFloat(chapter);
   }

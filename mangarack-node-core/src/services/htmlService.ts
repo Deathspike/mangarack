@@ -21,8 +21,8 @@ export let htmlService: mio.IHtmlService = {
  * @param cheerioStatic The object.
  * @return The HTML object.
  */
-function encapsulateDocument(cheerioStatic: CheerioStatic): (elementOrSelector: mio.IHtmlElement|string) => mio.IHtmlObject {
-  return (elementOrSelector: mio.IHtmlElement|string) => encapsulateObject(cheerioStatic(elementOrSelector));
+function encapsulateDocument(cheerioStatic: CheerioStatic): (elementOrSelector: mio.IHtmlElement | string) => mio.IHtmlObject {
+  return elementOrSelector => encapsulateObject(cheerioStatic(elementOrSelector));
 }
 
 /**
@@ -94,7 +94,7 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
      * @param selector The string containing the selector expression.
      * @return The immediately following sibling of each element
      */
-    next: function(selector: mio.IOption<string>): mio.IHtmlObject {
+    next: function(selector?: string): mio.IHtmlObject {
       return encapsulateObject(!selector.hasValue
         ? cheerioObject.next()
         : cheerioObject.next(selector.value));
@@ -105,7 +105,7 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
      * @param selector The string containing the selector expression.
      * @return The parent of each element.
      */
-    parent: function(selector: mio.IOption<string>): mio.IHtmlObject {
+    parent: function(selector?: string): mio.IHtmlObject {
       return encapsulateObject(!selector.hasValue
         ? cheerioObject.parent()
         : cheerioObject.parent(selector.value));
@@ -116,7 +116,7 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
      * @param selector The string containing the selector expression.
      * @return The immediately preceding sibling of each element.
      */
-    prev: function(selector: mio.IOption<string>): mio.IHtmlObject {
+    prev: function(selector?: string): mio.IHtmlObject {
       return encapsulateObject(!selector.hasValue
         ? cheerioObject.prev()
         : cheerioObject.prev(selector.value));

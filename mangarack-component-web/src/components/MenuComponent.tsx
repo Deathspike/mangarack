@@ -3,7 +3,7 @@ import * as mio from '../default';
 /**
  * Represents a menu component.
  */
-export class MenuComponent extends mio.StatelessComponent<{controller: string, menu: mio.IMenuState, series: mio.IOption<mio.ILibrarySeries[]>}> {
+export class MenuComponent extends mio.StatelessComponent<{controller: string, menu: mio.IMenuState, series?: mio.ILibrarySeries[]}> {
   /**
    * Renders the component.
    */

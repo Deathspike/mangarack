@@ -5,7 +5,7 @@ export interface ILazyQuery<T> {
   /**
    * Retrieves an item.
    */
-  getItem(): T|void;
+  getItem(): T | undefined;
 
   /**
    * Determines whether an item is available.

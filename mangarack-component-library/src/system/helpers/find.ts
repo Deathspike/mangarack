@@ -10,25 +10,25 @@ import * as mio from '../module';
  */
 export function findContextChapter(context: mio.IContext, seriesId: number, chapterId: number): mio.IOption<mio.IFindContextChapterResult> {
   let seriesResult = findContextSeries(context, seriesId);
-  if (seriesResult.hasValue) {
-    let series = seriesResult.value.series;
+  if (seriesResult) {
+    let series = seriesResult.series;
     for (let chapterMetadataDerivedKey in series.chapters) {
       if (series.chapters.hasOwnProperty(chapterMetadataDerivedKey)) {
         let chapter = series.chapters[chapterMetadataDerivedKey];
         if (chapter.id === chapterId) {
-          return mio.option<mio.IFindContextChapterResult>({
+          return {
             chapter: chapter,
             chapterMetadataDerivedKey: chapterMetadataDerivedKey,
-            provider: seriesResult.value.provider,
-            providerName: seriesResult.value.providerName,
-            series: seriesResult.value.series,
-            seriesAddress: seriesResult.value.seriesAddress
-          });
+            provider: seriesResult.provider,
+            providerName: seriesResult.providerName,
+            series: seriesResult.series,
+            seriesAddress: seriesResult.seriesAddress
+          };
         }
       }
     }
   }
-  return mio.option<mio.IFindContextChapterResult>();
+  return undefined;
 }
 
 /**
@@ -46,16 +46,16 @@ export function findContextSeries(context: mio.IContext, seriesId: number): mio.
         if (provider.series.hasOwnProperty(seriesAddress)) {
           let series = provider.series[seriesAddress];
           if (series.id === seriesId) {
-            return mio.option<mio.IFindContextSeriesResult>({
+            return {
               provider: provider,
               providerName: providerName,
               series: series,
               seriesAddress: seriesAddress
-            });
+            };
           }
         }
       }
     }
   }
-  return mio.option<mio.IFindContextSeriesResult>();
+  return undefined;
 }

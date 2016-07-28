@@ -47,12 +47,12 @@ async function downloadPagesAsync(address: string): Promise<mio.IPage[]> {
  */
 function getPages($: mio.IHtmlDocument): mio.IPage[] {
   let i = 0;
-  let match: RegExpExecArray;
+  let match: mio.IOption<RegExpExecArray>;
   let regexp = /lstImages\.push\("(.+?)"\)/gi;
   let results: mio.IPage[] = [];
   let text = $('script:contains(lstImages)').text();
   while (true) {
-    match = regexp.exec(text);
+    match = regexp.exec(text) || undefined;
     if (match) {
       results.push(createPage(match[1], {number: i + 1}));
       i += 1;

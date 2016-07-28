@@ -10,12 +10,8 @@ import * as mio from '../module';
 export function createContextChapter(context: mio.IContext, chapter: mio.IChapter): mio.IContextChapter {
   return {
     addedAt: Date.now(),
-    deletedAt: mio.option<number>(),
-    downloadedAt: mio.option<number>(),
     id: ++context.lastId,
-    lastReadAt: mio.option<number>(),
     metadata: mio.copyChapterMetadata(chapter),
-    numberOfPages: mio.option<number>(),
     numberOfReadPages: 0
   };
 }

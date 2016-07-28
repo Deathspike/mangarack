@@ -3,7 +3,7 @@ import * as mio from '../default';
 /**
  * Represents a chapter list component.
  */
-export class ChapterListVolumeComponent extends mio.StatelessComponent<{chapters: mio.ILibraryChapter[], volume: mio.IOption<number>}> {
+export class ChapterListVolumeComponent extends mio.StatelessComponent<{chapters: mio.ILibraryChapter[], volume?: number}> {
   /**
    * Renders the component.
    */

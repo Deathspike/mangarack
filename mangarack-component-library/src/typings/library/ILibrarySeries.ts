@@ -12,12 +12,12 @@ export interface ILibrarySeries {
   /**
    * Contains the time at which a chapter was last added.
    */
-  chapterLastAddedAt: mio.IOption<number>;
+  chapterLastAddedAt?: number;
 
   /**
    * Contains the time at which a chapter page was last read.
    */
-  chapterLastReadAt: mio.IOption<number>;
+  chapterLastReadAt?: number;
 
   /**
    * Contains the time at which the series was checked.

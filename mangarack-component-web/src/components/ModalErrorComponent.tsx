@@ -3,7 +3,7 @@ import * as mio from '../default';
 /**
  * Represents a modal pending component.
  */
-export class ModalErrorComponent extends mio.StatelessComponent<{error: mio.IOption<string>}> {
+export class ModalErrorComponent extends mio.StatelessComponent<{error?: string}> {
   /**
    * Renders the component.
    */

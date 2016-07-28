@@ -7,7 +7,7 @@ export interface IModalState {
   /**
    * Contains the error.
    */
-  error: mio.IOption<string>;
+  error?: string;
 
   /**
    * Contains the type.

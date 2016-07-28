@@ -18,7 +18,7 @@ export let httpService: mio.IHttpService = {
    * @param requestType The request type.
    * @return The handler to retrieve the contents of the HTTP resource as a blob.
    */
-  blob: function(address: string|string[], headers: mio.IDictionary, requestType: mio.RequestType): mio.IHttpServiceHandler<mio.IBlob> {
+  blob: function(address: string | string[], headers: mio.IDictionary, requestType: mio.RequestType): mio.IHttpServiceHandler<mio.IBlob> {
     let addresses = Array.isArray(address) ? address : [address];
     return createHandler(ResponseType.Blob, addresses, headers, requestType);
   },
@@ -30,7 +30,7 @@ export let httpService: mio.IHttpService = {
    * @param requestType The request type.
    * @return The handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
    */
-  json: function<T>(address: string|string[], headers: mio.IDictionary, requestType: mio.RequestType): mio.IHttpServiceHandler<T> {
+  json: function<T>(address: string | string[], headers: mio.IDictionary, requestType: mio.RequestType): mio.IHttpServiceHandler<T> {
     let addresses = Array.isArray(address) ? address : [address];
     return createHandler(ResponseType.Json, addresses, headers, requestType);
   },
@@ -42,7 +42,7 @@ export let httpService: mio.IHttpService = {
    * @param requestType The request type.
    * @return The handler to retrieve the contents of the HTTP resource as text.
    */
-  text: function(address: string|string[], headers: mio.IDictionary, requestType: mio.RequestType): mio.IHttpServiceHandler<string> {
+  text: function(address: string | string[], headers: mio.IDictionary, requestType: mio.RequestType): mio.IHttpServiceHandler<string> {
     let addresses = Array.isArray(address) ? address : [address];
     return createHandler(ResponseType.Text, addresses, headers, requestType);
   }

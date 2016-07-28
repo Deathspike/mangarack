@@ -1,32 +1,12 @@
-/* tslint:disable:no-null-keyword */
 import * as mio from './default';
 
 /**
- * Creates an option value.
- * @param value= The value.
- * @return The option value.
- */
-export function option<T>(value?: T): mio.IOption<T> {
-  if (typeof value === 'boolean') {
-    return {hasValue: true, value: value};
-  } else if (typeof value === 'number') {
-    let hasValue = isFinite(value as any);
-    return {hasValue: hasValue, value: hasValue ? value : undefined};
-  } else if (typeof value === 'undefined') {
-    return {hasValue: false, value: undefined};
-  } else {
-    let hasValue = value != null;
-    return {hasValue: hasValue, value: hasValue ? value : undefined};
-  }
-}
-
-/**
- * Determines whether the value is null.
+ * Determines whether the value is valid.
  * @param value The value.
- * @return Indicates whether the value is null.
+ * @return Indicates whether the value is valid.
  */
-export function isNull(value: any): value is void {
-  return value === null || value === undefined;
+export function isOk<T>(value: T | null | undefined): value is T {
+  return value != null && (typeof value !== 'number' || isFinite(value as any));
 }
 
 /**
@@ -41,11 +21,20 @@ export function promise<T>(action: (callback: (error?: any, value?: T) => void) 
         if (error) {
           reject(error);
         } else {
-          resolve(mio.option(value));
+          resolve(value);
         }
       });
     } catch (error) {
       reject(error);
     }
   });
+}
+
+/**
+ * Narrows the type of the value using an unsafe approach. This is used until TypeScript deals with edge cases correctly.
+ * @param value The value.
+ * @return The narrowed value.
+ */
+export function unsafe<T>(value: T | null | undefined): T {
+  return value as any;
 }

@@ -12,12 +12,12 @@ export interface ILibraryChapter {
   /**
    * Contains the time at which the chapter was found to have been deleted.
    */
-  deletedAt: mio.IOption<number>;
+  deletedAt?: number;
 
   /**
    * Contains the time at which the chapter was downloaded.
    */
-  downloadedAt: mio.IOption<number>;
+  downloadedAt?: number;
 
   /**
    * Contains the identifier.
@@ -27,7 +27,7 @@ export interface ILibraryChapter {
   /**
    * Contains the time at which a page was last read.
    */
-  lastReadAt: mio.IOption<number>;
+  lastReadAt?: number;
 
   /**
    * Contains the metadata.
@@ -37,7 +37,7 @@ export interface ILibraryChapter {
   /**
    * Contains the number of pages.
    */
-  numberOfPages: mio.IOption<number>;
+  numberOfPages?: number;
 
   /**
    * Contains the number of read pages.

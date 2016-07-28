@@ -13,7 +13,7 @@ export interface IContext {
   /**
    * Contains the password.
    */
-  password: mio.IOption<string>;
+  password?: string;
 
   /**
    * Contains each provider.

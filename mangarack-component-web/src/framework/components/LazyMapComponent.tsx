@@ -95,7 +95,7 @@ export class LazyMapComponent extends fw.StatelessComponent<{map: (item: any) =>
  * @param element The element.
  * @return The scrollable parent.
  */
-function findScrollableParent(element: HTMLElement): HTMLElement|undefined {
+function findScrollableParent(element: HTMLElement): HTMLElement | undefined {
   let currentElement = element;
   let test = (value: string) => /^auto|scroll$/.test(value || '');
   while (currentElement) {
@@ -126,7 +126,7 @@ function isHidden(element: HTMLElement): boolean {
  * @param y= The offset on the y-axis.
  * @return Indicates whether the element is in the viewport.
  */
-function isEndInViewPort(element: HTMLElement, container: HTMLElement|void, x?: number, y?: number): boolean {
+function isEndInViewPort(element: HTMLElement, container: HTMLElement | undefined, x?: number, y?: number): boolean {
   let containerBottom = 0;
   let containerLeft = 0;
   let containerRight = 0;

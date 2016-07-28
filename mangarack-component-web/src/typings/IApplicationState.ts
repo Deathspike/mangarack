@@ -7,7 +7,7 @@ export interface IApplicationState {
   /**
    * Contains each chapter.
    */
-  chapters: mio.IOption<mio.ILibraryChapter[]>;
+  chapters?: mio.ILibraryChapter[];
 
   /**
    * Contains the menu state.
@@ -22,5 +22,5 @@ export interface IApplicationState {
   /**
    * Contains each series.
    */
-  series: {all: mio.IOption<mio.ILibrarySeries[]>, processed: mio.IOption<mio.ILibrarySeries[]>};
+  series: {all?: mio.ILibrarySeries[], processed?: mio.ILibrarySeries[]};
 }
