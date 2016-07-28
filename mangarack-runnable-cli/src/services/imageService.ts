@@ -101,7 +101,7 @@ function readLineAverageOrContainsBlack(buffer: Buffer, width: number, y: number
       totals.g += g;
       totals.b += b;
     } else {
-      return mio.option<{r: number, b: number, g: number}>();
+      return undefined;
     }
   }
   return mio.option({b: Math.round(totals.b / width), g: Math.round(totals.g / width), r: Math.round(totals.r / width)});

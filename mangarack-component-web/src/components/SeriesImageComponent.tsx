@@ -10,7 +10,7 @@ export class SeriesImageComponent extends mio.StatefulComponent<{id: number}, mi
    * @param properties The properties.
    */
   public constructor(properties: {id: number}) {
-    super(properties, mio.option<string>());
+    super(properties, undefined);
   }
 
   /**
@@ -48,7 +48,7 @@ export class SeriesImageComponent extends mio.StatefulComponent<{id: number}, mi
    */
   private _clearImage(): void {
     if (this.state.hasValue) {
-      this.setState(mio.option<string>());
+      this.setState(undefined);
     }
   }
 

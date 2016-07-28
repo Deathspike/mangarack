@@ -1,4 +1,5 @@
 declare let Buffer: any;
+declare let window: any;
 
 /**
  * Converts the value to base64.

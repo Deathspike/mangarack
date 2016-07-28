@@ -107,11 +107,11 @@ async function cleanAsync(series: mio.ISeries): Promise<void> {
  */
 function getChapterName(series: mio.ISeries, chapter: mio.IChapter): mio.IOption<string> {
   if (!chapter.number.hasValue) {
-    return mio.option<string>();
+    return undefined;
   } else {
     let title = getSeriesName(series);
     if (!title.hasValue) {
-      return mio.option<string>();
+      return undefined;
     } else if (!chapter.volume.hasValue) {
       return mio.option(`${title.value} #${format(3, chapter.number.value)}.cbz`);
     } else {

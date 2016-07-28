@@ -135,7 +135,7 @@ function getGenres($: mio.IHtmlDocument): string[] {
  * @return The summary.
  */
 function getSummary($: mio.IHtmlDocument): string {
-  return $('span:contains(Summary:)').parent(mio.option<string>()).next(mio.option<string>()).text();
+  return $('span:contains(Summary:)').parent().next().text();
 }
 
 /**

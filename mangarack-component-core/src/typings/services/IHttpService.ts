@@ -11,7 +11,7 @@ export interface IHttpService {
    * @param requestType The request type.
    * @return The handler to retrieve the contents of the HTTP resource as a blob.
    */
-  blob: (address: string|string[], headers: mio.IDictionary, requestType: mio.RequestType) => IHttpServiceHandler<mio.IBlob>;
+  blob: (address: string | string[], headers: mio.IDictionary, requestType: mio.RequestType) => IHttpServiceHandler<mio.IBlob>;
 
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
@@ -20,7 +20,7 @@ export interface IHttpService {
    * @param requestType The request type.
    * @return The handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
    */
-  json: <T>(address: string|string[], headers: mio.IDictionary, requestType: mio.RequestType) => IHttpServiceHandler<T>;
+  json: <T>(address: string | string[], headers: mio.IDictionary, requestType: mio.RequestType) => IHttpServiceHandler<T>;
 
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as text.
@@ -29,7 +29,7 @@ export interface IHttpService {
    * @param requestType The request type.
    * @return The handler to retrieve the contents of the HTTP resource as text.
    */
-  text: (address: string|string[], headers: mio.IDictionary, requestType: mio.RequestType) => IHttpServiceHandler<string>;
+  text: (address: string | string[], headers: mio.IDictionary, requestType: mio.RequestType) => IHttpServiceHandler<string>;
 }
 
 /**

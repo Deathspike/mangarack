@@ -7,10 +7,7 @@ let anyGenreType: {[key: string]: mio.GenreType} = mio.GenreType as any;
  * @return Eeach genre type.
  */
 export function toGenreType(values: string[]): mio.GenreType[] {
-  return values
-    .map(value => mio.option(anyGenreType[normalize(value)]))
-    .filter(optional => optional.hasValue)
-    .map(optional => optional.value);
+  return values.map(value => anyGenreType[normalize(value)]).filter(value => value);
 }
 
 /**

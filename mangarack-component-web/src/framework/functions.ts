@@ -16,6 +16,6 @@ export function createStore<T>(initialState: T): fw.IStore<T> {
  * @param value The value.
  * @return Indicates whether the value is null.
  */
-export function isNull(value: any): value is null|void {
+export function isNull(value: any): value is null | undefined {
   return value === null || value === undefined;
 }

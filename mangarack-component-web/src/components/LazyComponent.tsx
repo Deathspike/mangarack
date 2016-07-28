@@ -5,7 +5,7 @@ import * as mio from '../default';
  */
 export class LazyComponent extends mio.StatefulComponent<{className: string}, {isLoaded: boolean}> {
   private _element: HTMLElement;
-  private _elementContainer: mio.IOption<HTMLElement>;
+  private _elementContainer?: HTMLElement;
   private _handler: () => void;
   private _isAttached = false;
   private _timeoutHandle = 0;
@@ -131,7 +131,7 @@ function findScrollableParent(element: HTMLElement): mio.IOption<HTMLElement> {
       currentElement = currentElement.parentElement;
     }
   }
-  return mio.option<HTMLElement>();
+  return undefined;
 }
 
 /**
@@ -149,7 +149,7 @@ function isHidden(element: HTMLElement): boolean {
  * @param container The HTML container.
  * @return Indicates whether the element is in the viewport.
  */
-function isInViewPort(element: HTMLElement, container: mio.IOption<HTMLElement>): boolean {
+function isInViewPort(element: HTMLElement, container?: HTMLElement): boolean {
   let containerTop = 0, containerRight = 0, containerBottom = 0, containerLeft = 0;
   let elementRectangle = element.getBoundingClientRect();
   let elementTop = elementRectangle.top + window.pageYOffset;

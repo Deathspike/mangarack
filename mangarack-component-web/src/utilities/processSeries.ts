@@ -6,7 +6,7 @@ import * as mio from '../default';
  * @param series The series.
  * @return The processed series.
  */
-export function processSeries(menu: mio.IMenuState, series: mio.IOption<mio.ILibrarySeries[]>): mio.IOption<mio.ILibrarySeries[]> {
+export function processSeries(menu: mio.IMenuState, series?: mio.ILibrarySeries[]): mio.IOption<mio.ILibrarySeries[]> {
   if (series.hasValue) {
     let requiredGenres = Object.keys(menu.genres).map(genre => parseInt(genre, 10)).filter(genre => menu.genres[genre] === true);
     let searchTerms = menu.search.split(/\s/).map(term => term.toLowerCase());

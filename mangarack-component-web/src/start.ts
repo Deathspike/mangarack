@@ -11,7 +11,7 @@ try {
 } catch (error) {
   mio.dependency.set('IHttpService', httpService);
 }
-let library = mio.option<mio.ILibrary>();
+let library = undefined;
 export function openActiveLibrary(): mio.ILibrary {
   if (library.hasValue) {
     return library.value;
@@ -21,7 +21,7 @@ export function openActiveLibrary(): mio.ILibrary {
 }
 // Provide library for testing purposes.
 (async function(): Promise<void> {
-  library = await mio.openRemoteLibraryAsync(mio.option<string>(), mio.option<string>());
+  library = await mio.openRemoteLibraryAsync(undefined, undefined);
   if (library.hasValue) {
     (window as any).library = library.value;
     (window as any).mio = mio;
@@ -37,10 +37,10 @@ export let cache: {[seriesId: number]: string} = {};
  * Represents the application store.
  */
 export let store: mio.IStore<mio.IApplicationState> = mio.createStore<mio.IApplicationState>({
-  chapters: mio.option<mio.ILibraryChapter[]>(),
+  chapters: undefined,
   menu: {genres: {}, order: {ascending: true, type: mio.OrderType.SeriesTitle}, search: '', type: mio.MenuType.Default},
-  modal: {error: mio.option<string>(), type: mio.ModalType.None},
-  series: {all: mio.option<mio.ILibrarySeries[]>(), processed: mio.option<mio.ILibrarySeries[]>()}
+  modal: {error: undefined, type: mio.ModalType.None},
+  series: {all: undefined, processed: undefined}
 });
 
 /*

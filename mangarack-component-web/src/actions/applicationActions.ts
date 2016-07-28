@@ -38,7 +38,7 @@ export let applicationActions = {
     /* TODO: Handle refresh chapters errors. */
     let location = mio.parseLocation();
     if (location.seriesId.hasValue) {
-      mio.applicationActions.setChapters({chapters: mio.option<mio.ILibraryChapter[]>(), seriesId: mio.option<number>()});
+      mio.applicationActions.setChapters({chapters: undefined, seriesId: undefined});
       let chapters = await mio.openActiveLibrary().listAsync(location.seriesId.value);
       mio.applicationActions.setChapters({chapters: chapters, seriesId: location.seriesId});
     }
@@ -49,7 +49,7 @@ export let applicationActions = {
    */
   refreshSeries: mio.store.reviser('APPLICATION_REFRESH', async function(state: mio.IApplicationState): Promise<void> {
     /* TODO: Handle refresh series errors. */
-    mio.applicationActions.setSeries(mio.option<mio.ILibrarySeries[]>());
+    mio.applicationActions.setSeries(undefined);
     let series = await mio.openActiveLibrary().listAsync();
     mio.applicationActions.setSeries(mio.option(series));
   }),
@@ -59,7 +59,7 @@ export let applicationActions = {
    * @param seriesId The series identifier.
    * @param chapters The chapters.
    */
-  setChapters: mio.store.reviser('APPLICATION_SETCHAPTERS', function(state: mio.IApplicationState, revision: {chapters: mio.IOption<mio.ILibraryChapter[]>, seriesId: mio.IOption<number>}): void {
+  setChapters: mio.store.reviser('APPLICATION_SETCHAPTERS', function(state: mio.IApplicationState, revision: {chapters?: mio.ILibraryChapter[], seriesId?: number}): void {
     state.chapters = revision.chapters;
     if (revision.seriesId.hasValue && mio.cache[revision.seriesId.value]) {
       deleteImageFromCache(revision.seriesId.value);
@@ -70,7 +70,7 @@ export let applicationActions = {
    * Sets the series
    * @param series The series.
    */
-  setSeries: mio.store.reviser('APPLICATION_SETSERIES', function(state: mio.IApplicationState, series: mio.IOption<mio.ILibrarySeries[]>): void {
+  setSeries: mio.store.reviser('APPLICATION_SETSERIES', function(state: mio.IApplicationState, series?: mio.ILibrarySeries[]): void {
     state.series.all = series;
     state.series.processed = mio.processSeries(state.menu, state.series.all);
     if (!state.series.all.hasValue) {
