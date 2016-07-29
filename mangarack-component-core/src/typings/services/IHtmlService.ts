@@ -82,21 +82,21 @@ export interface IHtmlObject {
 
   /**
    * Gets the immediately following sibling of each element.
-   * @param selector The string containing the selector expression.
+   * @param selector= The string containing the selector expression.
    * @return The immediately following sibling of each element
    */
   next(selector?: string): IHtmlObject;
 
   /**
    * Gets the parent of each element.
-   * @param selector The string containing the selector expression.
+   * @param selector= The string containing the selector expression.
    * @return The parent of each element.
    */
   parent(selector?: string): IHtmlObject;
 
   /**
    * Gets the immediately preceding sibling of each element.
-   * @param selector? The string containing the selector expression.
+   * @param selector= The string containing the selector expression.
    * @return The immediately preceding sibling of each element.
    */
   prev(selector?: string): IHtmlObject;
