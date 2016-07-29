@@ -13,17 +13,17 @@ export class ChapterComponent extends mio.StatelessComponent<{chapters?: mio.ILi
         <mio.ControlComponent />
         <div className="chapterBody">
           {(() => {
-            if (!this.props.chapters.hasValue || !this.props.series.hasValue) {
+            if (!this.props.chapters || !this.props.series) {
               return <i className="fa fa-spin fa-circle-o-notch"></i>;
             } else {
-              let series = mio.option(this.props.series.value.find(series => series.id === this.props.seriesId));
-              if (!series.hasValue) {
+              let series = this.props.series.find(series => series.id === this.props.seriesId);
+              if (!series) {
                 return <div className="unknown">Unknown series.</div>;
               } else {
                 return (
                   <span>
-                    <mio.ChapterSeriesComponent series={series.value} />
-                    <mio.ChapterListComponent chapters={this.props.chapters.value} />
+                    <mio.ChapterSeriesComponent series={series} />
+                    <mio.ChapterListComponent chapters={this.props.chapters} />
                   </span>
                 );
               }

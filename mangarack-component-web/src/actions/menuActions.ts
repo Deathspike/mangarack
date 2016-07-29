@@ -27,12 +27,14 @@ export let menuActions = {
    */
   toggleGenre: wrapReviser('MENU_TOGGLEGENRE', function(state: mio.IApplicationState, type: mio.GenreType): void {
     let genres = state.menu.genres;
-    if (genres[type] === undefined) {
-      genres[type] = true;
-    } else if (genres[type]) {
-      genres[type] = false;
+    if (genres.hasOwnProperty(type)) {
+      if (genres[type]) {
+        genres[type] = false;
+      } else {
+        delete genres[type];
+      }
     } else {
-      delete genres[type];
+      genres[type] = true;
     }
   }),
 
