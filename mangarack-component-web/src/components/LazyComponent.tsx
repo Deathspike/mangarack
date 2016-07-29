@@ -146,7 +146,7 @@ function isHidden(element: HTMLElement): boolean {
 /**
  * Determines whether the element is in the viewport.
  * @param element The HTML element.
- * @param container The HTML container.
+ * @param container= The HTML container.
  * @return Indicates whether the element is in the viewport.
  */
 function isInViewPort(element: HTMLElement, container?: HTMLElement): boolean {

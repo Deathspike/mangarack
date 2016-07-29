@@ -11,19 +11,19 @@ try {
 } catch (error) {
   mio.dependency.set('IHttpService', httpService);
 }
-let library = undefined;
+let library: mio.IOption<mio.ILibrary>;
 export function openActiveLibrary(): mio.ILibrary {
-  if (library.hasValue) {
-    return library.value;
+  if (library) {
+    return library;
   } else {
     throw new Error('No library is currently active.');
   }
 }
 // Provide library for testing purposes.
 (async function(): Promise<void> {
-  library = await mio.openRemoteLibraryAsync(undefined, undefined);
-  if (library.hasValue) {
-    (window as any).library = library.value;
+  library = await mio.openRemoteLibraryAsync();
+  if (library) {
+    (window as any).library = library;
     (window as any).mio = mio;
   }
 })();

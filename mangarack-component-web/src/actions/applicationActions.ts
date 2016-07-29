@@ -56,8 +56,9 @@ export let applicationActions = {
 
   /**
    * Sets the chapters
-   * @param seriesId The series identifier.
-   * @param chapters The chapters.
+   * @param revision The revision.
+   * @param revision.chapters= The chapters.
+   * @param revision.seriesId= The series identifier.
    */
   setChapters: mio.store.reviser('APPLICATION_SETCHAPTERS', function(state: mio.IApplicationState, revision: {chapters?: mio.ILibraryChapter[], seriesId?: number}): void {
     state.chapters = revision.chapters;
@@ -68,7 +69,8 @@ export let applicationActions = {
 
   /**
    * Sets the series
-   * @param series The series.
+   * @param revision The revision.
+   * @param revision.series= The series.
    */
   setSeries: mio.store.reviser('APPLICATION_SETSERIES', function(state: mio.IApplicationState, revision: {series?: mio.ILibrarySeries[]}): void {
     state.series.all = revision.series;

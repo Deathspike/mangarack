@@ -91,6 +91,7 @@ function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
   $('h3.volume').each((ignoredIndex, h3) => {
     let match = $(h3).text().trim().match(/^Volume\s(.+)$/i);
     if (match) {
+      let volumeMatch = match[1];
       $(h3).parent().next().find('a[href*=\'/manga/\']').each((index, a) => {
         let address = $(a).attr('href');
         if (address) {
@@ -99,7 +100,7 @@ function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
           results.push(createChapter(address, {
             number: numberMatch ? parseFloat(numberMatch[0]) : undefined,
             title: /^Read Onl?ine$/i.test(title) ? '' : title,
-            volume: parseFloat(mio.unsafe(match)[1])
+            volume: parseFloat(volumeMatch)
           }));
         }
       });

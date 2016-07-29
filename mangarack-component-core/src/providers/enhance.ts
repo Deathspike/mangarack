@@ -7,7 +7,7 @@ import * as mio from '../default';
  * @return The chapters with enhanced chapter numbering.
  */
 export function enhance(chapters: mio.IChapter[]): mio.IChapter[] {
-  return chapters.map(chapter => mio.isOk(chapter.number) ? chapter : {
+  return chapters.map(chapter => isFinite(chapter.number) ? chapter : {
     number: estimateNumber(chapters, chapter),
     pagesAsync: chapter.pagesAsync,
     title: chapter.title,
@@ -29,7 +29,7 @@ function estimateNumber(chapters: mio.IChapter[], targetChapter: mio.IChapter): 
   let previousChapter: mio.IOption<mio.IChapter>;
 
   // Compute the differences between the chapters within contained in the same volume.
-  for (let currentChapter of chapters.filter(chapter => mio.isOk(chapter.number) && chapter.volume === targetChapter.volume)) {
+  for (let currentChapter of chapters.filter(chapter => !isFinite(chapter.number) && chapter.volume === targetChapter.volume)) {
     if (previousChapter) {
       let difference = (currentChapter.number - previousChapter.number).toFixed(4);
       differences[difference] = (differences[difference] || 0) + 1;
@@ -69,11 +69,11 @@ function prioritizeDifference(differences: {[key: string]: number}): number {
   for (let difference in differences) {
     if (differences.hasOwnProperty(difference)) {
       let count = differences[difference];
-      if (!mio.isOk(best.count) || differences[difference] > best.count) {
+      if (!best.count || differences[difference] > best.count) {
         best.amount = parseInt(difference, 10);
         best.count = count;
       }
     }
   }
-  return mio.isOk(best.amount) ? best.amount : 0;
+  return best.amount || 0;
 }
