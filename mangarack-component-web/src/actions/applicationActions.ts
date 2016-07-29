@@ -22,7 +22,7 @@ export let applicationActions = {
   navigateSeries: mio.store.reviser('APPLICATION_NAVIGATESERIES', async function(state: mio.IApplicationState, seriesId: number): Promise<void> {
     let location = mio.parseLocation();
     let newLocation = `#/${seriesId}`;
-    if (location.seriesId) {
+    if (isFinite(location.seriesId)) {
       window.history.replaceState(undefined, undefined, newLocation);
       await applicationActions.refreshChapters();
     } else {
@@ -37,7 +37,7 @@ export let applicationActions = {
   refreshChapters: mio.store.reviser('APPLICATION_REFRESHCHAPTERS', async function(state: mio.IApplicationState): Promise<void> {
     /* TODO: Handle refresh chapters errors. */
     let location = mio.parseLocation();
-    if (location.seriesId) {
+    if (isFinite(location.seriesId)) {
       mio.applicationActions.setChapters({chapters: undefined, seriesId: undefined});
       let chapters = await mio.openActiveLibrary().listAsync(location.seriesId);
       mio.applicationActions.setChapters({chapters: chapters, seriesId: location.seriesId});
@@ -62,7 +62,7 @@ export let applicationActions = {
    */
   setChapters: mio.store.reviser('APPLICATION_SETCHAPTERS', function(state: mio.IApplicationState, revision: {chapters?: mio.ILibraryChapter[], seriesId?: number}): void {
     state.chapters = revision.chapters;
-    if (revision.seriesId && mio.cache[revision.seriesId]) {
+    if (isFinite(revision.seriesId) && mio.cache[revision.seriesId]) {
       deleteImageFromCache(revision.seriesId);
     }
   }),

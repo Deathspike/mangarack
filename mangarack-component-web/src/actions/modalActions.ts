@@ -13,7 +13,7 @@ export let modalActions = {
    */
   addSeries: wrapReviserAsync('MODAL_ADDSERIES', async function(state: mio.IApplicationState, modalId: number, address: string): Promise<void> {
     let seriesId = await mio.openActiveLibrary().create().runAsync(address);
-    if (!seriesId) {
+    if (!isFinite(seriesId)) {
       throw new Error(`Invalid series address: ${address}`);
     } else if (!closedModal[modalId]) {
       await mio.applicationActions.refreshSeries();
@@ -29,7 +29,7 @@ export let modalActions = {
    */
   deleteChapter: wrapReviserAsync('MODAL_DELETECHAPTER', async function(state: mio.IApplicationState, modalId: number): Promise<void> {
     let location = mio.parseLocation();
-    if (location.seriesId && location.chapterId) {
+    if (isFinite(location.seriesId) && isFinite(location.chapterId)) {
       await mio.openActiveLibrary().delete(location.seriesId, location.chapterId).runAsync();
       if (!closedModal[modalId]) {
         await mio.applicationActions.refreshChapters();
@@ -44,7 +44,7 @@ export let modalActions = {
    */
   deleteSeries: wrapReviserAsync('MODAL_DELETESERIES', async function(state: mio.IApplicationState, modalId: number, removeMetadata: boolean): Promise<void> {
     let location = mio.parseLocation();
-    if (location.seriesId) {
+    if (isFinite(location.seriesId)) {
       await mio.openActiveLibrary().delete(location.seriesId).runAsync(removeMetadata);
       if (!closedModal[modalId]) {
         if (removeMetadata) {
@@ -64,7 +64,7 @@ export let modalActions = {
   downloadSeries: wrapReviserAsync('MODAL_DOWNLOADSERIES', async function(state: mio.IApplicationState, modalId: number, revision: {existingChapters: boolean, newChapters: boolean}): Promise<void> {
     /* TODO: Split DOWNLOADSERIES up for logging purposes. */
     let location = mio.parseLocation();
-    if (location.seriesId) {
+    if (isFinite(location.seriesId)) {
       await mio.openActiveLibrary().download(location.seriesId).runAsync(revision.existingChapters, revision.newChapters);
       if (!closedModal[modalId]) {
         mio.applicationActions.refreshChapters();
