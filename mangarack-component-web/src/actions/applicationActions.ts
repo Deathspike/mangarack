@@ -22,7 +22,7 @@ export let applicationActions = {
   navigateSeries: mio.store.reviser('APPLICATION_NAVIGATESERIES', async function(state: mio.IApplicationState, seriesId: number): Promise<void> {
     let location = mio.parseLocation();
     let newLocation = `#/${seriesId}`;
-    if (location.seriesId.hasValue) {
+    if (location.seriesId) {
       window.history.replaceState(undefined, undefined, newLocation);
       await applicationActions.refreshChapters();
     } else {
@@ -37,9 +37,9 @@ export let applicationActions = {
   refreshChapters: mio.store.reviser('APPLICATION_REFRESHCHAPTERS', async function(state: mio.IApplicationState): Promise<void> {
     /* TODO: Handle refresh chapters errors. */
     let location = mio.parseLocation();
-    if (location.seriesId.hasValue) {
+    if (location.seriesId) {
       mio.applicationActions.setChapters({chapters: undefined, seriesId: undefined});
-      let chapters = await mio.openActiveLibrary().listAsync(location.seriesId.value);
+      let chapters = await mio.openActiveLibrary().listAsync(location.seriesId);
       mio.applicationActions.setChapters({chapters: chapters, seriesId: location.seriesId});
     }
   }),
@@ -49,9 +49,9 @@ export let applicationActions = {
    */
   refreshSeries: mio.store.reviser('APPLICATION_REFRESH', async function(state: mio.IApplicationState): Promise<void> {
     /* TODO: Handle refresh series errors. */
-    mio.applicationActions.setSeries(undefined);
+    mio.applicationActions.setSeries({});
     let series = await mio.openActiveLibrary().listAsync();
-    mio.applicationActions.setSeries(mio.option(series));
+    mio.applicationActions.setSeries({series: series});
   }),
 
   /**
@@ -61,8 +61,8 @@ export let applicationActions = {
    */
   setChapters: mio.store.reviser('APPLICATION_SETCHAPTERS', function(state: mio.IApplicationState, revision: {chapters?: mio.ILibraryChapter[], seriesId?: number}): void {
     state.chapters = revision.chapters;
-    if (revision.seriesId.hasValue && mio.cache[revision.seriesId.value]) {
-      deleteImageFromCache(revision.seriesId.value);
+    if (revision.seriesId && mio.cache[revision.seriesId]) {
+      deleteImageFromCache(revision.seriesId);
     }
   }),
 
@@ -70,10 +70,10 @@ export let applicationActions = {
    * Sets the series
    * @param series The series.
    */
-  setSeries: mio.store.reviser('APPLICATION_SETSERIES', function(state: mio.IApplicationState, series?: mio.ILibrarySeries[]): void {
-    state.series.all = series;
+  setSeries: mio.store.reviser('APPLICATION_SETSERIES', function(state: mio.IApplicationState, revision: {series?: mio.ILibrarySeries[]}): void {
+    state.series.all = revision.series;
     state.series.processed = mio.processSeries(state.menu, state.series.all);
-    if (!state.series.all.hasValue) {
+    if (!state.series.all) {
       for (let seriesId in mio.cache) {
         if (mio.cache.hasOwnProperty(seriesId)) {
           deleteImageFromCache(parseInt(seriesId, 10));

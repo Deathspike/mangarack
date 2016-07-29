@@ -21,7 +21,7 @@ export async function createSeriesAsync(address: string): Promise<mio.ISeries> {
 
 /**
  * Creates the series.
- * @param address The address.7
+ * @param address The address.
  * @param document The selector.
  * @return The series.
  */

@@ -13,12 +13,12 @@ export let modalActions = {
    */
   addSeries: wrapReviserAsync('MODAL_ADDSERIES', async function(state: mio.IApplicationState, modalId: number, address: string): Promise<void> {
     let seriesId = await mio.openActiveLibrary().create().runAsync(address);
-    if (!seriesId.hasValue) {
+    if (!seriesId) {
       throw new Error(`Invalid series address: ${address}`);
     } else if (!closedModal[modalId]) {
       await mio.applicationActions.refreshSeries();
       if (!closedModal[modalId]) {
-        await mio.applicationActions.navigateSeries(seriesId.value);
+        await mio.applicationActions.navigateSeries(seriesId);
       }
     }
   }),
@@ -29,8 +29,8 @@ export let modalActions = {
    */
   deleteChapter: wrapReviserAsync('MODAL_DELETECHAPTER', async function(state: mio.IApplicationState, modalId: number): Promise<void> {
     let location = mio.parseLocation();
-    if (location.seriesId.hasValue && location.chapterId.hasValue) {
-      await mio.openActiveLibrary().delete(location.seriesId.value, location.chapterId.value).runAsync();
+    if (location.seriesId && location.chapterId) {
+      await mio.openActiveLibrary().delete(location.seriesId, location.chapterId).runAsync();
       if (!closedModal[modalId]) {
         await mio.applicationActions.refreshChapters();
         await mio.applicationActions.navigateBack();
@@ -44,8 +44,8 @@ export let modalActions = {
    */
   deleteSeries: wrapReviserAsync('MODAL_DELETESERIES', async function(state: mio.IApplicationState, modalId: number, removeMetadata: boolean): Promise<void> {
     let location = mio.parseLocation();
-    if (location.seriesId.hasValue) {
-      await mio.openActiveLibrary().delete(location.seriesId.value).runAsync(removeMetadata);
+    if (location.seriesId) {
+      await mio.openActiveLibrary().delete(location.seriesId).runAsync(removeMetadata);
       if (!closedModal[modalId]) {
         if (removeMetadata) {
           await mio.applicationActions.refreshSeries();
@@ -64,8 +64,8 @@ export let modalActions = {
   downloadSeries: wrapReviserAsync('MODAL_DOWNLOADSERIES', async function(state: mio.IApplicationState, modalId: number, revision: {existingChapters: boolean, newChapters: boolean}): Promise<void> {
     /* TODO: Split DOWNLOADSERIES up for logging purposes. */
     let location = mio.parseLocation();
-    if (location.seriesId.hasValue) {
-      await mio.openActiveLibrary().download(location.seriesId.value).runAsync(revision.existingChapters, revision.newChapters);
+    if (location.seriesId) {
+      await mio.openActiveLibrary().download(location.seriesId).runAsync(revision.existingChapters, revision.newChapters);
       if (!closedModal[modalId]) {
         mio.applicationActions.refreshChapters();
       }
@@ -127,7 +127,7 @@ function wrapReviserAsync<T>(name: string, reviser: (state: mio.IApplicationStat
       await reviser(state, modalId, revision);
       endPendingModal(modalId);
     } catch (error) {
-      state.modal.error = mio.option(String(error.message));
+      state.modal.error = String(error.message);
       modalActions.setType(mio.ModalType.Error);
     } finally {
       delete closedModal[modalId];
