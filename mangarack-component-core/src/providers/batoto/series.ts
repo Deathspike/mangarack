@@ -1,4 +1,3 @@
-declare let setTimeout: (callback: () => void, timeout: number) => void;
 import * as mio from '../../default';
 import {createChapter} from './chapter';
 import {enhance} from '../enhance';

@@ -3,7 +3,7 @@
     "declaration": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "lib": ["dom", "es2015"],
+    "lib": ["es2015"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
@@ -12,6 +12,7 @@
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "outDir": "dist",
+    "skipLibCheck": true,
     "strictNullChecks": true,
     "stripInternal": true,
     "target": "es6"
