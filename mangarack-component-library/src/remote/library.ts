@@ -24,7 +24,7 @@ export class RemoteLibrary implements mio.ILibrary {
    * Promises to create the series.
    * @return The promise to create the series.
    */
-  public create(): mio.ILibraryHandler<(seriesAddress: string) => mio.IOptionPromise<number>> {
+  public create(): mio.ILibraryHandler<(seriesAddress: string) => Promise<mio.IOption<number>>> {
     return mio.createHandler(async (seriesAddress: string) => {
       return this._handleNotFound(undefined, async () => {
         let address = `${this._address}/api/library`;

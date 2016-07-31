@@ -16,7 +16,7 @@ export interface ILibrary {
    * @param seriesAddress The series address.
    * @return The promise to create the series.
    */
-  create(): mio.ILibraryHandler<(seriesAddress: string) => mio.IOptionPromise<number>>;
+  create(): mio.ILibraryHandler<(seriesAddress: string) => Promise<mio.IOption<number>>>;
 
   /**
    * [DELETE /api/library/:seriesId] (200, 400, 404)
@@ -65,7 +65,7 @@ export interface ILibrary {
    * @param seriesId The series identifier.
    * @return The promise for the series image.
    */
-  imageAsync(seriesId: number): mio.IOptionPromise<mio.IBlob>;
+  imageAsync(seriesId: number): Promise<mio.IOption<mio.IBlob>>;
 
   /**
    * [GET /content/:seriesId/:chapterId/:pageNumber] (200+MB, 404)
@@ -75,7 +75,7 @@ export interface ILibrary {
    * @param pageNumber The page number.
    * @return The promise for the page image.
    */
-  imageAsync(seriesId: number, chapterId: number, pageNumber: number): mio.IOptionPromise<mio.IBlob>;
+  imageAsync(seriesId: number, chapterId: number, pageNumber: number): Promise<mio.IOption<mio.IBlob>>;
 
   /**
    * [GET /api/library] (200+MB)
@@ -90,7 +90,7 @@ export interface ILibrary {
    * @param seriesId The series identifier.
    * @return The promise for the list of chapters.
    */
-  listAsync(seriesId: number): mio.IOptionPromise<mio.ILibraryChapter[]>;
+  listAsync(seriesId: number): Promise<mio.IOption<mio.ILibraryChapter[]>>;
 
   /**
    * [POST /api] (200, 400)

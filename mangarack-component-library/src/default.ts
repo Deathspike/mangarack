@@ -9,7 +9,6 @@ export * from './system/default';
 
 // Export 'library/typings'
 export * from './typings/common/ILibraryHandler';
-export * from './typings/common/IOptionPromise';
 export * from './typings/library/ILibrary';
 export * from './typings/library/ILibraryChapter';
 export * from './typings/library/ILibrarySeries';
