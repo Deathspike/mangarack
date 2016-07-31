@@ -10,7 +10,7 @@ export let library: mio.ILibrary = {
    * Promises to create the series.
    * @return The promise to create the series.
    */
-  create: function(): mio.ILibraryHandler<(seriesAddress: string) => mio.IOptionPromise<number>> {
+  create: function(): mio.ILibraryHandler<(seriesAddress: string) => Promise<mio.IOption<number>>> {
     return mio.createHandler((seriesAddress: string) => {
       return mio.taskService.enqueue(mio.PriorityType.High, async () => {
         if (createValid(seriesAddress)) {
@@ -114,7 +114,7 @@ export let library: mio.ILibrary = {
    * @param pageNumber= The page number.
    * @return The promise for the series/page image.
    */
-  imageAsync: function(seriesId: number, chapterId?: number, pageNumber?: number): mio.IOptionPromise<mio.IBlob> {
+  imageAsync: function(seriesId: number, chapterId?: number, pageNumber?: number): Promise<mio.IOption<mio.IBlob>> {
     if (!isFinite(chapterId) || !isFinite(pageNumber)) {
       return fileService().readBlobAsync(`${seriesId}/previewImage.mrx`);
     } else {
