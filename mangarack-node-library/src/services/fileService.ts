@@ -111,13 +111,13 @@ async function createDirectoriesAsync(filePath: string): Promise<void> {
  */
 async function deleteAsync(fileOrFolderPath: string): Promise<void> {
   let stat = await mio.promise<fs.Stats>(callback => fs.stat(fileOrFolderPath, callback));
-  if (stat.hasValue) {
-    if (stat.value.isFile()) {
+  if (stat) {
+    if (stat.isFile()) {
       await mio.promise<void>(callback => fs.unlink(fileOrFolderPath, callback));
     } else {
       let relativePaths = await mio.promise<string[]>(callback => fs.readdir(fileOrFolderPath, callback));
-      if (relativePaths.hasValue) {
-        for (let relativePath of relativePaths.value) {
+      if (relativePaths) {
+        for (let relativePath of relativePaths) {
           let absolutePath = path.join(fileOrFolderPath, relativePath);
           await deleteAsync(absolutePath);
         }

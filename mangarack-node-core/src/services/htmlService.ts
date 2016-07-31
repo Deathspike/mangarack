@@ -74,9 +74,9 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
       * @return The current HTML object.
       */
     html: function(htmlString?: string): any {
-      return mio.isNull(htmlString)
-        ? cheerioObject.html()
-        : encapsulateObject(cheerioObject.html(htmlString));
+      return typeof htmlString === 'string'
+        ? encapsulateObject(cheerioObject.html(htmlString))
+        : cheerioObject.html();
     },
 
     /**
@@ -95,9 +95,9 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
      * @return The immediately following sibling of each element
      */
     next: function(selector?: string): mio.IHtmlObject {
-      return encapsulateObject(!selector.hasValue
-        ? cheerioObject.next()
-        : cheerioObject.next(selector.value));
+      return encapsulateObject(typeof selector === 'string'
+        ? cheerioObject.next(selector)
+        : cheerioObject.next());
     },
 
     /**
@@ -106,9 +106,9 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
      * @return The parent of each element.
      */
     parent: function(selector?: string): mio.IHtmlObject {
-      return encapsulateObject(!selector.hasValue
-        ? cheerioObject.parent()
-        : cheerioObject.parent(selector.value));
+      return encapsulateObject(typeof selector === 'string'
+        ? cheerioObject.parent(selector)
+        : cheerioObject.parent());
     },
 
     /**
@@ -117,9 +117,9 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
      * @return The immediately preceding sibling of each element.
      */
     prev: function(selector?: string): mio.IHtmlObject {
-      return encapsulateObject(!selector.hasValue
-        ? cheerioObject.prev()
-        : cheerioObject.prev(selector.value));
+      return encapsulateObject(typeof selector === 'string'
+        ? cheerioObject.prev(selector)
+        : cheerioObject.prev());
     },
 
     /**
