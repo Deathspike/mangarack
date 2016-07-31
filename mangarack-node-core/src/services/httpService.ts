@@ -114,7 +114,7 @@ async function fetchAnyAsync(method: string, responseType: ResponseType, address
  * @param formData Each form key/value pair.
  * @return The promise for the contents of the HTTP resource.
  */
-function fetchAsync<T>(method: string, responseType: ResponseType, address: string, headers: mio.IDictionary, requestType: mio.RequestType, formData: mio.IDictionary): Promise<any> {
+function fetchAsync(method: string, responseType: ResponseType, address: string, headers: mio.IDictionary, requestType: mio.RequestType, formData: mio.IDictionary): Promise<any> {
   let encoding = responseType === ResponseType.Blob ? undefined : 'utf8';
   let timeout = requestType === mio.RequestType.Basic || requestType === mio.RequestType.BasicWithRetry ? 0 : timeoutInMilliseconds;
   return new Promise((resolve, reject) => {
