@@ -23,25 +23,28 @@ export function enhance(chapters: mio.IChapter[]): mio.IChapter[] {
  * @return The estimated chapter number.
  */
 function estimateNumber(chapters: mio.IChapter[], targetChapter: mio.IChapter): mio.IOption<number> {
-  // Initialize the differences and previous chapter.
   let differences: {[key: string]: number} = {};
-  let hasDifferences = false;
   let previousChapter: mio.IOption<mio.IChapter>;
-
-  // Compute the differences between the chapters within contained in the same volume.
-  for (let currentChapter of chapters.filter(chapter => !isFinite(chapter.number) && chapter.volume === targetChapter.volume)) {
+  for (let currentChapter of chapters.filter(chapter => isFinite(chapter.number) && chapter.volume === targetChapter.volume)) {
     if (previousChapter) {
       let difference = (currentChapter.number - previousChapter.number).toFixed(4);
       differences[difference] = (differences[difference] || 0) + 1;
-      hasDifferences = true;
     }
     previousChapter = currentChapter;
   }
+  return finalizeDifference(differences, previousChapter);
+}
 
-  // Return an estimated chapter number.
+/**
+ * Finalizes the differences.
+ * @param differences The differences.
+ * @param previousChapter The previous chapter.
+ * @return The estimated chapter number.
+ */
+function finalizeDifference(differences: {[key: string]: number}, previousChapter: mio.IOption<mio.IChapter>): mio.IOption<number> {
   if (!previousChapter) {
     return undefined;
-  } else if (hasDifferences) {
+  } else if (Object.keys(differences).length) {
     return previousChapter.number + (limitNumber(prioritizeDifference(differences), 0, 1) / 2);
   } else {
     return previousChapter.number + 0.5;
