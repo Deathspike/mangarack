@@ -19,7 +19,6 @@ let regexp = new RegExp('\\s*' +
 
 /**
  * Scans the input for chapter metadata.
- * @internal
  * @param input The input to scan.
  * @return The chapter metadata.
  */
@@ -39,10 +38,10 @@ export function scan(input: string): mio.IChapterMetadata {
  */
 function createMetadata(match: RegExpMatchArray): mio.IChapterMetadata {
   return {
-    number: createNumber(match[2], match[4]),
+    number: ensureNumber(createNumber(match[2], match[4])),
     title: match[5] ? match[5].trim() : '',
-    version: parseFloat(match[3]),
-    volume: parseFloat(match[1])
+    version: ensureNumber(parseFloat(match[3])),
+    volume: ensureNumber(parseFloat(match[1]))
   };
 }
 
@@ -61,5 +60,18 @@ function createNumber(chapter: string, part: string): number {
     return parseFloat(chapter) + (parsedPart || 0) / 10;
   } else {
     return parseFloat(chapter);
+  }
+}
+
+/**
+ * Ensures the value is a valid number.
+ * @param value The number.
+ * @return The number.
+ */
+function ensureNumber(value: number): mio.IOption<number> {
+  if (isFinite(value)) {
+    return value;
+  } else {
+    return undefined;
   }
 }

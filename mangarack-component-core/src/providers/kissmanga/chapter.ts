@@ -5,7 +5,6 @@ let htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
 
 /**
  * Creates the chapter.
- * @internal
  * @param address The address.
  * @param metadata The metadata.
  * @return The chapter.

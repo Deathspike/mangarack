@@ -20,7 +20,7 @@ export let settingService = {
    * @return The store item.
    */
   getNumber: function(key: string): number {
-    return parseInt(settingService.getString(key), 10) || 0;
+    return parseFloat(settingService.getString(key)) || 0;
   },
 
   /**
