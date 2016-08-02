@@ -1,25 +1,25 @@
 // Export 'common
 export * from 'mangarack-component-common';
 
-// Export 'core/enumerators' preceding 'core/converters'
+// 'core/enumerators' preceding 'core/converters'
 export * from './enumerators/GenreType';
 export * from './enumerators/RequestType';
 export * from './enumerators/SeriesType';
 
-// Export 'core/converters'
+// 'core/converters'
 export * from './converters/toGenreType';
 export * from './converters/toSeriesType';
 
-// Export 'core/errors'
+// 'core/errors'
 export * from './errors/HttpServiceError';
 
-// Export 'core/providers'
+// 'core/providers'
 export * from './providers/default';
 
-// Export 'core/services'
+// 'core/services'
 export * from './services/settingService';
 
-// Export 'core/typings'
+// 'core/typings'
 export * from './typings/providers/IChapter';
 export * from './typings/providers/IChapterMetadata';
 export * from './typings/providers/IPage';

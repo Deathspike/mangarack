@@ -1,12 +1,12 @@
-// Export 'library'
+// 'library'
 export * from 'mangarack-node-library';
 
-// Export 'daemon/enumerators'
+// 'daemon/enumerators'
 export * from './enumerators/ImageType';
 
-// Export 'daemon/services'
+// 'daemon/services'
 export * from './services/helperService';
 export * from './services/httpService';
 
-// Export 'daemon/typings'
+// 'daemon/typings'
 export * from './typings/IHelperService';

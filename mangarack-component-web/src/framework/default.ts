@@ -1,14 +1,14 @@
-// Export 'web/framework'
+// 'web/framework'
 export * from './functions';
 export * from './lazy';
 
-// Export 'web/framework/components'
+// 'web/framework/components'
 export * from './components/StatefulComponent';
 export * from './components/StatelessComponent';
 export * from './components/StoreComponent';
 export * from './components/LazyMapComponent';
 
-// Export 'web/framework/typings'
+// 'web/framework/typings'
 export * from './typings/IAction';
 export * from './typings/ILazy';
 export * from './typings/ILazyQuery';
