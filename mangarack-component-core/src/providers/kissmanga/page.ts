@@ -3,7 +3,6 @@ let httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
 
 /**
  * Creates the page.
- * @internal
  * @param address The address.
  * @param metadata The metadata.
  * @return The page.

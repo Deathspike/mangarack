@@ -15,6 +15,8 @@ export class HttpServiceError extends Error {
   /**
    * Initializes a new instance of the HttpError class.
    * @param currentState The current state.
+   * @param currentState.body The body.
+   * @param currentState.statusCode The status code.
    * @param message The message.
    */
   public constructor(currentState: {body: string, statusCode: number}, message: string) {

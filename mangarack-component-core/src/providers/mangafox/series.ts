@@ -7,7 +7,6 @@ let remapGenreType: mio.IDictionary = {'Sci-fi': 'Science Fiction', 'Webtoons': 
 
 /**
  * Promises the series.
- * @internal
  * @param address The address.
  * @return The promise for the series.
  */
@@ -96,9 +95,10 @@ function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
         let address = $(a).attr('href');
         if (address) {
           let numberMatch = $(a).text().match(/[0-9\.]+$/);
+          let numberValue = numberMatch ? parseFloat(numberMatch[0]) : undefined;
           let title = $(a).next('span.title').text();
           results.push(createChapter(address, {
-            number: numberMatch ? parseFloat(numberMatch[0]) : undefined,
+            number: isFinite(numberValue) ? numberValue : undefined,
             title: /^Read Onl?ine$/i.test(title) ? '' : title,
             volume: parseFloat(volumeMatch)
           }));

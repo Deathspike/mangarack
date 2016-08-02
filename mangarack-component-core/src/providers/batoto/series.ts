@@ -8,7 +8,6 @@ let remapGenreType: mio.IDictionary = {'Oneshot': 'One Shot', 'Sci-fi': 'Science
 
 /**
  * Promises the series.
- * @internal
  * @param address The address.
  * @return The promise for the series.
  */
@@ -47,8 +46,8 @@ async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean
   let document = htmlService().load(body);
   let isLogged = Boolean(document('#user_navigation.logged_in').first().text());
   if (!isLogged) {
-    let username = mio.settingService.getString('component.core.batoto.username');
     let password = mio.settingService.getString('component.core.batoto.password');
+    let username = mio.settingService.getString('component.core.batoto.username');
     if (!hasAttemptedLogin && username && password) {
       let loginAddress = 'https://bato.to/forums/index.php?app=core&module=global&section=login&do=process';
       await httpService().text(loginAddress, {origin: 'https://bato.to'}, mio.RequestType.TimeoutWithRetry).postAsync({

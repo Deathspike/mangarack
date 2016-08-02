@@ -2,7 +2,6 @@ import * as mio from '../default';
 
 /**
  * Enhances the chapter numbering when applicable.
- * @internal
  * @param chapters The chapters.
  * @return The chapters with enhanced chapter numbering.
  */
@@ -42,12 +41,12 @@ function estimateNumber(chapters: mio.IChapter[], targetChapter: mio.IChapter): 
  * @return The estimated chapter number.
  */
 function finalizeDifference(differences: {[key: string]: number}, previousChapter: mio.IOption<mio.IChapter>): mio.IOption<number> {
-  if (!previousChapter) {
-    return undefined;
-  } else if (Object.keys(differences).length) {
-    return previousChapter.number + (limitNumber(prioritizeDifference(differences), 0, 1) / 2);
+  if (previousChapter) {
+    let add = Object.keys(differences).length ? (limitNumber(prioritizeDifference(differences), 0, 1) / 2) : 0.5;
+    let value = previousChapter.number + add;
+    return isFinite(value) ? value : undefined;
   } else {
-    return previousChapter.number + 0.5;
+    return undefined;
   }
 }
 
@@ -73,7 +72,7 @@ function prioritizeDifference(differences: {[key: string]: number}): number {
     if (differences.hasOwnProperty(difference)) {
       let count = differences[difference];
       if (!best.count || differences[difference] > best.count) {
-        best.amount = parseInt(difference, 10);
+        best.amount = parseFloat(difference);
         best.count = count;
       }
     }
