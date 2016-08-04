@@ -42,7 +42,7 @@ export let library: mio.ILibrary = {
    * @return The promise to delete the series/chapter.
    */
   delete: function(seriesId: number, chapterId?: number): any {
-    if (!isFinite(chapterId)) {
+    if (!chapterId) {
       return mio.createHandler(async (removeMetadata: boolean) => {
         let context = await mio.contextService.getContextAsync();
         let seriesResult = mio.findContextSeries(context, seriesId);
@@ -88,9 +88,9 @@ export let library: mio.ILibrary = {
    * @return The promise to download each `series metadata/the series metadata/the chapter`.
    */
   download: function(seriesId?: number, chapterId?: number): mio.ILibraryHandler<any> {
-    if (isFinite(seriesId)) {
+    if (seriesId) {
       let narrowSeriesId = seriesId;
-      if (isFinite(chapterId)) {
+      if (chapterId) {
         let narrowChapterId = chapterId;
         return mio.createHandler(() => {
           return mio.taskService.enqueue(mio.PriorityType.High, () => downloadChapterAsync(narrowSeriesId, narrowChapterId));
@@ -115,7 +115,7 @@ export let library: mio.ILibrary = {
    * @return The promise for the series/page image.
    */
   imageAsync: function(seriesId: number, chapterId?: number, pageNumber?: number): Promise<mio.IOption<mio.IBlob>> {
-    if (!isFinite(chapterId) || !isFinite(pageNumber)) {
+    if (!chapterId || !pageNumber) {
       return fileService().readBlobAsync(`${seriesId}/previewImage.mrx`);
     } else {
       return fileService().readBlobAsync(`${seriesId}/${chapterId}/${pageNumber}.mrx`);
@@ -129,7 +129,7 @@ export let library: mio.ILibrary = {
    */
   listAsync: async function(seriesId?: number): Promise<any> {
     let context = await mio.contextService.getContextAsync();
-    if (!isFinite(seriesId)) {
+    if (!seriesId) {
       return listSeries(context);
     } else {
       let seriesResult = mio.findContextSeries(context, seriesId);
@@ -404,5 +404,5 @@ function listSeries(context: mio.IContext): mio.ILibrarySeries[] {
  * @return Indicates whether the chapter has been read.
  */
 function listSeriesIsRead(chapter: mio.IContextChapter): boolean {
-  return isFinite(chapter.numberOfPages) && chapter.numberOfReadPages === chapter.numberOfPages;
+  return Boolean(chapter.numberOfPages) && chapter.numberOfReadPages === chapter.numberOfPages;
 }

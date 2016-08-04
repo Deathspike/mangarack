@@ -3,11 +3,11 @@ import * as mioInternal from './module';
 
 /**
  * Promises the remote library.
- * @param host= The host.
+ * @param host The host.
  * @param password= The password.
  * @return The promise for the remote library.
  */
-export async function openRemoteLibraryAsync(host?: string, password?: string): Promise<mio.IOption<mio.ILibrary>> {
+export async function openRemoteLibraryAsync(host: string, password: string): Promise<mio.IOption<mio.ILibrary>> {
   let remoteLibrary = new mioInternal.RemoteLibrary(host, password);
   try {
     let result = await remoteLibrary.versionAsync();
