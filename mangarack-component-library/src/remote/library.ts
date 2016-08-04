@@ -12,10 +12,10 @@ export class RemoteLibrary implements mio.ILibrary {
 
   /**
    * Initializes a new instance of the RemoteLibrary class.
-   * @param host= The host.
-   * @param password= The password.
+   * @param host The host.
+   * @param password The password.
    */
-  public constructor(host?: string, password?: string) {
+  public constructor(host: string, password: string) {
     this._address = host ? this._getHostAddress(host) : '';
     this._authorization = password ? `Basic ${mio.convertToBase64(':' + password)}` : '';
   }
@@ -41,7 +41,7 @@ export class RemoteLibrary implements mio.ILibrary {
    * @return The promise to delete the series/chapter.
    */
   public delete(seriesId: number, chapterId?: number): mio.ILibraryHandler<any> {
-    if (!isFinite(chapterId)) {
+    if (!chapterId) {
       return mio.createHandler(async (removeMetadata: boolean) => {
         let formData: mio.IDictionary = {removeMetadata: String(removeMetadata)};
         await this._fetch().text(`${this._address}/api/library/${seriesId}`, {}, mio.RequestType.Basic).deleteAsync(formData);
@@ -62,12 +62,12 @@ export class RemoteLibrary implements mio.ILibrary {
    * @return The promise to download each `series metadata/the series metadata/the chapter`.
    */
   public download(seriesId?: number, chapterId?: number): mio.ILibraryHandler<any> {
-    if (!isFinite(seriesId) && !isFinite(chapterId)) {
+    if (!seriesId && !chapterId) {
       return mio.createHandler(async (existingChapters: boolean, newChapters: boolean) => {
         let formData: mio.IDictionary = {existingChapters: String(existingChapters), newChapters: String(newChapters)};
         await this._fetch().text(`${this._address}/api/download`, {}, mio.RequestType.Basic).postAsync(formData);
       });
-    } else if (!isFinite(chapterId)) {
+    } else if (!chapterId) {
       return mio.createHandler(async (existingChapters: boolean, newChapters: boolean) => {
         return this._handleNotFound(false, async () => {
           let formData: mio.IDictionary = {existingChapters: String(existingChapters), newChapters: String(newChapters)};
@@ -94,7 +94,7 @@ export class RemoteLibrary implements mio.ILibrary {
    */
   public async imageAsync(seriesId: number, chapterId?: number, pageNumber?: number): Promise<mio.IOption<mio.IBlob>> {
     return this._handleNotFound(undefined, async () => {
-      if (!isFinite(chapterId) || !isFinite(pageNumber)) {
+      if (!chapterId || !pageNumber) {
         let result = await this._fetch().blob(`${this._address}/content/${seriesId}`, {}, mio.RequestType.Basic).getAsync();
         return result;
       } else {
@@ -111,7 +111,7 @@ export class RemoteLibrary implements mio.ILibrary {
    * @return The promise for the list of series/chapters.
    */
   public async listAsync(seriesId?: number): Promise<any> {
-    if (!isFinite(seriesId)) {
+    if (!seriesId) {
       let result = await this._fetch().json<mio.ILibrarySeries[]>(`${this._address}/api/library`, {}, mio.RequestType.Basic).getAsync();
       return result;
     } else {
