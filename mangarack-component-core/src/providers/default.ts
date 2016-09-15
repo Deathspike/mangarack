@@ -2,7 +2,8 @@ import * as mio from '../default';
 import {batoto} from './batoto/default';
 import {kissmanga} from './kissmanga/default';
 import {mangafox} from './mangafox/default';
-let providers = [batoto, kissmanga, mangafox];
+import {dynastyreader} from './dynastyreader/default';
+let providers = [batoto, kissmanga, mangafox, dynastyreader];
 
 /**
  * Opens the provider for the address.
