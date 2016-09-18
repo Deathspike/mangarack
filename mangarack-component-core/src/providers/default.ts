@@ -1,9 +1,9 @@
 import * as mio from '../default';
 import {batoto} from './batoto/default';
+import {dynastyreader} from './dynastyreader/default';
 import {kissmanga} from './kissmanga/default';
 import {mangafox} from './mangafox/default';
-import {dynastyreader} from './dynastyreader/default';
-let providers = [batoto, kissmanga, mangafox, dynastyreader];
+let providers = [batoto, dynastyreader, kissmanga, mangafox];
 
 /**
  * Opens the provider for the address.
@@ -16,7 +16,7 @@ export function openProvider(nameOrAddress: string): mio.IProvider {
       return provider;
     }
   }
-  throw new Error(`Invalid series name or adress: ${nameOrAddress}`);
+  throw new Error(`Invalid series name or address: ${nameOrAddress}`);
 }
 
 /**
