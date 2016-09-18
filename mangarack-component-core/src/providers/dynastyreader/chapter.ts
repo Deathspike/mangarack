@@ -46,12 +46,11 @@ async function downloadPagesAsync(address: string): Promise<mio.IPage[]> {
  * @return Each page.
  */
 function getPages($: mio.IHtmlDocument): mio.IPage[] {
-  const scriptTag = $('.container ~ script');
-  const pagesArr: Array<string> = scriptTag.html().match(/\{.*?}/g);
-  const address: string = 'http://dynasty-scans.com/';
-
-  return pagesArr.map((pageString, index) => {
-    const page: any = JSON.parse(pageString);
+  const script = $('.container ~ script');
+  const pagesMatch = script.html().match(/\{.*?}/g);
+  const address = 'http://dynasty-scans.com/';
+  return pagesMatch.map((pageString, index) => {
+    const page: {image: string} = JSON.parse(pageString);
     return createPage(`${address}${page.image}`, {number: index + 1});
   });
 }
