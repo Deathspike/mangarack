@@ -17,7 +17,7 @@ It has been three years since the release of *MangaRack.cs*, the predecessor of 
 * [Batoto](http://bato.to/) support is intended as an incomplete high-quality provider.
 * [KissManga](http://kissmanga.com/) support is intended as a back-up provider.
 * [MangaFox](http://mangafox.me/) support is intended as a complete medium-quality provider.
-* [DynastyReader](http://dynasty-scans.com/) support is intended as a high quality scans provider for mostly shoujo-ai/yuri manga and doujinshi.
+* [DynastyReader](http://dynasty-scans.com/) support is intended as a doujinshi provider.
 
 ## Installation
 
