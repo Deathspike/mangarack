@@ -1,5 +1,4 @@
 import * as mio from '../../default';
-
 const httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
 
 /**

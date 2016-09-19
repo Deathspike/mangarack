@@ -1,13 +1,12 @@
 import * as mio from '../../default';
 import {createChapter} from './chapter';
 import {enhance} from '../enhance';
-
 const httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
 const htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
 const providerDomain = 'http://dynasty-scans.com';
 const remapGenreType: mio.IDictionary = {
   'Sci-fi': 'Science Fiction',
-  'Adult': 'NSFW',
+  'Slice of life': 'SliceOfLife',
   'School life': 'SchoolLife'
 };
 
@@ -57,12 +56,11 @@ async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument
  */
 function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
   const address = $('.cover img').attr('src');
-
   if (address) {
     return httpService().blob(`${providerDomain}${address}`, {}, mio.RequestType.TimeoutWithRetry).getAsync();
+  } else {
+    throw new Error('Invalid series cover address.');
   }
-
-  throw new Error('Invalid series cover address.');
 }
 
 /**
@@ -91,7 +89,6 @@ function getAuthors($: mio.IHtmlDocument): string[] {
  */
 function getMetadata(title: string): mio.IChapterMetadata {
   const numberMatch = title.match(/[-.0-9]+/);
-
   return {
     number: mio.option(numberMatch ? parseFloat(numberMatch[0]) : null),
     title: title,
@@ -107,19 +104,15 @@ function getMetadata(title: string): mio.IChapterMetadata {
  */
 function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
   const results: mio.IChapter[] = [];
-
   $('.chapter-list a[href*=\'/chapters/\']').map((index, a) => {
     const address = $(a).attr('href');
     const isValid = /[0-9.]+$/i.test(address);
-
     if (address && isValid) {
       const metadata = getMetadata($(a).text());
       const url = `${providerDomain}${address}`;
-
       results.push(createChapter(url, metadata));
     }
   });
-
   return results;
 }
 
@@ -162,11 +155,9 @@ function getType($: mio.IHtmlDocument): string {
   const genres = getGenres($);
   if (genres.indexOf('Art book') !== -1) {
     return 'Artbook';
-  }
-
-  if (genres.indexOf('Image Set') !== -1) {
+  } else if (genres.indexOf('Image Set') !== -1) {
     return 'Other';
+  } else {
+    return 'Manga';
   }
-
-  return 'Manga';
 }

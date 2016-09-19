@@ -28,8 +28,8 @@ export const dynastyreader: mio.IProvider = {
   seriesAsync: function(address: string): Promise<mio.ISeries> {
     if (!dynastyreader.isSupported(address)) {
       throw new Error(`Invalid series address: ${address}`);
+    } else {
+      return createSeriesAsync(address);
     }
-
-    return createSeriesAsync(address);
   }
 };
