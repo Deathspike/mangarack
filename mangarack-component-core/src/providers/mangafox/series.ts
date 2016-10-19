@@ -12,16 +12,15 @@ let remapGenreType: mio.IDictionary = {'Sci-fi': 'Science Fiction', 'Webtoons': 
  */
 export async function createSeriesAsync(address: string): Promise<mio.ISeries> {
   let document = await downloadDocumentAsync(address);
-  return createSeries(address, document);
+  return createSeries(document);
 }
 
 /**
  * Creates the series.
- * @param address The address.
  * @param document The selector.
  * @return The series.
  */
-function createSeries(address: string, document: mio.IHtmlDocument): mio.ISeries {
+function createSeries(document: mio.IHtmlDocument): mio.ISeries {
   return {
     artists: getArtists(document),
     authors: getAuthors(document),
@@ -65,7 +64,7 @@ function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
  */
 function getArtists($: mio.IHtmlDocument): string[] {
   return $('a[href*=\'/search/artist/\']')
-    .map((index, a) => $(a).text())
+    .map((_, a) => $(a).text())
     .get();
 }
 
@@ -76,7 +75,7 @@ function getArtists($: mio.IHtmlDocument): string[] {
  */
 function getAuthors($: mio.IHtmlDocument): string[] {
   return $('a[href*=\'/search/author/\']')
-    .map((index, a) => $(a).text())
+    .map((_, a) => $(a).text())
     .get();
 }
 
@@ -87,11 +86,11 @@ function getAuthors($: mio.IHtmlDocument): string[] {
  */
 function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
   let results: mio.IChapter[] = [];
-  $('h3.volume').each((ignoredIndex, h3) => {
+  $('h3.volume').each((_0, h3) => {
     let match = $(h3).text().trim().match(/^Volume\s(.+)$/i);
     if (match) {
       let volumeMatch = match[1];
-      $(h3).parent().next().find('a[href*=\'/manga/\']').each((index, a) => {
+      $(h3).parent().next().find('a[href*=\'/manga/\']').each((_1, a) => {
         let address = $(a).attr('href');
         if (address) {
           let numberMatch = $(a).text().match(/[0-9\.]+$/);
@@ -116,7 +115,7 @@ function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
  */
 function getGenres($: mio.IHtmlDocument): string[] {
   return $('a[href*=\'/search/genres/\']')
-    .map((index, a) => $(a).text())
+    .map((_, a) => $(a).text())
     .get()
     .map(value => remapGenreType[value] || value);
 }
