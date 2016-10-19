@@ -13,16 +13,15 @@ let remapGenreType: mio.IDictionary = {'Oneshot': 'One Shot', 'Sci-fi': 'Science
  */
 export async function createSeriesAsync(address: string): Promise<mio.ISeries> {
   let document = await downloadDocumentAsync(address, false);
-  return createSeries(address, document);
+  return createSeries(document);
 }
 
 /**
  * Creates the series.
- * @param address The address.
  * @param document The selector.
  * @return The series.
  */
-function createSeries(address: string, document: mio.IHtmlDocument): mio.ISeries {
+function createSeries(document: mio.IHtmlDocument): mio.ISeries {
   return {
     artists: getArtists(document),
     authors: getAuthors(document),
@@ -88,7 +87,7 @@ function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
  */
 function getArtists($: mio.IHtmlDocument): string[] {
   return $('td:contains(Artist:)').next().find('a')
-    .map((index, a) => $(a).text())
+    .map((_, a) => $(a).text())
     .get();
 }
 
@@ -99,7 +98,7 @@ function getArtists($: mio.IHtmlDocument): string[] {
  */
 function getAuthors($: mio.IHtmlDocument): string[] {
   return $('td:contains(Author:)').next().find('a')
-    .map((index, a) => $(a).text())
+    .map((_, a) => $(a).text())
     .get();
 }
 
@@ -110,7 +109,7 @@ function getAuthors($: mio.IHtmlDocument): string[] {
  */
 function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
   let results: mio.IChapter[] = [];
-  $('tr.lang_English').find('a[href*=\'/reader\']').map((index, a) => {
+  $('tr.lang_English').find('a[href*=\'/reader\']').map((_, a) => {
     let address = $(a).attr('href');
     if (address) {
       let metadata = scan($(a).text());
@@ -129,7 +128,7 @@ function getGenres($: mio.IHtmlDocument): string[] {
   let isMature = Boolean($('.ipsBox .clear').first().next().text());
   let initialArray = (isMature ? ['Mature'] : []);
   return initialArray.concat($('td:contains(Genres:)').next().find('a')
-    .map((index, a) => $(a).text())
+    .map((_, a) => $(a).text())
     .get()
     .map(value => remapGenreType[value] || value));
 }

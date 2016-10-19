@@ -1,9 +1,10 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "declaration": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "lib": ["es2015"],
+    "lib": ["es6"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
@@ -11,6 +12,7 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "outDir": "dist",
     "skipLibCheck": true,
     "strictNullChecks": true,

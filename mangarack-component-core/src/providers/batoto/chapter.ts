@@ -54,7 +54,7 @@ async function downloadPagesAsync(externalAddress: string): Promise<mio.IPage[]>
  */
 function getPages(address: string, $: mio.IHtmlDocument): mio.IPage[] {
   let select = $('select[name=page_select]').first();
-  return select.find('option').map((index, option) => createPage(
+  return select.find('option').map(index => createPage(
     `${address}&p=${index + 1}`,
     {number: index + 1},
     index ? undefined : $

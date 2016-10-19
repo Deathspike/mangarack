@@ -14,18 +14,17 @@ let remapGenreType: mio.IDictionary = {'Sci-fi': 'Science Fiction'};
  */
 export async function createSeriesAsync(address: string): Promise<mio.ISeries> {
   let document = await downloadDocumentAsync(address);
-  return createSeries(address, document);
+  return createSeries(document);
 }
 
 /**
  * Creates the series.
- * @param address The address.
  * @param document The selector.
  * @return The series.
  */
-function createSeries(address: string, document: mio.IHtmlDocument): mio.ISeries {
+function createSeries(document: mio.IHtmlDocument): mio.ISeries {
   return {
-    artists: getArtists(document),
+    artists: getArtists(),
     authors: getAuthors(document),
     chapters: enhance(getChapters(document)),
     genres: mio.toGenreType(getGenres(document)),
@@ -78,10 +77,9 @@ function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
 
 /**
  * Retrieves each artist.
- * @param $ The selector.
  * @return Each artist.
  */
-function getArtists($: mio.IHtmlDocument): string[] {
+function getArtists(): string[] {
   return [];
 }
 
@@ -92,7 +90,7 @@ function getArtists($: mio.IHtmlDocument): string[] {
  */
 function getAuthors($: mio.IHtmlDocument): string[] {
   return $('a[href*=\'/AuthorArtist/\']')
-    .map((index, a) => $(a).text())
+    .map((_, a) => $(a).text())
     .get();
 }
 
@@ -104,7 +102,7 @@ function getAuthors($: mio.IHtmlDocument): string[] {
 function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
   let results: mio.IChapter[] = [];
   let title = getTitle($);
-  $('a[href*=\'/Manga/\'][title*=\'Read\']').map((index, a) => {
+  $('a[href*=\'/Manga/\'][title*=\'Read\']').map((_, a) => {
     let address = $(a).attr('href');
     let isValid = /id=([0-9]+)$/i.test(address);
     if (address && isValid) {
@@ -122,7 +120,7 @@ function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
  */
 function getGenres($: mio.IHtmlDocument): string[] {
   return $('a[href*=\'/Genre/\']')
-    .map((index, a) => $(a).text())
+    .map((_, a) => $(a).text())
     .get()
     .map(value => remapGenreType[value] || value);
 }
