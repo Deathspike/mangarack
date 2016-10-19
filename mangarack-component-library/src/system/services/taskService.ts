@@ -50,13 +50,12 @@ function tryRunWithPriority(priorityType: mio.PriorityType): void {
   if (!isBusy && queue[priorityType] && queue[priorityType].length > 0) {
     let entry = queue[priorityType].shift();
     if (entry) {
-      let narrowEntry = entry;
       isBusy = true;
       entry.runAsync().then(value => {
-        narrowEntry.resolve(value);
+        entry!.resolve(value);
         completeTask();
       }, reason => {
-        narrowEntry.reject(reason);
+        entry!.reject(reason);
         completeTask();
       });
     }
