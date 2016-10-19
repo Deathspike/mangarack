@@ -1,0 +1,9 @@
+{
+  "editor.fontSize": 16,
+  "editor.tabSize": 2,
+  "files.exclude": {
+    "**/dist": true,
+    "**/node_modules/": true,
+    "**/typings": true
+  }
+}
