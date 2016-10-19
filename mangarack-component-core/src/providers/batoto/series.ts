@@ -44,8 +44,8 @@ function createSeries(address: string, document: mio.IHtmlDocument): mio.ISeries
 async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean): Promise<mio.IHtmlDocument> {
   let body = await httpService().text(address, {}, mio.RequestType.TimeoutWithRetry).getAsync();
   let document = htmlService().load(body);
-  let isLogged = Boolean(document('#user_navigation.logged_in').first().text());
-  if (!isLogged) {
+  let isLoggedIn = Boolean(document('#user_navigation.logged_in').first().text());
+  if (!isLoggedIn) {
     let password = mio.settingService.getString('component.core.batoto.password');
     let username = mio.settingService.getString('component.core.batoto.username');
     if (!hasAttemptedLogin && username && password) {
