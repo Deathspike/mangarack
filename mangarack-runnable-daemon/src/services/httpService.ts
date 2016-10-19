@@ -6,6 +6,8 @@ import * as express from 'express';
 import * as mio from '../default';
 import * as path from 'path';
 
+// TODO: Add support for CORS.
+
 /**
  * Represents the http service.
  */
@@ -14,7 +16,6 @@ export function httpService(): void {
   app.use(compression());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));
-  serveStatic(app);
 
   // Register parameter validation.
   app.param('seriesId', createValidation('seriesId'));
@@ -87,25 +88,4 @@ function createValidation(parameterName: string): any {
       response.sendStatus(404);
     }
   };
-}
-
-/**
- * Serves static files according to the current environment.
- * @param app The application.
- */
-function serveStatic(app: express.Application): void {
-  // This requires some explaining: Each runnable is bundled prior to publish.
-  // Developing while waiting for a bundle on each change is really frustrating.
-  // Therefore, I serve files directly during development. This speeds it up.
-  if ((process as any).isBundled) {
-    app.use(express.static(path.join(process.argv[1], '../public')));
-  } else {
-    let rootPath = path.join(__dirname, '../../../');
-    app.use(express.static(path.join(rootPath, 'mangarack-component-web/node_modules')));
-    app.use(express.static(path.join(rootPath, 'mangarack-component-web/public')));
-    app.use('/js', express.static(path.join(rootPath, 'mangarack-component-web/dist')));
-    app.use('/mangarack-component-common', express.static(path.join(rootPath, 'mangarack-component-common/dist')));
-    app.use('/mangarack-component-core', express.static(path.join(rootPath, 'mangarack-component-core/dist')));
-    app.use('/mangarack-component-library', express.static(path.join(rootPath, 'mangarack-component-library/dist')));
-  }
 }
