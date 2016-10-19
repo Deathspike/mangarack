@@ -1,10 +1,9 @@
-import * as mio from '../module';
+import * as mio from '../../module';
 
 /**
- * Represents a context chapter result.
- * @internal
+ * Represents a chapter result.
  */
-export interface IFindContextChapterResult extends mio.IFindContextSeriesResult {
+export interface IMatchChapter extends mio.IMatchSeries {
   /**
    * Contains the chapter.
    */

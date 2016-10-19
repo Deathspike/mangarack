@@ -10,16 +10,6 @@ export interface ILibrarySeries {
   addedAt: number;
 
   /**
-   * Contains the time at which a chapter was last added.
-   */
-  chapterLastAddedAt?: number;
-
-  /**
-   * Contains the time at which a chapter page was last read.
-   */
-  chapterLastReadAt?: number;
-
-  /**
    * Contains the time at which the series was checked.
    */
   checkedAt: number;
@@ -28,6 +18,16 @@ export interface ILibrarySeries {
    * Contains the identifier.
    */
   id: number;
+
+  /**
+   * Contains the time at which a chapter was last added.
+   */
+  lastChapterAddedAt?: number;
+
+  /**
+   * Contains the time at which a chapter page was last read.
+   */
+  lastChapterReadAt?: number;
 
   /**
    * Contains the metadata.

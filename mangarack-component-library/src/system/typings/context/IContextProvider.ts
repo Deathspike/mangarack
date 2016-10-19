@@ -1,8 +1,7 @@
-import * as mio from '../module';
+import * as mio from '../../module';
 
 /**
  * Represents a context provider.
- * @internal
  */
 export interface IContextProvider {
   /**

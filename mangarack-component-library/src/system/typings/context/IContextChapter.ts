@@ -1,8 +1,7 @@
-import * as mio from '../module';
+import * as mio from '../../module';
 
 /**
  * Represents a context chapter.
- * @internal
  */
 export interface IContextChapter {
   /**

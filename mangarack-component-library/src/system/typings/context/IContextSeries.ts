@@ -1,8 +1,7 @@
-import * as mio from '../module';
+import * as mio from '../../module';
 
 /**
  * Represents a context series.
- * @internal
  */
 export interface IContextSeries {
   /**
@@ -24,6 +23,11 @@ export interface IContextSeries {
    * Contains the identifier.
    */
   id: number;
+
+  /**
+   * Contains the last chapter identifier.
+   */
+  lastChapterId: number;
 
   /**
    * Contains the metadata.

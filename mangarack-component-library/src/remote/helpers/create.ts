@@ -2,7 +2,6 @@ import * as mio from '../module';
 
 /**
  * Creates the handler for the asynchronous function.
- * @internal
  * @param runAsync The asynchronous function.
  * @return The handler for the asynchronous function.
  */

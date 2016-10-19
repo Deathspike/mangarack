@@ -20,9 +20,9 @@ export * from './services/contextService';
 export * from './services/taskService';
 
 // 'library/system/typings'
-export * from './typings/IContext';
-export * from './typings/IContextChapter';
-export * from './typings/IContextProvider';
-export * from './typings/IContextSeries';
-export * from './typings/IFindContextChapterResult';
-export * from './typings/IFindContextSeriesResult';
+export * from './typings/context/IContext';
+export * from './typings/context/IContextChapter';
+export * from './typings/context/IContextProvider';
+export * from './typings/context/IContextSeries';
+export * from './typings/helpers/IMatchChapter';
+export * from './typings/helpers/IMatchSeries';
