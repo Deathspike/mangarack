@@ -5,7 +5,7 @@ export enum RequestType {
   /**
    * Represents a request without timeout.
    */
-  Basic = 1,
+  Basic,
 
   /**
    * Represents a request without timeout, but with retries.
