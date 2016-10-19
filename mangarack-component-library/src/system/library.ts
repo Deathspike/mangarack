@@ -65,10 +65,9 @@ export let library: mio.ILibrary = {
         }
       });
     } else {
-      let narrowChapterId = chapterId;
       return mio.createHandler(async () => {
         let context = await mio.contextService.getContextAsync();
-        let chapterMatch = mio.findChapterContext(context, seriesId, narrowChapterId);
+        let chapterMatch = mio.findChapterContext(context, seriesId, chapterId!);
         if (chapterMatch) {
           await deleteAsync(chapterMatch.providerName, chapterMatch.series, chapterMatch.chapter, chapterMatch.chapterMetadataDerivedKey);
           mio.contextService.saveChanges();
@@ -92,15 +91,13 @@ export let library: mio.ILibrary = {
         return mio.taskService.enqueue(mio.PriorityType.Normal, () => downloadAsync(existingChapters, newChapters));
       });
     } else {
-      let narrowSeriesId = seriesId;
       if (!chapterId) {
         return mio.createHandler((existingChapters: boolean, newChapters: boolean) => {
-          return mio.taskService.enqueue(mio.PriorityType.High, () => downloadSeriesAsync(narrowSeriesId, existingChapters, newChapters));
+          return mio.taskService.enqueue(mio.PriorityType.High, () => downloadSeriesAsync(seriesId!, existingChapters, newChapters));
         });
       } else {
-        let narrowChapterId = chapterId;
         return mio.createHandler(() => {
-          return mio.taskService.enqueue(mio.PriorityType.High, () => downloadChapterAsync(narrowSeriesId, narrowChapterId));
+          return mio.taskService.enqueue(mio.PriorityType.High, () => downloadChapterAsync(seriesId!, chapterId!));
         });
       }
     }
@@ -276,7 +273,7 @@ async function downloadChapterAsync(seriesId: number, chapterId: number): Promis
   }
 }
 
-// notice me senpai, notice me.
+// TODO: Notice me senpai, notice me.
 async function downloadKnownChapterAsync(providerName: string, seriesId: number, contextChapter: mio.IContextChapter, chapter: mio.IChapter): Promise<void> {
   let pages = await chapter.pagesAsync();
   for (let page of pages) {
@@ -299,7 +296,6 @@ async function downloadSeriesAsync(seriesId: number, existingChapters: boolean, 
   let context = await mio.contextService.getContextAsync();
   let seriesMatch = mio.findSeriesContext(context, seriesId);
   if (seriesMatch) {
-    let narrowSeriesMatch = seriesMatch;
     let coreSeries = await mio.openProvider(seriesMatch.providerName).seriesAsync(seriesMatch.seriesAddress);
     let coreSeriesImage = await coreSeries.imageAsync();
     let coreChapters = mio.mapChapterKey(coreSeries.chapters, chapter => chapter);
@@ -317,14 +313,14 @@ async function downloadSeriesAsync(seriesId: number, existingChapters: boolean, 
         if (!contextSeries.chapters[metadataDerivedKey]) {
           let contextChapter = contextSeries.chapters[metadataDerivedKey] = mio.createChapterContext(contextSeries, coreChapter);
           if (newChapters) {
-            mio.taskService.enqueue(mio.PriorityType.Low, () => downloadKnownChapterAsync(narrowSeriesMatch.providerName, seriesId, contextChapter, coreChapter));
+            mio.taskService.enqueue(mio.PriorityType.Low, () => downloadKnownChapterAsync(seriesMatch!.providerName, seriesId, contextChapter, coreChapter));
           }
         } else {
           let contextChapter = contextSeries.chapters[metadataDerivedKey];
           contextChapter.deletedAt = undefined;
           contextChapter.metadata = mio.copyChapterMetadata(coreChapter);
           if (existingChapters && !contextChapter.deletedAt && !contextChapter.downloadedAt) {
-            mio.taskService.enqueue(mio.PriorityType.Low, () => downloadKnownChapterAsync(narrowSeriesMatch.providerName, seriesId, contextChapter, coreChapter));
+            mio.taskService.enqueue(mio.PriorityType.Low, () => downloadKnownChapterAsync(seriesMatch!.providerName, seriesId, contextChapter, coreChapter));
           }
         }
       }

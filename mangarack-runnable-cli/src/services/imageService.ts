@@ -63,9 +63,8 @@ export async function mangafoxHeuristicCropAsync(provider: mio.IProvider, image:
       if (cropLines === 0) {
         return image;
       } else {
-        let narrowSize = size;
         return mio.promise<mio.IBlob>(callback => {
-          gm(image as any).crop(narrowSize.width, narrowSize.height - cropLines).toBuffer(callback);
+          gm(image as any).crop(size!.width, size!.height - cropLines).toBuffer(callback);
         });
       }
     }

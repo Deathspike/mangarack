@@ -17,8 +17,7 @@ export let downloadService: mio.IDownloadService = {
     let chapterName = getChapterName(series, chapter);
     let chapterPath = getChapterPath(series, chapter);
     if (chapterName && chapterPath) {
-      let narrowChapterPath = chapterPath;
-      let chapterExists = await mio.promise<boolean>(callback => fs.exists(narrowChapterPath, exists => callback(undefined, exists)));
+      let chapterExists = await mio.promise<boolean>(callback => fs.exists(chapterPath!, exists => callback(undefined, exists)));
       if (!chapterExists) {
         console.log(`Fetching ${chapterName}`);
         let beginTime = Date.now();
@@ -84,10 +83,9 @@ export let downloadService: mio.IDownloadService = {
 async function cleanAsync(series: mio.ISeries): Promise<void> {
   let seriesName = getSeriesName(series);
   if (seriesName) {
-    let narrowSeriesName = seriesName;
-    let seriesExists = await mio.promise<boolean>(callback => fs.exists(narrowSeriesName, exists => callback(undefined, exists)));
+    let seriesExists = await mio.promise<boolean>(callback => fs.exists(seriesName!, exists => callback(undefined, exists)));
     if (seriesExists) {
-      let fileNames = await mio.promise<string[]>(callback => fs.readdir(narrowSeriesName, callback));
+      let fileNames = await mio.promise<string[]>(callback => fs.readdir(seriesName!, callback));
       if (fileNames) {
         let chapterPaths = series.chapters.map(chapter => getChapterPath(series, chapter));
         let filePaths = fileNames.map(fileName => `${seriesName}/${fileName}`);
