@@ -3,7 +3,6 @@ let fileService = mio.dependency.get<mio.IFileService>('IFileService');
 
 /**
  * Represents the library.
- * @internal
  */
 export let library: mio.ILibrary = {
   /**
@@ -13,20 +12,20 @@ export let library: mio.ILibrary = {
   create: function(): mio.ILibraryHandler<(seriesAddress: string) => Promise<mio.IOption<number>>> {
     return mio.createHandler((seriesAddress: string) => {
       return mio.taskService.enqueue(mio.PriorityType.High, async () => {
-        if (createValid(seriesAddress)) {
-          let coreProvider = mio.openProvider(seriesAddress);
+        if (isValid(seriesAddress)) {
           let context = await mio.contextService.getContextAsync();
-          let contextProvider = context.providers[coreProvider.name] || (context.providers[coreProvider.name] = {series: {}});
-          if (contextProvider.series[seriesAddress]) {
-            return contextProvider.series[seriesAddress].id;
+          let provider = mio.openProvider(seriesAddress);
+          let providerContext = context.providers[provider.name] || (context.providers[provider.name] = {series: {}});
+          if (providerContext.series[seriesAddress]) {
+            return providerContext.series[seriesAddress].id;
           } else {
-            let coreSeries = await coreProvider.seriesAsync(seriesAddress);
-            let coreSeriesImage = await coreSeries.imageAsync();
-            let contextSeries = mio.createContextSeries(context, coreSeries);
-            await fileService().writeBlobAsync(`${contextSeries.id}/previewImage.mrx`, coreSeriesImage);
-            contextProvider.series[seriesAddress] = contextSeries;
+            let series = await provider.seriesAsync(seriesAddress);
+            let seriesContext = mio.createSeriesContext(context, series);
+            let seriesImage = await series.imageAsync();
+            await fileService().writeBlobAsync(`${provider.name}/${seriesContext.id}/previewImage`, seriesImage);
+            providerContext.series[seriesAddress] = seriesContext;
             mio.contextService.saveChanges();
-            return contextSeries.id;
+            return seriesContext.id;
           }
         } else {
           return undefined;
@@ -45,17 +44,17 @@ export let library: mio.ILibrary = {
     if (!chapterId) {
       return mio.createHandler(async (removeMetadata: boolean) => {
         let context = await mio.contextService.getContextAsync();
-        let seriesResult = mio.findContextSeries(context, seriesId);
-        if (seriesResult) {
+        let seriesMatch = mio.findSeriesContext(context, seriesId);
+        if (seriesMatch) {
           if (removeMetadata) {
-            await fileService().deleteFolderAsync(`${seriesId}`);
-            delete seriesResult.provider.series[seriesResult.seriesAddress];
+            await fileService().deleteFolderAsync(`${seriesMatch.providerName}/${seriesId}`);
+            delete seriesMatch.provider.series[seriesMatch.seriesAddress];
           } else {
-            let series = seriesResult.provider.series[seriesResult.seriesAddress];
+            let series = seriesMatch.provider.series[seriesMatch.seriesAddress];
             for (let chapterMetadataDerivedKey in series.chapters) {
               if (series.chapters.hasOwnProperty(chapterMetadataDerivedKey)) {
                 let chapter = series.chapters[chapterMetadataDerivedKey];
-                await deleteAsync(series, chapter, chapterMetadataDerivedKey);
+                await deleteAsync(seriesMatch.providerName, series, chapter, chapterMetadataDerivedKey);
               }
             }
           }
@@ -69,9 +68,9 @@ export let library: mio.ILibrary = {
       let narrowChapterId = chapterId;
       return mio.createHandler(async () => {
         let context = await mio.contextService.getContextAsync();
-        let chapterResult = mio.findContextChapter(context, seriesId, narrowChapterId);
-        if (chapterResult) {
-          await deleteAsync(chapterResult.series, chapterResult.chapter, chapterResult.chapterMetadataDerivedKey);
+        let chapterMatch = mio.findChapterContext(context, seriesId, narrowChapterId);
+        if (chapterMatch) {
+          await deleteAsync(chapterMatch.providerName, chapterMatch.series, chapterMatch.chapter, chapterMatch.chapterMetadataDerivedKey);
           mio.contextService.saveChanges();
           return true;
         } else {
@@ -88,22 +87,22 @@ export let library: mio.ILibrary = {
    * @return The promise to download each `series metadata/the series metadata/the chapter`.
    */
   download: function(seriesId?: number, chapterId?: number): mio.ILibraryHandler<any> {
-    if (seriesId) {
+    if (!seriesId) {
+      return mio.createHandler((existingChapters: boolean, newChapters: boolean) => {
+        return mio.taskService.enqueue(mio.PriorityType.Normal, () => downloadAsync(existingChapters, newChapters));
+      });
+    } else {
       let narrowSeriesId = seriesId;
-      if (chapterId) {
+      if (!chapterId) {
+        return mio.createHandler((existingChapters: boolean, newChapters: boolean) => {
+          return mio.taskService.enqueue(mio.PriorityType.High, () => downloadSeriesAsync(narrowSeriesId, existingChapters, newChapters));
+        });
+      } else {
         let narrowChapterId = chapterId;
         return mio.createHandler(() => {
           return mio.taskService.enqueue(mio.PriorityType.High, () => downloadChapterAsync(narrowSeriesId, narrowChapterId));
         });
-      } else {
-        return mio.createHandler((existingChapters: boolean, newChapters: boolean) => {
-          return mio.taskService.enqueue(mio.PriorityType.High, () => downloadSeriesAsync(narrowSeriesId, existingChapters, newChapters));
-        });
       }
-    } else {
-      return mio.createHandler((existingChapters: boolean, newChapters: boolean) => {
-        return mio.taskService.enqueue(mio.PriorityType.Normal, () => downloadAsync(existingChapters, newChapters));
-      });
     }
   },
 
@@ -114,11 +113,17 @@ export let library: mio.ILibrary = {
    * @param pageNumber= The page number.
    * @return The promise for the series/page image.
    */
-  imageAsync: function(seriesId: number, chapterId?: number, pageNumber?: number): Promise<mio.IOption<mio.IBlob>> {
-    if (!chapterId || !pageNumber) {
-      return fileService().readBlobAsync(`${seriesId}/previewImage.mrx`);
+  imageAsync: async function(seriesId: number, chapterId?: number, pageNumber?: number): Promise<mio.IOption<mio.IBlob>> {
+    let context = await mio.contextService.getContextAsync();
+    let seriesMatch = mio.findSeriesContext(context, seriesId);
+    if (seriesMatch) {
+      if (!chapterId || !pageNumber) {
+        return fileService().readBlobAsync(`${seriesMatch.providerName}/${seriesId}/previewImage`);
+      } else {
+        return fileService().readBlobAsync(`${seriesMatch.providerName}/${seriesId}/${chapterId}/${pageNumber}`);
+      }
     } else {
-      return fileService().readBlobAsync(`${seriesId}/${chapterId}/${pageNumber}.mrx`);
+      return undefined;
     }
   },
 
@@ -132,9 +137,9 @@ export let library: mio.ILibrary = {
     if (!seriesId) {
       return listSeries(context);
     } else {
-      let seriesResult = mio.findContextSeries(context, seriesId);
-      if (seriesResult) {
-        return listChapters(seriesResult.series);
+      let seriesMatch = mio.findSeriesContext(context, seriesId);
+      if (seriesMatch) {
+        return listChapters(seriesMatch.series);
       } else {
         return undefined;
       }
@@ -148,7 +153,7 @@ export let library: mio.ILibrary = {
   password: function(): mio.ILibraryHandler<(password: string) => Promise<void>> {
     return mio.createHandler(async (password: string) => {
       let context = await mio.contextService.getContextAsync();
-      context.password = password || undefined;
+      context.password = password;
       mio.contextService.saveChanges();
     });
   },
@@ -162,8 +167,8 @@ export let library: mio.ILibrary = {
     return mio.createHandler(async (key: string, value: string) => {
       let context = await mio.contextService.getContextAsync();
       context.settings[key] = value;
-      mio.settingService.set(key, value);
       mio.contextService.saveChanges();
+      mio.settingService.set(key, value);
     });
   },
 
@@ -176,11 +181,11 @@ export let library: mio.ILibrary = {
   status: function(seriesId: number, chapterId: number): mio.ILibraryHandler<(numberOfReadPages: number) => Promise<boolean>> {
     return mio.createHandler(async (numberOfReadPages: number) => {
       let context = await mio.contextService.getContextAsync();
-      let chapterResult = mio.findContextChapter(context, seriesId, chapterId);
-      if (chapterResult) {
-        let numberOfPages = chapterResult.chapter.numberOfPages;
+      let chapterMatch = mio.findChapterContext(context, seriesId, chapterId);
+      if (chapterMatch) {
+        let numberOfPages = chapterMatch.chapter.numberOfPages;
         if (numberOfReadPages === 0 || (numberOfReadPages >= 0 && numberOfReadPages <= numberOfPages)) {
-          let chapter = chapterResult.chapter;
+          let chapter = chapterMatch.chapter;
           chapter.lastReadAt = Date.now();
           chapter.numberOfReadPages = numberOfReadPages;
           mio.contextService.saveChanges();
@@ -200,30 +205,21 @@ export let library: mio.ILibrary = {
   }
 };
 
-/**
- * Determines whether the series address is valid.
- * @param seriesAddress The series address.
- * @return Indicates whether the series address is valid.
- */
-function createValid(seriesAddress: string): boolean {
-  try {
-    mio.openProvider(seriesAddress);
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
+//
+// TODO: CONTINUE FROM HERE. ABOVE AND OTHER FILES ARE DONE!!!!! BELIEVE YOURSELF!!!! The new library structure is much better. /mangafox/1/1
+//
 
 /**
  * Promises to delete the chapter.
+ * @param providerName The provider name.
  * @param series The series.
  * @param chapter The chapter.
  * @param chapterMetadataDerivedKey The chapter metadata derived key.
  * @return The promise to delete the chapter.
  */
-async function deleteAsync(series: mio.IContextSeries, chapter: mio.IContextChapter, chapterMetadataDerivedKey: string): Promise<void> {
+async function deleteAsync(providerName: string, series: mio.IContextSeries, chapter: mio.IContextChapter, chapterMetadataDerivedKey: string): Promise<void> {
   if (chapter.downloadedAt) {
-    await fileService().deleteFolderAsync(`${series.id}/${chapter.id}`);
+    await fileService().deleteFolderAsync(`${providerName}/${series.id}/${chapter.id}`);
   }
   if (chapter.deletedAt) {
     delete series.chapters[chapterMetadataDerivedKey];
@@ -253,6 +249,8 @@ async function downloadAsync(existingChapters: boolean, newChapters: boolean): P
   }
 }
 
+
+
 /**
  * Promises to download the chapter.
  * @param seriesId The series identifier.
@@ -261,28 +259,33 @@ async function downloadAsync(existingChapters: boolean, newChapters: boolean): P
  */
 async function downloadChapterAsync(seriesId: number, chapterId: number): Promise<boolean> {
   let context = await mio.contextService.getContextAsync();
-  let chapterResult = mio.findContextChapter(context, seriesId, chapterId);
-  if (chapterResult && !chapterResult.chapter.deletedAt && !chapterResult.chapter.downloadedAt) {
-    let coreSeries = await mio.openProvider(chapterResult.providerName).seriesAsync(chapterResult.seriesAddress);
-    let coreChapters = mio.mapByChapterKey(coreSeries.chapters, chapter => chapter);
-    let contextChapter = chapterResult.chapter;
-    if (coreChapters[chapterResult.chapterMetadataDerivedKey]) {
-      let coreChapter = coreChapters[chapterResult.chapterMetadataDerivedKey];
-      let corePages = await coreChapter.pagesAsync();
-      for (let corePage of corePages) {
-        let image = await corePage.imageAsync();
-        await fileService().writeBlobAsync(`${seriesId}/${chapterId}/${corePage.number}.mrx`, image);
-      }
-      contextChapter.downloadedAt = Date.now();
-      contextChapter.numberOfPages = corePages.length;
+  let chapterMatch = mio.findChapterContext(context, seriesId, chapterId);
+  if (chapterMatch && !chapterMatch.chapter.deletedAt && !chapterMatch.chapter.downloadedAt) {
+    let series = await mio.openProvider(chapterMatch.providerName).seriesAsync(chapterMatch.seriesAddress);
+    let chapters = mio.mapChapterKey(series.chapters, chapter => chapter);
+    let contextChapter = chapterMatch.chapter;
+    if (chapters[chapterMatch.chapterMetadataDerivedKey]) {
+      await downloadKnownChapterAsync(chapterMatch.providerName, seriesId, contextChapter, chapters[chapterMatch.chapterMetadataDerivedKey]);
     } else {
       contextChapter.deletedAt = Date.now();
+      mio.contextService.saveChanges();
     }
-    mio.contextService.saveChanges();
     return true;
   } else {
     return false;
   }
+}
+
+// notice me senpai, notice me.
+async function downloadKnownChapterAsync(providerName: string, seriesId: number, contextChapter: mio.IContextChapter, chapter: mio.IChapter): Promise<void> {
+  let pages = await chapter.pagesAsync();
+  for (let page of pages) {
+    let image = await page.imageAsync();
+    await fileService().writeBlobAsync(`${providerName}/${seriesId}/${contextChapter.id}/${page.number}`, image);
+  }
+  contextChapter.downloadedAt = Date.now();
+  contextChapter.numberOfPages = pages.length;
+  mio.contextService.saveChanges();
 }
 
 /**
@@ -294,15 +297,16 @@ async function downloadChapterAsync(seriesId: number, chapterId: number): Promis
  */
 async function downloadSeriesAsync(seriesId: number, existingChapters: boolean, newChapters: boolean): Promise<boolean> {
   let context = await mio.contextService.getContextAsync();
-  let seriesResult = mio.findContextSeries(context, seriesId);
-  if (seriesResult) {
-    let coreSeries = await mio.openProvider(seriesResult.providerName).seriesAsync(seriesResult.seriesAddress);
+  let seriesMatch = mio.findSeriesContext(context, seriesId);
+  if (seriesMatch) {
+    let narrowSeriesMatch = seriesMatch;
+    let coreSeries = await mio.openProvider(seriesMatch.providerName).seriesAsync(seriesMatch.seriesAddress);
     let coreSeriesImage = await coreSeries.imageAsync();
-    let coreChapters = mio.mapByChapterKey(coreSeries.chapters, chapter => chapter);
-    let contextSeries = seriesResult.series;
+    let coreChapters = mio.mapChapterKey(coreSeries.chapters, chapter => chapter);
+    let contextSeries = seriesMatch.series;
 
     // Update the series.
-    await fileService().writeBlobAsync(`${seriesId}/previewImage.mrx`, coreSeriesImage);
+    await fileService().writeBlobAsync(`${seriesMatch.providerName}/${seriesId}/previewImage`, coreSeriesImage);
     contextSeries.checkedAt = Date.now();
     contextSeries.metadata = mio.copySeriesMetadata(coreSeries);
 
@@ -311,16 +315,16 @@ async function downloadSeriesAsync(seriesId: number, existingChapters: boolean, 
       if (coreChapters.hasOwnProperty(metadataDerivedKey)) {
         let coreChapter = coreChapters[metadataDerivedKey];
         if (!contextSeries.chapters[metadataDerivedKey]) {
-          let contextChapter = contextSeries.chapters[metadataDerivedKey] = mio.createContextChapter(context, coreChapter);
+          let contextChapter = contextSeries.chapters[metadataDerivedKey] = mio.createChapterContext(contextSeries, coreChapter);
           if (newChapters) {
-            mio.taskService.enqueue(mio.PriorityType.Low, () => downloadChapterAsync(seriesId, contextChapter.id));
+            mio.taskService.enqueue(mio.PriorityType.Low, () => downloadKnownChapterAsync(narrowSeriesMatch.providerName, seriesId, contextChapter, coreChapter));
           }
         } else {
           let contextChapter = contextSeries.chapters[metadataDerivedKey];
           contextChapter.deletedAt = undefined;
           contextChapter.metadata = mio.copyChapterMetadata(coreChapter);
           if (existingChapters && !contextChapter.deletedAt && !contextChapter.downloadedAt) {
-            mio.taskService.enqueue(mio.PriorityType.Low, () => downloadChapterAsync(seriesId, contextChapter.id));
+            mio.taskService.enqueue(mio.PriorityType.Low, () => downloadKnownChapterAsync(narrowSeriesMatch.providerName, seriesId, contextChapter, coreChapter));
           }
         }
       }
@@ -337,6 +341,20 @@ async function downloadSeriesAsync(seriesId: number, existingChapters: boolean, 
     mio.contextService.saveChanges();
     return true;
   } else {
+    return false;
+  }
+}
+
+/**
+ * Determines whether the series address is valid.
+ * @param seriesAddress The series address.
+ * @return Indicates whether the series address is valid.
+ */
+function isValid(seriesAddress: string): boolean {
+  try {
+    mio.openProvider(seriesAddress);
+    return true;
+  } catch (error) {
     return false;
   }
 }
@@ -381,10 +399,10 @@ function listSeries(context: mio.IContext): mio.ILibrarySeries[] {
           let series = provider.series[seriesAddress];
           result.push({
             addedAt: series.addedAt,
-            chapterLastAddedAt: mio.queryMax(series.chapters, chapter => chapter.addedAt),
-            chapterLastReadAt: mio.queryMax(series.chapters, chapter => chapter.lastReadAt),
             checkedAt: series.checkedAt,
             id: series.id,
+            lastChapterAddedAt: mio.queryMax(series.chapters, chapter => chapter.addedAt),
+            lastChapterReadAt: mio.queryMax(series.chapters, chapter => chapter.lastReadAt),
             metadata: series.metadata,
             numberOfChapters: Object.keys(series.chapters).length,
             numberOfReadChapters: mio.queryCount(series.chapters, listSeriesIsRead),

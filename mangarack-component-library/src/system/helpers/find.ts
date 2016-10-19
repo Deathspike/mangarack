@@ -2,16 +2,15 @@ import * as mio from '../module';
 
 /**
  * Attempts to find the chapter in the context.
- * @internal
  * @param context The context.
  * @param seriesId The series identifier.
  * @param chapterId The chapter identifier.
  * @return The result of the attempt to find the chapter in the context.
  */
-export function findContextChapter(context: mio.IContext, seriesId: number, chapterId: number): mio.IOption<mio.IFindContextChapterResult> {
-  let seriesResult = findContextSeries(context, seriesId);
-  if (seriesResult) {
-    let series = seriesResult.series;
+export function findChapterContext(context: mio.IContext, seriesId: number, chapterId: number): mio.IOption<mio.IMatchChapter> {
+  let seriesMatch = findSeriesContext(context, seriesId);
+  if (seriesMatch) {
+    let series = seriesMatch.series;
     for (let chapterMetadataDerivedKey in series.chapters) {
       if (series.chapters.hasOwnProperty(chapterMetadataDerivedKey)) {
         let chapter = series.chapters[chapterMetadataDerivedKey];
@@ -19,10 +18,10 @@ export function findContextChapter(context: mio.IContext, seriesId: number, chap
           return {
             chapter: chapter,
             chapterMetadataDerivedKey: chapterMetadataDerivedKey,
-            provider: seriesResult.provider,
-            providerName: seriesResult.providerName,
-            series: seriesResult.series,
-            seriesAddress: seriesResult.seriesAddress
+            provider: seriesMatch.provider,
+            providerName: seriesMatch.providerName,
+            series: seriesMatch.series,
+            seriesAddress: seriesMatch.seriesAddress
           };
         }
       }
@@ -33,12 +32,11 @@ export function findContextChapter(context: mio.IContext, seriesId: number, chap
 
 /**
  * Attempts to find the series in the context.
- * @internal
  * @param context The context.
  * @param seriesId The series identifier.
  * @return The result of the attempt to find the series in the context.
  */
-export function findContextSeries(context: mio.IContext, seriesId: number): mio.IOption<mio.IFindContextSeriesResult> {
+export function findSeriesContext(context: mio.IContext, seriesId: number): mio.IOption<mio.IMatchSeries> {
   for (let providerName in context.providers) {
     if (context.providers.hasOwnProperty(providerName)) {
       let provider = context.providers[providerName];

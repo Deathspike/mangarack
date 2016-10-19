@@ -3,7 +3,7 @@ import * as mioInternal from './module';
 
 /**
  * Promises the library.
- * @param password= The password.
+ * @param password The password.
  * @return The promise for the library.
  */
 export async function openLibraryAsync(password: string): Promise<mio.IOption<mio.ILibrary>> {

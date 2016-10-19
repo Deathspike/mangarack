@@ -1,37 +1,30 @@
 import * as mio from '../module';
 
 /**
- * Creates the context chapter based on the chapter.
- * @internal
- * @param context The context.
+ * Creates the chapter context.
+ * @param seriesContext The series context.
  * @param chapter The chapter.
- * @return The context chapter.
+ * @return The chapter context.
  */
-export function createContextChapter(context: mio.IContext, chapter: mio.IChapter): mio.IContextChapter {
+export function createChapterContext(seriesContext: mio.IContextSeries, chapter: mio.IChapter): mio.IContextChapter {
   return {
     addedAt: Date.now(),
-    id: ++context.lastId,
+    id: ++seriesContext.lastChapterId,
     metadata: mio.copyChapterMetadata(chapter),
     numberOfReadPages: 0
   };
 }
 
 /**
- * Creates the context series based on the series.
- * @internal
+ * Creates the series context.
  * @param context The context.
  * @param series The series.
- * @return The context series.
+ * @return The series context.
  */
-export function createContextSeries(context: mio.IContext, series: mio.ISeries): mio.IContextSeries {
-  let seriesId = ++context.lastId;
-  return {
-    addedAt: Date.now(),
-    chapters: mio.mapByChapterKey(series.chapters, chapter => mio.createContextChapter(context, chapter)),
-    checkedAt: Date.now(),
-    id: seriesId,
-    metadata: mio.copySeriesMetadata(series)
-  };
+export function createSeriesContext(context: mio.IContext, series: mio.ISeries): mio.IContextSeries {
+  let seriesContext: mio.IContextSeries = {addedAt: Date.now(), chapters: {}, checkedAt: Date.now(), id: ++context.lastSeriesId, lastChapterId: 0, metadata: mio.copySeriesMetadata(series)};
+  seriesContext.chapters = mio.mapChapterKey(series.chapters, chapter => mio.createChapterContext(seriesContext, chapter));
+  return seriesContext;
 }
 
 /**

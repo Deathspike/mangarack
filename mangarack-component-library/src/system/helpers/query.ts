@@ -2,7 +2,6 @@ import * as mio from '../module';
 
 /**
  * Retrieves the amount of matches the selector yields.
- * @internal
  * @param items The items.
  * @param selector The selector.
  * @return The amount of matches the selector yields.
@@ -19,7 +18,6 @@ export function queryCount<T>(items: {[key: string]: T}, selector: (item: T) => 
 
 /**
  * Retrieves the maximum value the selector yields.
- * @internal
  * @param items The items.
  * @param selector The selector.
  * @return The maximum value the selector yields.

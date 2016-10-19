@@ -1,19 +1,18 @@
-import * as mio from '../module';
+import * as mio from '../../module';
 
 /**
  * Represents the context.
- * @internal
  */
 export interface IContext {
   /**
-   * Contains the last used identifier.
+   * Contains the last series identifier.
    */
-  lastId: number;
+  lastSeriesId: number;
 
   /**
    * Contains the password.
    */
-  password?: string;
+  password: string;
 
   /**
    * Contains each provider.

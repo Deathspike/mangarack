@@ -15,10 +15,10 @@ export let contextService = {
    */
   getContextAsync: async function(): Promise<mio.IContext> {
     if (!context) {
-      let deserializedContext = await fileService().readObjectAsync<mio.IContext>('context.mrx');
+      let deserializedContext = await fileService().readObjectAsync<mio.IContext>('mangarack');
       if (!context) {
         if (!deserializedContext) {
-          context = {lastId: 0, password: '', providers: {}, settings: {}, version: mio.version};
+          context = {lastSeriesId: 0, password: '', providers: {}, settings: {}, version: mio.version};
           contextService.saveChanges();
         } else {
           context = deserializedContext;
@@ -41,7 +41,7 @@ export let contextService = {
       shouldSaveAgain = true;
     } else if (context) {
       isSaving = true;
-      fileService().writeObjectAsync('context.mrx', context).then(done, done);
+      fileService().writeObjectAsync('mangarack', context).then(done, done);
     }
   }
 };

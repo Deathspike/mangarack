@@ -1,10 +1,9 @@
-import * as mio from '../module';
+import * as mio from '../../module';
 
 /**
- * Represents a context series result.
- * @internal
+ * Represents a series result.
  */
-export interface IFindContextSeriesResult {
+export interface IMatchSeries {
   /**
    * Contains the provider.
    */
