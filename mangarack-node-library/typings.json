@@ -1,6 +1,0 @@
-{
-  "name": "mangarack-node-library",
-  "globalDependencies": {
-    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#c42b2ba16cc7f06869be1934ae829861296c2323"
-  }
-}
