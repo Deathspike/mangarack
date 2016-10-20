@@ -121,7 +121,7 @@ async function deleteAsync(fileOrFolderPath: string): Promise<void> {
           let absolutePath = path.join(fileOrFolderPath, relativePath);
           await deleteAsync(absolutePath);
         }
-        await mio.promise(callback => fs.rmdir(fileOrFolderPath, callback));
+        await mio.promise(callback => fs.rmdir(fileOrFolderPath, () => callback()));
       }
     }
   }
