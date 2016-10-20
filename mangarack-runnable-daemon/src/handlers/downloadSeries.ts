@@ -12,8 +12,8 @@ import * as mio from '../default';
 export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
   let existingChapters = mio.helperService.parseBoolean(request.body.existingChapters);
   let newChapters = mio.helperService.parseBoolean(request.body.newChapters);
-  if (existingChapters != null && newChapters != null) {
-    let result = await library.download(request.params.seriesId).runAsync(existingChapters, newChapters);
+  if (existingChapters.hasValue && newChapters.hasValue) {
+    let result = await library.download(request.params.seriesId).runAsync(existingChapters.value, newChapters.value);
     if (result) {
       response.sendStatus(200);
     } else {

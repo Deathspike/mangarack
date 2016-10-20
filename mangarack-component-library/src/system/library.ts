@@ -246,8 +246,6 @@ async function downloadAsync(existingChapters: boolean, newChapters: boolean): P
   }
 }
 
-
-
 /**
  * Promises to download the chapter.
  * @param seriesId The series identifier.

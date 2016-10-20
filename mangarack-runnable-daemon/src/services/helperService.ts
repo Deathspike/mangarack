@@ -27,11 +27,11 @@ import * as mio from '../default';
     * @param value The value.
     * @return The boolean.
     */
-   parseBoolean: function(value: any): mio.IOption<boolean> {
+   parseBoolean: function(value: any): {hasValue: boolean, value: boolean} {
      if (value) {
-       return /^on|true|yes|1$/.test(value);
+       return {hasValue: true, value: /^on|true|yes|1$/.test(value)};
      } else {
-       return undefined;
+       return {hasValue: false, value: false};
      }
    }
  };
