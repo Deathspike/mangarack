@@ -1,5 +1,5 @@
 import * as mio from '../default';
-let anyGenreType: {[key: string]: mio.GenreType} = mio.GenreType as any;
+const anyGenreType: {[key: string]: mio.GenreType} = mio.GenreType as any;
 
 /**
  * Converts each string value to the genre type.

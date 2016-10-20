@@ -1,5 +1,5 @@
 import * as mio from './module';
-let fileService = mio.dependency.get<mio.IFileService>('IFileService');
+const fileService = mio.dependency.get<mio.IFileService>('IFileService');
 
 /**
  * Represents the library.

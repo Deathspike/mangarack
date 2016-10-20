@@ -1,5 +1,5 @@
 import * as mio from '../default';
-let items: mio.IDictionary = {};
+const items: mio.IDictionary = {};
 
 /**
  * Represents a setting service.

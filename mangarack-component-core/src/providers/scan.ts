@@ -1,5 +1,5 @@
 import * as mio from '../default';
-let regexp = new RegExp('\\s*' +
+const regexp = new RegExp('\\s*' +
   // The volume expression [1].
   '(?:Vol\\.?\\s*([0-9\\.]+)\\s*)?' +
   // The chapter expression [2].

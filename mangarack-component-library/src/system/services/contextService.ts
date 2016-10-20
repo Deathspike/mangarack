@@ -1,6 +1,6 @@
 import * as mio from '../module';
+const fileService = mio.dependency.get<mio.IFileService>('IFileService');
 let context: mio.IOption<mio.IContext>;
-let fileService = mio.dependency.get<mio.IFileService>('IFileService');
 let isSaving = false;
 let shouldSaveAgain = false;
 

@@ -1,6 +1,6 @@
 /* tslint:disable:no-string-literal */
 import * as mio from './module';
-let httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
+const httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
 
 /**
  * Represents a remote library.

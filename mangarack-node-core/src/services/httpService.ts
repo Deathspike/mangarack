@@ -2,10 +2,10 @@
 import * as mio from '../default';
 import * as request from 'request';
 import {ResponseType} from './enumerators/ResponseType';
-let delayInMilliseconds = 2000;
-let maximumAttempts = 5;
-let timeoutInMilliseconds = 30000;
-let userAgent = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
+const delayInMilliseconds = 2000;
+const maximumAttempts = 5;
+const timeoutInMilliseconds = 30000;
+const userAgent = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
 
 /**
  * Represents a HTTP service.

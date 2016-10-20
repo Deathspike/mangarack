@@ -1,5 +1,5 @@
-let dependencies: {[key: string]: any} = {};
-let resolvers: {[key: string]: () => any} = {};
+const dependencies: {[key: string]: any} = {};
+const resolvers: {[key: string]: () => any} = {};
 
 /**
  * Represents the dependency helper.
