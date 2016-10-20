@@ -17,6 +17,7 @@
     "express": "4.14.0"
   },
   "devDependencies": {
+    "@types/node": "^6.0.45",
     "npm-build-tools": "2.2.5",
     "tslint": "3.13.0",
     "typescript": "2.0.0"
