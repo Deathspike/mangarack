@@ -71,7 +71,7 @@ function createHandler<T>(type: ResponseType, addresses: string[], headers: mio.
  * Promises to delay for the number of provided milliseconds.
  * @return The promise to delay for the number of provided milliseconds.
  */
-function delayAsync(): Promise<mio.IOption<void>> {
+function delayAsync(): Promise<void> {
   return mio.promise<void>(callback => setTimeout(callback, delayInMilliseconds));
 }
 

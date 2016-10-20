@@ -105,13 +105,13 @@ async function cleanAsync(series: mio.ISeries): Promise<void> {
  * @param chapter The chapter.
  * @return The chapter name.
  */
-function getChapterName(series: mio.ISeries, chapter: mio.IChapter): mio.IOption<string> {
+function getChapterName(series: mio.ISeries, chapter: mio.IChapter): string {
   if (!isFinite(chapter.number)) {
-    return undefined;
+    return '';
   } else {
     let title = getSeriesName(series);
     if (!title) {
-      return undefined;
+      return '';
     } else if (!isFinite(chapter.volume)) {
       return `${title} #${format(3, chapter.number)}.cbz`;
     } else {
@@ -126,13 +126,13 @@ function getChapterName(series: mio.ISeries, chapter: mio.IChapter): mio.IOption
  * @param chapter The chapter.
  * @return The chapter path.
  */
-function getChapterPath(series: mio.ISeries, chapter: mio.IChapter): mio.IOption<string> {
+function getChapterPath(series: mio.ISeries, chapter: mio.IChapter): string {
   let seriesName = getSeriesName(series);
   let chapterName = getChapterName(series, chapter);
   if (seriesName && chapterName) {
     return `${seriesName}/${chapterName}`;
   } else {
-    return undefined;
+    return '';
   }
 }
 
@@ -141,10 +141,10 @@ function getChapterPath(series: mio.ISeries, chapter: mio.IChapter): mio.IOption
  * @param series The series.
  * @return The series name.
  */
-function getSeriesName(series: mio.ISeries): mio.IOption<string> {
+function getSeriesName(series: mio.ISeries): string {
   return series.title
     .replace(/["<>\|:\*\?\\\/]/g, '')
-    .replace(/\.$/, '. (Suffixed)') || undefined;
+    .replace(/\.$/, '. (Suffixed)') || '';
 }
 
 /**
