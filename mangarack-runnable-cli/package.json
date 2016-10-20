@@ -16,6 +16,10 @@
     "xml2js": "0.4.17"
   },
   "devDependencies": {
+    "@types/archiver": "0.15.33",
+    "@types/gm": "1.17.29",
+    "@types/node": "6.0.45",
+    "@types/xml2js": "0.0.28",
     "npm-build-tools": "2.2.5",
     "tslint": "3.13.0",
     "typescript": "2.0.0"
