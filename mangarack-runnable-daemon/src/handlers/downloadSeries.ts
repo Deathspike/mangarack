@@ -13,10 +13,10 @@ export async function handleAsync(request: express.Request, response: express.Re
   let seriesId = request.params.seriesId as number;
   let existingChapters = mio.helperService.parseBoolean(request.body.existingChapters);
   let newChapters = mio.helperService.parseBoolean(request.body.newChapters);
-  if (!existingChapters.hasValue || !newChapters.hasValue) {
+  if (existingChapters == null || newChapters == null) {
     response.sendStatus(400);
   } else {
-    let result = await library.download(seriesId).runAsync(existingChapters.value, newChapters.value);
+    let result = await library.download(seriesId).runAsync(existingChapters, newChapters);
     if (result) {
       response.sendStatus(200);
     } else {

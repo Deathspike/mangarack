@@ -4,7 +4,6 @@ import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import * as express from 'express';
 import * as mio from '../default';
-import * as path from 'path';
 
 // TODO: Add support for CORS.
 
@@ -57,9 +56,9 @@ function createHandler(handler: any): any {
   return async function(request: express.Request, response: express.Response): Promise<void> {
     try {
       let authentication = basicAuth(request);
-      let library = await mio.openLibraryAsync(mio.option(authentication ? authentication.pass : ''));
-      if (library.hasValue) {
-        await handler.handleAsync(request, response, library.value);
+      let library = await mio.openLibraryAsync(authentication ? authentication.pass : '');
+      if (library) {
+        await handler.handleAsync(request, response, library);
       } else {
         response.set('WWW-Authenticate', 'Basic realm=Authorization Required');
         response.sendStatus(401);
