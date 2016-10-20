@@ -10,9 +10,7 @@ import * as mio from '../default';
  * @return The promise to download the chapter.
  */
 export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
-  let seriesId = request.params.seriesId as number;
-  let chapterId = request.params.chapterId as number;
-  let result = await library.download(seriesId, chapterId).runAsync();
+  let result = await library.download(request.params.seriesId, request.params.chapterId).runAsync();
   if (result) {
     response.sendStatus(200);
   } else {

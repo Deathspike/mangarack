@@ -28,10 +28,10 @@ import * as mio from '../default';
     * @return The boolean.
     */
    parseBoolean: function(value: any): mio.IOption<boolean> {
-     if (!value) {
-       return undefined;
-     } else {
+     if (value) {
        return /^on|true|yes|1$/.test(value);
+     } else {
+       return undefined;
      }
    }
  };

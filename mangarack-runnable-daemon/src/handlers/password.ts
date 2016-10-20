@@ -11,10 +11,10 @@ import * as mio from '../default';
  */
 export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
   let password = request.body.password;
-  if (typeof password !== 'string') {
-    response.sendStatus(400);
-  } else {
+  if (typeof password === 'string') {
     await library.password().runAsync(password);
     response.sendStatus(200);
+  } else {
+    response.sendStatus(400);
   }
 }

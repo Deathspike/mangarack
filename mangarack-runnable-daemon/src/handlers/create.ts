@@ -11,14 +11,14 @@ import * as mio from '../default';
  */
 export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
   let seriesAddress = request.body.seriesAddress;
-  if (!seriesAddress) {
-    response.sendStatus(400);
-  } else {
+  if (seriesAddress) {
     let result = await library.create().runAsync(seriesAddress.value);
     if (isFinite(result)) {
       response.send(String(result));
     } else {
       response.sendStatus(404);
     }
+  } else {
+    response.sendStatus(400);
   }
 }
