@@ -10,12 +10,12 @@ import * as mio from '../default';
  * @return The promise to propagate and archive the setting.
  */
 export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
-  let key = mio.option<string>(request.body.key);
-  let value = mio.option<string>(request.body.value);
-  if (!key.hasValue || !value.hasValue) {
+  let key = request.body.key;
+  let value = request.body.value;
+  if (!key || !value) {
     response.sendStatus(400);
   } else {
-    await library.setting().runAsync(key.value, value.value);
+    await library.setting().runAsync(key, value);
     response.sendStatus(200);
   }
 }

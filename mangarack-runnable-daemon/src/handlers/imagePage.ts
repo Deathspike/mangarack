@@ -14,9 +14,9 @@ export async function handleAsync(request: express.Request, response: express.Re
   let chapterId = request.params.chapterId as number;
   let pageNumber = request.params.pageNumber as number;
   let result = await library.imageAsync(seriesId, chapterId, pageNumber);
-  if (result.hasValue) {
-    response.set('Content-Type', mio.helperService.getContentType(result.value));
-    response.send(result.value);
+  if (result) {
+    response.set('Content-Type', mio.helperService.getContentType(result));
+    response.send(result);
   } else {
     response.sendStatus(404);
   }

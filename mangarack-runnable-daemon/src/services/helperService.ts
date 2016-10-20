@@ -31,7 +31,7 @@ import * as mio from '../default';
      if (!value) {
        return undefined;
      } else {
-       return mio.option(/^on|true|yes|1$/.test(value));
+       return /^on|true|yes|1$/.test(value);
      }
    }
  };

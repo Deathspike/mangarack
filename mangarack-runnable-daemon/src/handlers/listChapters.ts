@@ -12,8 +12,8 @@ import * as mio from '../default';
 export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
   let seriesId = request.params.seriesId as number;
   let result = await library.listAsync(seriesId);
-  if (result.hasValue) {
-    response.send(result.value);
+  if (result) {
+    response.send(result);
   } else {
     response.sendStatus(404);
   }

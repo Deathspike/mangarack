@@ -12,11 +12,11 @@ import * as mio from '../default';
 export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
   let seriesId = request.params.seriesId as number;
   let chapterId = request.params.chapterId as number;
-  let numberOfReadPages = mio.option(parseInt(request.body.numberOfReadPages, 10));
-  if (!numberOfReadPages.hasValue) {
+  let numberOfReadPages = parseInt(request.body.numberOfReadPages, 10);
+  if (!isFinite(numberOfReadPages)) {
     response.sendStatus(400);
   } else {
-    let result = await library.status(seriesId, chapterId).runAsync(numberOfReadPages.value);
+    let result = await library.status(seriesId, chapterId).runAsync(numberOfReadPages);
     if (result) {
       response.sendStatus(200);
     } else {
