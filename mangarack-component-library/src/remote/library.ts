@@ -39,16 +39,15 @@ export class RemoteLibrary implements mio.ILibrary {
    * @return The promise to delete the series/chapter.
    */
   public delete(seriesId: number, chapterId?: number): mio.ILibraryHandler<any> {
-    let self = this;
     if (!chapterId) {
-      return mio.createHandler(async function(removeMetadata: boolean): Promise<boolean> {
+      return mio.createHandler(async (removeMetadata: boolean): Promise<boolean> => {
         let formData: mio.IDictionary = {removeMetadata: String(removeMetadata)};
-        await self._fetch().text(`${self._address}/api/library/${seriesId}`, {}, mio.RequestType.Basic).deleteAsync(formData);
+        await this._fetch().text(`${this._address}/api/library/${seriesId}`, {}, mio.RequestType.Basic).deleteAsync(formData);
         return true;
       });
     } else {
-      return mio.createHandler(async function(): Promise<boolean> {
-        await self._fetch().text(`${self._address}/api/library/${seriesId}/${chapterId}`, {}, mio.RequestType.Basic).deleteAsync({});
+      return mio.createHandler(async (): Promise<boolean> => {
+        await this._fetch().text(`${this._address}/api/library/${seriesId}/${chapterId}`, {}, mio.RequestType.Basic).deleteAsync({});
         return true;
       });
     }
@@ -215,8 +214,7 @@ function getHostAddress(host: string): string {
  */
 async function handleNotFound<T>(defaultValue: T, action: () => Promise<T>): Promise<T> {
   try {
-    let result = await action();
-    return result;
+    return await action();
   } catch (error) {
     if (error instanceof mio.HttpServiceError) {
       let httpServiceError = error as mio.HttpServiceError;

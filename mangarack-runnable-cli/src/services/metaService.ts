@@ -41,9 +41,10 @@ function titleCase(item: any): any {
   for (let key in item) {
     if (item.hasOwnProperty(key)) {
       let value = item[key];
-      if (value || typeof value !== 'object') {
+      let isObject = typeof value === 'object';
+      if (value || !isObject) {
         let title = key.charAt(0).toUpperCase() + key.substr(1);
-        result[title] = typeof value === 'object' ? titleCase(value) : value;
+        result[title] = isObject ? titleCase(value) : value;
       }
     }
   }
