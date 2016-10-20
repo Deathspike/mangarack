@@ -1,6 +1,6 @@
 import * as mio from '../module';
+const queue: {[priorityType: number]: {reject: (reason: any) => void, resolve: (value: any) => void, runAsync: () => Promise<any>}[]} = {};
 let isBusy = false;
-let queue: {[priorityType: number]: {reject: (reason: any) => void, resolve: (value: any) => void, runAsync: () => Promise<any>}[]} = {};
 
 /**
  * Represents the task service.

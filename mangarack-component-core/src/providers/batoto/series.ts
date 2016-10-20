@@ -2,9 +2,9 @@ import * as mio from '../../default';
 import {createChapter} from './chapter';
 import {enhance} from '../enhance';
 import {scan} from '../scan';
-let httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
-let htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
-let remapGenreType: mio.IDictionary = {'Oneshot': 'One Shot', 'Sci-fi': 'Science Fiction'};
+const httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
+const htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
+const remapGenreType: mio.IDictionary = {'Oneshot': 'One Shot', 'Sci-fi': 'Science Fiction'};
 
 /**
  * Promises the series.
@@ -48,7 +48,7 @@ async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean
     let password = mio.settingService.getString('component.core.batoto.password');
     let username = mio.settingService.getString('component.core.batoto.username');
     if (!hasAttemptedLogin && username && password) {
-      let loginAddress = 'https://bato.to/forums/index.php?app=core&module=global&section=login&do=process';
+      const loginAddress = 'https://bato.to/forums/index.php?app=core&module=global&section=login&do=process';
       await httpService().text(loginAddress, {origin: 'https://bato.to'}, mio.RequestType.TimeoutWithRetry).postAsync({
         auth_key: document('input[name=auth_key]').attr('value'),
         ips_password: password,

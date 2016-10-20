@@ -1,6 +1,6 @@
 import * as mio from '../../default';
-let httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
-let htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
+const httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
+const htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
 
 /**
  * Creates the page.

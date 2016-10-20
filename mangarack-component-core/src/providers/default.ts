@@ -2,7 +2,7 @@ import * as mio from '../default';
 import {batoto} from './batoto/default';
 import {kissmanga} from './kissmanga/default';
 import {mangafox} from './mangafox/default';
-let providers = [batoto, kissmanga, mangafox];
+const providers = [batoto, kissmanga, mangafox];
 
 /**
  * Opens the provider for the name or address.
