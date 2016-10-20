@@ -100,7 +100,7 @@ async function createDirectoriesAsync(filePath: string): Promise<void> {
     }
   }
   for (let directoryPath of directoryPaths.reverse()) {
-    await mio.promise<void>(callback => fs.mkdir(directoryPath, error => callback()));
+    await mio.promise<void>(callback => fs.mkdir(directoryPath, callback));
   }
 }
 
