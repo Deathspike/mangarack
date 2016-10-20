@@ -12,10 +12,10 @@ import * as mio from '../default';
 export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
   let existingChapters = mio.helperService.parseBoolean(request.body.existingChapters);
   let newChapters = mio.helperService.parseBoolean(request.body.newChapters);
-  if (existingChapters == null || newChapters == null) {
-    response.sendStatus(400);
-  } else {
+  if (existingChapters != null && newChapters != null) {
     await library.download().runAsync(existingChapters, newChapters);
     response.sendStatus(200);
+  } else {
+    response.sendStatus(400);
   }
 }

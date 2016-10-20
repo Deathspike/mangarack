@@ -12,10 +12,10 @@ import * as mio from '../default';
 export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
   let key = request.body.key;
   let value = request.body.value;
-  if (!key || !value) {
-    response.sendStatus(400);
-  } else {
+  if (key && value) {
     await library.setting().runAsync(key, value);
     response.sendStatus(200);
+  } else {
+    response.sendStatus(400);
   }
 }

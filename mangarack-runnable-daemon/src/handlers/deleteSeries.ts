@@ -10,16 +10,15 @@ import * as mio from '../default';
  * @return The promise to delete the series.
  */
 export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
-  let seriesId = request.params.seriesId as number;
   let removeMetadata = mio.helperService.parseBoolean(request.body.removeMetadata);
-  if (removeMetadata == null) {
-    response.sendStatus(400);
-  } else {
-    let result = await library.delete(seriesId).runAsync(removeMetadata);
+  if (removeMetadata != null) {
+    let result = await library.delete(request.params.seriesId).runAsync(removeMetadata);
     if (result) {
       response.sendStatus(200);
     } else {
       response.sendStatus(404);
     }
+  } else {
+    response.sendStatus(400);
   }
 }

@@ -10,17 +10,16 @@ import * as mio from '../default';
  * @return The promise to download the series metadata.
  */
 export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
-  let seriesId = request.params.seriesId as number;
   let existingChapters = mio.helperService.parseBoolean(request.body.existingChapters);
   let newChapters = mio.helperService.parseBoolean(request.body.newChapters);
-  if (existingChapters == null || newChapters == null) {
-    response.sendStatus(400);
-  } else {
-    let result = await library.download(seriesId).runAsync(existingChapters, newChapters);
+  if (existingChapters != null && newChapters != null) {
+    let result = await library.download(request.params.seriesId).runAsync(existingChapters, newChapters);
     if (result) {
       response.sendStatus(200);
     } else {
       response.sendStatus(404);
     }
+  } else {
+    response.sendStatus(400);
   }
 }

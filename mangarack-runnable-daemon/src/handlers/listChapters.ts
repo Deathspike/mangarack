@@ -10,8 +10,7 @@ import * as mio from '../default';
  * @return The promise for the list of chapters.
  */
 export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
-  let seriesId = request.params.seriesId as number;
-  let result = await library.listAsync(seriesId);
+  let result = await library.listAsync(request.params.seriesId);
   if (result) {
     response.send(result);
   } else {

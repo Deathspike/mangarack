@@ -10,10 +10,7 @@ import * as mio from '../default';
  * @return The promise for the page image.
  */
 export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
-  let seriesId = request.params.seriesId as number;
-  let chapterId = request.params.chapterId as number;
-  let pageNumber = request.params.pageNumber as number;
-  let result = await library.imageAsync(seriesId, chapterId, pageNumber);
+  let result = await library.imageAsync(request.params.seriesId, request.params.chapterId, request.params.pageNumber);
   if (result) {
     response.set('Content-Type', mio.helperService.getContentType(result));
     response.send(result);
