@@ -28,7 +28,7 @@ export let fileService: mio.IFileService = {
         if (error) {
           callback();
         } else {
-          callback(undefined, data);
+          callback(undefined, mio.unsafe<mio.IBlob>(data));
         }
       });
     });
