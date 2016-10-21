@@ -11,7 +11,7 @@ const providers = [batoto, kissmanga, mangafox];
  */
 export function openProvider(nameOrAddress: string): mio.IProvider {
   for (let provider of providers) {
-    if (provider.name === nameOrAddress || provider.support(nameOrAddress)) {
+    if (provider.name === nameOrAddress || provider.isSupported(nameOrAddress)) {
       return provider;
     }
   }

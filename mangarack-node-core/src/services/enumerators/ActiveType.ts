@@ -1,8 +1,8 @@
 /**
- * The response type.
+ * The active type.
  * @internal
  */
-export enum ResponseType {
+export enum ActiveType {
   /**
    * Represents a blob.
    */

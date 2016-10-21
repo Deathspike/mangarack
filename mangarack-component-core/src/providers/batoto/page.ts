@@ -10,7 +10,7 @@ const htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
  * @param previousDocument= The previous document.
  * @return The page.
  */
-export function createPage(address: string, metadata: mio.IPageMetadata, previousDocument?: mio.IHtmlDocument): mio.IPage {
+export function createPage(address: string, metadata: mio.IPageMetadata, previousDocument?: mio.IHtmlServiceDocument): mio.IPage {
   return {
     imageAsync: () => downloadDocumentAndImageAsync(address, previousDocument),
     number: metadata.number
@@ -23,7 +23,7 @@ export function createPage(address: string, metadata: mio.IPageMetadata, previou
  * @param previousDocument= The previous document.
  * @return The promise for the image.
  */
-async function downloadDocumentAndImageAsync(address: string, previousDocument?: mio.IHtmlDocument): Promise<mio.IBlob> {
+async function downloadDocumentAndImageAsync(address: string, previousDocument?: mio.IHtmlServiceDocument): Promise<mio.IBlob> {
   let document = await downloadDocumentAsync(address, previousDocument);
   return downloadImageAsync(document);
 }
@@ -34,11 +34,11 @@ async function downloadDocumentAndImageAsync(address: string, previousDocument?:
  * @param previousDocument= The previous document.
  * @return The promise for the document.
  */
-async function downloadDocumentAsync(address: string, previousDocument?: mio.IHtmlDocument): Promise<mio.IHtmlDocument> {
+async function downloadDocumentAsync(address: string, previousDocument?: mio.IHtmlServiceDocument): Promise<mio.IHtmlServiceDocument> {
   if (previousDocument) {
     return previousDocument;
   } else {
-    let body = await httpService().text(address, site.readerHeaders, mio.RequestType.TimeoutWithRetry).getAsync();
+    let body = await httpService().text(address, mio.ControlType.TimeoutWithRetry, site.readerHeaders).getAsync();
     return htmlService().load(body);
   }
 }
@@ -48,10 +48,10 @@ async function downloadDocumentAsync(address: string, previousDocument?: mio.IHt
  * @param $ The selector.
  * @return The promise for the image.
  */
-function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
+function downloadImageAsync($: mio.IHtmlServiceDocument): Promise<mio.IBlob> {
   let address = $('img[alt*=\'Batoto!\']').attr('src');
   if (address) {
-    return httpService().blob(address, {}, mio.RequestType.TimeoutWithRetry).getAsync();
+    return httpService().blob(address, mio.ControlType.TimeoutWithRetry).getAsync();
   } else {
     throw new Error('Invalid page address.');
   }

@@ -2,8 +2,8 @@
 export * from 'mangarack-component-common';
 
 // Export 'core/enumerators' preceding 'core/converters'
+export * from './enumerators/ControlType';
 export * from './enumerators/GenreType';
-export * from './enumerators/RequestType';
 export * from './enumerators/SeriesType';
 
 // Export 'core/converters'

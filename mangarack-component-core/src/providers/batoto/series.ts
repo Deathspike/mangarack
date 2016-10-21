@@ -21,7 +21,7 @@ export async function createSeriesAsync(address: string): Promise<mio.ISeries> {
  * @param document The selector.
  * @return The series.
  */
-function createSeries(document: mio.IHtmlDocument): mio.ISeries {
+function createSeries(document: mio.IHtmlServiceDocument): mio.ISeries {
   return {
     artists: getArtists(document),
     authors: getAuthors(document),
@@ -40,8 +40,8 @@ function createSeries(document: mio.IHtmlDocument): mio.ISeries {
  * @param hasAttemptedLogin Indicates whether logging has been attempted.
  * @return The promise for the document.
  */
-async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean): Promise<mio.IHtmlDocument> {
-  let body = await httpService().text(address, {}, mio.RequestType.TimeoutWithRetry).getAsync();
+async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean): Promise<mio.IHtmlServiceDocument> {
+  let body = await httpService().text(address, mio.ControlType.TimeoutWithRetry).getAsync();
   let document = htmlService().load(body);
   let isLoggedIn = Boolean(document('#user_navigation.logged_in').first().text());
   if (!isLoggedIn) {
@@ -49,7 +49,7 @@ async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean
     let username = mio.settingService.getString('component.core.batoto.username');
     if (!hasAttemptedLogin && username && password) {
       const loginAddress = 'https://bato.to/forums/index.php?app=core&module=global&section=login&do=process';
-      await httpService().text(loginAddress, {origin: 'https://bato.to'}, mio.RequestType.TimeoutWithRetry).postAsync({
+      await httpService().text(loginAddress, mio.ControlType.TimeoutWithRetry, {origin: 'https://bato.to'}).postAsync({
         auth_key: document('input[name=auth_key]').attr('value'),
         ips_password: password,
         ips_username: username,
@@ -71,10 +71,10 @@ async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean
  * @param $ The selector.
  * @return The promise for the image.
  */
-function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
+function downloadImageAsync($: mio.IHtmlServiceDocument): Promise<mio.IBlob> {
   let address = $('img[src*=\'/uploads/\']').first().attr('src');
   if (address) {
-    return httpService().blob(address, {}, mio.RequestType.TimeoutWithRetry).getAsync();
+    return httpService().blob(address, mio.ControlType.TimeoutWithRetry).getAsync();
   } else {
     throw new Error('Invalid series cover address.');
   }
@@ -85,7 +85,7 @@ function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
  * @param $ The selector.
  * @return Each artist.
  */
-function getArtists($: mio.IHtmlDocument): string[] {
+function getArtists($: mio.IHtmlServiceDocument): string[] {
   return $('td:contains(Artist:)').next().find('a')
     .map((_, a) => $(a).text())
     .get();
@@ -96,7 +96,7 @@ function getArtists($: mio.IHtmlDocument): string[] {
  * @param $ The selector.
  * @return Each author.
  */
-function getAuthors($: mio.IHtmlDocument): string[] {
+function getAuthors($: mio.IHtmlServiceDocument): string[] {
   return $('td:contains(Author:)').next().find('a')
     .map((_, a) => $(a).text())
     .get();
@@ -107,7 +107,7 @@ function getAuthors($: mio.IHtmlDocument): string[] {
  * @param $ The selector.
  * @return Each child.
  */
-function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
+function getChapters($: mio.IHtmlServiceDocument): mio.IChapter[] {
   let results: mio.IChapter[] = [];
   $('tr.lang_English').find('a[href*=\'/reader\']').map((_, a) => {
     let address = $(a).attr('href');
@@ -124,7 +124,7 @@ function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
  * @param $ The selector.
  * @return Each genre.
  */
-function getGenres($: mio.IHtmlDocument): string[] {
+function getGenres($: mio.IHtmlServiceDocument): string[] {
   let isMature = Boolean($('.ipsBox .clear').first().next().text());
   let initialArray = (isMature ? ['Mature'] : []);
   return initialArray.concat($('td:contains(Genres:)').next().find('a')
@@ -138,7 +138,7 @@ function getGenres($: mio.IHtmlDocument): string[] {
  * @param $ The selector.
  * @return The summary.
  */
-function getSummary($: mio.IHtmlDocument): string {
+function getSummary($: mio.IHtmlServiceDocument): string {
   let html = $('td:contains(Description:)').next().html();
   let text = $('<div />').html(html.replace(/<br\s*\/?>/g, '\n')).text();
   return text;
@@ -149,7 +149,7 @@ function getSummary($: mio.IHtmlDocument): string {
  * @param $ The selector.
  * @return The title.
  */
-function getTitle($: mio.IHtmlDocument): string {
+function getTitle($: mio.IHtmlServiceDocument): string {
   return $('h1.ipsType_pagetitle').text();
 }
 
@@ -158,7 +158,7 @@ function getTitle($: mio.IHtmlDocument): string {
  * @param $ The selector.
  * @return The type.
  */
-function getType($: mio.IHtmlDocument): string {
+function getType($: mio.IHtmlServiceDocument): string {
   let text = $('td:contains(Type:)').next().text();
   let match = text.match(/^(.*)\s+\(.*\)$/);
   return match ? match[1] : text;

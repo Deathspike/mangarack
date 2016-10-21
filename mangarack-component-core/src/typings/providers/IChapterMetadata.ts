@@ -1,6 +1,6 @@
 /**
  * Represents chapter metadata.
- */﻿
+ */
 export interface IChapterMetadata {
   /**
    * Contains the number.
