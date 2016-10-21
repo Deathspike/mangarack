@@ -47,7 +47,7 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlServiceObject {
      * @return The current HTML object.
      */
     each: function(iterator: (index: number, element: mio.IHtmlServiceElement) => void): mio.IHtmlServiceObject {
-      cheerioObject.each(iterator);
+      cheerioObject.each((index, element) => iterator(index, mio.unsafe<mio.IHtmlServiceElement>(element)));
       return encapsulateObject(cheerioObject);
     },
 
@@ -85,7 +85,7 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlServiceObject {
      * @return The result mapped to a new object.
      */
     map: function<T>(iterator: (index: number, element: mio.IHtmlServiceElement) => T): {get(): T[]} {
-      return {get: () => cheerioObject.map(iterator).get() as any};
+      return {get: () => cheerioObject.map((index, element) => iterator(index, mio.unsafe<mio.IHtmlServiceElement>(element))).get() as any};
     },
 
     /**

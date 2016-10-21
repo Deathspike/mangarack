@@ -20,3 +20,12 @@ export function promise<T>(action: (callback: (error?: any, value?: T) => void) 
     }
   });
 }
+
+/**
+ * Provides a trackable method with which to define an unsafe typedefinition.
+ * @param value The value.
+ * @return The value
+ */
+export function unsafe<T>(value: any): T {
+  return value as T;
+}

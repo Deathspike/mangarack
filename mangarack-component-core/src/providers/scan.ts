@@ -56,8 +56,7 @@ function createNumber(chapter: string, part: string): number {
   if (match) {
     return parseFloat(match[1]) + (match[2].charCodeAt(0) - 96) / 10;
   } else if (part) {
-    let parsedPart = parseFloat(part);
-    return parseFloat(chapter) + (parsedPart || 0) / 10;
+    return parseFloat(chapter) + (parseFloat(part) || 0) / 10;
   } else {
     return parseFloat(chapter);
   }

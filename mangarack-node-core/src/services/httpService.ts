@@ -117,7 +117,7 @@ async function fetchAsync(activeMethod: string, activeType: ActiveType, address:
     request(core, (error, response, body) => {
       if (!error && response.statusCode === 200) {
         if (activeType === ActiveType.Json) {
-          // TODO: This can throw, and is not caught.
+          // TODO: This parse can throw an error, which is not caught.
           resolve(JSON.parse(body));
         } else {
           resolve(body);

@@ -39,7 +39,9 @@ export interface IHtmlServiceDocument {
 /**
  * Represents a HTML service element.
  */
-export interface IHtmlServiceElement {}
+export interface IHtmlServiceElement {
+  [key: string]: never;
+}
 
 /**
  * Represents a HTML service object.
