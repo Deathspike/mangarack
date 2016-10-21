@@ -20,5 +20,5 @@ export function createPage(address: string, metadata: mio.IPageMetadata): mio.IP
  * @return The promise for the image.
  */
 function downloadImageAsync(address: string): Promise<mio.IBlob> {
-  return httpService().blob(address, {}, mio.RequestType.TimeoutWithRetry).getAsync();
+  return httpService().blob(address, mio.ControlType.TimeoutWithRetry).getAsync();
 }

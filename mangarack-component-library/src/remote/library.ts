@@ -26,7 +26,7 @@ export class RemoteLibrary implements mio.ILibrary {
   public create(): mio.ILibraryHandler<(seriesAddress: string) => Promise<mio.IOption<number>>> {
     return mio.createHandler(async (seriesAddress: string) => {
       return handleNotFound(undefined, async () => {
-        let result = await this._fetch().json<number>(`${this._address}/api/library`, {}, mio.RequestType.Basic).postAsync({seriesAddress: seriesAddress});
+        let result = await this._fetch().json<number>(`${this._address}/api/library`).postAsync({seriesAddress: seriesAddress});
         return result;
       });
     });
@@ -42,12 +42,12 @@ export class RemoteLibrary implements mio.ILibrary {
     if (!chapterId) {
       return mio.createHandler(async (removeMetadata: boolean): Promise<boolean> => {
         let formData: mio.IDictionary = {removeMetadata: String(removeMetadata)};
-        await this._fetch().text(`${this._address}/api/library/${seriesId}`, {}, mio.RequestType.Basic).deleteAsync(formData);
+        await this._fetch().text(`${this._address}/api/library/${seriesId}`).deleteAsync(formData);
         return true;
       });
     } else {
       return mio.createHandler(async (): Promise<boolean> => {
-        await this._fetch().text(`${this._address}/api/library/${seriesId}/${chapterId}`, {}, mio.RequestType.Basic).deleteAsync({});
+        await this._fetch().text(`${this._address}/api/library/${seriesId}/${chapterId}`).deleteAsync();
         return true;
       });
     }
@@ -63,20 +63,20 @@ export class RemoteLibrary implements mio.ILibrary {
     if (!seriesId && !chapterId) {
       return mio.createHandler(async (existingChapters: boolean, newChapters: boolean) => {
         let formData: mio.IDictionary = {existingChapters: String(existingChapters), newChapters: String(newChapters)};
-        await this._fetch().text(`${this._address}/api/download`, {}, mio.RequestType.Basic).postAsync(formData);
+        await this._fetch().text(`${this._address}/api/download`).postAsync(formData);
       });
     } else if (!chapterId) {
       return mio.createHandler(async (existingChapters: boolean, newChapters: boolean) => {
         return handleNotFound(false, async () => {
           let formData: mio.IDictionary = {existingChapters: String(existingChapters), newChapters: String(newChapters)};
-          await this._fetch().text(`${this._address}/api/download/${seriesId}`, {}, mio.RequestType.Basic).postAsync(formData);
+          await this._fetch().text(`${this._address}/api/download/${seriesId}`).postAsync(formData);
           return true;
         });
       });
     } else {
       return mio.createHandler(async () => {
         return handleNotFound(false, async () => {
-          await this._fetch().text(`${this._address}/api/download/${seriesId}/${chapterId}`, {}, mio.RequestType.Basic).postAsync({});
+          await this._fetch().text(`${this._address}/api/download/${seriesId}/${chapterId}`).postAsync();
           return true;
         });
       });
@@ -93,10 +93,10 @@ export class RemoteLibrary implements mio.ILibrary {
   public async imageAsync(seriesId: number, chapterId?: number, pageNumber?: number): Promise<mio.IOption<mio.IBlob>> {
     return handleNotFound(undefined, async () => {
       if (!chapterId || !pageNumber) {
-        let result = await this._fetch().blob(`${this._address}/content/${seriesId}`, {}, mio.RequestType.Basic).getAsync();
+        let result = await this._fetch().blob(`${this._address}/content/${seriesId}`).getAsync();
         return result;
       } else {
-        let result = await this._fetch().blob(`${this._address}/content/${seriesId}/${chapterId}/${pageNumber}`, {}, mio.RequestType.Basic).getAsync();
+        let result = await this._fetch().blob(`${this._address}/content/${seriesId}/${chapterId}/${pageNumber}`).getAsync();
         return result;
       }
     });
@@ -109,11 +109,11 @@ export class RemoteLibrary implements mio.ILibrary {
    */
   public async listAsync(seriesId?: number): Promise<any> {
     if (!seriesId) {
-      let result = await this._fetch().json<mio.ILibrarySeries[]>(`${this._address}/api/library`, {}, mio.RequestType.Basic).getAsync();
+      let result = await this._fetch().json<mio.ILibrarySeries[]>(`${this._address}/api/library`).getAsync();
       return result;
     } else {
       return handleNotFound(undefined, async () => {
-        let result = await this._fetch().json<mio.ILibraryChapter[]>(`${this._address}/api/library/${seriesId}`, {}, mio.RequestType.Basic).getAsync();
+        let result = await this._fetch().json<mio.ILibraryChapter[]>(`${this._address}/api/library/${seriesId}`).getAsync();
         return result;
       });
     }
@@ -125,7 +125,7 @@ export class RemoteLibrary implements mio.ILibrary {
    */
   public password(): mio.ILibraryHandler<(password: string) => Promise<void>> {
     return mio.createHandler(async (password: string) => {
-      await this._fetch().text(`${this._address}/api`, {}, mio.RequestType.Basic).postAsync({password: password});
+      await this._fetch().text(`${this._address}/api`).postAsync({password: password});
     });
   }
 
@@ -136,7 +136,7 @@ export class RemoteLibrary implements mio.ILibrary {
    */
   public setting(): mio.ILibraryHandler<(key: string, value: string) => Promise<void>> {
     return mio.createHandler(async (key: string, value: string) => {
-      await this._fetch().text(`${this._address}/api/setting`, {}, mio.RequestType.Basic).patchAsync({key: key, value: value});
+      await this._fetch().text(`${this._address}/api/setting`).patchAsync({key: key, value: value});
     });
   }
 
@@ -151,7 +151,7 @@ export class RemoteLibrary implements mio.ILibrary {
       return handleNotFound(false, async () => {
         let address = `${this._address}/api/library/${seriesId}/${chapterId}`;
         let formData: mio.IDictionary = {numberOfReadPages: String(numberOfReadPages)};
-        await this._fetch().text(address, {}, mio.RequestType.Basic).patchAsync(formData);
+        await this._fetch().text(address).patchAsync(formData);
         return true;
       });
     });
@@ -162,7 +162,7 @@ export class RemoteLibrary implements mio.ILibrary {
    * @return The promise for the version.
    */
   public versionAsync(): Promise<{api: number}> {
-    return this._fetch().json<{api: number}>(`${this._address}/api`, {}, mio.RequestType.Basic).getAsync();
+    return this._fetch().json<{api: number}>(`${this._address}/api`).getAsync();
   }
 
   /**
@@ -174,17 +174,20 @@ export class RemoteLibrary implements mio.ILibrary {
       return httpService();
     } else {
       return {
-        blob: (address: string | string[], headers: mio.IDictionary, strategy: mio.RequestType) => {
+        blob: (address: string | string[], controlType?: mio.ControlType, headers?: mio.IDictionary) => {
+          headers = headers || {};
           headers['Authorization'] = this._authorization;
-          return httpService().blob(address, headers, strategy);
+          return httpService().blob(address, controlType, headers);
         },
-        json: (address: string | string[], headers: mio.IDictionary, strategy: mio.RequestType) => {
+        json: (address: string | string[], controlType?: mio.ControlType, headers?: mio.IDictionary) => {
+          headers = headers || {};
           headers['Authorization'] = this._authorization;
-          return httpService().json(address, headers, strategy);
+          return httpService().json(address, controlType, headers);
         },
-        text: (address: string | string[], headers: mio.IDictionary, strategy: mio.RequestType) => {
+        text: (address: string | string[], controlType?: mio.ControlType, headers?: mio.IDictionary) => {
+          headers = headers || {};
           headers['Authorization'] = this._authorization;
-          return httpService().text(address, headers, strategy);
+          return httpService().text(address, controlType, headers);
         }
       };
     }

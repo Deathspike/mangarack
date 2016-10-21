@@ -1,7 +1,7 @@
 /**
  * Represents a request type.
  */
-export enum RequestType {
+export enum ControlType {
   /**
    * Represents a request without timeout.
    */
