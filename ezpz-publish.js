@@ -3,7 +3,7 @@ var fs = require('fs');
 var path = require('path');
 
 if (path.basename(__dirname) !== 'node_modules') {
-  console.log('ERROR: The containing folder must be named "node_modules".');
+  console.log('ERROR: The containing folder must be named \'node_modules\'.');
   process.exit(1);
 }
 

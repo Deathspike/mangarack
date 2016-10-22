@@ -2,7 +2,7 @@ import * as mio from '../../default';
 
 /**
  * Represents a library. Bound to HTTP, the specifications match:
- *  200 (OK) => Successfully completed the operation. If `+MB`, the response will be included in the `Message Body`.
+ *  200 (OK) => Successfully completed the operation. If +MB, the response will be included in the body.
  *  400 (Bad Request) => Provide the required input variables.
  *  404 (Not Found) => Resource does not exist.
  * And these status responses apply to all calls:
