@@ -80,10 +80,10 @@ export let library: mio.ILibrary = {
   },
 
   /**
-   * Promises to download each `series metadata/the series metadata/the chapter`.
+   * Promises to download each series metadata/the series metadata/the chapter.
    * @param seriesId= The series identifier.
    * @param chapterId= The chapter identifier.
-   * @return The promise to download each `series metadata/the series metadata/the chapter`.
+   * @return The promise to download each series metadata/the series metadata/the chapter.
    */
   download: function(seriesId?: number, chapterId?: number): mio.ILibraryHandler<any> {
     if (!seriesId) {

@@ -59,7 +59,7 @@ async function downloadDocumentAsync(address: string, hasAttemptedLogin: boolean
       await mio.promise(callback => setTimeout(callback, 1000));
       return downloadDocumentAsync(address, true);
     } else {
-      throw new Error(`Invalid 'component.core.batoto.username' or 'component.core.batoto.password'.`);
+      throw new Error('Invalid \'component.core.batoto.username\' or \'component.core.batoto.password\'.');
     }
   } else {
     return document;

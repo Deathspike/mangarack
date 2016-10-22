@@ -3,7 +3,7 @@ import * as mio from '../default';
 import * as request from 'request';
 import {ActiveType} from './enumerators/ActiveType';
 const delayInMilliseconds = [1000, 2500];
-const maximumRetries = 5;
+const maximumNumberOfRetries = 5;
 const timeoutInMilliseconds = [15000, 30000];
 const userAgent = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
 
@@ -65,15 +65,6 @@ function createHandler<T>(activeType: ActiveType, address: string | string[], co
 }
 
 /**
- * Retrieves a random value between the boundaries.
- * @param boundaries The boundaries.
- * @return The random value.
- */
-function getRandomValue(boundaries: number[]): number {
-  return Math.floor(Math.random() * (boundaries[1] - boundaries[0] + 1)) + boundaries[0];
-}
-
-/**
  * Promises to try to fetch the contents of the HTTP resource
  * @param activeMethod The active method.
  * @param activeType The active type.
@@ -85,15 +76,15 @@ function getRandomValue(boundaries: number[]): number {
  */
 async function fetchAnyAsync(activeMethod: string, activeType: ActiveType, address: string | string[], controlType?: mio.ControlType, formData?: mio.IDictionary, headers?: mio.IDictionary): Promise<any> {
   let addresses = Array.isArray(address) ? address : [address];
-  let maximumAttempts = controlType === mio.ControlType.BasicWithRetry || controlType === mio.ControlType.TimeoutWithRetry ? maximumRetries : 1;
+  let maximumNumberOfAttempts = getNumberOfAttempts(controlType);
   let previousError: any;
-  for (let currentAttempt = 0; currentAttempt < maximumAttempts; currentAttempt++) {
+  for (let currentAttempt = 0; currentAttempt < maximumNumberOfAttempts; currentAttempt++) {
     for (let currentAddress of addresses) {
       try {
         return await fetchAsync(activeMethod, activeType, currentAddress, controlType, formData, headers);
       } catch (error) {
         previousError = error;
-        await mio.promise<void>(callback => setTimeout(callback, getRandomValue(delayInMilliseconds)));
+        await mio.promise<void>(callback => setTimeout(callback, getRandomBetweenBoundaries(delayInMilliseconds)));
       }
     }
   }
@@ -115,15 +106,13 @@ async function fetchAnyAsync(activeMethod: string, activeType: ActiveType, addre
  * @return The promise to try to fetch the contents of the HTTP resource
  */
 async function fetchAsync(activeMethod: string, activeType: ActiveType, address: string, controlType?: mio.ControlType, formData?: mio.IDictionary, headers?: mio.IDictionary): Promise<any> {
-  controlType = controlType || mio.ControlType.Basic;
-  formData = formData || {};
   headers = headers || {};
   headers['User-Agent'] = headers['User-Agent'] || userAgent;
   return new Promise((resolve, reject) => {
-    let timeout = controlType < mio.ControlType.Timeout ? 0 : getRandomValue(timeoutInMilliseconds);
+    let timeout = getTimeoutInMilliseconds(controlType);
     let encoding: any = activeType === ActiveType.Blob ? null : 'utf8';
-    let core = {encoding: encoding, form: formData, gzip: true, headers: headers, jar: true, method: activeMethod, timeout: timeout, url: address};
-    request(core, (error, response, body) => {
+    let data = {encoding, form: formData, gzip: true, headers, jar: true, method: activeMethod, timeout, url: address};
+    request(data, (error, response, body) => {
       if (!error && response.statusCode === 200) {
         if (activeType === ActiveType.Json) {
           // TODO: This parse can throw an error, which is not caught.
@@ -134,9 +123,44 @@ async function fetchAsync(activeMethod: string, activeType: ActiveType, address:
       } else {
         reject(new mio.HttpServiceError({
           body: String(body || ''),
-          statusCode: (response ? response.statusCode : 0) || 0
+          statusCode: response.statusCode || 0
         }, `Invalid HTTP response: ${address}`));
       }
     });
   });
+}
+
+/**
+ * Retrieves the number of attempts.
+ * @param controlType= The control type.
+ * @return The number of attempts.
+ */
+function getNumberOfAttempts(controlType?: mio.ControlType): number {
+  if (controlType === mio.ControlType.BasicWithRetry || controlType === mio.ControlType.TimeoutWithRetry) {
+    return maximumNumberOfRetries;
+  } else {
+    return 1;
+  }
+}
+
+/**
+ * Retrieves a random value between the boundaries.
+ * @param boundaries The boundaries.
+ * @return The random value.
+ */
+function getRandomBetweenBoundaries(boundaries: number[]): number {
+  return Math.floor(Math.random() * (boundaries[1] - boundaries[0] + 1)) + boundaries[0];
+}
+
+/**
+ * Retrieves the timeout in milliseconds.
+ * @param controlType= The control type.
+ * @return The timeout in milliseconds.
+ */
+function getTimeoutInMilliseconds(controlType?: mio.ControlType): number {
+  if (controlType === mio.ControlType.Timeout || controlType === mio.ControlType.TimeoutWithRetry) {
+    return getRandomBetweenBoundaries(timeoutInMilliseconds);
+  } else {
+    return 0;
+  }
 }
