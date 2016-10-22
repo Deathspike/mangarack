@@ -2,9 +2,9 @@
 import * as mio from '../default';
 import * as request from 'request';
 import {ActiveType} from './enumerators/ActiveType';
-const delayInMilliseconds = 2000;
+const delayInMilliseconds = [1000, 2500];
 const maximumRetries = 5;
-const timeoutInMilliseconds = 30000;
+const timeoutInMilliseconds = [15000, 30000];
 const userAgent = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
 
 /**
@@ -65,6 +65,15 @@ function createHandler<T>(activeType: ActiveType, address: string | string[], co
 }
 
 /**
+ * Retrieves a random value between the boundaries.
+ * @param boundaries The boundaries.
+ * @return The random value.
+ */
+function getRandomValue(boundaries: number[]): number {
+  return Math.floor(Math.random() * (boundaries[1] - boundaries[0] + 1)) + boundaries[0];
+}
+
+/**
  * Promises to try to fetch the contents of the HTTP resource
  * @param activeMethod The active method.
  * @param activeType The active type.
@@ -84,7 +93,7 @@ async function fetchAnyAsync(activeMethod: string, activeType: ActiveType, addre
         return await fetchAsync(activeMethod, activeType, currentAddress, controlType, formData, headers);
       } catch (error) {
         previousError = error;
-        await mio.promise<void>(callback => setTimeout(callback, delayInMilliseconds));
+        await mio.promise<void>(callback => setTimeout(callback, getRandomValue(delayInMilliseconds)));
       }
     }
   }
@@ -111,7 +120,7 @@ async function fetchAsync(activeMethod: string, activeType: ActiveType, address:
   headers = headers || {};
   headers['User-Agent'] = headers['User-Agent'] || userAgent;
   return new Promise((resolve, reject) => {
-    let timeout = controlType < mio.ControlType.Timeout ? 0 : timeoutInMilliseconds;
+    let timeout = controlType < mio.ControlType.Timeout ? 0 : getRandomValue(timeoutInMilliseconds);
     let encoding: any = activeType === ActiveType.Blob ? null : 'utf8';
     let core = {encoding: encoding, form: formData, gzip: true, headers: headers, jar: true, method: activeMethod, timeout: timeout, url: address};
     request(core, (error, response, body) => {
