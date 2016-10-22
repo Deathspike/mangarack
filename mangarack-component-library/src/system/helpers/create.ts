@@ -22,7 +22,7 @@ export function createChapterContext(seriesContext: mio.IContextSeries, chapter:
  * @return The series context.
  */
 export function createSeriesContext(context: mio.IContext, series: mio.ISeries): mio.IContextSeries {
-  let seriesContext: mio.IContextSeries = {addedAt: Date.now(), chapters: {}, checkedAt: Date.now(), id: ++context.lastSeriesId, lastChapterId: 0, metadata: mio.copySeriesMetadata(series)};
+  let seriesContext = {addedAt: Date.now(), chapters: {}, checkedAt: Date.now(), id: ++context.lastSeriesId, lastChapterId: 0, metadata: mio.copySeriesMetadata(series)};
   seriesContext.chapters = mio.mapChapterKey(series.chapters, chapter => mio.createChapterContext(seriesContext, chapter));
   return seriesContext;
 }
