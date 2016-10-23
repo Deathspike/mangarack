@@ -9,10 +9,10 @@ export function promise<T>(action: (callback: (error?: any, value?: T) => void) 
   return new Promise<mio.IOption<T>>((resolve, reject) => {
     try {
       action((error?: any, value?: T) => {
-        if (error) {
-          reject(error);
-        } else {
+        if (!error) {
           resolve(value);
+        } else {
+          reject(error);
         }
       });
     } catch (error) {
@@ -22,7 +22,24 @@ export function promise<T>(action: (callback: (error?: any, value?: T) => void) 
 }
 
 /**
- * Provides a trackable method with which to define an unsafe typedefinition.
+ * Creates a trackable method with which to define an unsafe promise.
+ * @param action The action.
+ * @return The promise.
+ */
+export function promiseUnsafe<T>(action: (callback: (error: any, value: any) => void) => void): Promise<mio.IBlob> {
+  return mio.promise<T>(callback => {
+    action((error, value) => {
+      if (error || !value) {
+        callback(error);
+      } else {
+        callback(undefined, unsafe<T>(value));
+      }
+    });
+  })
+}
+
+/**
+ * Provides a trackable method with which to define an unsafe type definition.
  * @param value The value.
  * @return The value
  */

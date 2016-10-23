@@ -13,8 +13,7 @@ export let fileService: mio.IFileService = {
    * @return The promise to delete the folder resource.
    */
   deleteFolderAsync: async function(folderPath: string): Promise<void> {
-    let resolvedFolderPath = resolveLibraryPath(folderPath);
-    await deleteAsync(resolvedFolderPath);
+    await deleteAsync(resolveLibraryPath(folderPath));
   },
 
   /**
@@ -25,10 +24,10 @@ export let fileService: mio.IFileService = {
   readBlobAsync: function(filePath: string): Promise<mio.IOption<mio.IBlob>> {
     return mio.promise<mio.IBlob>(callback => {
       fs.readFile(resolveLibraryPath(filePath), (error, data) => {
-        if (error) {
-          callback();
-        } else {
+        if (!error) {
           callback(undefined, mio.unsafe<mio.IBlob>(data));
+        } else {
+          callback();
         }
       });
     });
@@ -42,14 +41,14 @@ export let fileService: mio.IFileService = {
   readObjectAsync: function<T>(filePath: string): Promise<mio.IOption<T>> {
     return mio.promise<T>(callback => {
       fs.readFile(resolveLibraryPath(filePath), 'utf8', (error, data) => {
-        if (error) {
-          callback();
-        } else {
+        if (!error) {
           try {
             callback(undefined, JSON.parse(data));
           } catch (error) {
             callback();
           }
+        } else {
+          callback();
         }
       });
     });
@@ -112,9 +111,7 @@ async function createDirectoriesAsync(filePath: string): Promise<void> {
 async function deleteAsync(fileOrFolderPath: string): Promise<void> {
   let stat = await mio.promise<fs.Stats>(callback => fs.stat(fileOrFolderPath, callback));
   if (stat) {
-    if (stat.isFile()) {
-      await mio.promise<void>(callback => fs.unlink(fileOrFolderPath, callback));
-    } else {
+    if (stat.isDirectory()) {
       let relativePaths = await mio.promise<string[]>(callback => fs.readdir(fileOrFolderPath, callback));
       if (relativePaths) {
         for (let relativePath of relativePaths) {
@@ -123,6 +120,8 @@ async function deleteAsync(fileOrFolderPath: string): Promise<void> {
         }
         await mio.promise(callback => fs.rmdir(fileOrFolderPath, () => callback()));
       }
+    } else {
+      await mio.promise<void>(callback => fs.unlink(fileOrFolderPath, callback));
     }
   }
 }

@@ -106,17 +106,17 @@ async function cleanAsync(series: mio.ISeries): Promise<void> {
  * @return The chapter name.
  */
 function getChapterName(series: mio.ISeries, chapter: mio.IChapter): string {
-  if (!isFinite(chapter.number)) {
-    return '';
-  } else {
+  if (isFinite(chapter.number)) {
     let title = getSeriesName(series);
-    if (!title) {
-      return '';
-    } else if (!isFinite(chapter.volume)) {
+    if (title && isFinite(chapter.volume)) {
+      return `${title} V${format(2, chapter.volume)} #${format(3, chapter.number)}.cbz`;
+    } else if (title) {
       return `${title} #${format(3, chapter.number)}.cbz`;
     } else {
-      return `${title} V${format(2, chapter.volume)} #${format(3, chapter.number)}.cbz`;
+      return '';
     }
+  } else {
+    return '';
   }
 }
 

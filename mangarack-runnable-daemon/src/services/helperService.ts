@@ -42,7 +42,7 @@ import * as mio from '../default';
   * @return The image type.
   */
  function getImageType(image: mio.IBlob): mio.ImageType {
-   let buffer = image as Buffer;
+   let buffer = mio.unsafe<Buffer>(image);
    if (buffer.slice(0, 3).toString('hex') === '474946') {
      return mio.ImageType.Gif;
    } else if (buffer.slice(0, 2).toString('hex') === 'ffd8') {
