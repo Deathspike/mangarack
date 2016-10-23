@@ -21,9 +21,9 @@ function isSupported(address: string): boolean {
  * @return The promise for the series.
  */
 function seriesAsync(address: string): Promise<mio.ISeries> {
-  if (!isSupported(address)) {
-    throw new Error(`Invalid series address: ${address}`);
-  } else {
+  if (isSupported(address)) {
     return createSeriesAsync(address);
+  } else {
+    throw new Error(`Invalid series address: ${address}`);
   }
 }

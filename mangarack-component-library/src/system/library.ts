@@ -308,16 +308,16 @@ async function downloadSeriesAsync(seriesId: number, existingChapters: boolean, 
     for (let metadataDerivedKey in coreChapters) {
       if (coreChapters.hasOwnProperty(metadataDerivedKey)) {
         let coreChapter = coreChapters[metadataDerivedKey];
-        if (!contextSeries.chapters[metadataDerivedKey]) {
-          let contextChapter = contextSeries.chapters[metadataDerivedKey] = mio.createChapterContext(contextSeries, coreChapter);
-          if (newChapters) {
-            mio.taskService.enqueue(mio.PriorityType.Low, () => downloadKnownChapterAsync(seriesMatch!.providerName, seriesId, contextChapter, coreChapter));
-          }
-        } else {
+        if (contextSeries.chapters[metadataDerivedKey]) {
           let contextChapter = contextSeries.chapters[metadataDerivedKey];
           contextChapter.deletedAt = undefined;
           contextChapter.metadata = mio.copyChapterMetadata(coreChapter);
           if (existingChapters && !contextChapter.deletedAt && !contextChapter.downloadedAt) {
+            mio.taskService.enqueue(mio.PriorityType.Low, () => downloadKnownChapterAsync(seriesMatch!.providerName, seriesId, contextChapter, coreChapter));
+          }
+        } else {
+          let contextChapter = contextSeries.chapters[metadataDerivedKey] = mio.createChapterContext(contextSeries, coreChapter);
+          if (newChapters) {
             mio.taskService.enqueue(mio.PriorityType.Low, () => downloadKnownChapterAsync(seriesMatch!.providerName, seriesId, contextChapter, coreChapter));
           }
         }

@@ -20,11 +20,13 @@ export function mapChapterKey<T>(chapters: mio.IChapter[], selector: (chapter: m
  * @return The metadata derived key for the chapter.
  */
 function getMetadataDerivedKey(chapter: mio.IChapter): string {
-  if (!isFinite(chapter.number)) {
-    throw new Error('Invalid chapter number.');
-  } else if (!isFinite(chapter.volume)) {
-    return `#${chapter.number}`;
+  if (isFinite(chapter.number)) {
+    if (isFinite(chapter.volume)) {
+      return `V${chapter.volume} #${chapter.number}`;
+    } else {
+      return `#${chapter.number}`;
+    }
   } else {
-    return `V${chapter.volume} #${chapter.number}`;
+    throw new Error('Invalid chapter number.');
   }
 }

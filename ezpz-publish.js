@@ -9,14 +9,13 @@ if (path.basename(__dirname) !== 'node_modules') {
 
 fs.readdirSync(__dirname)
   .sort()
-  .filter(folderName => folderName !== 'mangarack')
+  .filter(folderName => folderName !== 'mangarack' && /^mangarack/.test(folderName))
   .concat('mangarack')
   .forEach(function(folderName) {
-    if (!/^mangarack/.test(folderName)) return;
     var packagePath = path.join(__dirname, folderName, 'package.json');
     var package = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
     if (!package.private) {
       var directoryPath = path.join(__dirname, folderName);
       childProcess.execSync('npm publish', {cwd: directoryPath, stdio: [0, 1, 2]});
     }
-});
+  });

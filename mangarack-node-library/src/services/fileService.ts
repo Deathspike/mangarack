@@ -24,10 +24,10 @@ export let fileService: mio.IFileService = {
   readBlobAsync: function(filePath: string): Promise<mio.IOption<mio.IBlob>> {
     return mio.promise<mio.IBlob>(callback => {
       fs.readFile(resolveLibraryPath(filePath), (error, data) => {
-        if (!error) {
-          callback(undefined, mio.unsafe<mio.IBlob>(data));
-        } else {
+        if (error) {
           callback();
+        } else {
+          callback(undefined, mio.unsafe<mio.IBlob>(data));
         }
       });
     });
