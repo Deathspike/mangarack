@@ -12,16 +12,20 @@ export let imageService: mio.IImageService = {
    * @return The promise to process the image.
    */
   processAsync: async function(provider: mio.IProvider, image: mio.IBlob): Promise<mio.IOption<mio.IBlob>> {
-    let result = await coerceAsync(image);
-    if (result) {
-      result = await normalizeAsync(image);
+    try {
+      let result = await coerceAsync(image);
       if (result) {
-        return mangafoxHeuristicCropAsync(provider, result);
+        result = await normalizeAsync(image);
+        if (result) {
+          return mangafoxHeuristicCropAsync(provider, result);
+        } else {
+          return result;
+        }
       } else {
         return result;
       }
-    } else {
-      return result;
+    } catch (error) {
+      throw new Error('Invalid GraphicsMagick result. Is GraphicsMagick installed?');
     }
   }
 };
@@ -36,7 +40,7 @@ function coerceAsync(image: mio.IBlob): Promise<mio.IOption<mio.IBlob>> {
     case mio.ImageType.Jpg:
       return Promise.resolve(image);
     case mio.ImageType.Gif:
-      return mio.promiseUnsafe<mio.IBlob>(callback => gm(image as any).flatten().toBuffer('jpg', callback)); 
+      return mio.promiseUnsafe<mio.IBlob>(callback => gm(image as any).flatten().toBuffer('jpg', callback));
     case mio.ImageType.Png:
       return Promise.resolve(image);
     default:
