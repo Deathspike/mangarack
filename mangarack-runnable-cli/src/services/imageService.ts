@@ -13,15 +13,15 @@ export let imageService: mio.IImageService = {
    */
   processAsync: async function(provider: mio.IProvider, image: mio.IBlob): Promise<mio.IOption<mio.IBlob>> {
     let result = await coerceAsync(image);
-    if (!result) {
-      return result;
-    } else {
+    if (result) {
       result = await normalizeAsync(image);
-      if (!result) {
-        return result;
-      } else {
+      if (result) {
         return mangafoxHeuristicCropAsync(provider, result);
+      } else {
+        return result;
       }
+    } else {
+      return result;
     }
   }
 };
@@ -36,11 +36,11 @@ function coerceAsync(image: mio.IBlob): Promise<mio.IOption<mio.IBlob>> {
     case mio.ImageType.Jpg:
       return Promise.resolve(image);
     case mio.ImageType.Gif:
-      return mio.promise<mio.IBlob>(callback => gm(image as any).flatten().toBuffer('jpg', callback));
+      return mio.promiseUnsafe<mio.IBlob>(callback => gm(image as any).flatten().toBuffer('jpg', callback)); 
     case mio.ImageType.Png:
       return Promise.resolve(image);
     default:
-      return mio.promise<mio.IBlob>(callback => gm(image as any).toBuffer('png', callback));
+      return mio.promiseUnsafe<mio.IBlob>(callback => gm(image as any).toBuffer('png', callback));
   }
 }
 
@@ -51,24 +51,17 @@ function coerceAsync(image: mio.IBlob): Promise<mio.IOption<mio.IBlob>> {
  * @return The promise to heuristically crop the mangafox-specific image.
  */
 export async function mangafoxHeuristicCropAsync(provider: mio.IProvider, image: mio.IBlob): Promise<mio.IOption<mio.IBlob>> {
-  if (provider.name !== 'mangafox' || mio.settingService.getBoolean('runnable.cli.disableMangafoxHeuristicCrop')) {
-    return image;
-  } else {
+  if (provider.name === 'mangafox' && !mio.settingService.getBoolean('runnable.cli.disableMangafoxHeuristicCrop')) {
     let size = await mio.promise<{width: number, height: number}>(callback => gm(image as any).size(callback));
     let rgb = await mio.promise<Buffer>(callback => gm(image as any).toBuffer('rgb', callback));
-    if (!size || !rgb) {
-      return image;
-    } else {
+    if (size && rgb) {
       let cropLines = readNumberOfCropLines(rgb, size);
-      if (cropLines === 0) {
-        return image;
-      } else {
-        return mio.promise<mio.IBlob>(callback => {
-          gm(image as any).crop(size!.width, size!.height - cropLines).toBuffer(callback);
-        });
+      if (cropLines) {
+        return mio.promiseUnsafe<mio.IBlob>(callback => gm(image as any).crop(size!.width, size!.height - cropLines).toBuffer(callback));
       }
     }
   }
+  return image;
 }
 
 /**
@@ -80,7 +73,7 @@ export async function normalizeAsync(image: mio.IBlob): Promise<mio.IOption<mio.
   if (mio.settingService.getBoolean('runnable.cli.disableNormalize')) {
     return image;
   } else {
-    return mio.promise<mio.IBlob>(callback => gm(image as any).sharpen(5, 1.4).normalize().toBuffer(callback));
+    return mio.promiseUnsafe<mio.IBlob>(callback => gm(image as any).sharpen(5, 1.4).normalize().toBuffer(callback));
   }
 }
 
