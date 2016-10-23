@@ -9,10 +9,10 @@ export function promise<T>(action: (callback: (error?: any, value?: T) => void) 
   return new Promise<mio.IOption<T>>((resolve, reject) => {
     try {
       action((error?: any, value?: T) => {
-        if (!error) {
-          resolve(value);
-        } else {
+        if (error) {
           reject(error);
+        } else {
+          resolve(value);
         }
       });
     } catch (error) {

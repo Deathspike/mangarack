@@ -39,10 +39,10 @@ export function httpService(): void {
 
   // Start listening for requests.
   app.listen(7782, (error: any) => {
-    if (!error) {
-      console.log('Listening at http://127.0.0.1:7782/');
-    } else {
+    if (error) {
       console.log(error);
+    } else {
+      console.log('Listening at http://127.0.0.1:7782/');
     }
   });
 }

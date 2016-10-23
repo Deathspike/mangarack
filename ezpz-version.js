@@ -7,10 +7,11 @@ if (!version) {
   process.exit(1);
 }
 
-fs.readdirSync(__dirname).forEach(function(folderName) {
-    if (!/^mangarack/.test(folderName)) return;
+fs.readdirSync(__dirname)
+  .filter(folderName => /^mangarack/.test(folderName))
+  .forEach(function(folderName) {
     var packagePath = path.join(__dirname, folderName, 'package.json');
     var package = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
     package.version = version;
     fs.writeFileSync(packagePath, JSON.stringify(package, null, '  ') + '\n');
-});
+  });

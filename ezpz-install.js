@@ -9,10 +9,9 @@ if (path.basename(__dirname) !== 'node_modules') {
 
 fs.readdirSync(__dirname)
   .sort()
-  .filter(folderName => folderName !== 'mangarack')
+  .filter(folderName => folderName !== 'mangarack' && /^mangarack/.test(folderName))
   .concat('mangarack')
   .forEach(function(folderName) {
-    if (!/^mangarack/.test(folderName)) return;
     var directoryPath = path.join(__dirname, folderName);
     childProcess.execSync('npm install', {cwd: directoryPath, stdio: [0, 1, 2]});
-});
+  });
