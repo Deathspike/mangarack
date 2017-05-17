@@ -26,7 +26,8 @@ function estimateNumber(chapters: mio.IChapter[], targetChapter: mio.IChapter): 
   let previousChapter: mio.IOption<mio.IChapter>;
   for (let currentChapter of chapters.filter(chapter => isFinite(chapter.number) && chapter.volume === targetChapter.volume)) {
     if (previousChapter) {
-      let difference = (currentChapter.number - previousChapter.number).toFixed(4);
+      let differenceValue = Number(currentChapter.number) - Number(previousChapter.number);
+      let difference = differenceValue.toFixed(4);
       differences[difference] = (differences[difference] || 0) + 1;
     }
     previousChapter = currentChapter;
@@ -43,7 +44,7 @@ function estimateNumber(chapters: mio.IChapter[], targetChapter: mio.IChapter): 
 function finalizeDifference(differences: {[key: string]: number}, previousChapter: mio.IOption<mio.IChapter>): mio.IOption<number> {
   if (previousChapter) {
     let add = Object.keys(differences).length ? (limitNumber(prioritizeDifference(differences), 0, 1) / 2) : 0.5;
-    let value = previousChapter.number + add;
+    let value = Number(previousChapter.number) + add;
     return isFinite(value) ? value : undefined;
   } else {
     return undefined;
