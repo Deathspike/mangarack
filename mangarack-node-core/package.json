@@ -15,10 +15,10 @@
   "devDependencies": {
     "@types/cheerio": "0.22.1",
     "@types/request": "0.0.43",
-    "npm-build-tools": "2.2.5",
+    "rimraf": "2.6.1",
     "typescript": "2.3.2"
   },
   "scripts": {
-    "prepublish": "n-clean dist && tsc"
+    "prepublish": "rimraf dist && tsc"
   }
 }
