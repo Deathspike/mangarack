@@ -51,12 +51,7 @@ function downloadImageAsync($: mio.IHtmlServiceDocument): Promise<mio.IBlob> {
   let viewer = $('#viewer img:not(.loadingImg)');
   let address = viewer.attr('src');
   if (address) {
-    let alternativeAddress = viewer.attr('onerror').match(/^this.src='(.*)'$/);
-    if (alternativeAddress && address !== alternativeAddress[1]) {
-      return httpService().blob([address, alternativeAddress[1]], mio.ControlType.TimeoutWithRetry).getAsync();
-    } else {
-      throw new Error('Invalid alternative page address.');
-    }
+    return httpService().blob(address, mio.ControlType.TimeoutWithRetry).getAsync();
   } else {
     throw new Error('Invalid page address.');
   }
