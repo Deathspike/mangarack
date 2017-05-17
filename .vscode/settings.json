@@ -2,8 +2,9 @@
   "editor.fontSize": 16,
   "editor.tabSize": 2,
   "files.exclude": {
-    "**/dist": true,
-    "**/node_modules/": true
+    "/.bin/": true,
+    "*/dist/": true,
+    "*/node_modules/": true
   },
   "typescript.tsdk": "mangarack-component-common/node_modules/typescript/lib"
 }
