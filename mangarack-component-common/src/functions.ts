@@ -26,7 +26,7 @@ export function promise<T>(action: (callback: (error?: any, value?: T) => void) 
  * @param action The action.
  * @return The promise.
  */
-export function promiseUnsafe<T>(action: (callback: (error: any, value: any) => void) => void): Promise<T> {
+export function promiseUnsafe<T>(action: (callback: (error: any, value: any) => void) => void): Promise<mio.IBlob> {
   return mio.promise<T>(callback => {
     action((error, value) => {
       if (error || !value) {
