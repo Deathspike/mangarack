@@ -8,8 +8,8 @@ It has been three years since the release of *MangaRack.cs*, the predecessor of 
 
 ## Prerequisites
 
-* NodeJS >= `5.x` (http://nodejs.org/)
-* NPM >= `2.x` (https://www.npmjs.org/)
+* NodeJS >= `6.x` (http://nodejs.org/)
+* NPM >= `3.x` (https://www.npmjs.org/)
 * GraphicsMagick >= `1.3.x` (http://www.graphicsmagick.org/)
 
 ## Supported Sites
@@ -24,7 +24,7 @@ Use the applicable instructions to install. Is your operating system not listed?
 
 ### Debian (Mint, Ubuntu, etc)
 
-1. Run in *Terminal*: `curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -`
+1. Run in *Terminal*: `curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -`
 2. Run in *Terminal*: `sudo apt-get install nodejs graphicsmagick`
 3. Run in *Terminal*: `sudo npm install -g mangarack`
 
