@@ -5,6 +5,5 @@
     "/.bin/": true,
     "*/dist/": true,
     "*/node_modules/": true
-  },
-  "typescript.tsdk": "mangarack-component-common/node_modules/typescript/lib"
+  }
 }
