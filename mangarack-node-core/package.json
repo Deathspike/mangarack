@@ -1,9 +1,7 @@
 {
   "author": "Roel van Uden",
   "description": "Part of the MangaRack suite.",
-  "keywords": [
-    "mangarack"
-  ],
+  "keywords": ["mangarack"],
   "license": "MIT",
   "main": "dist/default",
   "name": "mangarack-node-core",
@@ -12,17 +10,15 @@
   "version": "4.0.11",
   "dependencies": {
     "cheerio": "0.22.0",
-    "request": "2.75.0"
+    "request": "2.81.0"
   },
   "devDependencies": {
-    "@types/cheerio": "0.17.31",
-    "@types/request": "0.0.31",
+    "@types/cheerio": "0.22.1",
+    "@types/request": "0.0.43",
     "npm-build-tools": "2.2.5",
-    "tslint": "3.13.0",
-    "typescript": "2.0.0"
+    "typescript": "2.3.2"
   },
   "scripts": {
-    "prepublish": "n-clean dist && tsc && npm test",
-    "test": "n-run \"tslint $g[src/**/*.ts]\""
+    "prepublish": "n-clean dist && tsc"
   }
 }

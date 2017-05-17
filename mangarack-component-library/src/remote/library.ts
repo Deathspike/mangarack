@@ -1,4 +1,3 @@
-/* tslint:disable:no-string-literal */
 import * as mio from './module';
 const httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
 
