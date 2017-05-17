@@ -1,17 +1,18 @@
 var childProcess = require('child_process');
 var fs = require('fs');
 var path = require('path');
+var rootPath = path.join(__dirname, '..');
 
-if (path.basename(__dirname) !== 'node_modules') {
+if (path.basename(rootPath) !== 'node_modules') {
   console.log('ERROR: The containing folder must be named \'node_modules\'.');
   process.exit(1);
 }
 
-fs.readdirSync(__dirname)
+fs.readdirSync(rootPath)
   .sort()
-  .filter(folderName => folderName !== 'mangarack' && /^mangarack/.test(folderName))
+  .filter(folderName => /^mangarack-/.test(folderName))
   .concat('mangarack')
   .forEach(function(folderName) {
-    var directoryPath = path.join(__dirname, folderName);
+    var directoryPath = path.join(rootPath, folderName);
     childProcess.execSync('npm install', {cwd: directoryPath, stdio: [0, 1, 2]});
   });

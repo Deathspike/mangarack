@@ -88,7 +88,7 @@ Each module has its own package definition, but none of the modules specify inte
 If you wish to contribute to this repository:
 
 1. Clone this repository into a folder named `node_modules` (for module resolution).
-2. Run `node ezpz-install` in the folder using *Command Prompt*/*Terminal*.
+2. Run `node .ezpz/install` in the folder using *Command Prompt*/*Terminal*.
 3. Open the folder with *Atom* (using the *TypeStrong* plugin) or *VSCode*.
 4. To test a *runnable*, run `node mangarack-runnable-*/dist/app` (replace `*`).
 
