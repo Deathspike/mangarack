@@ -12,7 +12,8 @@
     "basic-auth": "1.1.0",
     "body-parser": "1.17.1",
     "compression": "1.6.2",
-    "express": "4.15.3"
+    "express": "4.15.3",
+    "tslib": "1.7.1"
   },
   "devDependencies": {
     "@types/basic-auth": "0.0.31",

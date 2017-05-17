@@ -10,7 +10,8 @@
   "version": "4.0.11",
   "dependencies": {
     "cheerio": "0.22.0",
-    "request": "2.81.0"
+    "request": "2.81.0",
+    "tslib": "1.7.1"
   },
   "devDependencies": {
     "@types/cheerio": "0.22.1",
