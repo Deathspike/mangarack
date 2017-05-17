@@ -18,10 +18,10 @@
     "@types/gm": "1.17.30",
     "@types/node": "7.0.18",
     "@types/xml2js": "0.0.33",
-    "npm-build-tools": "2.2.5",
+    "rimraf": "2.6.1",
     "typescript": "2.3.2"
   },
   "scripts": {
-    "prepublish": "n-clean dist && tsc"
+    "prepublish": "rimraf dist && tsc"
   }
 }
