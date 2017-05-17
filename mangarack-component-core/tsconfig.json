@@ -1,10 +1,12 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "alwaysStrict": true,
     "declaration": true,
+    "importHelpers": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "lib": ["es6"],
+    "lib": ["es5", "es2015.promise"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
@@ -17,7 +19,7 @@
     "skipLibCheck": true,
     "strictNullChecks": true,
     "stripInternal": true,
-    "target": "es6"
+    "target": "es5"
   },
   "exclude": [
     "dist",
