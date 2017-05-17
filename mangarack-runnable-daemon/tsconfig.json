@@ -1,7 +1,6 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "alwaysStrict": true,
     "declaration": true,
     "importHelpers": true,
     "inlineSourceMap": true,
@@ -10,19 +9,21 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
     "noImplicitReturns": true,
-    "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "dist",
     "skipLibCheck": true,
-    "strictNullChecks": true,
     "stripInternal": true,
+    "strict": true,
     "target": "es5"
   },
   "exclude": [
     "dist",
     "node_modules"
+  ],
+  "include": [
+    "./src/**/*",
+    "../ts.d.ts"
   ]
 }
