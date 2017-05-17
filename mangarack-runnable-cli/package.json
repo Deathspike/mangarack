@@ -1,9 +1,7 @@
 {
   "author": "Roel van Uden",
   "description": "Part of the MangaRack suite.",
-  "keywords": [
-    "mangarack"
-  ],
+  "keywords": ["mangarack"],
   "license": "MIT",
   "main": "dist/default",
   "name": "mangarack-runnable-cli",
@@ -11,21 +9,19 @@
   "typings": "dist/default",
   "version": "4.0.11",
   "dependencies": {
-    "archiver": "1.0.0",
-    "gm": "1.22.0",
+    "archiver": "1.3.0",
+    "gm": "1.23.0",
     "xml2js": "0.4.17"
   },
   "devDependencies": {
-    "@types/archiver": "0.15.33",
-    "@types/gm": "1.17.29",
-    "@types/node": "6.0.45",
-    "@types/xml2js": "0.0.28",
+    "@types/archiver": "1.3.2",
+    "@types/gm": "1.17.30",
+    "@types/node": "7.0.18",
+    "@types/xml2js": "0.0.33",
     "npm-build-tools": "2.2.5",
-    "tslint": "3.13.0",
-    "typescript": "2.0.0"
+    "typescript": "2.3.2"
   },
   "scripts": {
-    "prepublish": "n-clean dist && tsc && npm test",
-    "test": "n-run \"tslint $g[src/**/*.ts]\""
+    "prepublish": "n-clean dist && tsc"
   }
 }

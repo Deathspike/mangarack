@@ -1,4 +1,3 @@
-/* tslint:disable:no-require-imports */
 import * as basicAuth from 'basic-auth';
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';

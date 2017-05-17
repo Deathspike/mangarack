@@ -1,4 +1,3 @@
-/* tslint:disable:no-null-keyword */
 import * as mio from '../default';
 import * as request from 'request';
 import {ActiveType} from './enumerators/ActiveType';
