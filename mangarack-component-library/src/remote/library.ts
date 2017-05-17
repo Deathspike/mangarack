@@ -123,8 +123,8 @@ export class RemoteLibrary implements mio.ILibrary {
    * @return The promise to set the password.
    */
   public password(): mio.ILibraryHandler<(password: string) => Promise<void>> {
-    return mio.createHandler((password: string) => {
-      return this._fetch().text(`${this._address}/api`).postAsync({password: password});
+    return mio.createHandler(async (password: string) => {
+      await this._fetch().text(`${this._address}/api`).postAsync({password: password});
     });
   }
 
@@ -134,8 +134,8 @@ export class RemoteLibrary implements mio.ILibrary {
    * @return The promise to propagate and archive the setting.
    */
   public setting(): mio.ILibraryHandler<(key: string, value: string) => Promise<void>> {
-    return mio.createHandler((key: string, value: string) => {
-      return this._fetch().text(`${this._address}/api/setting`).patchAsync({key: key, value: value});
+    return mio.createHandler(async (key: string, value: string) => {
+      await this._fetch().text(`${this._address}/api/setting`).patchAsync({key: key, value: value});
     });
   }
 
