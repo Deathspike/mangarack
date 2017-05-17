@@ -181,7 +181,7 @@ export let library: mio.ILibrary = {
       let chapterMatch = mio.findChapterContext(context, seriesId, chapterId);
       if (chapterMatch) {
         let numberOfPages = chapterMatch.chapter.numberOfPages;
-        if (numberOfReadPages === 0 || (numberOfReadPages >= 0 && numberOfReadPages <= numberOfPages)) {
+        if (numberOfPages && (numberOfReadPages === 0 || (numberOfReadPages >= 0 && numberOfReadPages <= numberOfPages))) {
           let chapter = chapterMatch.chapter;
           chapter.lastReadAt = Date.now();
           chapter.numberOfReadPages = numberOfReadPages;

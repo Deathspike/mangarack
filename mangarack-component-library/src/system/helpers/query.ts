@@ -27,7 +27,7 @@ export function queryMax<T>(items: {[key: string]: T}, selector: (item: T) => mi
   for (let key in items) {
     if (items.hasOwnProperty(key)) {
       let result = selector(items[key]);
-      if (!best || best < result) {
+      if (!best || (isFinite(result) && best < result)) {
         best = result;
       }
     }
