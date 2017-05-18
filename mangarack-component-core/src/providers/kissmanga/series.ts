@@ -102,7 +102,7 @@ function getAuthors($: mio.IHtmlServiceDocument): string[] {
 function getChapters($: mio.IHtmlServiceDocument): mio.IChapter[] {
   let results: mio.IChapter[] = [];
   let title = getTitle($);
-  $('a[href*=\'/Manga/\'][title*=\'Read\']').map((_, a) => {
+  $('a[href*=\'/Manga/\'][title*=\'Read\']').each((_, a) => {
     let address = $(a).attr('href');
     let isValid = /id=([0-9]+)$/i.test(address);
     if (address && isValid) {
