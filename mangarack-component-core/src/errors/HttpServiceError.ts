@@ -24,4 +24,14 @@ export class HttpServiceError extends Error {
     this.body = currentState.body;
     this.statusCode = currentState.statusCode;
   }
+
+  /**
+   * Determines whether the error is a HttpServiceError.
+   * @param error The error.
+   * @return Indicates whether the error is a HttpServiceError.
+   */
+  public static isInstance(error: Error): error is HttpServiceError {
+    let httpError = error as HttpServiceError;
+    return httpError && typeof httpError.body !== 'undefined' && typeof httpError.statusCode !== 'undefined';
+  }
 }

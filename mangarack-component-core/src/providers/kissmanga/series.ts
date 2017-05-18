@@ -42,19 +42,16 @@ function createSeries(document: mio.IHtmlServiceDocument): mio.ISeries {
  */
 async function downloadDocumentAsync(address: string): Promise<mio.IHtmlServiceDocument> {
   try {
-    let body = await httpService().text(address, mio.ControlType.TimeoutWithRetry).getAsync();
+    let body = await httpService().text(address, mio.ControlType.Timeout).getAsync();
     return htmlService().load(body);
   } catch (error) {
-    if (error instanceof mio.HttpServiceError) {
-      let httpServiceError = error as mio.HttpServiceError;
-      if (httpServiceError.statusCode === 503) {
-        let document = htmlService().load(httpServiceError.body);
-        let pass = document('form[id=challenge-form]').find('input[name=pass]').attr('value');
-        if (pass) {
-          await mio.promise(callback => setTimeout(callback, 8000));
-          await httpService().text(`${providerDomain}/cdn-cgi/l/chk_jschl?pass=${pass}`, mio.ControlType.TimeoutWithRetry).getAsync();
-          return downloadDocumentAsync(address);
-        }
+    if (mio.HttpServiceError.isInstance(error) && error.statusCode === 503) {
+      let document = htmlService().load(error.body);
+      let pass = document('form[id=challenge-form]').find('input[name=pass]').attr('value');
+      if (pass) {
+        await mio.promise(callback => setTimeout(callback, 8000));
+        await httpService().text(`${providerDomain}/cdn-cgi/l/chk_jschl?pass=${pass}`, mio.ControlType.TimeoutWithRetry).getAsync();
+        return downloadDocumentAsync(address);
       }
     }
     throw error;
