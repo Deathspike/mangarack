@@ -109,7 +109,7 @@ function getAuthors($: mio.IHtmlServiceDocument): string[] {
  */
 function getChapters($: mio.IHtmlServiceDocument): mio.IChapter[] {
   let results: mio.IChapter[] = [];
-  $('tr.lang_English').find('a[href*=\'/reader\']').map((_, a) => {
+  $('tr.lang_English').find('a[href*=\'/reader\']').each((_, a) => {
     let address = $(a).attr('href');
     if (address) {
       let metadata = scan($(a).text());
