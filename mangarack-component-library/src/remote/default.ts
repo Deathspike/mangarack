@@ -17,11 +17,8 @@ export async function openRemoteLibraryAsync(host: string, password: string): Pr
       return undefined;
     }
   } catch (error) {
-    if (error instanceof mio.HttpServiceError) {
-      let httpServiceError = error as mio.HttpServiceError;
-      if (httpServiceError.statusCode === 401) {
-        return undefined;
-      }
+    if (mio.HttpServiceError.isInstance(error) && error.statusCode === 401) {
+      return undefined;
     }
     throw error;
   }

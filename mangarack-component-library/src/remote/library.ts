@@ -217,11 +217,8 @@ async function handleNotFound<T>(defaultValue: T, action: () => Promise<T>): Pro
   try {
     return await action();
   } catch (error) {
-    if (error instanceof mio.HttpServiceError) {
-      let httpServiceError = error as mio.HttpServiceError;
-      if (httpServiceError.statusCode === 404) {
-        return defaultValue;
-      }
+    if (mio.HttpServiceError.isInstance(error) && error.statusCode === 404) {
+      return defaultValue;
     }
     throw error;
   }
