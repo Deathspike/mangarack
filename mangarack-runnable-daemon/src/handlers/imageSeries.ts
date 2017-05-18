@@ -9,12 +9,11 @@ import * as mio from '../default';
  * @param library The library.
  * @return The promise for the series image.
  */
-export default async function(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
-  let seriesId = request.params.seriesId as number;
-  let result = await library.imageAsync(seriesId);
-  if (result.hasValue) {
-    response.set('Content-Type', mio.helperService.getContentType(result.value));
-    response.send(result.value);
+export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
+  let result = await library.imageAsync(request.params.seriesId);
+  if (result) {
+    response.set('Content-Type', mio.helperService.getContentType(result));
+    response.send(result);
   } else {
     response.sendStatus(404);
   }

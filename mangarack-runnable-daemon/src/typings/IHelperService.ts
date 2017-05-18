@@ -16,5 +16,5 @@ export interface IHelperService {
    * @param value The value.
    * @return The boolean.
    */
-  parseBoolean: (value: any) => mio.IOption<boolean>;
+  parseBoolean: (value: any) => {hasValue: boolean, value: boolean};
 }

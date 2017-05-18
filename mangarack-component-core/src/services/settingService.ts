@@ -1,5 +1,5 @@
 import * as mio from '../default';
-let items: mio.IDictionary = {};
+const items: mio.IDictionary = {};
 
 /**
  * Represents a setting service.
@@ -20,7 +20,7 @@ export let settingService = {
    * @return The store item.
    */
   getNumber: function(key: string): number {
-    return parseInt(settingService.getString(key), 10) || 0;
+    return parseFloat(settingService.getString(key)) || 0;
   },
 
   /**

@@ -1,6 +1,6 @@
 import * as mio from '../module';
+const queue: {[priorityType: number]: {reject: (reason: any) => void, resolve: (value: any) => void, runAsync: () => Promise<any>}[]} = {};
 let isBusy = false;
-let queue: {[priorityType: number]: {reject: (reason: any) => void, resolve: (value: any) => void, runAsync: () => Promise<any>}[]} = {};
 
 /**
  * Represents the task service.
@@ -15,10 +15,10 @@ export let taskService = {
    */
   enqueue: async function<T>(priorityType: mio.PriorityType, runAsync: () => Promise<T>): Promise<T> {
     return new Promise<T>((resolve, reject) => {
-      if (!queue[priorityType]) {
-        queue[priorityType] = [{resolve: resolve, reject: reject, runAsync: runAsync}];
+      if (queue[priorityType]) {
+        queue[priorityType].push({reject: reject, resolve: resolve, runAsync: runAsync});
       } else {
-        queue[priorityType].push({resolve: resolve, reject: reject, runAsync: runAsync});
+        queue[priorityType] = [{reject: reject, resolve: resolve, runAsync: runAsync}];
       }
       tryRun();
     });
@@ -28,7 +28,7 @@ export let taskService = {
 /**
  * Completes the task.
  */
-function completeTask() {
+function completeTask(): void {
   isBusy = false;
   tryRun();
 }
@@ -36,7 +36,7 @@ function completeTask() {
 /**
  * Tries to run a task from the queue.
  */
-function tryRun() {
+function tryRun(): void {
   tryRunWithPriority(mio.PriorityType.High);
   tryRunWithPriority(mio.PriorityType.Normal);
   tryRunWithPriority(mio.PriorityType.Low);
@@ -46,16 +46,18 @@ function tryRun() {
  * Tries to run a task from the queue with a priority.
  * @param priorityType The priority type.
  */
-function tryRunWithPriority(priorityType: mio.PriorityType) {
+function tryRunWithPriority(priorityType: mio.PriorityType): void {
   if (!isBusy && queue[priorityType] && queue[priorityType].length > 0) {
     let entry = queue[priorityType].shift();
-    isBusy = true;
-    entry.runAsync().then(value => {
-      entry.resolve(value);
-      completeTask();
-    }, reason => {
-      entry.reject(reason);
-      completeTask();
-    });
+    if (entry) {
+      isBusy = true;
+      entry.runAsync().then(value => {
+        entry!.resolve(value);
+        completeTask();
+      }, reason => {
+        entry!.reject(reason);
+        completeTask();
+      });
+    }
   }
 }

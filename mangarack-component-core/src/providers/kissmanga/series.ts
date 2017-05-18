@@ -2,31 +2,29 @@ import * as mio from '../../default';
 import {createChapter} from './chapter';
 import {enhance} from '../enhance';
 import {scan} from '../scan';
-let httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
-let htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
-let providerDomain = 'http://kissmanga.com';
-let remapGenreType: mio.IDictionary = {'Sci-fi': 'Science Fiction'};
+const httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
+const htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
+const providerDomain = 'http://kissmanga.com';
+const remapGenreType: mio.IDictionary = {'Sci-fi': 'Science Fiction'};
 
 /**
  * Promises the series.
- * @internal
  * @param address The address.
  * @return The promise for the series.
  */
 export async function createSeriesAsync(address: string): Promise<mio.ISeries> {
   let document = await downloadDocumentAsync(address);
-  return createSeries(address, document);
+  return createSeries(document);
 }
 
 /**
  * Creates the series.
- * @param address The address.
  * @param document The selector.
  * @return The series.
  */
-function createSeries(address: string, document: mio.IHtmlDocument): mio.ISeries {
+function createSeries(document: mio.IHtmlServiceDocument): mio.ISeries {
   return {
-    artists: getArtists(document),
+    artists: getArtists(),
     authors: getAuthors(document),
     chapters: enhance(getChapters(document)),
     genres: mio.toGenreType(getGenres(document)),
@@ -42,21 +40,20 @@ function createSeries(address: string, document: mio.IHtmlDocument): mio.ISeries
  * @param address The address.
  * @return The promise for the document.
  */
-async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument> {
+async function downloadDocumentAsync(address: string): Promise<mio.IHtmlServiceDocument> {
   try {
-    let body = await httpService().text(address, {}, mio.RequestType.TimeoutWithRetry).getAsync();
+    let body = await httpService().text(address, mio.ControlType.Timeout).getAsync();
     return htmlService().load(body);
   } catch (error) {
-    if (error instanceof mio.HttpServiceError) {
-      let httpServiceError = error as mio.HttpServiceError;
-      if (httpServiceError.statusCode === 503) {
-        let document = htmlService().load(httpServiceError.body);
-        let pass = document('form[id=challenge-form]').find('input[name=pass]').attr('value');
-        if (pass) {
-          await mio.promise(callback => setTimeout(callback, 8000));
-          await httpService().text(`${providerDomain}/cdn-cgi/l/chk_jschl?pass=${pass}`, {}, mio.RequestType.TimeoutWithRetry).getAsync();
-          return downloadDocumentAsync(address);
-        }
+    if (mio.HttpServiceError.isInstance(error) && error.statusCode === 503) {
+      let document = htmlService().load(error.body);
+      let documentForm = document('form[id=challenge-form]');
+      let formJs = documentForm.find('input[name=jschl_vc]').attr('value');
+      let formPass = documentForm.find('input[name=pass]').attr('value');
+      if (formPass) {
+        await mio.promise(callback => setTimeout(callback, 8500));
+        await httpService().text(`${providerDomain}/cdn-cgi/l/chk_jschl?jschl_vc=${formJs}&pass=${formPass}`, mio.ControlType.Timeout).getAsync();
+        return downloadDocumentAsync(address);
       }
     }
     throw error;
@@ -68,10 +65,10 @@ async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument
  * @param $ The selector.
  * @return The promise for the image.
  */
-function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
+function downloadImageAsync($: mio.IHtmlServiceDocument): Promise<mio.IBlob> {
   let address = $('img[src*=\'/Uploads/\']').attr('src');
   if (address) {
-    return httpService().blob(address, {}, mio.RequestType.TimeoutWithRetry).getAsync();
+    return httpService().blob(address, mio.ControlType.TimeoutWithRetry).getAsync();
   } else {
     throw new Error('Invalid series cover address.');
   }
@@ -79,10 +76,9 @@ function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
 
 /**
  * Retrieves each artist.
- * @param $ The selector.
  * @return Each artist.
  */
-function getArtists($: mio.IHtmlDocument): string[] {
+function getArtists(): string[] {
   return [];
 }
 
@@ -91,9 +87,9 @@ function getArtists($: mio.IHtmlDocument): string[] {
  * @param $ The selector.
  * @return Each author.
  */
-function getAuthors($: mio.IHtmlDocument): string[] {
+function getAuthors($: mio.IHtmlServiceDocument): string[] {
   return $('a[href*=\'/AuthorArtist/\']')
-    .map((index, a) => $(a).text())
+    .map((_, a) => $(a).text())
     .get();
 }
 
@@ -102,10 +98,10 @@ function getAuthors($: mio.IHtmlDocument): string[] {
  * @param $ The selector.
  * @return Each child.
  */
-function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
+function getChapters($: mio.IHtmlServiceDocument): mio.IChapter[] {
   let results: mio.IChapter[] = [];
   let title = getTitle($);
-  $('a[href*=\'/Manga/\'][title*=\'Read\']').map((index, a) => {
+  $('a[href*=\'/Manga/\'][title*=\'Read\']').each((_, a) => {
     let address = $(a).attr('href');
     let isValid = /id=([0-9]+)$/i.test(address);
     if (address && isValid) {
@@ -121,9 +117,9 @@ function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
  * @param $ The selector.
  * @return Each genre.
  */
-function getGenres($: mio.IHtmlDocument): string[] {
+function getGenres($: mio.IHtmlServiceDocument): string[] {
   return $('a[href*=\'/Genre/\']')
-    .map((index, a) => $(a).text())
+    .map((_, a) => $(a).text())
     .get()
     .map(value => remapGenreType[value] || value);
 }
@@ -133,8 +129,8 @@ function getGenres($: mio.IHtmlDocument): string[] {
  * @param $ The selector.
  * @return The summary.
  */
-function getSummary($: mio.IHtmlDocument): string {
-  return $('span:contains(Summary:)').parent(mio.option<string>()).next(mio.option<string>()).text();
+function getSummary($: mio.IHtmlServiceDocument): string {
+  return $('span:contains(Summary:)').parent().next().text();
 }
 
 /**
@@ -142,7 +138,7 @@ function getSummary($: mio.IHtmlDocument): string {
  * @param $ The selector.
  * @return The title.
  */
-function getTitle($: mio.IHtmlDocument): string {
+function getTitle($: mio.IHtmlServiceDocument): string {
   let match = $('title').text().match(/^(.+)\s+Manga\s+\|/i);
   if (match) {
     return match[1];
@@ -156,7 +152,7 @@ function getTitle($: mio.IHtmlDocument): string {
  * @param $ The selector.
  * @return The type.
  */
-function getType($: mio.IHtmlDocument): string {
+function getType($: mio.IHtmlServiceDocument): string {
   let genres = getGenres($);
   if (genres.indexOf('Manhua') !== -1) {
     return 'Manhua';

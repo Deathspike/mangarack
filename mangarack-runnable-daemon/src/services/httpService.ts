@@ -3,17 +3,17 @@ import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import * as express from 'express';
 import * as mio from '../default';
-import * as path from 'path';
+
+// TODO: Add support for CORS.
 
 /**
  * Represents the http service.
  */
-export function httpService() {
+export function httpService(): void {
   let app = express();
   app.use(compression());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));
-  serveStatic(app);
 
   // Register parameter validation.
   app.param('seriesId', createValidation('seriesId'));
@@ -55,14 +55,14 @@ function createHandler(handler: any): any {
   return async function(request: express.Request, response: express.Response): Promise<void> {
     try {
       let authentication = basicAuth(request);
-      let library = await mio.openLibraryAsync(mio.option(authentication ? authentication.pass : ''));
-      if (library.hasValue) {
-        await handler.default(request, response, library.value);
+      let library = await mio.openLibraryAsync(authentication ? authentication.pass : '');
+      if (library) {
+        await handler.handleAsync(request, response, library);
       } else {
         response.set('WWW-Authenticate', 'Basic realm=Authorization Required');
         response.sendStatus(401);
-      };
-    } catch(error) {
+      }
+    } catch (error) {
       console.log(error.stack || error);
     } finally {
       if (!response.headersSent) {
@@ -78,7 +78,7 @@ function createHandler(handler: any): any {
  * @return The validation handler for the parameter.
  */
 function createValidation(parameterName: string): any {
-  return function(request: express.Request, response: express.Response, next: () => void) {
+  return (request: express.Request, response: express.Response, next: () => void) => {
     request.params[parameterName] = parseInt(request.params[parameterName], 10);
     if (isFinite(request.params[parameterName])) {
       next();
@@ -86,26 +86,4 @@ function createValidation(parameterName: string): any {
       response.sendStatus(404);
     }
   };
-}
-
-/**
- * Serves static files according to the current environment.
- * @param app The application.
- */
-function serveStatic(app: express.Application): void {
-  // This function requires some explaining. Prior to publishing, each runnable
-  // is bundled into a self-contained file, which speeds up installation. But,
-  // having to bundle each time to test changes is a nuisance. So, the bundling
-  // flags the output file with `isBundled`, which is switched upon here. We
-  // thefore serve the GUI directly from the web component during development.
-  if ((process as any).isBundled) {
-    app.use(express.static(path.join(process.argv[1], '../public')));
-  } else {
-    let rootPath = path.join(__dirname, '../../../');
-    app.use(express.static(path.join(rootPath, 'mangarack-component-web/public')));
-    app.use('/js', express.static(path.join(rootPath, 'mangarack-component-web/dist')));
-    app.use('/mangarack-component-common', express.static(path.join(rootPath, 'mangarack-component-common/dist')));
-    app.use('/mangarack-component-core', express.static(path.join(rootPath, 'mangarack-component-core/dist')));
-    app.use('/mangarack-component-library', express.static(path.join(rootPath, 'mangarack-component-library/dist')));
-  }
 }

@@ -1,12 +1,10 @@
-// library
+// Export 'library'
 export * from '../default';
-
-// library
 export * from '../version';
 
-// library/system
+// Export 'library/system'
 export * from './library';
 
-// library/system/helpers
+// Export 'library/system/helpers'
 export * from './helpers/convert';
 export * from './helpers/create';

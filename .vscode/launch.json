@@ -1,0 +1,11 @@
+{
+  "version": "0.2.0",
+  "configurations": [{
+    "console": "integratedTerminal",
+    "name": "Launch Program",
+    "outFiles": ["${workspaceRoot}/**/dist/**/*.js"],
+    "program": "${workspaceRoot}/mangarack-runnable-cli/dist/app",
+    "request": "launch",
+    "type": "node"
+  }]
+}

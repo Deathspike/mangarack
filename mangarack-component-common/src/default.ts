@@ -1,9 +1,8 @@
-// common
+// Export 'common'
 export * from './dependency';
-export * from './option';
-export * from './promise';
+export * from './functions';
 
-// common/typings
+// Export 'common/typings'
 export * from './typings/IBlob';
 export * from './typings/IDictionary';
 export * from './typings/IOption';
