@@ -47,12 +47,12 @@ async function downloadDocumentAsync(address: string): Promise<mio.IHtmlServiceD
   } catch (error) {
     if (mio.HttpServiceError.isInstance(error) && error.statusCode === 503) {
       let document = htmlService().load(error.body);
-      let form = document('form[id=challenge-form]');
-      let jschl_vc = form.find('input[name=jschl_vc]').attr('value');
-      let pass = form.find('input[name=pass]').attr('value');
-      if (pass) {
-        await mio.promise(callback => setTimeout(callback, 8000));
-        await httpService().text(`${providerDomain}/cdn-cgi/l/chk_jschl?jschl_vc=${jschl_vc}&pass=${pass}`, mio.ControlType.Timeout).getAsync();
+      let documentForm = document('form[id=challenge-form]');
+      let formJs = documentForm.find('input[name=jschl_vc]').attr('value');
+      let formPass = documentForm.find('input[name=pass]').attr('value');
+      if (formPass) {
+        await mio.promise(callback => setTimeout(callback, 8500));
+        await httpService().text(`${providerDomain}/cdn-cgi/l/chk_jschl?jschl_vc=${formJs}&pass=${formPass}`, mio.ControlType.Timeout).getAsync();
         return downloadDocumentAsync(address);
       }
     }

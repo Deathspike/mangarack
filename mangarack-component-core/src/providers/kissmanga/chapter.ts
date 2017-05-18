@@ -1,5 +1,6 @@
 import * as mio from '../../default';
 import {createPage} from './page';
+import {site} from './site';
 const httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
 const htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
 
@@ -47,13 +48,13 @@ async function downloadPagesAsync(address: string): Promise<mio.IPage[]> {
 function getPages($: mio.IHtmlServiceDocument): mio.IPage[] {
   let i = 0;
   let match: mio.IOption<RegExpExecArray>;
-  let regexp = /lstImages\.push\("(.+?)"\)/gi;
+  let regexp = /lstImages\.push\(wrapKA\("(.+?)"\)\)/gi;
   let results: mio.IPage[] = [];
   let text = $('script:contains(lstImages)').text();
   while (true) {
     match = regexp.exec(text) || undefined;
     if (match) {
-      results.push(createPage(match[1], {number: i + 1}));
+      results.push(createPage(site.decodeImageUrl(match[1]), {number: i + 1}));
       i += 1;
     } else {
       break;
