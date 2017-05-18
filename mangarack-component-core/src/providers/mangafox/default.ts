@@ -3,33 +3,27 @@ import {createSeriesAsync} from './series';
 
 /**
  * Represents the provider.
- * @internal
  */
-export let mangafox: mio.IProvider = {
-  /**
-   * Contains the name.
-   */
-  name: 'mangafox',
+export let mangafox: mio.IProvider = {isSupported: isSupported, name: 'mangafox', seriesAsync: seriesAsync};
 
-  /**
-   * Determines whether the address is a supported address.
-   * @param address The address.
-   * @return Indicates whether the address is a supported address.
-   */
-  isSupported: function(address: string): boolean {
-    return /^http:\/\/mangafox\.me\/manga\/.+\/$/i.test(address);
-  },
+/**
+ * Determines whether the address is a supported address.
+ * @param address The address.
+ * @return Indicates whether the address is a supported address.
+ */
+function isSupported(address: string): boolean {
+  return /^http:\/\/mangafox\.me\/manga\/.+\/$/i.test(address);
+}
 
-  /**
-   * Promises the series.
-   * @param address The address.
-   * @return The promise for the series.
-   */
-  seriesAsync: function(address: string): Promise<mio.ISeries> {
-    if (!mangafox.isSupported(address)) {
-      throw new Error(`Invalid series address: ${address}`);
-    } else {
-      return createSeriesAsync(address);
-    }
+/**
+ * Promises the series.
+ * @param address The address.
+ * @return The promise for the series.
+ */
+function seriesAsync(address: string): Promise<mio.ISeries> {
+  if (isSupported) {
+    return createSeriesAsync(address);
+  } else {
+    throw new Error(`Invalid series address: ${address}`);
   }
-};
+}

@@ -2,54 +2,58 @@ import * as mio from '../module';
 
 /**
  * Attempts to find the chapter in the context.
- * @internal
  * @param context The context.
  * @param seriesId The series identifier.
  * @param chapterId The chapter identifier.
  * @return The result of the attempt to find the chapter in the context.
  */
-export function findContextChapter(context: mio.IContext, seriesId: number, chapterId: number): mio.IOption<mio.IFindContextChapterResult> {
-  let seriesResult = findContextSeries(context, seriesId);
-  if (seriesResult.hasValue) {
-    let series = seriesResult.value.series;
+export function findChapterContext(context: mio.IContext, seriesId: number, chapterId: number): mio.IOption<mio.IMatchChapter> {
+  let seriesMatch = findSeriesContext(context, seriesId);
+  if (seriesMatch) {
+    let series = seriesMatch.series;
     for (let chapterMetadataDerivedKey in series.chapters) {
-      let chapter = series.chapters[chapterMetadataDerivedKey];
-      if (chapter.id === chapterId) {
-        return mio.option<mio.IFindContextChapterResult>({
-          chapter: chapter,
-          chapterMetadataDerivedKey: chapterMetadataDerivedKey,
-          provider: seriesResult.value.provider,
-          providerName: seriesResult.value.providerName,
-          series: seriesResult.value.series,
-          seriesAddress: seriesResult.value.seriesAddress
-        });
+      if (series.chapters.hasOwnProperty(chapterMetadataDerivedKey)) {
+        let chapter = series.chapters[chapterMetadataDerivedKey];
+        if (chapter.id === chapterId) {
+          return {
+            chapter: chapter,
+            chapterMetadataDerivedKey: chapterMetadataDerivedKey,
+            provider: seriesMatch.provider,
+            providerName: seriesMatch.providerName,
+            series: seriesMatch.series,
+            seriesAddress: seriesMatch.seriesAddress
+          };
+        }
       }
     }
   }
-  return mio.option<mio.IFindContextChapterResult>();
+  return undefined;
 }
 
 /**
  * Attempts to find the series in the context.
- * @internal
  * @param context The context.
  * @param seriesId The series identifier.
  * @return The result of the attempt to find the series in the context.
  */
-export function findContextSeries(context: mio.IContext, seriesId: number): mio.IOption<mio.IFindContextSeriesResult> {
+export function findSeriesContext(context: mio.IContext, seriesId: number): mio.IOption<mio.IMatchSeries> {
   for (let providerName in context.providers) {
-    let provider = context.providers[providerName];
-    for (let seriesAddress in provider.series) {
-      let series = provider.series[seriesAddress];
-      if (series.id === seriesId) {
-        return mio.option<mio.IFindContextSeriesResult>({
-          provider: provider,
-          providerName: providerName,
-          series: series,
-          seriesAddress: seriesAddress
-        });
+    if (context.providers.hasOwnProperty(providerName)) {
+      let provider = context.providers[providerName];
+      for (let seriesAddress in provider.series) {
+        if (provider.series.hasOwnProperty(seriesAddress)) {
+          let series = provider.series[seriesAddress];
+          if (series.id === seriesId) {
+            return {
+              provider: provider,
+              providerName: providerName,
+              series: series,
+              seriesAddress: seriesAddress
+            };
+          }
+        }
       }
     }
   }
-  return mio.option<mio.IFindContextSeriesResult>();
+  return undefined;
 }

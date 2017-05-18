@@ -1,5 +1,4 @@
 /**
  * Contains the version.
- * @internal
  */
-export let version = 2;
+export let version = 1;

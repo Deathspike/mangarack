@@ -20,7 +20,7 @@ export let helperService: mio.IHelperService = {
    * @return The image type.
    */
   getImageType: function(image: mio.IBlob): mio.ImageType {
-    let buffer = image as Buffer;
+    let buffer = mio.unsafe<Buffer>(image);
     if (buffer.slice(0, 3).toString('hex') === '474946') {
       return mio.ImageType.Gif;
     } else if (buffer.slice(0, 2).toString('hex') === 'ffd8') {

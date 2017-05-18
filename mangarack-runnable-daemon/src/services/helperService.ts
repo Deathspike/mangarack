@@ -27,11 +27,11 @@ import * as mio from '../default';
     * @param value The value.
     * @return The boolean.
     */
-   parseBoolean: function(value: any): mio.IOption<boolean> {
-     if (!value) {
-       return mio.option<boolean>();
+   parseBoolean: function(value: any): {hasValue: boolean, value: boolean} {
+     if (value) {
+       return {hasValue: true, value: /^on|true|yes|1$/.test(value)};
      } else {
-       return mio.option(/^on|true|yes|1$/.test(value));
+       return {hasValue: false, value: false};
      }
    }
  };
@@ -42,7 +42,7 @@ import * as mio from '../default';
   * @return The image type.
   */
  function getImageType(image: mio.IBlob): mio.ImageType {
-   let buffer = image as Buffer;
+   let buffer = mio.unsafe<Buffer>(image);
    if (buffer.slice(0, 3).toString('hex') === '474946') {
      return mio.ImageType.Gif;
    } else if (buffer.slice(0, 2).toString('hex') === 'ffd8') {

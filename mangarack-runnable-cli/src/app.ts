@@ -5,12 +5,10 @@ let queue = Promise.resolve();
 /*
  * Starts the process.
  */
-(function() {
+(function(): void {
   let args = process.argv.splice(2);
   populateStore(args);
-  if (hasAnySeries(args)) {
-    enqueue(args);
-  } else {
+  if (!hasAnySeries(args)) {
     readline.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -18,6 +16,8 @@ let queue = Promise.resolve();
     }).on('line', (line: string) => {
       enqueue(line.replace(/\s+/, ' ').split(' '));
     });
+  } else {
+    enqueue(args);
   }
 })();
 

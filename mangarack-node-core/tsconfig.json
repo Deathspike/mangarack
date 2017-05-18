@@ -1,19 +1,29 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "declaration": true,
+    "importHelpers": true,
     "inlineSourceMap": true,
     "inlineSources": true,
+    "lib": ["es5", "es2015.promise"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
     "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "outDir": "dist",
+    "skipLibCheck": true,
     "stripInternal": true,
-    "target": "es6"
+    "strict": true,
+    "target": "es5"
   },
   "exclude": [
     "dist",
     "node_modules"
+  ],
+  "include": [
+    "./src/**/*",
+    "../ts.d.ts"
   ]
 }

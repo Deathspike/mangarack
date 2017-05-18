@@ -1,11 +1,10 @@
 import * as mio from '../../default';
 import {createPage} from './page';
-let httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
-let htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
+const httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
+const htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
 
 /**
  * Creates the chapter.
- * @internal
  * @param address The address.
  * @param metadata The metadata.
  * @return The chapter.
@@ -25,8 +24,8 @@ export function createChapter(address: string, metadata: mio.IChapterMetadata): 
  * @param address The address.
  * @return The promise for the document.
  */
-async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument> {
-  let body = await httpService().text(address, {}, mio.RequestType.TimeoutWithRetry).getAsync();
+async function downloadDocumentAsync(address: string): Promise<mio.IHtmlServiceDocument> {
+  let body = await httpService().text(address, mio.ControlType.TimeoutWithRetry).getAsync();
   return htmlService().load(body);
 }
 
@@ -46,11 +45,11 @@ async function downloadPagesAsync(address: string): Promise<mio.IPage[]> {
  * @param $ The selector.
  * @return Each page.
  */
-function getPages(address: string, $: mio.IHtmlDocument): mio.IPage[] {
+function getPages(address: string, $: mio.IHtmlServiceDocument): mio.IPage[] {
   let fullAddress = address + (/[0-9]+\.html$/i.test(address) ? '' : '1.html');
   return $('select.m').first().find('option:not(:last-child)').map((index, option) => createPage(
     fullAddress.replace(/[0-9]+\.html$/i, `${$(option).text()}.html`),
     {number: index + 1},
-    mio.option(index ? null : $)
+    index ? undefined : $
   )).get();
 }

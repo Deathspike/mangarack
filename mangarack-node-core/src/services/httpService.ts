@@ -1,10 +1,10 @@
 import * as mio from '../default';
 import * as request from 'request';
-import {ResponseType} from './enumerators/ResponseType';
-let delayInMilliseconds = 2000;
-let maximumAttempts = 5;
-let timeoutInMilliseconds = 30000;
-let userAgent = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
+import {ActiveType} from './enumerators/ActiveType';
+const delayInMilliseconds = [1000, 2500];
+const maximumNumberOfRetries = 5;
+const timeoutInMilliseconds = [15000, 30000];
+const userAgent = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
 
 /**
  * Represents a HTTP service.
@@ -14,86 +14,76 @@ export let httpService: mio.IHttpService = {
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as a blob.
    * @param address The address, or addresses.
-   * @param headers Each header.
-   * @param requestType The request type.
+   * @param controlType= The control type.
+   * @param headers= Each header.
    * @return The handler to retrieve the contents of the HTTP resource as a blob.
    */
-  blob: function(address: string|string[], headers: mio.IDictionary, requestType: mio.RequestType): mio.IHttpServiceHandler<mio.IBlob> {
-    let addresses = Array.isArray(address) ? address : [address];
-    return createHandler(ResponseType.Blob, addresses, headers, requestType);
+  blob: function(address: string | string[], controlType?: mio.ControlType, headers?: mio.IDictionary): mio.IHttpServiceHandler<mio.IBlob> {
+    return createHandler(ActiveType.Blob, address, controlType, headers);
   },
 
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
    * @param address The address, or addresses.
-   * @param headers Each header.
-   * @param requestType The request type.
+   * @param controlType= The control type.
+   * @param headers= Each header.
    * @return The handler to retrieve the contents of the HTTP resource as a deserialized JSON object.
    */
-  json: function<T>(address: string|string[], headers: mio.IDictionary, requestType: mio.RequestType): mio.IHttpServiceHandler<T> {
-    let addresses = Array.isArray(address) ? address : [address];
-    return createHandler(ResponseType.Json, addresses, headers, requestType);
+  json: function<T>(address: string | string[], controlType?: mio.ControlType, headers?: mio.IDictionary): mio.IHttpServiceHandler<T> {
+    return createHandler(ActiveType.Json, address, controlType, headers);
   },
 
   /**
    * Creates a handler to retrieve the contents of the HTTP resource as text.
    * @param address The address, or addresses.
-   * @param headers Each header.
-   * @param requestType The request type.
+   * @param controlType= The control type.
+   * @param headers= Each header.
    * @return The handler to retrieve the contents of the HTTP resource as text.
    */
-  text: function(address: string|string[], headers: mio.IDictionary, requestType: mio.RequestType): mio.IHttpServiceHandler<string> {
-    let addresses = Array.isArray(address) ? address : [address];
-    return createHandler(ResponseType.Text, addresses, headers, requestType);
+  text: function(address: string | string[], controlType?: mio.ControlType, headers?: mio.IDictionary): mio.IHttpServiceHandler<string> {
+    return createHandler(ActiveType.Text, address, controlType, headers);
   }
 };
 
 /**
  * Creates a service handler.
- * @param type The response type.
- * @param addresses The addresses.
- * @param headers The headers.
- * @param requestType The request type.
+ * @param activeType The active type.
+ * @param address The address, or addresses.
+ * @param controlType= The control type.
+ * @param headers= The headers.
  * @return The service handler.
  */
-function createHandler<T>(type: ResponseType, addresses: string[], headers: mio.IDictionary, requestType: mio.RequestType): mio.IHttpServiceHandler<T> {
+function createHandler<T>(activeType: ActiveType, address: string | string[], controlType?: mio.ControlType, headers?: mio.IDictionary): mio.IHttpServiceHandler<T> {
   return {
-    deleteAsync: formData => fetchAnyAsync('DELETE', type, addresses, headers, requestType, formData),
-    getAsync: () => fetchAnyAsync('GET', type, addresses, headers, requestType, {}),
-    patchAsync: formData => fetchAnyAsync('PATCH', type, addresses, headers, requestType, formData),
-    postAsync: formData => fetchAnyAsync('POST', type, addresses, headers, requestType, formData),
-    putAsync: formData => fetchAnyAsync('PUT', type, addresses, headers, requestType, formData)
+    deleteAsync: (formData) => fetchAnyAsync('DELETE', activeType, address, controlType, formData, headers),
+    getAsync: () => fetchAnyAsync('GET', activeType, address, controlType, {}, headers),
+    patchAsync: (formData) => fetchAnyAsync('PATCH', activeType, address, controlType, formData, headers),
+    postAsync: (formData) => fetchAnyAsync('POST', activeType, address, controlType, formData, headers),
+    putAsync: (formData) => fetchAnyAsync('PUT', activeType, address, controlType, formData, headers)
   };
 }
 
 /**
- * Promises to delay for the number of provided milliseconds.
- * @return The promise to delay for the number of provided milliseconds.
- */
-function delayAsync(): Promise<mio.IOption<void>> {
-  return mio.promise<void>(callback => setTimeout(callback, delayInMilliseconds));
-}
-
-/**
  * Promises to try to fetch the contents of the HTTP resource
- * @param method The method.
- * @param responseType The response type.
- * @param addresses Each address.
- * @param headers Each header.
- * @param requestType The request type.
- * @param formData Each form key/value pair.
+ * @param activeMethod The active method.
+ * @param activeType The active type.
+ * @param address The address, or addresses.
+ * @param controlType= The control type.
+ * @param formData= The form data.
+ * @param headers= The headers.
  * @return The promise to try to fetch the contents of the HTTP resource
  */
-async function fetchAnyAsync(method: string, responseType: ResponseType, addresses: string[], headers: mio.IDictionary, requestType: mio.RequestType, formData: mio.IDictionary): Promise<any> {
-  let attempts = requestType === mio.RequestType.BasicWithRetry || requestType === mio.RequestType.TimeoutWithRetry ? maximumAttempts : 1;
+async function fetchAnyAsync(activeMethod: string, activeType: ActiveType, address: string | string[], controlType?: mio.ControlType, formData?: mio.IDictionary, headers?: mio.IDictionary): Promise<any> {
+  let addresses = Array.isArray(address) ? address : [address];
+  let maximumNumberOfAttempts = getNumberOfAttempts(controlType);
   let previousError: any;
-  for (let currentAttempt of Array(attempts).keys()) {
+  for (let currentAttempt = 0; currentAttempt < maximumNumberOfAttempts; currentAttempt++) {
     for (let currentAddress of addresses) {
       try {
-        return await fetchAsync(method, responseType, currentAddress, headers, requestType, formData);
+        return await fetchAsync(activeMethod, activeType, currentAddress, controlType, formData, headers);
       } catch (error) {
         previousError = error;
-        await delayAsync();
+        await mio.promise<void>(callback => setTimeout(callback, getRandomBetweenBoundaries(delayInMilliseconds)));
       }
     }
   }
@@ -105,24 +95,26 @@ async function fetchAnyAsync(method: string, responseType: ResponseType, address
 }
 
 /**
- * Promises to fetch the contents of the HTTP resource.
- * @param method The method.
- * @param responseType The response type.
- * @param addresses Each address.
- * @param headers Each header.
- * @param requestType The request type.
- * @param formData Each form key/value pair.
- * @return The promise for the contents of the HTTP resource.
+ * Promises to try to fetch the contents of the HTTP resource
+ * @param activeMethod The active method.
+ * @param activeType The active type.
+ * @param address The address.
+ * @param controlType= The control type.
+ * @param formData= The form data.
+ * @param headers= The headers.
+ * @return The promise to try to fetch the contents of the HTTP resource
  */
-function fetchAsync<T>(method: string, responseType: ResponseType, address: string, headers: mio.IDictionary, requestType: mio.RequestType, formData: mio.IDictionary): Promise<any> {
-  let encoding = responseType == ResponseType.Blob ? null : 'utf8';
-  let timeout = requestType === mio.RequestType.Basic || requestType === mio.RequestType.BasicWithRetry ? 0 : timeoutInMilliseconds;
+async function fetchAsync(activeMethod: string, activeType: ActiveType, address: string, controlType?: mio.ControlType, formData?: mio.IDictionary, headers?: mio.IDictionary): Promise<any> {
+  headers = headers || {};
+  headers['User-Agent'] = headers['User-Agent'] || userAgent;
   return new Promise((resolve, reject) => {
-    let options = {encoding: encoding, headers: headers, form: formData, gzip: true, jar: true, method: method, timeout: timeout, url: address};
-    headers['User-Agent'] = headers['User-Agent'] || userAgent;
-    request(options, (error, response, body) => {
+    let timeout = getTimeoutInMilliseconds(controlType);
+    let encoding: any = activeType === ActiveType.Blob ? null : 'utf8';
+    let data = {encoding, form: formData, gzip: true, headers, jar: true, method: activeMethod, timeout, url: address};
+    request(data, (error, response, body) => {
       if (!error && response.statusCode === 200) {
-        if (responseType == ResponseType.Json) {
+        if (activeType === ActiveType.Json) {
+          // TODO: This parse can throw an error, which is not caught.
           resolve(JSON.parse(body));
         } else {
           resolve(body);
@@ -130,9 +122,44 @@ function fetchAsync<T>(method: string, responseType: ResponseType, address: stri
       } else {
         reject(new mio.HttpServiceError({
           body: String(body || ''),
-          statusCode: (response ? response.statusCode : 0) || 0
+          statusCode: response.statusCode || 0
         }, `Invalid HTTP response: ${address}`));
       }
     });
   });
+}
+
+/**
+ * Retrieves the number of attempts.
+ * @param controlType= The control type.
+ * @return The number of attempts.
+ */
+function getNumberOfAttempts(controlType?: mio.ControlType): number {
+  if (controlType === mio.ControlType.BasicWithRetry || controlType === mio.ControlType.TimeoutWithRetry) {
+    return maximumNumberOfRetries;
+  } else {
+    return 1;
+  }
+}
+
+/**
+ * Retrieves a random value between the boundaries.
+ * @param boundaries The boundaries.
+ * @return The random value.
+ */
+function getRandomBetweenBoundaries(boundaries: number[]): number {
+  return Math.floor(Math.random() * (boundaries[1] - boundaries[0] + 1)) + boundaries[0];
+}
+
+/**
+ * Retrieves the timeout in milliseconds.
+ * @param controlType= The control type.
+ * @return The timeout in milliseconds.
+ */
+function getTimeoutInMilliseconds(controlType?: mio.ControlType): number {
+  if (controlType === mio.ControlType.Timeout || controlType === mio.ControlType.TimeoutWithRetry) {
+    return getRandomBetweenBoundaries(timeoutInMilliseconds);
+  } else {
+    return 0;
+  }
 }

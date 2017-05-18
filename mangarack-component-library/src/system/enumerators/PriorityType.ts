@@ -1,6 +1,5 @@
 /**
  * Represents a priority type.
- * @internal
  */
 export enum PriorityType {
   /**
