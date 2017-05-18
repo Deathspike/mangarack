@@ -2,10 +2,6 @@
 
 *MangaRack* is a console line application capable of downloading manga series from popular manga scanlation sites. Each downloaded chapter is stored on your computer as a comic book archive and contains additional embedded meta information. The embedded meta information is compatible with the popular *ComicRack* application suite.
 
-## History/Upgrading
-
-It has been three years since the release of *MangaRack.cs*, the predecessor of *MangaRack.js*. Managing hundreds of series, thousands of chapters and millions of pages has been an incredible learning experience. There have been major changes going from `2.x` to `3.x`, and similarly, in the `4.x` version. A library will not change much, but the *mangarack everywhere!*-philosophy has been enhanced with a "*dependable and predictable behaviour*"-approach. If you are upgrading, delete your persistence files, and check for deprecated command line switches.
-
 ## Prerequisites
 
 * NodeJS >= `6.x` (http://nodejs.org/)
@@ -87,9 +83,10 @@ Each module has its own package definition, but none of the modules specify inte
 
 If you wish to contribute to this repository:
 
-1. Clone this repository into a folder named `node_modules` (for module resolution).
+1. Clone this repository into a folder named `node_modules`.
 2. Run `node .ezpz install` in the folder using *Command Prompt*/*Terminal*.
-3. Open the folder with *Atom* (using the *TypeStrong* plugin) or *VSCode*.
-4. To test a *runnable*, run `node mangarack-runnable-*/dist/app` (replace `*`).
+3. Open the folder with *[Visual Studio Code](https://code.visualstudio.com/)*.
+4. Press `CTRL+SHIFT+B` to start the compiler. You can edit the code now and test your changes.
+5. Press `F5` to start the debugger. You can enter series addresses into the terminal.
 
 Please open an issue for further questions.
