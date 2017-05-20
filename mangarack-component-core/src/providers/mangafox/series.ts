@@ -63,7 +63,7 @@ function downloadImageAsync($: mio.IHtmlServiceDocument): Promise<mio.IBlob> {
  * @return Each artist.
  */
 function getArtists($: mio.IHtmlServiceDocument): string[] {
-  return $('a[href*=\'/search/artist/\']')
+  return $('#title a[href*=\'/search/artist/\']')
     .map((_, a) => $(a).text())
     .get();
 }
@@ -74,7 +74,7 @@ function getArtists($: mio.IHtmlServiceDocument): string[] {
  * @return Each author.
  */
 function getAuthors($: mio.IHtmlServiceDocument): string[] {
-  return $('a[href*=\'/search/author/\']')
+  return $('#title a[href*=\'/search/author/\']')
     .map((_, a) => $(a).text())
     .get();
 }
@@ -114,7 +114,7 @@ function getChapters($: mio.IHtmlServiceDocument): mio.IChapter[] {
  * @return Each genre.
  */
 function getGenres($: mio.IHtmlServiceDocument): string[] {
-  return $('a[href*=\'/search/genres/\']')
+  return $('#title a[href*=\'/search/genres/\']')
     .map((_, a) => $(a).text())
     .get()
     .map(value => remapGenreType[value] || value);
