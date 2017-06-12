@@ -8,7 +8,7 @@ let queue = Promise.resolve();
 (function(): void {
   let args = process.argv.splice(2);
   populateStore(args);
-  if (!hasAnySeries(args)) {
+  if (args.every(x => !isValid(x))) {
     readline.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -22,27 +22,17 @@ let queue = Promise.resolve();
 })();
 
 /**
- * Kills the process.
- * @param error The error.
- */
-function die(error: any): void {
-  console.log(error.stack || error);
-  process.exit(1);
-}
-
-/**
  * Promises to download the items.
  * @param items The items.
  * @return The promise to download the items.
  */
 async function downloadAsync(items: string[]): Promise<void> {
-  for (let item of items) {
+  for (let item of items.filter(isValid)) {
     try {
-      mio.openProvider(item);
-    } catch (e) {
-      continue;
+      await mio.downloadService.seriesAsync(item);
+    } catch (error) {
+      console.error(error.stack || error);
     }
-    await mio.downloadService.seriesAsync(item);
   }
 }
 
@@ -52,30 +42,23 @@ async function downloadAsync(items: string[]): Promise<void> {
  */
 function enqueue(items: string[]): void {
   queue = queue.then(async () => {
-    try {
-      populateStore(items);
-      await downloadAsync(items);
-    } catch (e) {
-      die(e);
-    }
+    populateStore(items);
+    await downloadAsync(items);
   });
 }
 
 /**
- * Determines if the collection of items contain a series.
- * @param items The items.
- * @return Indicates if the collection of items contain a series.
+ * Determines if the item contains a series.
+ * @param item The item.
+ * @return Indicates if the item contains a series.
  */
-function hasAnySeries(items: string[]): boolean {
-  for (let item of items) {
-    try {
-      mio.openProvider(item);
-      return true;
-    } catch (e) {
-      continue;
-    }
+function isValid(item: string): boolean {
+  try {
+    mio.openProvider(item);
+    return true;
+  } catch (error) {
+    return false;
   }
-  return false;
 }
 
 /**
