@@ -12,7 +12,7 @@ export let zipService = {
    * @param filePath The file path.
    * @return The zip archive.
    */
-  create: function(filePath: string): {commitAsync: () => Promise<void>, writeAsync: (fileName: string, data: any) => Promise<void>} {
+  create: function(filePath: string): {commitAsync: () => Promise<void>, rollbackAsync: () => Promise<void>, writeAsync: (fileName: string, data: any) => Promise<void>} {
     // Initialize the variables.
     let archive = archiver.create('zip', {store: true});
     let isWriting = false;
@@ -29,6 +29,21 @@ export let zipService = {
           archive.finalize();
           await mio.promise<void>(callback => fs.rename(tempFilePath, filePath, callback));
         }
+      },
+
+      /**
+       * Promises to rollback the archive.
+       * @return The promise to rollback the archive.
+       */
+      rollbackAsync: async function(): Promise<void> {
+        archive.finalize();
+        await mio.promise<void>(callback => {
+          if (isWriting) {
+            fs.unlink(tempFilePath, callback);
+          } else {
+            callback();
+          }
+        });
       },
 
       /**

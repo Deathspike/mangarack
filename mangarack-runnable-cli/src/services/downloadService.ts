@@ -58,8 +58,10 @@ export let downloadService: mio.IDownloadService = {
         }
         await zip.writeAsync(`000.${mio.helperService.getImageExtension(seriesPreviewImage)}`, seriesPreviewImage);
         await zip.writeAsync('ComicInfo.xml', mio.metaService.createXml(series, chapter, pages));
-      } finally {
         await zip.commitAsync();
+      } catch (error) {
+        await zip.rollbackAsync();
+        throw error;
       }
     }
   },
