@@ -1,11 +1,11 @@
 import * as mio from '../../default';
 import {createPage} from './page';
-let httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
-let htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
+import {site} from './site';
+const httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
+const htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
 
 /**
  * Creates the chapter.
- * @internal
  * @param address The address.
  * @param metadata The metadata.
  * @return The chapter.
@@ -25,8 +25,8 @@ export function createChapter(address: string, metadata: mio.IChapterMetadata): 
  * @param address The address.
  * @return The promise for the document.
  */
-async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument> {
-  let body = await httpService().text(address, {}, mio.RequestType.TimeoutWithRetry).getAsync();
+async function downloadDocumentAsync(address: string): Promise<mio.IHtmlServiceDocument> {
+  let body = await httpService().text(address, mio.ControlType.TimeoutWithRetry).getAsync();
   return htmlService().load(body);
 }
 
@@ -45,16 +45,16 @@ async function downloadPagesAsync(address: string): Promise<mio.IPage[]> {
  * @param $ The selector.
  * @return Each page.
  */
-function getPages($: mio.IHtmlDocument): mio.IPage[] {
+function getPages($: mio.IHtmlServiceDocument): mio.IPage[] {
   let i = 0;
-  let match: RegExpExecArray;
-  let regexp = /lstImages\.push\("(.+?)"\)/gi;
+  let match: mio.IOption<RegExpExecArray>;
+  let regexp = /lstImages\.push\(wrapKA\("(.+?)"\)\)/gi;
   let results: mio.IPage[] = [];
   let text = $('script:contains(lstImages)').text();
   while (true) {
-    match = regexp.exec(text);
+    match = regexp.exec(text) || undefined;
     if (match) {
-      results.push(createPage(match[1], {number: i + 1}));
+      results.push(createPage(site.decodeImageUrl(match[1]), {number: i + 1}));
       i += 1;
     } else {
       break;

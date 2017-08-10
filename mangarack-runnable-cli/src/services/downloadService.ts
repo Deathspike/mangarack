@@ -16,14 +16,19 @@ export let downloadService: mio.IDownloadService = {
   chapterAsync: async function(provider: mio.IProvider, series: mio.ISeries, seriesPreviewImage: mio.IBlob, chapter: mio.IChapter): Promise<void> {
     let chapterName = getChapterName(series, chapter);
     let chapterPath = getChapterPath(series, chapter);
-    if (chapterName.hasValue && chapterPath.hasValue) {
-      let chapterExists = await mio.promise<boolean>(callback => fs.exists(chapterPath.value, exists => callback(null, exists)));
-      if (chapterExists.hasValue && chapterExists.hasValue && !chapterExists.value) {
-        console.log(`Fetching ${chapterName.value}`);
-        let beginTime = Date.now();
-        let pages = await chapter.pagesAsync();
-        await downloadService.pagesAsync(provider, series, seriesPreviewImage, chapter, pages);
-        console.log(`Finished ${chapterName.value} ${prettyElapsedTime(beginTime)}`);
+    if (chapterName && chapterPath) {
+      let beginTime = Date.now();
+      let chapterExists = await mio.promise<boolean>(callback => fs.exists(chapterPath!, exists => callback(undefined, exists)));
+      if (!chapterExists) {
+        try {
+          console.log(`Fetching ${chapterName}`);
+          let pages = await chapter.pagesAsync();
+          await downloadService.pagesAsync(provider, series, seriesPreviewImage, chapter, pages);
+          console.log(`Finished ${chapterName} ${prettyElapsedTime(beginTime)}`);
+        } catch (error) {
+          console.log(`Canceled ${chapterName} ${prettyElapsedTime(beginTime)}`);
+          throw error;
+        }
       }
     }
   },
@@ -39,20 +44,25 @@ export let downloadService: mio.IDownloadService = {
    */
   pagesAsync: async function(provider: mio.IProvider, series: mio.ISeries, seriesPreviewImage: mio.IBlob, chapter: mio.IChapter, pages: mio.IPage[]): Promise<void> {
     let chapterPath = getChapterPath(series, chapter);
-    if (chapterPath.hasValue) {
-      let zip = mio.zipService.create(chapterPath.value);
-      for (let page of pages) {
-        let image = await page.imageAsync();
-        let processedImage = await mio.imageService.processAsync(provider, image);
-        if (processedImage.hasValue) {
-          await zip.writeAsync(`${format(3, page.number)}.${mio.helperService.getImageExtension(processedImage.value)}`, processedImage.value);
-        } else {
-          throw new Error(`Invalid processed page #${page.number}`);
+    if (chapterPath) {
+      let zip = mio.zipService.create(chapterPath);
+      try {
+        for (let page of pages) {
+          let image = await page.imageAsync();
+          let processedImage = await mio.imageService.processAsync(provider, image);
+          if (processedImage) {
+            await zip.writeAsync(`${format(3, page.number)}.${mio.helperService.getImageExtension(processedImage)}`, processedImage);
+          } else {
+            throw new Error(`Invalid processed page #${page.number}`);
+          }
         }
+        await zip.writeAsync(`000.${mio.helperService.getImageExtension(seriesPreviewImage)}`, seriesPreviewImage);
+        await zip.writeAsync('ComicInfo.xml', mio.metaService.createXml(series, chapter, pages));
+        await zip.commitAsync();
+      } catch (error) {
+        await zip.rollbackAsync();
+        throw error;
       }
-      await zip.writeAsync(`000.${mio.helperService.getImageExtension(seriesPreviewImage)}`, seriesPreviewImage);
-      await zip.writeAsync('ComicInfo.xml', mio.metaService.createXml(series, chapter, pages));
-      await zip.commitAsync();
     }
   },
 
@@ -66,12 +76,17 @@ export let downloadService: mio.IDownloadService = {
     let provider = mio.openProvider(address);
     let series = await provider.seriesAsync(address);
     let seriesPreviewImage = await series.imageAsync();
-    console.log(`Fetching ${series.title}`);
-    for (let chapter of series.chapters) {
-      await downloadService.chapterAsync(provider, series, seriesPreviewImage, chapter);
+    try {
+      console.log(`Fetching ${series.title}`);
+      for (let chapter of series.chapters) {
+        await downloadService.chapterAsync(provider, series, seriesPreviewImage, chapter);
+      }
+      await cleanAsync(series);
+      console.log(`Finished ${series.title} ${prettyElapsedTime(beginTime)}`);
+    } catch (error) {
+      console.log(`Canceled ${series.title} ${prettyElapsedTime(beginTime)}`);
+      throw error;
     }
-    await cleanAsync(series);
-    console.log(`Finished ${series.title} ${prettyElapsedTime(beginTime)}`);
   }
 };
 
@@ -82,13 +97,13 @@ export let downloadService: mio.IDownloadService = {
  */
 async function cleanAsync(series: mio.ISeries): Promise<void> {
   let seriesName = getSeriesName(series);
-  if (seriesName.hasValue) {
-    let seriesExists = await mio.promise<boolean>(callback => fs.exists(seriesName.value, exists => callback(null, exists)));
-    if (seriesExists.hasValue && seriesExists.value) {
-      let fileNames = await mio.promise<string[]>(callback => fs.readdir(seriesName.value, callback));
-      if (fileNames.hasValue) {
-        let chapterPaths = series.chapters.map(chapter => getChapterPath(series, chapter).value);
-        let filePaths = fileNames.value.map(fileName => `${seriesName.value}/${fileName}`);
+  if (seriesName) {
+    let seriesExists = await mio.promise<boolean>(callback => fs.exists(seriesName!, exists => callback(undefined, exists)));
+    if (seriesExists) {
+      let fileNames = await mio.promise<string[]>(callback => fs.readdir(seriesName!, callback));
+      if (fileNames) {
+        let chapterPaths = series.chapters.map(chapter => getChapterPath(series, chapter));
+        let filePaths = fileNames.map(fileName => `${seriesName}/${fileName}`);
         for (let filePath of filePaths) {
           if (chapterPaths.indexOf(filePath) === -1 && /\.cbz$/.test(filePath)) {
             await mio.promise<void>(callback => fs.rename(filePath, `${filePath}.mrdel`, callback));
@@ -105,18 +120,18 @@ async function cleanAsync(series: mio.ISeries): Promise<void> {
  * @param chapter The chapter.
  * @return The chapter name.
  */
-function getChapterName(series: mio.ISeries, chapter: mio.IChapter): mio.IOption<string> {
-  if (!chapter.number.hasValue) {
-    return mio.option<string>();
-  } else {
+function getChapterName(series: mio.ISeries, chapter: mio.IChapter): string {
+  if (isFinite(chapter.number)) {
     let title = getSeriesName(series);
-    if (!title.hasValue) {
-      return mio.option<string>();
-    } else if (!chapter.volume.hasValue) {
-      return mio.option(`${title.value} #${format(3, chapter.number.value)}.cbz`);
+    if (title && isFinite(chapter.volume)) {
+      return `${title} V${format(2, chapter.volume)} #${format(3, chapter.number)}.cbz`;
+    } else if (title) {
+      return `${title} #${format(3, chapter.number)}.cbz`;
     } else {
-      return mio.option(`${title.value} V${format(2, chapter.volume.value)} #${format(3, chapter.number.value)}.cbz`);
+      return '';
     }
+  } else {
+    return '';
   }
 }
 
@@ -126,10 +141,14 @@ function getChapterName(series: mio.ISeries, chapter: mio.IChapter): mio.IOption
  * @param chapter The chapter.
  * @return The chapter path.
  */
-function getChapterPath(series: mio.ISeries, chapter: mio.IChapter): mio.IOption<string> {
+function getChapterPath(series: mio.ISeries, chapter: mio.IChapter): string {
   let seriesName = getSeriesName(series);
   let chapterName = getChapterName(series, chapter);
-  return mio.option(seriesName.hasValue && chapterName.hasValue ? `${seriesName.value}/${chapterName.value}` : null);
+  if (seriesName && chapterName) {
+    return `${seriesName}/${chapterName}`;
+  } else {
+    return '';
+  }
 }
 
 /**
@@ -137,25 +156,25 @@ function getChapterPath(series: mio.ISeries, chapter: mio.IChapter): mio.IOption
  * @param series The series.
  * @return The series name.
  */
-function getSeriesName(series: mio.ISeries): mio.IOption<string> {
-  return mio.option(series.title
+function getSeriesName(series: mio.ISeries): string {
+  return series.title
     .replace(/["<>\|:\*\?\\\/]/g, '')
-    .replace(/\.$/, '. (Suffixed)') || null);
+    .replace(/\.$/, '. (Suffixed)') || '';
 }
 
 /**
  * Formats the number (with possible fraction digits) to be prefixed with leading zeros.
  * @param minimumWholeNumberLength The minimum length of whole numbers.
- * @param number The number.
+ * @param value The value.
  * @return The number prefixed with leading zeros.
  */
-function format(minimumWholeNumberLength: number, number: number): string {
-  let value = number.toString();
-  let index = value.indexOf('.');
-  for (let i = minimumWholeNumberLength - (index >= 0 ? index : value.length); i > 0; i--) {
-    value = '0' + value;
+function format(minimumWholeNumberLength: number, value: number): string {
+  let result = value.toString();
+  let index = result.indexOf('.');
+  for (let i = minimumWholeNumberLength - (index >= 0 ? index : result.length); i > 0; i--) {
+    result = '0' + result;
   }
-  return value;
+  return result;
 }
 
 /**

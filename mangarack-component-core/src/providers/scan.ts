@@ -1,5 +1,5 @@
 import * as mio from '../default';
-let regexp = new RegExp('\\s*' +
+const regexp = new RegExp('\\s*' +
   // The volume expression [1].
   '(?:Vol\\.?\\s*([0-9\\.]+)\\s*)?' +
   // The chapter expression [2].
@@ -19,7 +19,6 @@ let regexp = new RegExp('\\s*' +
 
 /**
  * Scans the input for chapter metadata.
- * @internal
  * @param input The input to scan.
  * @return The chapter metadata.
  */
@@ -39,10 +38,10 @@ export function scan(input: string): mio.IChapterMetadata {
  */
 function createMetadata(match: RegExpMatchArray): mio.IChapterMetadata {
   return {
-    number: mio.option(createNumber(match[2], match[4])),
+    number: ensureNumber(createNumber(match[2], match[4])),
     title: match[5] ? match[5].trim() : '',
-    version: mio.option(parseFloat(match[3])),
-    volume: mio.option(parseFloat(match[1]))
+    version: ensureNumber(parseFloat(match[3])),
+    volume: ensureNumber(parseFloat(match[1]))
   };
 }
 
@@ -57,9 +56,21 @@ function createNumber(chapter: string, part: string): number {
   if (match) {
     return parseFloat(match[1]) + (match[2].charCodeAt(0) - 96) / 10;
   } else if (part) {
-    let parsedPart = mio.option(parseFloat(part));
-    return parseFloat(chapter) + (parsedPart.hasValue ? parsedPart.value : 0) / 10;
+    return parseFloat(chapter) + (parseFloat(part) || 0) / 10;
   } else {
     return parseFloat(chapter);
+  }
+}
+
+/**
+ * Ensures the value is a valid number.
+ * @param value The number.
+ * @return The number.
+ */
+function ensureNumber(value: number): mio.IOption<number> {
+  if (isFinite(value)) {
+    return value;
+  } else {
+    return undefined;
   }
 }

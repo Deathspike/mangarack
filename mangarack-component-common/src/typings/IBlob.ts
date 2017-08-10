@@ -1,4 +1,4 @@
 /**
  * Represents a blob.
  */
-export interface IBlob {}
+export type IBlob = {[key: string]: never}

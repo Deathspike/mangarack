@@ -2,7 +2,7 @@ import * as mio from '../../default';
 
 /**
  * Represents a series.
- */﻿
+ */
 export interface ISeries extends mio.ISeriesMetadata {
   /**
    * Contains each chapter.

@@ -11,7 +11,7 @@ export let htmlService: mio.IHtmlService = {
    * @param rawHtml The string of raw HTML.
    * @return The HTML document.
    */
-  load: function(rawHtml: string): mio.IHtmlDocument {
+  load: function(rawHtml: string): mio.IHtmlServiceDocument {
     return encapsulateDocument(cheerio.load(rawHtml));
   }
 };
@@ -21,10 +21,8 @@ export let htmlService: mio.IHtmlService = {
  * @param cheerioStatic The object.
  * @return The HTML object.
  */
-function encapsulateDocument(cheerioStatic: CheerioStatic): (elementOrSelector: mio.IHtmlElement|string) => mio.IHtmlObject {
-  return function(elementOrSelector: mio.IHtmlElement|string) {
-    return encapsulateObject(cheerioStatic(elementOrSelector));
-  };
+function encapsulateDocument(cheerioStatic: CheerioStatic): (elementOrSelector: mio.IHtmlServiceElement | string) => mio.IHtmlServiceObject {
+  return elementOrSelector => encapsulateObject(cheerioStatic(elementOrSelector));
 }
 
 /**
@@ -32,7 +30,7 @@ function encapsulateDocument(cheerioStatic: CheerioStatic): (elementOrSelector: 
  * @param cheerioObject The object.
  * @return The HTML object.
  */
-function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
+function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlServiceObject {
   return {
     /**
      * Get the value of the attribute for the first element.
@@ -48,8 +46,8 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
      * @param iterator The function that will be invoked for each element.
      * @return The current HTML object.
      */
-    each: function(iterator: (index: number, element: mio.IHtmlElement) => void): mio.IHtmlObject {
-      cheerioObject.each(iterator);
+    each: function(iterator: (index: number, element: mio.IHtmlServiceElement) => void): mio.IHtmlServiceObject {
+      cheerioObject.each((index, element) => iterator(index, mio.unsafe<mio.IHtmlServiceElement>(element)));
       return encapsulateObject(cheerioObject);
     },
 
@@ -58,7 +56,7 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
      * @param selector The string containing the selector expression.
      * @return The descendants of each element filtered by the selector.
      */
-    find: function(selector: string): mio.IHtmlObject {
+    find: function(selector: string): mio.IHtmlServiceObject {
       return encapsulateObject(cheerioObject.find(selector));
     },
 
@@ -66,7 +64,7 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
      * Reduces the set to the first.
      * @return The set reduced to the first.
      */
-    first: function(): mio.IHtmlObject {
+    first: function(): mio.IHtmlServiceObject {
       return encapsulateObject(cheerioObject.first());
     },
 
@@ -76,9 +74,9 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
       * @return The current HTML object.
       */
     html: function(htmlString?: string): any {
-      return htmlString == null
-        ? cheerioObject.html()
-        : encapsulateObject(cheerioObject.html(htmlString));
+      return typeof htmlString === 'string'
+        ? encapsulateObject(cheerioObject.html(htmlString))
+        : cheerioObject.html();
     },
 
     /**
@@ -86,42 +84,41 @@ function encapsulateObject(cheerioObject: Cheerio): mio.IHtmlObject {
      * @param iterator The function that will be invoked for each element.
      * @return The result mapped to a new object.
      */
-    map: function<T>(iterator: (index: number, element: mio.IHtmlElement) => T): {get(): T[]} {
-      let cheerioMap = cheerioObject.map(iterator);
-      return {get: () => <T[]>(cheerioMap.get() as any)};
+    map: function<T>(iterator: (index: number, element: mio.IHtmlServiceElement) => T): {get(): T[]} {
+      return {get: () => cheerioObject.map((index, element) => iterator(index, mio.unsafe<mio.IHtmlServiceElement>(element))).get() as any};
     },
 
     /**
      * Gets the immediately following sibling of each element.
-     * @param selector The string containing the selector expression.
+     * @param selector= The string containing the selector expression.
      * @return The immediately following sibling of each element
      */
-    next: function(selector: mio.IOption<string>): mio.IHtmlObject {
-      return encapsulateObject(!selector.hasValue
-        ? cheerioObject.next()
-        : cheerioObject.next(selector.value));
+    next: function(selector?: string): mio.IHtmlServiceObject {
+      return encapsulateObject(typeof selector === 'string'
+        ? cheerioObject.next(selector)
+        : cheerioObject.next());
     },
 
     /**
      * Gets the parent of each element.
-     * @param selector The string containing the selector expression.
+     * @param selector= The string containing the selector expression.
      * @return The parent of each element.
      */
-    parent: function(selector: mio.IOption<string>): mio.IHtmlObject {
-      return encapsulateObject(!selector.hasValue
-        ? cheerioObject.parent()
-        : cheerioObject.parent(selector.value));
+    parent: function(selector?: string): mio.IHtmlServiceObject {
+      return encapsulateObject(typeof selector === 'string'
+        ? cheerioObject.parent(selector)
+        : cheerioObject.parent());
     },
 
     /**
      * Gets the immediately preceding sibling of each element.
-     * @param selector The string containing the selector expression.
+     * @param selector= The string containing the selector expression.
      * @return The immediately preceding sibling of each element.
      */
-    prev: function(selector: mio.IOption<string>): mio.IHtmlObject {
-      return encapsulateObject(!selector.hasValue
-        ? cheerioObject.prev()
-        : cheerioObject.prev(selector.value));
+    prev: function(selector?: string): mio.IHtmlServiceObject {
+      return encapsulateObject(typeof selector === 'string'
+        ? cheerioObject.prev(selector)
+        : cheerioObject.prev());
     },
 
     /**

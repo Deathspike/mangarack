@@ -1,0 +1,9 @@
+{
+  "args": [".ezpz", "watch"],
+  "command": "node",
+  "isBackground": true,
+  "isShellCommand": true,
+  "problemMatcher": "$tsc-watch",
+  "showOutput": "silent",
+  "version": "0.1.0"
+}

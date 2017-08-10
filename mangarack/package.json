@@ -1,27 +1,26 @@
 {
   "author": "Roel van Uden",
   "description": "Part of the MangaRack suite.",
-  "keywords": [
-    "mangarack"
-  ],
+  "keywords": ["mangarack"],
   "license": "MIT",
   "main": "src/default",
   "name": "mangarack",
   "repository": "git://github.com/Deathspike/mangarack",
-  "version": "4.0.11",
+  "version": "4.2.1",
   "bin": {
     "mangarack": "./bin/mangarack",
     "mangarack-cli": "./bin/mangarack-cli",
     "mangarack-daemon": "./bin/mangarack-daemon"
   },
   "devDependencies": {
-    "browserify": "13.0.1",
-    "npm-build-tools": "2.2.5",
-    "source-map-support": "0.4.0"
+    "browserify": "14.3.0",
+    "mkdirp": "0.5.1",
+    "rimraf": "2.6.1",
+    "source-map-support": "0.4.15"
   },
   "scripts": {
-    "bundle-cli": "browserify --debug --node src/cli.js | n-pipe dist/cli.js",
-    "bundle-daemon": "browserify --debug --node src/daemon.js | n-pipe dist/daemon.js",
-    "prepublish": "n-clean dist && npm run bundle-cli -s && npm run bundle-daemon -s"
+    "bundle-cli": "browserify --debug --node src/cli.js -o dist/cli.js",
+    "bundle-daemon": "browserify --debug --node src/daemon.js -o dist/daemon.js",
+    "prepublish": "rimraf dist && mkdirp dist && npm run bundle-cli -s && npm run bundle-daemon -s"
   }
 }

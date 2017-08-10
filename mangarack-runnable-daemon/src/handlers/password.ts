@@ -9,12 +9,12 @@ import * as mio from '../default';
  * @param library The library.
  * @return The promise to set the password.
  */
-export default async function(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
-  let password = mio.option<string>(request.body.password);
-  if (!password.hasValue) {
-    response.sendStatus(400);
-  } else {
-    await library.password().runAsync(password.value);
+export async function handleAsync(request: express.Request, response: express.Response, library: mio.ILibrary): Promise<void> {
+  let password = request.body.password;
+  if (typeof password === 'string') {
+    await library.password().runAsync(password);
     response.sendStatus(200);
+  } else {
+    response.sendStatus(400);
   }
 }

@@ -2,7 +2,7 @@ import * as mio from '../../default';
 
 /**
  * Represents a provider.
- */﻿
+ */
 export interface IProvider extends mio.IProviderMetadata {
   /**
    * Determines whether the address is a supported address.

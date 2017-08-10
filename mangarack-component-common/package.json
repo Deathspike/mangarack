@@ -1,20 +1,21 @@
 {
   "author": "Roel van Uden",
   "description": "Part of the MangaRack suite.",
-  "keywords": [
-    "mangarack"
-  ],
+  "keywords": ["mangarack"],
   "license": "MIT",
   "main": "dist/default",
   "name": "mangarack-component-common",
   "repository": "git://github.com/Deathspike/mangarack",
   "typings": "dist/default",
-  "version": "4.0.11",
+  "version": "4.2.1",
+  "dependencies": {
+    "tslib": "1.7.1"
+  },
   "devDependencies": {
-    "npm-build-tools": "2.2.5",
-    "typescript": "1.9.0-dev.20160527-1.0"
+    "rimraf": "2.6.1",
+    "typescript": "2.3.2"
   },
   "scripts": {
-    "prepublish": "n-clean dist && tsc"
+    "prepublish": "rimraf dist && tsc"
   }
 }

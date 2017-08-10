@@ -1,13 +1,11 @@
-import * as mio from '../../default';
-
 /**
  * Represents chapter metadata.
- */﻿
+ */
 export interface IChapterMetadata {
   /**
    * Contains the number.
    */
-  number: mio.IOption<number>;
+  number?: number;
 
   /**
    * Contains the title.
@@ -17,10 +15,10 @@ export interface IChapterMetadata {
   /**
    * Contains the version.
    */
-  version: mio.IOption<number>;
+  version?: number;
 
   /**
    * Contains the volume.
    */
-  volume: mio.IOption<number>;
+  volume?: number;
 }

@@ -1,6 +1,6 @@
 import * as mio from '../module';
-let context = mio.option<mio.IContext>();
-let fileService = mio.dependency.get<mio.IFileService>('IFileService');
+const fileService = mio.dependency.get<mio.IFileService>('IFileService');
+let context: mio.IOption<mio.IContext>;
 let isSaving = false;
 let shouldSaveAgain = false;
 
@@ -14,23 +14,23 @@ export let contextService = {
    * @return The promise for the context.
    */
   getContextAsync: async function(): Promise<mio.IContext> {
-    if (!context.hasValue) {
-      let deserializedContext = await fileService().readObjectAsync<mio.IContext>('context.mrx');
-      if (!context.hasValue) {
-        if (!deserializedContext.hasValue) {
-          let password = mio.option<string>();
-          context = mio.option<mio.IContext>({lastId: 0, providers: {}, password: password, settings: {}, version: mio.version});
+    if (!context) {
+      let deserializedContext = await fileService().readObjectAsync<mio.IContext>('mangarack');
+      if (!context) {
+        if (!deserializedContext) {
+          context = {lastSeriesId: 0, password: '', providers: {}, settings: {}, version: mio.version};
           contextService.saveChanges();
         } else {
           context = deserializedContext;
-          tryUpgrade(context.value);
-          for (let key in context.value.settings) {
-            mio.settingService.set(key, context.value.settings[key]);
+          for (let key in context.settings) {
+            if (context.settings.hasOwnProperty(key)) {
+              mio.settingService.set(key, context.settings[key]);
+            }
           }
         }
       }
     }
-    return context.value;
+    return context;
   },
 
   /**
@@ -39,9 +39,9 @@ export let contextService = {
   saveChanges: function(): void {
     if (isSaving) {
       shouldSaveAgain = true;
-    } else if (context.hasValue) {
+    } else if (context) {
       isSaving = true;
-      fileService().writeObjectAsync('context.mrx', context.value).then(done, done);
+      fileService().writeObjectAsync('mangarack', context).then(done, done);
     }
   }
 };
@@ -54,17 +54,5 @@ function done(): void {
   if (shouldSaveAgain) {
     shouldSaveAgain = false;
     contextService.saveChanges();
-  }
-}
-
-/**
- * Tries to upgrade the context to support the latest version.
- * @param context The context.
- */
-function tryUpgrade(context: mio.IContext): void {
-  // [20160219] Added settings and versioning.
-  if (!context.settings) {
-    context.settings = {};
-    context.version = 2;
   }
 }

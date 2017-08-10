@@ -3,10 +3,10 @@ import {batoto} from './batoto/default';
 import {dynastyreader} from './dynastyreader/default';
 import {kissmanga} from './kissmanga/default';
 import {mangafox} from './mangafox/default';
-let providers = [batoto, dynastyreader, kissmanga, mangafox];
+const providers = [batoto, dynastyreader, kissmanga, mangafox];
 
 /**
- * Opens the provider for the address.
+ * Opens the provider for the name or address.
  * @param nameOrAddress The name or address.
  * @return The provider.
  */

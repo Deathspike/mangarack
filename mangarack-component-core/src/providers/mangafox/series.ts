@@ -1,28 +1,26 @@
 import * as mio from '../../default';
 import {createChapter} from './chapter';
 import {enhance} from '../enhance';
-let httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
-let htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
-let remapGenreType: mio.IDictionary = {'Sci-fi': 'Science Fiction', 'Webtoons': 'Webtoon'};
+const httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
+const htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
+const remapGenreType: mio.IDictionary = {'Sci-fi': 'Science Fiction', 'Webtoons': 'Webtoon'};
 
 /**
  * Promises the series.
- * @internal
  * @param address The address.
  * @return The promise for the series.
  */
 export async function createSeriesAsync(address: string): Promise<mio.ISeries> {
   let document = await downloadDocumentAsync(address);
-  return createSeries(address, document);
+  return createSeries(document);
 }
 
 /**
  * Creates the series.
- * @param address The address.
  * @param document The selector.
  * @return The series.
  */
-function createSeries(address: string, document: mio.IHtmlDocument): mio.ISeries {
+function createSeries(document: mio.IHtmlServiceDocument): mio.ISeries {
   return {
     artists: getArtists(document),
     authors: getAuthors(document),
@@ -40,8 +38,8 @@ function createSeries(address: string, document: mio.IHtmlDocument): mio.ISeries
  * @param address The address.
  * @return The promise for the document.
  */
-async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument> {
-  let body = await httpService().text(address, {}, mio.RequestType.TimeoutWithRetry).getAsync();
+async function downloadDocumentAsync(address: string): Promise<mio.IHtmlServiceDocument> {
+  let body = await httpService().text(address, mio.ControlType.TimeoutWithRetry).getAsync();
   return htmlService().load(body);
 }
 
@@ -50,10 +48,10 @@ async function downloadDocumentAsync(address: string): Promise<mio.IHtmlDocument
  * @param $ The selector.
  * @return The promise for the image.
  */
-function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
+function downloadImageAsync($: mio.IHtmlServiceDocument): Promise<mio.IBlob> {
   let address = $('img[src*=\'cover.jpg\']').attr('src');
   if (address) {
-    return httpService().blob(address, {}, mio.RequestType.TimeoutWithRetry).getAsync();
+    return httpService().blob(address, mio.ControlType.TimeoutWithRetry).getAsync();
   } else {
     throw new Error('Invalid series cover address.');
   }
@@ -64,9 +62,9 @@ function downloadImageAsync($: mio.IHtmlDocument): Promise<mio.IBlob> {
  * @param $ The selector.
  * @return Each artist.
  */
-function getArtists($: mio.IHtmlDocument): string[] {
-  return $('a[href*=\'/search/artist/\']')
-    .map((index, a) => $(a).text())
+function getArtists($: mio.IHtmlServiceDocument): string[] {
+  return $('#title a[href*=\'/search/artist/\']')
+    .map((_, a) => $(a).text())
     .get();
 }
 
@@ -75,9 +73,9 @@ function getArtists($: mio.IHtmlDocument): string[] {
  * @param $ The selector.
  * @return Each author.
  */
-function getAuthors($: mio.IHtmlDocument): string[] {
-  return $('a[href*=\'/search/author/\']')
-    .map((index, a) => $(a).text())
+function getAuthors($: mio.IHtmlServiceDocument): string[] {
+  return $('#title a[href*=\'/search/author/\']')
+    .map((_, a) => $(a).text())
     .get();
 }
 
@@ -86,21 +84,22 @@ function getAuthors($: mio.IHtmlDocument): string[] {
  * @param $ The selector.
  * @return Each child.
  */
-function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
+function getChapters($: mio.IHtmlServiceDocument): mio.IChapter[] {
   let results: mio.IChapter[] = [];
-  $('h3.volume').each((index, h3) => {
+  $('h3.volume').each((_0, h3) => {
     let match = $(h3).text().trim().match(/^Volume\s(.+)$/i);
     if (match) {
-      $(h3).parent(mio.option<string>()).next(mio.option<string>()).find('a[href*=\'/manga/\']').each((index, a) => {
+      let volumeMatch = match[1];
+      $(h3).parent().next().find('a[href*=\'/manga/\']').each((_1, a) => {
         let address = $(a).attr('href');
         if (address) {
           let numberMatch = $(a).text().match(/[0-9\.]+$/);
-          let title = $(a).next(mio.option('span.title')).text();
+          let numberValue = numberMatch ? parseFloat(numberMatch[0]) : undefined;
+          let title = $(a).next('span.title').text();
           results.push(createChapter(address, {
-            number: mio.option(numberMatch ? parseFloat(numberMatch[0]) : null),
+            number: isFinite(numberValue) ? numberValue : undefined,
             title: /^Read Onl?ine$/i.test(title) ? '' : title,
-            version: mio.option<number>(),
-            volume: mio.option(parseFloat(match[1]))
+            volume: parseFloat(volumeMatch)
           }));
         }
       });
@@ -114,9 +113,9 @@ function getChapters($: mio.IHtmlDocument): mio.IChapter[] {
  * @param $ The selector.
  * @return Each genre.
  */
-function getGenres($: mio.IHtmlDocument): string[] {
-  return $('a[href*=\'/search/genres/\']')
-    .map((index, a) => $(a).text())
+function getGenres($: mio.IHtmlServiceDocument): string[] {
+  return $('#title a[href*=\'/search/genres/\']')
+    .map((_, a) => $(a).text())
     .get()
     .map(value => remapGenreType[value] || value);
 }
@@ -126,7 +125,7 @@ function getGenres($: mio.IHtmlDocument): string[] {
  * @param $ The selector.
  * @return The summary.
  */
-function getSummary($: mio.IHtmlDocument): string {
+function getSummary($: mio.IHtmlServiceDocument): string {
   return $('p.summary').text().split('\n')
     .map(piece => piece.trim().replace(/\s+/g, ' '))
     .filter(piece => piece.length > 0)
@@ -141,7 +140,7 @@ function getSummary($: mio.IHtmlDocument): string {
  * @param $ The selector.
  * @return The title.
  */
-function getTitle($: mio.IHtmlDocument): string {
+function getTitle($: mio.IHtmlServiceDocument): string {
   let match = $('title').text().match(/^(.+)\s+Manga\s+-/i);
   if (match) {
     return match[1];
@@ -155,7 +154,7 @@ function getTitle($: mio.IHtmlDocument): string {
  * @param $ The selector.
  * @return The type.
  */
-function getType($: mio.IHtmlDocument): string {
+function getType($: mio.IHtmlServiceDocument): string {
   let match = $('#title h1').text().match(/[\w]+$/);
   if (match) {
     return match[0];
