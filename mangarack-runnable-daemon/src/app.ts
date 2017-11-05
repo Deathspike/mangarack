@@ -5,6 +5,11 @@ import * as path from 'path';
 const rootPathKey = 'node.library.rootPath';
 
 /*
+ * Disable HTTPS certificate checks. This is a bad idea.
+ */
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+
+/*
  * Starts the process.
  */
 (function(): void {
