@@ -3,6 +3,11 @@ import * as readline from 'readline';
 let queue = Promise.resolve();
 
 /*
+ * Disable HTTPS certificate checks. This is a bad idea.
+ */
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+
+/*
  * Starts the process.
  */
 (function(): void {
