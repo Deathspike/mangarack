@@ -1,6 +1,7 @@
 import * as mio from '../../default';
 import {createChapter} from './chapter';
 import {enhance} from '../enhance';
+import {site} from './site';
 const httpService = mio.dependency.get<mio.IHttpService>('IHttpService');
 const htmlService = mio.dependency.get<mio.IHtmlService>('IHtmlService');
 const remapGenreType: mio.IDictionary = {'Sci-fi': 'Science Fiction', 'Webtoons': 'Webtoon'};
@@ -12,19 +13,20 @@ const remapGenreType: mio.IDictionary = {'Sci-fi': 'Science Fiction', 'Webtoons'
  */
 export async function createSeriesAsync(address: string): Promise<mio.ISeries> {
   let document = await downloadDocumentAsync(address);
-  return createSeries(document);
+  return createSeries(document, address);
 }
 
 /**
  * Creates the series.
  * @param document The selector.
+ * @param address The address.
  * @return The series.
  */
-function createSeries(document: mio.IHtmlServiceDocument): mio.ISeries {
+function createSeries(document: mio.IHtmlServiceDocument, address: string): mio.ISeries {
   return {
     artists: getArtists(document),
     authors: getAuthors(document),
-    chapters: enhance(getChapters(document)),
+    chapters: enhance(getChapters(document, address)),
     genres: mio.toGenreType(getGenres(document)),
     imageAsync: () => downloadImageAsync(document),
     summary: getSummary(document),
@@ -82,21 +84,22 @@ function getAuthors($: mio.IHtmlServiceDocument): string[] {
 /**
  * Retrieves each child.
  * @param $ The selector.
+ * @param address The address.
  * @return Each child.
  */
-function getChapters($: mio.IHtmlServiceDocument): mio.IChapter[] {
+function getChapters($: mio.IHtmlServiceDocument, address: string): mio.IChapter[] {
   let results: mio.IChapter[] = [];
   $('h3.volume').each((_0, h3) => {
     let match = $(h3).text().trim().match(/^Volume\s(.+)$/i);
     if (match) {
       let volumeMatch = match[1];
       $(h3).parent().next().find('a[href*=\'/manga/\']').each((_1, a) => {
-        let address = $(a).attr('href');
-        if (address) {
+        let chapterAddress = $(a).attr('href');
+        if (chapterAddress) {
           let numberMatch = $(a).text().match(/[0-9\.]+$/);
           let numberValue = numberMatch ? parseFloat(numberMatch[0]) : undefined;
           let title = $(a).next('span.title').text();
-          results.push(createChapter(address, {
+          results.push(createChapter(site.resolve(address, chapterAddress), {
             number: isFinite(numberValue) ? numberValue : undefined,
             title: /^Read Onl?ine$/i.test(title) ? '' : title,
             volume: parseFloat(volumeMatch)
