@@ -122,7 +122,7 @@ async function fetchAsync(activeMethod: string, activeType: ActiveType, address:
       } else {
         reject(new mio.HttpServiceError({
           body: String(body || ''),
-          statusCode: response.statusCode || 0
+          statusCode: (response && response.statusCode) || 0
         }, `Invalid HTTP response: ${address}`));
       }
     });
