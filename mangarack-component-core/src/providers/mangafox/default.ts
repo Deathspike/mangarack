@@ -12,7 +12,7 @@ export let mangafox: mio.IProvider = {isSupported: isSupported, name: 'mangafox'
  * @return Indicates whether the address is a supported address.
  */
 function isSupported(address: string): boolean {
-  return /^https?:\/\/mangafox\.me\/manga\/.+\/$/i.test(address);
+  return /^https?:\/\/mangafox\.la\/manga\/.+\/$/i.test(address);
 }
 
 /**
@@ -21,23 +21,9 @@ function isSupported(address: string): boolean {
  * @return The promise for the series.
  */
 function seriesAsync(address: string): Promise<mio.ISeries> {
-  let normalizedAddress = normalizeAddress(address);
-  if (isSupported(normalizedAddress)) {
-    return createSeriesAsync(normalizedAddress);
+  if (isSupported(address)) {
+    return createSeriesAsync(address);
   } else {
     throw new Error(`Invalid series address: ${address}`);
-  }
-}
-
-/**
- * Normalizes the address.
- * @param address The address.
- * @return The normalized address.
- */
-function normalizeAddress(address: string): string {
-  if (/^http:\/\//i.test(address)) {
-    return `https://${address.substr(7)}`;
-  } else {
-    return address;
   }
 }

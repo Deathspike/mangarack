@@ -12,7 +12,7 @@
 
 * [Batoto](http://bato.to/) support is intended as an incomplete high-quality provider.
 * [KissManga](http://kissmanga.com/) support is intended as a back-up provider.
-* [MangaFox](http://mangafox.me/) support is intended as a complete medium-quality provider.
+* [MangaFox](http://mangafox.la/) support is intended as a complete medium-quality provider.
 
 ## Installation
 
@@ -48,11 +48,11 @@ The [command-line interface](http://en.wikipedia.org/wiki/Command-line_interface
 
 Download *Futari dake* from *MangaFox*:
 
-    mangarack-cli http://mangafox.me/manga/futari_dake/
+    mangarack-cli http://mangafox.la/manga/futari_dake/
 
 Download *Futari dake* from *MangaFox* and disable image normalization:
 
-    mangarack-cli --runnable.cli.disableNormalize 1 http://mangafox.me/manga/futari_dake/
+    mangarack-cli --runnable.cli.disableNormalize 1 http://mangafox.la/manga/futari_dake/
 
 Download the series listed in the `MangaRack.txt` file:
 
