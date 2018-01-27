@@ -79,11 +79,8 @@ async function cleanAsync(series: mio.IProviderSeries) {
   let filePaths = fileNames.map(fileName => shared.path.normal(series.providerName, seriesName, fileName));
   let itemPaths = series.items.map(seriesItem => shared.path.normal(series.providerName, seriesName, nameOf(series, seriesItem) + shared.extension.cbz));
   for (let filePath of filePaths) {
-    if (filePath.length > shared.extension.cbz.length) {
-      let fileExtension = filePath.substr(filePath.length - shared.extension.cbz.length);
-      if (fileExtension === shared.extension.cbz && itemPaths.indexOf(filePath) === -1) {
-        await fs.rename(filePath, filePath + shared.extension.del);
-      }
+    if (path.extname(filePath) === shared.extension.cbz && itemPaths.indexOf(filePath) === -1) {
+      await fs.rename(filePath, filePath + shared.extension.del);
     }
   }
 }

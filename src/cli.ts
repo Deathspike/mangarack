@@ -1,8 +1,12 @@
 import * as cli from './cli/';
+import * as path from 'path';
 export {cli}
 
 (function() {
-  if (require.main === module) {
-    cli.parseAsync(process.argv).catch(error => console.log(error));
+  if (require.main) {
+    let mainName = path.basename(require.main.filename);
+    if (mainName === 'mangarack-cli' || require.main === module) {
+      cli.parseAsync(process.argv).catch(error => console.log(error));
+    }
   }
 })();
