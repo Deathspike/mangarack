@@ -1,6 +1,0 @@
-#!/usr/bin/env node
-console.log(
-  'The `mangarack` command has been deprecated. For updated usage instructions,\n' +
-  'refer to `https://github.com/Deathspike/mangarack`. A migration document is\n' +
-  'available as `MIGRATE.md`.'
-);

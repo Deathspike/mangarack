@@ -1,9 +1,0 @@
-{
-  "editor.fontSize": 16,
-  "editor.tabSize": 2,
-  "files.exclude": {
-    "/.bin/": true,
-    "*/dist/": true,
-    "*/node_modules/": true
-  }
-}
