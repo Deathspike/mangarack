@@ -14,28 +14,43 @@ class ProviderViewModel {
   async refreshAsync() {
     let request = await fetch('/api/library');
     let response = await request.json();
-    this.data = response;
+    this.rawData = response;
+  }
+
+  @mobx.computed
+  get sortedData() {
+    if (this.rawData) {
+      return this.rawData
+        .map(({displayName, seriesName, providerName}) => ({displayName, seriesName, providerName}))
+        .sort((a, b) => a.displayName < b.displayName ? -1 : 1);
+    } else {
+      return undefined;
+    }
   }
 
   @mobx.observable
-  data: mio.ILibraryProvider | undefined;
+  rawData: mio.ILibraryProvider | undefined;
 }
+
+// TODO: Needs wide appbar.
+// TODO: Needs a refresh button for obvious reasons.
 
 @mobxReact.observer
 class ProviderView extends React.Component<{vm: ProviderViewModel}> {
-  componentDidMount() {
+  componentWillMount() {
     this.props.vm.refreshAsync();
   }
 
   render() {
-    if (this.props.vm.data) {
+    if (this.props.vm.sortedData) {
       return (
         <Material.List>
-          {this.props.vm.data.map(item => (
+          {this.props.vm.sortedData.map(item => (
             <Material.ListItem button key={item.providerName + item.seriesName}>
-              <Material.Typography color="inherit" type="body1">
-                {item.displayName}
-              </Material.Typography>
+              <Material.ListItemIcon>
+                <MaterialIcon.Folder />
+              </Material.ListItemIcon>
+              <Material.ListItemText primary={item.displayName} secondary={item.providerName} />
             </Material.ListItem>
           ))}
         </Material.List>
@@ -48,7 +63,7 @@ class ProviderView extends React.Component<{vm: ProviderViewModel}> {
 
 function App() {
   return (
-    <div style={{margin: '0 auto', maxWidth: '800px'}}>
+    <div style={{margin: '0 auto', maxWidth: '640px'}}>
       <Material.Reboot />
       <Material.Grid>
         <Material.AppBar color="primary" position="static">
