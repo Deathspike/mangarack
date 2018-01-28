@@ -10,7 +10,7 @@ export const html = `
     </head>
     <body>
       <div id="container"></div>
-      <script src="web/js" type="text/javascript"></script>
+      <script src="web.js" type="text/javascript"></script>
     </body>
   </html>
 `;

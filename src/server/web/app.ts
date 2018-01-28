@@ -1,1 +1,1 @@
-alert('Hello world!');
+console.log('This is web/app.ts!');

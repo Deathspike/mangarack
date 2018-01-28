@@ -24,7 +24,9 @@
     "puppeteer": "0.13.0",
     "sanitize-filename": "1.6.1",
     "tslib": "1.8.1",
-    "unzip": "0.1.11"
+    "unzip": "0.1.11",
+    "webpack": "3.10.0",
+    "webpack-dev-middleware": "2.0.4"
   },
   "devDependencies": {
     "@types/archiver": "2.1.0",
@@ -36,6 +38,8 @@
     "@types/puppeteer": "0.13.9",
     "@types/sanitize-filename": "1.1.28",
     "@types/unzip": "0.1.0",
+    "@types/webpack": "3.8.4",
+    "@types/webpack-dev-middleware": "2.0.0",
     "rimraf": "2.6.2",
     "typescript": "2.6.2"
   },
