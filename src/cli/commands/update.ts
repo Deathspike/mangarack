@@ -12,7 +12,7 @@ export async function updateAsync(urls: string[]) {
         console.log(`Fetching ${series.title}`);
         let providerPath = shared.path.normal(series.providerName + shared.extension.json);
         let providerExists = await fs.pathExists(providerPath);
-        let provider = providerExists ? await fs.readJson(providerPath) as mio.IStoreProvider : {};
+        let provider = providerExists ? await fs.readJson(providerPath) as shared.IStoreProvider : {};
         if (provider[series.url]) {
           await updateSeriesAsync(series);
           console.log(`Finished ${series.title} (${timer})`);
@@ -32,7 +32,7 @@ export async function updateSeriesAsync(series: mio.IProviderSeries) {
   return true;
 }
 
-function transform(series: mio.IProviderSeries, seriesImage: Buffer): mio.IStoreSeries {
+function transform(series: mio.IProviderSeries, seriesImage: Buffer): shared.IStoreSeries {
   return {
     artists: series.artists,
     authors: series.authors,

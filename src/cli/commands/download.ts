@@ -11,7 +11,7 @@ export async function downloadAsync() {
     for (let providerName of shared.settings.providerNames) {
       let providerPath = shared.path.normal(providerName + shared.extension.json);
       let providerExists = await fs.pathExists(providerPath);
-      let provider = providerExists ? await fs.readJson(providerPath) as mio.IStoreProvider : {};
+      let provider = providerExists ? await fs.readJson(providerPath) as shared.IStoreProvider : {};
       for (let url in provider) {
         let timer = new mio.Timer();
         console.log(`Awaiting ${url}`);
@@ -62,7 +62,7 @@ export async function downloadSeriesItemAsync(series: mio.IProviderSeries, serie
 
 async function archiveAsync(iterator: mio.IProviderIterator, archive: archiver.Archiver) {
   let currentPage = 1;
-  let pages = [];
+  let pages: shared.IStoreSeriesItemPage[] = [];
   while (await iterator.moveAsync()) {
     let buffer = await iterator.currentAsync();
     let imageData = imageSize(buffer);
@@ -96,7 +96,7 @@ function nameOf(series: mio.IProviderSeries, seriesItem: mio.IProviderSeriesItem
   }
 }
 
-function transform(seriesItem: mio.IProviderSeriesItem, pages: mio.IStoreSeriesItemPage[]): mio.IStoreSeriesItem {
+function transform(seriesItem: mio.IProviderSeriesItem, pages: shared.IStoreSeriesItemPage[]): shared.IStoreSeriesItem {
   return {
     number: seriesItem.number,
     pages: pages,

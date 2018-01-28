@@ -11,7 +11,7 @@ export async function createAsync(urls: string[]) {
         console.log(`Fetching ${series.title}`);
         let providerPath = shared.path.normal(series.providerName + shared.extension.json);
         let providerExists = await fs.pathExists(providerPath);
-        let provider = providerExists ? await fs.readJson(providerPath) as mio.IStoreProvider : {};
+        let provider = providerExists ? await fs.readJson(providerPath) as shared.IStoreProvider : {};
         if (!provider[series.url]) {
           await createSeriesAsync(series);
           console.log(`Finished ${series.title} (${timer})`);
@@ -26,7 +26,7 @@ export async function createAsync(urls: string[]) {
 export async function createSeriesAsync(series: mio.IProviderSeries) {
   let providerPath = shared.path.normal(series.providerName + shared.extension.json);
   let providerExists = await fs.pathExists(providerPath);
-  let provider = providerExists ? await fs.readJson(providerPath) as mio.IStoreProvider : {};
+  let provider = providerExists ? await fs.readJson(providerPath) as shared.IStoreProvider : {};
   provider[series.url] = series.title;
   await mio.commands.updateSeriesAsync(series);
   await fs.writeJson(providerPath, provider, {spaces: 2});

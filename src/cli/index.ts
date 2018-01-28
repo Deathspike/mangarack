@@ -9,8 +9,4 @@ export * from './providers';
 export * from './typings/IProviderIterator';
 export * from './typings/IProviderSeries';
 export * from './typings/IProviderSeriesItem';
-export * from './typings/IStoreProvider';
-export * from './typings/IStoreSeries';
-export * from './typings/IStoreSeriesItem';
-export * from './typings/IStoreSeriesItemPage';
 export * from './utilities';
