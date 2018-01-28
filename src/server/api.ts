@@ -1,2 +1,1 @@
-import {libraryHandler} from './api/library';
-export {libraryHandler};
+export * from './api/library';

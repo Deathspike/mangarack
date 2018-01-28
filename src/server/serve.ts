@@ -6,9 +6,11 @@ export async function serveAsync(port: number) {
   return new Promise<void>((resolve, reject) => {
     let app = express();
     let server = app.listen(port);
-    app.get ('/api/library', mio.api.libraryHandler);
+    app.set ('json spaces', 4);
+    app.set ('x-powered-by', false);
+    app.get ('/api/library', mio.api.libraryHandlerAsync);
     app.post('/api/quit', quitHandlerFactory(server, resolve));
-    app.use(errorHandlerFactory(server, reject));
+    app.use (errorHandlerFactory(server, reject));
   });
 }
 
