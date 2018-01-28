@@ -1,6 +1,7 @@
-import * as mio from '../';
-
 export interface IStoreSeriesItem extends ISeriesItem {
-  readonly pages: mio.IStoreSeriesItemPage[];
+  pages: {
+    name: string,
+    height: number,
+    width: number
+  }[];
 }
-

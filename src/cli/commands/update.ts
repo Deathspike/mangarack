@@ -10,10 +10,10 @@ export async function updateAsync(urls: string[]) {
       console.log(`Awaiting ${url}`);
       await mio.usingAsync(mio.seriesAsync(browser, url), async (series) => {
         console.log(`Fetching ${series.title}`);
-        let providerPath = shared.path.normal(series.providerName + shared.extension.json);
-        let providerExists = await fs.pathExists(providerPath);
-        let provider = providerExists ? await fs.readJson(providerPath) as shared.IStoreProvider : {};
-        if (provider[series.url]) {
+        let metadataPath = shared.path.normal(series.providerName + shared.extension.json);
+        let metadataExists = await fs.pathExists(metadataPath);
+        let metadata = metadataExists ? await fs.readJson(metadataPath) as shared.IStoreProvider : {};
+        if (metadata[series.url]) {
           await updateSeriesAsync(series);
           console.log(`Finished ${series.title} (${timer})`);
         } else {

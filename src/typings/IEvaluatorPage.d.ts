@@ -1,4 +1,4 @@
 interface IEvaluatorPage {
-  readonly imageUrl: string;
-  readonly nextPageUrl?: string;
+  imageUrl: string;
+  nextPageUrl?: string;
 }

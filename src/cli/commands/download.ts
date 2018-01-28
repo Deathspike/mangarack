@@ -9,14 +9,14 @@ import shared = mio.shared;
 export async function downloadAsync() {
   await mio.usingAsync(mio.Browser.createAsync(), async (browser) => {
     for (let providerName of shared.settings.providerNames) {
-      let providerPath = shared.path.normal(providerName + shared.extension.json);
-      let providerExists = await fs.pathExists(providerPath);
-      let provider = providerExists ? await fs.readJson(providerPath) as shared.IStoreProvider : {};
-      for (let url in provider) {
+      let metadataPath = shared.path.normal(providerName + shared.extension.json);
+      let metadataExists = await fs.pathExists(metadataPath);
+      let metadata = metadataExists ? await fs.readJson(metadataPath) as shared.IStoreProvider : {};
+      for (let url in metadata) {
         let timer = new mio.Timer();
         console.log(`Awaiting ${url}`);
         await mio.usingAsync(mio.seriesAsync(browser, url), async (series) => {
-          if (series.title !== provider[url]) throw new Error(`Series at ${url} property changed: title`)
+          if (series.title !== metadata[url]) throw new Error(`Series at ${url} property changed: title`)
           if (series.url !== url) throw new Error(`Series at ${url} property changed: url`);
           console.log(`Fetching ${series.title}`);
           await mio.commands.updateSeriesAsync(series);
@@ -45,9 +45,9 @@ export async function downloadSeriesItemAsync(series: mio.IProviderSeries, serie
     archive.pipe(fs.createWriteStream(itemPath + shared.extension.tmp));
     await mio.usingAsync(seriesItem.iteratorAsync(), async (iterator) => {
       try {
-        let pages = await archiveAsync(iterator, archive);
+        let metadataSeriesItem = await archiveAsync(seriesItem, iterator, archive);
         archive.finalize();
-        await fs.writeJson(itemPath + shared.extension.json, transform(seriesItem, pages), {spaces: 2});
+        await fs.writeJson(itemPath + shared.extension.json, metadataSeriesItem, {spaces: 2});
         await fs.rename(itemPath + shared.extension.tmp, itemPath);
         console.log(`Finished ${itemName} (${timer})`);
       } catch (error) {
@@ -60,9 +60,9 @@ export async function downloadSeriesItemAsync(series: mio.IProviderSeries, serie
   }
 }
 
-async function archiveAsync(iterator: mio.IProviderIterator, archive: archiver.Archiver) {
+async function archiveAsync(seriesItem: mio.IProviderSeriesItem, iterator: mio.IProviderIterator, archive: archiver.Archiver): Promise<shared.IStoreSeriesItem> {
   let currentPage = 1;
-  let pages: shared.IStoreSeriesItemPage[] = [];
+  let pages = [];
   while (await iterator.moveAsync()) {
     let buffer = await iterator.currentAsync();
     let imageData = imageSize(buffer);
@@ -70,7 +70,12 @@ async function archiveAsync(iterator: mio.IProviderIterator, archive: archiver.A
     archive.append(buffer, {name});
     pages.push({name, height: imageData.height, width: imageData.width});
   }
-  return pages;
+  return {
+    number: seriesItem.number,
+    pages: pages,
+    title: seriesItem.title,
+    volume: seriesItem.volume
+  };
 }
 
 async function cleanAsync(series: mio.IProviderSeries) {
@@ -83,13 +88,4 @@ async function cleanAsync(series: mio.IProviderSeries) {
       await fs.rename(filePath, filePath + shared.extension.del);
     }
   }
-}
-
-function transform(seriesItem: mio.IProviderSeriesItem, pages: shared.IStoreSeriesItemPage[]): shared.IStoreSeriesItem {
-  return {
-    number: seriesItem.number,
-    pages: pages,
-    title: seriesItem.title,
-    volume: seriesItem.volume
-  };
 }

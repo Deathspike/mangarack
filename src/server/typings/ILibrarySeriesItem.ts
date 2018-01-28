@@ -1,3 +1,7 @@
 export interface ILibrarySeriesItem extends ISeriesItem {
-  exists?: boolean;
+  pages: {
+    name: string,
+    height: number,
+    width: number
+  }[];
 }

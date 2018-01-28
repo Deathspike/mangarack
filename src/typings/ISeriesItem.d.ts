@@ -1,5 +1,5 @@
 interface ISeriesItem {
-  readonly number: number;
-  readonly title?: string;
-  readonly volume?: number;
+  number: number;
+  title?: string;
+  volume?: number;
 }

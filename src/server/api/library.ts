@@ -5,16 +5,16 @@ import * as sanitizeFilename from 'sanitize-filename';
 import shared = mio.shared;
 
 export async function libraryAsync(_: express.Request, response: express.Response) {
-  let results: mio.ILibraryProvider = [];
+  let results = [] as mio.ILibraryProvider;
   for (let providerName of shared.settings.providerNames) {
-    let providerPath = shared.path.normal(providerName + shared.extension.json);
-    let providerExists = await fs.pathExists(providerPath);
-    let provider = providerExists ? await fs.readJson(providerPath) as shared.IStoreProvider : {};
-    for (let url in provider) {
+    let metadataPath = shared.path.normal(providerName + shared.extension.json);
+    let metadataExists = await fs.pathExists(metadataPath);
+    let metadata = metadataExists ? await fs.readJson(metadataPath) as shared.IStoreProvider : {};
+    for (let url in metadata) {
       results.push({
-        displayName: provider[url],
+        displayName: metadata[url],
         providerName: providerName,
-        seriesName: sanitizeFilename(provider[url])
+        seriesName: sanitizeFilename(metadata[url])
       });
     }
   }
