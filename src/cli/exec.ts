@@ -23,7 +23,7 @@ export function execAsync(argv: string[]) {
   });
 }
 
-function applyOptions(this: Function) {
+function applyOptions(this: () => void) {
   shared.settings.browserHeadless = (commander as any).headless;
   this.apply(undefined, arguments);
 }
