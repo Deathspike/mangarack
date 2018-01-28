@@ -5,6 +5,7 @@ import * as mio from '../';
 import * as unzip from 'unzip';
 import shared = mio.shared;
 
+// TODO: Don't forget to add image processing. Or is that going on the client?
 export async function librarySeriesItemPageAsync(request: express.Request, response: express.Response) {
   let fileName = request.params.fileName;
   let seriesItemName = request.params.seriesItemName + shared.extension.cbz;
