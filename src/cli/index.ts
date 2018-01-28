@@ -1,5 +1,5 @@
 export * from '../shared';
-export * from './parse';
+export * from './exec';
 export * from './browser/Browser';
 export * from './browser/BrowserTab';
 export * from './browser/Timer';

@@ -5,7 +5,7 @@ import * as path from 'path';
 import shared = mio.shared;
 const packagePath = path.resolve(__dirname, '../../package.json');
 
-export function parseAsync(argv: string[]) {
+export function execAsync(argv: string[]) {
   return new Promise<void>(async (resolve, reject) => {
     let packageData = await fs.readJson(packagePath);
     commander.version(packageData.version);
