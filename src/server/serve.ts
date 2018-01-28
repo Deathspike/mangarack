@@ -11,6 +11,7 @@ export async function serveAsync(port: number) {
     let app = express();
     let server = app.listen(port);
     app.set ('json spaces', 4);
+    app.set ('strict routing', true);
     app.set ('x-powered-by', false);
     app.get ('/', baseHandler);
     app.get ('/api/library', mio.api.libraryAsync);

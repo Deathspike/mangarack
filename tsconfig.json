@@ -3,6 +3,7 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
+    "experimentalDecorators": true,
     "importHelpers": true,
     "inlineSourceMap": true,
     "inlineSources": true,
