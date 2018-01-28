@@ -1,8 +1,10 @@
 import * as express from 'express';
 import * as mio from './';
 import * as http from 'http';
+import * as webpack from 'webpack';
+import * as webpackMiddleware from 'webpack-dev-middleware';
 import {html} from './web/html';
-import {webpackFactory} from './webpack';
+import {webpackConfig} from './webpack.config'
 
 export async function serveAsync(port: number) {
   return new Promise<void>((resolve, reject) => {
@@ -46,4 +48,13 @@ function quitFactory(server: http.Server, resolve: () => void) {
     server.close();
     resolve();
   };
+}
+
+// TODO: Run when in development, NOT in production. Remember `devDependencies`.
+export function webpackFactory() {
+  return webpackMiddleware(webpack(webpackConfig), {
+    lazy: true,
+    publicPath: '/',
+    stats: 'errors-only'
+  });
 }
