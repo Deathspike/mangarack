@@ -11,13 +11,13 @@ export function parseAsync(argv: string[]) {
     commander.version(packageData.version);
     commander.option('--no-headless', 'disables headless mode');
     commander.command('create <url...>')
-      .description('creates series')
+      .description('creates series metadata')
       .action(applyOptions.bind((urls: string[]) => mio.createAsync(urls).then(resolve, reject)));
     commander.command('download')
       .description('download series')
       .action(applyOptions.bind(() => mio.downloadAsync().then(resolve, reject)));
     commander.command('update <url...>')
-      .description('updates series')
+      .description('updates series metadata')
       .action(applyOptions.bind((urls: string[]) => mio.updateAsync(urls).then(resolve, reject)));
     commander.parse(argv);
   });

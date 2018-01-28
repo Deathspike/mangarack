@@ -19,7 +19,7 @@ export class Iterator implements mio.IProviderIterator {
       try {
         return await this._browserTab.bufferAsync(this._current.imageUrl);
       } catch (error) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 1000)); // TODO: This is hackery.
         await this._updateAsync();
         return this._browserTab.bufferAsync(this._current.imageUrl);
       }
