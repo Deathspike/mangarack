@@ -1,11 +1,11 @@
 {
   "version": "0.2.0",
   "configurations": [{
-    "args": ["download"],
+    "args": [],
     "console": "integratedTerminal",
     "name": "Launch Program",
     "outFiles": ["${workspaceRoot}/dist/**/*.js"],
-    "program": "${workspaceRoot}/dist/cli.js",
+    "program": "${workspaceRoot}/dist/server.js",
     "request": "launch",
     "type": "node"
   }]
