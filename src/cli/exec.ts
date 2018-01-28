@@ -25,7 +25,7 @@ export function execAsync(argv: string[]) {
 
 function exec<T>(callback: (args: T) => void) {
   return function() {
-    shared.settings.browserHeadless = (commander as any).headless;
+    shared.settings.browserHeadless = commander.headless;
     callback.apply(undefined, arguments);
   };
 }

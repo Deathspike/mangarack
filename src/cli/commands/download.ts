@@ -7,7 +7,7 @@ import * as sanitizeFilename from 'sanitize-filename';
 import shared = mio.shared;
 
 export async function downloadAsync() {
-  await mio.usingAsync(mio.Browser.createAsync(), async (browser) => {
+  await mio.usingAsync(mio.Browser.createAsync(), async browser => {
     for (let providerName of shared.settings.providerNames) {
       let metadataPath = shared.path.normal(providerName + shared.extension.json);
       let metadataExists = await fs.pathExists(metadataPath);
@@ -15,7 +15,7 @@ export async function downloadAsync() {
       for (let url in metadata) {
         let timer = new mio.Timer();
         console.log(`Awaiting ${url}`);
-        await mio.usingAsync(mio.seriesAsync(browser, url), async (series) => {
+        await mio.usingAsync(mio.seriesAsync(browser, url), async series => {
           if (series.title !== metadata[url]) throw new Error(`Series at ${url} property changed: title`)
           if (series.url !== url) throw new Error(`Series at ${url} property changed: url`);
           console.log(`Fetching ${series.title}`);
@@ -43,7 +43,7 @@ export async function downloadSeriesItemAsync(series: mio.IProviderSeries, serie
     let timer = new mio.Timer();
     await fs.ensureDir(path.dirname(itemPath));
     archive.pipe(fs.createWriteStream(itemPath + shared.extension.tmp));
-    await mio.usingAsync(seriesItem.iteratorAsync(), async (iterator) => {
+    await mio.usingAsync(seriesItem.iteratorAsync(), async iterator => {
       try {
         let metadataSeriesItem = await archiveAsync(seriesItem, iterator, archive);
         archive.finalize();

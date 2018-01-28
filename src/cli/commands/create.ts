@@ -3,11 +3,11 @@ import * as mio from '../';
 import shared = mio.shared;
 
 export async function createAsync(urls: string[]) {
-  await mio.usingAsync(mio.Browser.createAsync(), async (browser) => {
+  await mio.usingAsync(mio.Browser.createAsync(), async browser => {
     for (let url of urls) {
       let timer = new mio.Timer();
       console.log(`Awaiting ${url}`);
-      await mio.usingAsync(mio.seriesAsync(browser, url), async (series) => {
+      await mio.usingAsync(mio.seriesAsync(browser, url), async series => {
         console.log(`Fetching ${series.title}`);
         let metadataPath = shared.path.normal(series.providerName + shared.extension.json);
         let metadataExists = await fs.pathExists(metadataPath);

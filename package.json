@@ -20,9 +20,11 @@
     "fs-extra": "5.0.0",
     "image-size": "0.6.2",
     "jsdom": "11.5.1",
+    "mime": "2.2.0",
     "puppeteer": "0.13.0",
     "sanitize-filename": "1.6.1",
-    "tslib": "1.8.1"
+    "tslib": "1.8.1",
+    "unzip": "0.1.11"
   },
   "devDependencies": {
     "@types/archiver": "2.1.0",
@@ -30,8 +32,10 @@
     "@types/fs-extra": "5.0.0",
     "@types/image-size": "0.0.29",
     "@types/jsdom": "11.0.4",
+    "@types/mime": "2.0.0",
     "@types/puppeteer": "0.13.9",
     "@types/sanitize-filename": "1.1.28",
+    "@types/unzip": "0.1.0",
     "rimraf": "2.6.2",
     "typescript": "2.6.2"
   },

@@ -10,13 +10,14 @@ export async function serveAsync(port: number) {
     app.set ('x-powered-by', false);
     app.get ('/api/library', mio.api.libraryAsync);
     app.get ('/api/library/:providerName/:seriesName', mio.api.librarySeriesAsync);
-    app.get ('/api/library/:providerName/:seriesName/:itemName', mio.api.librarySeriesItemAsync);
+    app.get ('/api/library/:providerName/:seriesName/:seriesItemName', mio.api.librarySeriesItemAsync);
+    app.get ('/api/library/:providerName/:seriesName/:seriesItemName/:fileName', mio.api.librarySeriesItemPageAsync);
     app.post('/api/quit', quitFactory(server, resolve));
     app.use (errorFactory(server, reject));
   });
 }
 
-function errorFactory(server: http.Server, reject: (reason: any) => void) {
+function errorFactory(server: http.Server, reject: (reason: Error) => void) {
   return (error: Error, _1: express.Request, response: express.Response, _2: () => void) => {
     response.sendStatus(500);
     server.close();
