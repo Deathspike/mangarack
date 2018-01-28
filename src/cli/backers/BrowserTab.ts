@@ -37,11 +37,10 @@ export class BrowserTab {
 		if (response && response.status === 200) {
 			return response.buffer();
 		} else {
-			throw new Error('Invalid browser buffer');
+			throw new Error('Invalid browser buffer response');
 		}
 	}
 
-	// TODO: Clean me up.
 	async navigateAsync(url: string, previousUrl?: string) {
 		// Initialize the referer.
 		let referer = previousUrl || await this._page.url();
@@ -51,15 +50,17 @@ export class BrowserTab {
 		this._requests = {};
 		await this._page.goto(url, {waitUntil: 'domcontentloaded'});
 
-		// Handle invalid responses.
-		for (let i = 1; true; i++) {
+		// Initialize the response.
+		for (let i = 1; i <= shared.settings.browserNavigateRetries; i++) {
 			let request = await this._waitForRequest(await this._page.url());
 			let response = request.response();
 			if (response && response.status === 200) return;
-			if (i >= shared.settings.browserNavigateRetries) throw new Error('Invalid browser response');
 			this._requests = {};
 			await this._page.reload();
 		}
+
+		// Invalid response.
+		throw new Error('Invalid browser navigation response');
 	}
 
 	async runIsolatedAsync<T>(handler: (window: Window) => T): Promise<T> {

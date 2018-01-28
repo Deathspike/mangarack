@@ -15,11 +15,11 @@ export async function downloadAsync() {
       for (let url in provider) {
         let timer = new mio.Timer();
         console.log(`Awaiting ${url}`);
-        await mio.usingAsync(mio.providerAsync(browser, url), async (series) => {
+        await mio.usingAsync(mio.seriesAsync(browser, url), async (series) => {
           if (series.title !== provider[url]) throw new Error(`Series at ${url} property changed: title`)
           if (series.url !== url) throw new Error(`Series at ${url} property changed: url`);
           console.log(`Fetching ${series.title}`);
-          await mio.updateSeriesAsync(series);
+          await mio.commands.updateSeriesAsync(series);
           await downloadSeriesAsync(series);
           console.log(`Finished ${series.title} (${timer})`);
         });

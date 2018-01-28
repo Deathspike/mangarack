@@ -1,6 +1,5 @@
 import * as mio from '../';
 
-// TODO: Move me.
 export class Timer {
   private _creationTime: number;
 

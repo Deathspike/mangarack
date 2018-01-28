@@ -8,7 +8,7 @@ export async function updateAsync(urls: string[]) {
     for (let url of urls) {
       let timer = new mio.Timer();
       console.log(`Awaiting ${url}`);
-      await mio.usingAsync(mio.providerAsync(browser, url), async (series) => {
+      await mio.usingAsync(mio.seriesAsync(browser, url), async (series) => {
         console.log(`Fetching ${series.title}`);
         let providerPath = shared.path.normal(series.providerName + shared.extension.json);
         let providerExists = await fs.pathExists(providerPath);

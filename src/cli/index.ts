@@ -1,11 +1,10 @@
 export * from '../shared';
+import * as commands from './commands';
+export {commands};
 export * from './exec';
-export * from './browser/Browser';
-export * from './browser/BrowserTab';
-export * from './browser/Timer';
-export * from './commands/create';
-export * from './commands/download';
-export * from './commands/update';
+export * from './backers/Browser';
+export * from './backers/BrowserTab';
+export * from './backers/Timer';
 export * from './providers';
 export * from './typings/IProviderIterator';
 export * from './typings/IProviderSeries';
