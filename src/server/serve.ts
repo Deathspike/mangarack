@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as mio from './';
 import * as http from 'http';
+import {html} from './web/html';
 
 export async function serveAsync(port: number) {
   return new Promise<void>((resolve, reject) => {
@@ -8,11 +9,13 @@ export async function serveAsync(port: number) {
     let server = app.listen(port);
     app.set ('json spaces', 4);
     app.set ('x-powered-by', false);
+    app.get ('/', rootHandler);
     app.get ('/api/library', mio.api.libraryAsync);
     app.get ('/api/library/:providerName/:seriesName', mio.api.librarySeriesAsync);
     app.get ('/api/library/:providerName/:seriesName/:seriesItemName', mio.api.librarySeriesItemAsync);
     app.get ('/api/library/:providerName/:seriesName/:seriesItemName/:fileName', mio.api.librarySeriesItemPageAsync);
     app.post('/api/quit', quitFactory(server, resolve));
+    app.get ('/web', webHandler);
     app.use (errorFactory(server, reject));
   });
 }
@@ -31,4 +34,14 @@ function quitFactory(server: http.Server, resolve: () => void) {
     server.close();
     resolve();
   };
+}
+
+function rootHandler(_: express.Request, response: express.Response) {
+  response.set('Location', '/web');
+  response.sendStatus(301);
+}
+
+function webHandler(_: express.Request, response: express.Response) {
+  response.set('Content-Type', 'text/html');
+  response.send(html);
 }
