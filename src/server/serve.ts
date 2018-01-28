@@ -1,9 +1,8 @@
 import * as express from 'express';
 import * as mio from './';
 import * as http from 'http';
-import * as webpack from 'webpack';
-import * as webpackMiddleware from 'webpack-dev-middleware';
 import {html} from './web/html';
+import {webpackFactory} from './webpack';
 
 export async function serveAsync(port: number) {
   return new Promise<void>((resolve, reject) => {
@@ -47,16 +46,4 @@ function quitFactory(server: http.Server, resolve: () => void) {
     server.close();
     resolve();
   };
-}
-
-function webpackFactory() {
-  let compiler = webpack({
-    entry: __dirname + '/web/app.js',
-    output: {filename: 'web.js'}
-  });
-  return webpackMiddleware(compiler, {
-    lazy: true,
-    publicPath: '/',
-    stats: 'errors-only'
-  });
 }
