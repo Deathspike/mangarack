@@ -1,7 +1,7 @@
-interface ISeries<TItem extends ISeriesItem> {
+interface ISeries<T extends ISeriesItem> {
   readonly artists: string[];
   readonly authors: string[];
-  readonly items: TItem[];
+  readonly items: T[];
   readonly genres: string[];
   readonly summary: string;
   readonly title: string;

@@ -4,7 +4,7 @@ import * as mio from '../';
 import * as sanitizeFilename from 'sanitize-filename';
 import shared = mio.shared;
 
-export async function libraryHandlerAsync(_: express.Request, response: express.Response) {
+export async function libraryAsync(_: express.Request, response: express.Response) {
   let results: mio.ILibraryProvider = [];
   for (let providerName of shared.settings.providerNames) {
     let providerPath = shared.path.normal(providerName + shared.extension.json);

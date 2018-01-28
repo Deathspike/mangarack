@@ -34,7 +34,7 @@ export async function downloadSeriesAsync(series: mio.IProviderSeries) {
 }
 
 export async function downloadSeriesItemAsync(series: mio.IProviderSeries, seriesItem: mio.IProviderSeriesItem) {
-  let itemName = nameOf(series, seriesItem);
+  let itemName = shared.nameOf(series, seriesItem);
   let itemPath = shared.path.normal(series.providerName, series.title, itemName + shared.extension.cbz);
   let itemExists = await fs.pathExists(itemPath);
   if (!itemExists) {
@@ -66,7 +66,7 @@ async function archiveAsync(iterator: mio.IProviderIterator, archive: archiver.A
   while (await iterator.moveAsync()) {
     let buffer = await iterator.currentAsync();
     let imageData = imageSize(buffer);
-    let name = `${mio.format(currentPage++, 3)}.${imageData.type}`;
+    let name = `${shared.format(currentPage++, 3)}.${imageData.type}`;
     archive.append(buffer, {name});
     pages.push({name, height: imageData.height, width: imageData.width});
   }
@@ -77,22 +77,11 @@ async function cleanAsync(series: mio.IProviderSeries) {
   let seriesName = sanitizeFilename(series.title);
   let fileNames = await fs.readdir(shared.path.normal(series.providerName, seriesName));
   let filePaths = fileNames.map(fileName => shared.path.normal(series.providerName, seriesName, fileName));
-  let itemPaths = series.items.map(seriesItem => shared.path.normal(series.providerName, seriesName, nameOf(series, seriesItem) + shared.extension.cbz));
+  let itemPaths = series.items.map(seriesItem => shared.path.normal(series.providerName, seriesName, shared.nameOf(series, seriesItem) + shared.extension.cbz));
   for (let filePath of filePaths) {
     if (path.extname(filePath) === shared.extension.cbz && itemPaths.indexOf(filePath) === -1) {
       await fs.rename(filePath, filePath + shared.extension.del);
     }
-  }
-}
-
-function nameOf(series: mio.IProviderSeries, seriesItem: mio.IProviderSeriesItem) {
-  let title = sanitizeFilename(series.title);
-  if (title && typeof seriesItem.volume !== 'undefined') {
-    return `${title} V${mio.format(seriesItem.volume, 2)} #${mio.format(seriesItem.number, 3)}`;
-  } else if (title) {
-    return `${title} #${mio.format(seriesItem.number, 3)}`;
-  } else {
-    throw new Error('Invalid series item name');
   }
 }
 
