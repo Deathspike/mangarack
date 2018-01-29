@@ -13,20 +13,26 @@ export class ProviderView extends React.Component<{vm: mio.ProviderViewModel}> {
   render() {
     if (this.props.vm.sortedData) {
       return (
-        <mui.List>
-          {this.props.vm.sortedData.map(item => (
-            <mui.ListItem button key={item.providerName + item.seriesName}>
-              <mui.ListItemIcon>
-                <muiIcon.Folder />
-              </mui.ListItemIcon>
-              <mui.ListItemText primary={item.displayName} secondary={item.providerName} />
-            </mui.ListItem>
-          ))}
-        </mui.List>
+        <mui.Paper>
+          <mui.List>
+            {this.props.vm.sortedData.map(item => (
+              <mui.ListItem button key={`${item.providerName}/${item.seriesName}`}>
+                <mui.ListItemIcon>
+                  <muiIcon.Folder />
+                </mui.ListItemIcon>
+                <mui.ListItemText primary={item.displayName} secondary={item.providerName} />
+              </mui.ListItem>
+            ))}
+          </mui.List>
+        </mui.Paper>
       )
     } else {
       // TODO: Center.
-      return <mui.CircularProgress />;
+      return (
+        <mui.Paper>
+          <mui.CircularProgress />
+        </mui.Paper>
+      );
     }
   }
 }

@@ -4,6 +4,7 @@ import * as mui from 'material-ui';
 import * as mio from './';
 import 'typeface-roboto';
 
+// todo: fixed appbar
 // TODO: make an entry point for web, much like cli/server?
 // TODO: Needs wide appbar.
 // TODO: Needs a refresh button for obvious reasons.
@@ -12,20 +13,18 @@ import 'typeface-roboto';
 
 function App() {
   return (
-    <div style={{margin: '0 auto', maxWidth: '640px'}}>
+    <div>
       <mui.Reboot />
-      <mui.Grid>
-        <mui.AppBar color="primary" position="static">
-          <mui.Toolbar>
-            <mui.Typography color="inherit" type="title">
-              MangaRack
-            </mui.Typography>
-          </mui.Toolbar>
-        </mui.AppBar>
-        <mui.Grid item>
-          <mio.ProviderView vm={new mio.ProviderViewModel()} />
-        </mui.Grid>
-      </mui.Grid>
+      <mui.AppBar color="primary" position="static">
+        <mui.Toolbar>
+          <mui.Typography color="inherit" type="title">
+            MangaRack
+          </mui.Typography>
+        </mui.Toolbar>
+      </mui.AppBar>
+      <div style={{margin: '0 auto', maxWidth: '640px'}}>
+        <mio.ProviderView vm={new mio.ProviderViewModel()} />
+      </div>
     </div>
   );
 }
