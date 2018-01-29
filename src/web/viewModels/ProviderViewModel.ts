@@ -4,14 +4,14 @@ import shared = mio.shared;
 
 export class ProviderViewModel {
   @mobx.action
-  async refreshAsync() {
+  async fetchAsync() {
     let request = await fetch('/api/library');
     let response = await request.json();
     this.rawData = response;
   }
 
   @mobx.computed
-  get sortedData() {
+  get currentData() {
     if (this.rawData) {
       return this.rawData
         .map(({displayName, seriesName, providerName}) => ({displayName, seriesName, providerName}))
