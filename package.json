@@ -16,26 +16,15 @@
   "dependencies": {
     "archiver": "2.1.1",
     "commander": "2.13.0",
-    "css-loader": "0.28.9",
     "express": "4.16.2",
     "fs-extra": "5.0.0",
     "image-size": "0.6.2",
     "jsdom": "11.5.1",
-    "material-ui": "1.0.0-beta.30",
-    "material-ui-icons": "1.0.0-beta.17",
     "mime": "2.2.0",
-    "mobx": "3.4.1",
-    "mobx-react": "4.3.5",
     "puppeteer": "0.13.0",
-    "react": "16.2.0",
-    "react-dom": "16.2.0",
     "sanitize-filename": "1.6.1",
     "tslib": "1.8.1",
-    "typeface-roboto": "0.0.54",
-    "unzip": "0.1.11",
-    "url-loader": "0.6.2",
-    "webpack": "3.10.0",
-    "webpack-dev-middleware": "2.0.4"
+    "unzip": "0.1.11"
   },
   "devDependencies": {
     "@types/archiver": "2.1.0",
@@ -51,10 +40,23 @@
     "@types/unzip": "0.1.0",
     "@types/webpack": "3.8.4",
     "@types/webpack-dev-middleware": "2.0.0",
+    "css-loader": "0.28.9",
+    "material-ui": "1.0.0-beta.30",
+    "material-ui-icons": "1.0.0-beta.17",
+    "mobx": "3.4.1",
+    "mobx-react": "4.3.5",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
     "rimraf": "2.6.2",
-    "typescript": "2.6.2"
+    "typeface-roboto": "0.0.54",
+    "typescript": "2.6.2",
+    "uglifyjs-webpack-plugin": "1.1.6",
+    "url-loader": "0.6.2",
+    "webpack": "3.10.0",
+    "webpack-dev-middleware": "2.0.4",
+    "webpack-merge": "4.1.1"
   },
   "scripts": {
-    "prepublish": "rimraf dist && tsc"
+    "prepublish": "rimraf dist && tsc && webpack --config webpack.prod.js"
   }
 }

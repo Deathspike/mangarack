@@ -1,1 +1,6 @@
+dist/web
 src
+tsconfig.json
+webpack.common.js
+webpack.dev.js
+webpack.prod.js

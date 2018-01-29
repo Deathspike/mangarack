@@ -18,15 +18,11 @@ export async function librarySeriesItemPageAsync(request: express.Request, respo
       .on('entry', (entry: unzip.Entry) => {
         if (entry.path !== fileName) return entry.autodrain();
         response.set('Content-Type', mime.getType(fileName) || 'application/octet-stream');
-        unsafe<fs.ReadStream>(entry)
+        (entry as any as fs.ReadStream)
           .on('data', chunk => response.write(chunk))
           .on('end', () => seriesItemStream.end() || response.end());
       });
   } else {
     response.sendStatus(404);
   }
-}
-
-function unsafe<T>(value: any) {
-  return value as T;
 }

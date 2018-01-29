@@ -1,38 +1,27 @@
 import * as express from 'express';
 import * as mio from './';
 import * as http from 'http';
-import * as webpack from 'webpack';
-import * as webpackMiddleware from 'webpack-dev-middleware';
-import {html} from './web/html';
-import {webpackConfig} from './webpack.config'
+import * as path from 'path';
+const parentPath = path.resolve(__dirname, '../../../');
+const publicPath = path.resolve(__dirname, '../../public');
+const webpackPath = path.resolve(__dirname, '../../webpack.dev.js');
 
 export async function serveAsync(port: number) {
   return new Promise<void>((resolve, reject) => {
     let app = express();
     let server = app.listen(port);
+    app.use (webpackFactory());
     app.set ('json spaces', 4);
     app.set ('strict routing', true);
     app.set ('x-powered-by', false);
-    app.get ('/', baseHandler);
+    app.get ('/', express.static(publicPath));
     app.get ('/api/library', mio.api.libraryAsync);
     app.get ('/api/library/:providerName/:seriesName', mio.api.librarySeriesAsync);
     app.get ('/api/library/:providerName/:seriesName/:seriesItemName', mio.api.librarySeriesItemAsync);
     app.get ('/api/library/:providerName/:seriesName/:seriesItemName/:fileName', mio.api.librarySeriesItemPageAsync);
     app.post('/api/quit', quitFactory(server, resolve));
-    app.get ('/web', contentHandler);
-    app.use (webpackFactory());
     app.use (errorFactory(server, reject));
   });
-}
-
-function baseHandler(_: express.Request, response: express.Response) {
-  response.set('Location', '/web');
-  response.sendStatus(301);
-}
-
-function contentHandler(_: express.Request, response: express.Response) {
-  response.set('Content-Type', 'text/html');
-  response.send(html);
 }
 
 function errorFactory(server: http.Server, reject: (reason: Error) => void) {
@@ -51,11 +40,10 @@ function quitFactory(server: http.Server, resolve: () => void) {
   };
 }
 
-// TODO: Run when in development, NOT in production. Remember `devDependencies`.
-export function webpackFactory() {
-  return webpackMiddleware(webpack(webpackConfig), {
-    lazy: true,
-    publicPath: '/',
-    stats: 'errors-only'
-  });
+function webpackFactory(): express.RequestHandler {
+  if (path.basename(parentPath) === 'node_modules') return (_1, _2, next) => next();
+  let webpack = require('webpack');
+  let webpackData = require(webpackPath);
+  let webpackMiddleware = require('webpack-dev-middleware');
+  return webpackMiddleware(webpack(webpackData), {publicPath: '/'});
 }

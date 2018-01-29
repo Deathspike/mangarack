@@ -1,2 +1,3 @@
 dist
 node_modules
+public/web.min.js

@@ -3,8 +3,8 @@ const rules = [
   {test: /\.(woff|woff2)$/, use: 'url-loader'}
 ];
 
-export const webpackConfig = {
-  entry: __dirname + '/web/app.js',
-  output: {filename: 'web.js'},
+module.exports = {
+  entry: './dist/web/app.js',
+  output: {filename: 'web.min.js', path: __dirname + '/public'},
   module: {rules}
 };

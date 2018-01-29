@@ -7,7 +7,7 @@ import 'typeface-roboto';
 // TODO: Continue here.
 import * as mobx from 'mobx';
 import * as mobxReact from 'mobx-react';
-import * as mio from '../';
+import {server as mio} from '../server'; // TODO: yeah, don't do this.
 
 class ProviderViewModel {
   @mobx.action
@@ -34,6 +34,8 @@ class ProviderViewModel {
 
 // TODO: Needs wide appbar.
 // TODO: Needs a refresh button for obvious reasons.
+// TODO: stepper (back button, etc)
+// TODO: the series page should be tabbed, info and chapters.
 
 @mobxReact.observer
 class ProviderView extends React.Component<{vm: ProviderViewModel}> {
