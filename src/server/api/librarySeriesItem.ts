@@ -9,7 +9,7 @@ export async function librarySeriesItemAsync(request: express.Request, response:
   let metadataSeriesItemExists = await fs.pathExists(metadataSeriesItemPath);
   if (metadataSeriesItemExists) {
     let metadataSeriesItem = await fs.readJson(metadataSeriesItemPath) as shared.IStoreSeriesItem;
-    let result = metadataSeriesItem as mio.ILibrarySeriesItem;
+    let result = metadataSeriesItem as shared.ILibrarySeriesItem;
     response.send(result);
   } else {
     response.sendStatus(404);

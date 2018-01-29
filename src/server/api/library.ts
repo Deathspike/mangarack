@@ -5,7 +5,7 @@ import * as sanitizeFilename from 'sanitize-filename';
 import shared = mio.shared;
 
 export async function libraryAsync(_: express.Request, response: express.Response) {
-  let results = [] as mio.ILibraryProvider;
+  let results = [] as shared.ILibraryProvider;
   for (let providerName of shared.settings.providerNames) {
     let metadataPath = shared.path.normal(providerName + shared.extension.json);
     let metadataExists = await fs.pathExists(metadataPath);

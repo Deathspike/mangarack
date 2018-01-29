@@ -10,7 +10,7 @@ export async function librarySeriesAsync(request: express.Request, response: exp
     let metadataSeries = await fs.readJson(metadataSeriesPath) as shared.IStoreSeries;
     let directoryPath = shared.path.normal(request.params.providerName, request.params.seriesName);
     let directoryExists = await fs.pathExists(directoryPath);
-    let result = metadataSeries as mio.ILibrarySeries;
+    let result = metadataSeries as shared.ILibrarySeries;
     if (directoryExists) {
       let fileNames = await fs.readdir(shared.path.normal(request.params.providerName, request.params.seriesName));
       for (let item of result.items) {
