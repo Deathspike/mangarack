@@ -1,5 +1,5 @@
-export interface ILibraryProvider extends Array<{
+export interface ILibraryIndexEntry {
   displayName: string,
   providerName: string,
   seriesName: string
-}> {}
+}

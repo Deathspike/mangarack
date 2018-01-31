@@ -1,7 +1,7 @@
-interface ISeries<T extends ISeriesItem> {
+interface ISeries<T extends ISeriesChapter> {
   artists: string[];
   authors: string[];
-  items: T[];
+  chapters: T[];
   genres: string[];
   summary: string;
   title: string;

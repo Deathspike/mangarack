@@ -1,4 +1,4 @@
-export * from './api/library';
+export * from './api/libraryChapter';
+export * from './api/libraryIndex';
+export * from './api/libraryPage';
 export * from './api/librarySeries';
-export * from './api/librarySeriesItem';
-export * from './api/librarySeriesItemPage';

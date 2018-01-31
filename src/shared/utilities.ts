@@ -7,12 +7,12 @@ export function format(value: number, wholeNumberLength: number) {
   return result;
 }
 
-export function nameOf(series: ISeries<ISeriesItem>, seriesItem: ISeriesItem) {
-  let title = sanitizeFilename(series.title);
-  if (title && typeof seriesItem.volume !== 'undefined') {
-    return `${title} V${format(seriesItem.volume, 2)} #${format(seriesItem.number, 3)}`;
-  } else if (title) {
-    return `${title} #${format(seriesItem.number, 3)}`;
+export function nameOf(series: ISeries<ISeriesChapter>, seriesChapter: ISeriesChapter) {
+  let seriesName = sanitizeFilename(series.title);
+  if (seriesName && typeof seriesChapter.volume !== 'undefined') {
+    return `${seriesName} V${format(seriesChapter.volume, 2)} #${format(seriesChapter.number, 3)}`;
+  } else if (seriesName) {
+    return `${seriesName} #${format(seriesChapter.number, 3)}`;
   } else {
     throw new Error('Invalid series item name');
   }

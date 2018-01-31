@@ -1,3 +1,3 @@
-interface IEvaluatorSeries extends ISeries<IEvaluatorSeriesItem> {
+interface IEvaluatorSeries extends ISeries<IEvaluatorSeriesChapter> {
   imageUrl: string;
 }

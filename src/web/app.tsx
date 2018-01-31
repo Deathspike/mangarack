@@ -5,8 +5,6 @@ import * as mio from './';
 import * as rrd from 'react-router-dom';
 import 'typeface-roboto';
 
-// TODO: !!! SERIESITEM IS THE WORST NAME EVER. MAKE IT CHAPTER AGAIN (so xItem can be sub of type..)
-
 // todo: fixed appbar
 // TODO: make an entry point for web, much like cli/server?
 // TODO: Needs wide appbar.

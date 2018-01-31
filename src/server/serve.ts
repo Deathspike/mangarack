@@ -15,10 +15,10 @@ export async function serveAsync(port: number) {
     app.set ('strict routing', true);
     app.set ('x-powered-by', false);
     app.get ('/', express.static(publicPath));
-    app.get ('/api/library', mio.api.libraryAsync);
+    app.get ('/api/library', mio.api.libraryIndexAsync);
     app.get ('/api/library/:providerName/:seriesName', mio.api.librarySeriesAsync);
-    app.get ('/api/library/:providerName/:seriesName/:seriesItemName', mio.api.librarySeriesItemAsync);
-    app.get ('/api/library/:providerName/:seriesName/:seriesItemName/:fileName', mio.api.librarySeriesItemPageAsync);
+    app.get ('/api/library/:providerName/:seriesName/:chapterName', mio.api.libraryChapterAsync);
+    app.get ('/api/library/:providerName/:seriesName/:chapterName/:pageName', mio.api.libraryPageAsync);
     app.post('/api/quit', quitFactory(server, resolve));
     app.use (errorFactory(server, reject));
   });

@@ -22,5 +22,5 @@ export class ProviderViewModel {
   }
 
   @mobx.observable
-  rawData: shared.ILibraryProvider | undefined;
+  rawData: shared.ILibraryIndex | undefined;
 }

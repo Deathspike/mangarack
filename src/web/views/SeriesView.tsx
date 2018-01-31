@@ -18,12 +18,12 @@ export class SeriesView extends React.Component<{vm: mio.SeriesViewModel}> {
       return (
         <mui.Paper>
           <mui.List>
-            {vm.currentData.items.map(item => (
-              <mui.ListItem button key={`${vm.providerName}/${vm.seriesName}/${shared.nameOf(vm.currentData!, item)}`}>
+            {vm.currentData.chapters.map(librarySeriesChapter => (
+              <mui.ListItem button key={`${vm.providerName}/${vm.seriesName}/${shared.nameOf(vm.currentData!, librarySeriesChapter)}`}>
                 <mui.ListItemIcon>
                   <muiIcon.InsertDriveFile />
                 </mui.ListItemIcon>
-                <mui.ListItemText primary={shared.nameOf(vm.currentData!, item)} />
+                <mui.ListItemText primary={shared.nameOf(vm.currentData!, librarySeriesChapter)} />
               </mui.ListItem>
             ))}
           </mui.List>

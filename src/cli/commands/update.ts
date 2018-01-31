@@ -8,40 +8,41 @@ export async function updateAsync(urls: string[]) {
     for (let url of urls) {
       let timer = new mio.Timer();
       console.log(`Awaiting ${url}`);
-      await mio.usingAsync(mio.seriesAsync(browser, url), async series => {
-        console.log(`Fetching ${series.title}`);
-        let metadataPath = shared.path.normal(series.providerName + shared.extension.json);
-        let metadataExists = await fs.pathExists(metadataPath);
-        let metadata = metadataExists ? await fs.readJson(metadataPath) as shared.IStoreProvider : {};
-        if (metadata[series.url]) {
-          await updateSeriesAsync(series);
-          console.log(`Finished ${series.title} (${timer})`);
+      await mio.usingAsync(mio.scrapeAsync(browser, url), async scraperSeries => {
+        console.log(`Fetching ${scraperSeries.title}`);
+        let metadataProviderPath = shared.path.normal(scraperSeries.providerName + shared.extension.json);
+        let metadataProviderExists = await fs.pathExists(metadataProviderPath);
+        let metadataProvider = metadataProviderExists ? await fs.readJson(metadataProviderPath) as shared.IMetadataProvider : {};
+        if (metadataProvider[scraperSeries.url]) {
+          await updateSeriesAsync(scraperSeries);
+          console.log(`Finished ${scraperSeries.title} (${timer})`);
         } else {
-          console.log(`Canceled ${series.title} (${timer})`);
+          console.log(`Canceled ${scraperSeries.title} (${timer})`);
         }
       });
     }
   });
 }
 
-export async function updateSeriesAsync(series: mio.IProviderSeries) {
-  let seriesPath = shared.path.normal(series.providerName, series.title + shared.extension.json);
-  let seriesImage = await series.imageAsync();
-  await fs.ensureDir(path.dirname(seriesPath));
-  await fs.writeJson(seriesPath, transform(series, seriesImage), {spaces: 2})
+export async function updateSeriesAsync(scraperSeries: mio.IScraperSeries) {
+  let scraperSeriesImage = await scraperSeries.imageAsync();
+  let metadataSeriesPath = shared.path.normal(scraperSeries.providerName, scraperSeries.title + shared.extension.json);
+  let metadataSeries = transformMetadata(scraperSeries, scraperSeriesImage);
+  await fs.ensureDir(path.dirname(metadataSeriesPath));
+  await fs.writeJson(metadataSeriesPath, metadataSeries, {spaces: 2})
   return true;
 }
 
-function transform(series: mio.IProviderSeries, seriesImage: Buffer): shared.IStoreSeries {
+function transformMetadata(scraperSeries: mio.IScraperSeries, scraperSeriesImage: Buffer): shared.IMetadataSeries {
   return {
-    artists: series.artists,
-    authors: series.authors,
-    genres: series.genres,
-    imageBase64: seriesImage.toString('base64'),
-    items: series.items.map(({number, title, volume}) => ({number, title, volume})),
-    summary: series.summary,
-    title: series.title,
-    type: series.type,
-    url: series.url
+    artists: scraperSeries.artists,
+    authors: scraperSeries.authors,
+    chapters: scraperSeries.chapters.map(({number, title, volume}) => ({number, title, volume})),
+    genres: scraperSeries.genres,
+    imageBase64: scraperSeriesImage.toString('base64'),
+    summary: scraperSeries.summary,
+    title: scraperSeries.title,
+    type: scraperSeries.type,
+    url: scraperSeries.url
   };
 }

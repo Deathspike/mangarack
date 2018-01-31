@@ -7,27 +7,27 @@ export async function createAsync(urls: string[]) {
     for (let url of urls) {
       let timer = new mio.Timer();
       console.log(`Awaiting ${url}`);
-      await mio.usingAsync(mio.seriesAsync(browser, url), async series => {
-        console.log(`Fetching ${series.title}`);
-        let metadataPath = shared.path.normal(series.providerName + shared.extension.json);
-        let metadataExists = await fs.pathExists(metadataPath);
-        let metadata = metadataExists ? await fs.readJson(metadataPath) as shared.IStoreProvider : {};
-        if (!metadata[series.url]) {
-          await createSeriesAsync(series);
-          console.log(`Finished ${series.title} (${timer})`);
+      await mio.usingAsync(mio.scrapeAsync(browser, url), async scraperSeries => {
+        console.log(`Fetching ${scraperSeries.title}`);
+        let metadataProviderPath = shared.path.normal(scraperSeries.providerName + shared.extension.json);
+        let metadataProviderExists = await fs.pathExists(metadataProviderPath);
+        let metadataProvider = metadataProviderExists ? await fs.readJson(metadataProviderPath) as shared.IMetadataProvider : {};
+        if (!metadataProvider[scraperSeries.url]) {
+          await createSeriesAsync(scraperSeries);
+          console.log(`Finished ${scraperSeries.title} (${timer})`);
         } else {
-          console.log(`Canceled ${series.title} (${timer})`);
+          console.log(`Canceled ${scraperSeries.title} (${timer})`);
         }
       });
     }
   });
 }
 
-export async function createSeriesAsync(series: mio.IProviderSeries) {
-  let metadataPath = shared.path.normal(series.providerName + shared.extension.json);
-  let metadataExists = await fs.pathExists(metadataPath);
-  let metadata = metadataExists ? await fs.readJson(metadataPath) as shared.IStoreProvider : {};
-  metadata[series.url] = series.title;
-  await mio.commands.updateSeriesAsync(series);
-  await fs.writeJson(metadataPath, metadata, {spaces: 2});
+export async function createSeriesAsync(scraperSeries: mio.IScraperSeries) {
+  let metadataProviderPath = shared.path.normal(scraperSeries.providerName + shared.extension.json);
+  let metadataProviderExists = await fs.pathExists(metadataProviderPath);
+  let metadataProvider = metadataProviderExists ? await fs.readJson(metadataProviderPath) as shared.IMetadataProvider : {};
+  metadataProvider[scraperSeries.url] = scraperSeries.title;
+  await mio.commands.updateSeriesAsync(scraperSeries);
+  await fs.writeJson(metadataProviderPath, metadataProvider, {spaces: 2});
 }

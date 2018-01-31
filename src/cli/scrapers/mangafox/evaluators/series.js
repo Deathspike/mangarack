@@ -8,9 +8,9 @@
     return {
       artists: getArtists(),
       authors: getAuthors(),
+      chapters: getChapters(),
       genres: getGenres(),
       imageUrl: getImageUrl(),
-      items: getItems(),
       summary: getSummary(),
       title: getTitle(),
       type: getType(),
@@ -40,33 +40,11 @@
     }
 
     /**
-     * Retrieves each genre.
-     * @returns {string[]}
+     * Retrieves each chapter.
+     * @returns {IEvaluatorSeriesChapter[]}
      */
-    function getGenres() {
-      let anchors = Array.from(window.document.querySelectorAll('#title a[href*=\'/search/genres/\']'));
-      let texts = wipeArray(anchors.map(anchor => anchor.textContent));
-      if (texts.length > 0) return texts;
-      throw new Error('Invalid series genres');
-    }
-
-    /**
-     * Retrieves the image url.
-     * @returns {string}
-     */
-    function getImageUrl() {
-      let img = window.document.querySelector('.cover img');
-      let relativeUrl = wipeString(img && img.getAttribute('src'));
-      if (relativeUrl) return new window.URL(relativeUrl, window.location.href).href;
-      throw new Error('Invalid series image url');
-    }
-
-    /**
-     * Retrieves each item.
-     * @returns {IEvaluatorSeriesItem[]}
-     */
-    function getItems() {
-      let results = makeItemArray();
+    function getChapters() {
+      let results = makeSeriesChapterArray();
       let h3s = Array.from(window.document.querySelectorAll('#chapters h3.volume'));
       h3s.forEach(h3 => {
         let volumeMatch = wipeString(h3.textContent).match(/^Volume\s(.+)$/i);
@@ -97,6 +75,28 @@
       });
       if (results.length > 0 ) return results.reverse();
       throw new Error('Invalid series items');
+    }
+
+    /**
+     * Retrieves each genre.
+     * @returns {string[]}
+     */
+    function getGenres() {
+      let anchors = Array.from(window.document.querySelectorAll('#title a[href*=\'/search/genres/\']'));
+      let texts = wipeArray(anchors.map(anchor => anchor.textContent));
+      if (texts.length > 0) return texts;
+      throw new Error('Invalid series genres');
+    }
+
+    /**
+     * Retrieves the image url.
+     * @returns {string}
+     */
+    function getImageUrl() {
+      let img = window.document.querySelector('.cover img');
+      let relativeUrl = wipeString(img && img.getAttribute('src'));
+      if (relativeUrl) return new window.URL(relativeUrl, window.location.href).href;
+      throw new Error('Invalid series image url');
     }
 
     /**
@@ -142,10 +142,10 @@
     }
 
     /**
-     * Makes the item array.
-     * @returns {IEvaluatorSeriesItem[]}
+     * Makes the series chapter array.
+     * @returns {IEvaluatorSeriesChapter[]}
      */
-    function makeItemArray() {
+    function makeSeriesChapterArray() {
       return [];
     }
 
