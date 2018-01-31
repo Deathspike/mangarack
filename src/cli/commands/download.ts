@@ -78,7 +78,8 @@ async function cleanAsync(scraperSeries: mio.IScraperSeries) {
   let fileNames = await fs.readdir(shared.path.normal(scraperSeries.providerName, scraperSeries.name));
   let filePaths = fileNames.map(fileName => shared.path.normal(scraperSeries.providerName, scraperSeries.name, fileName));
   for (let filePath of filePaths) {
-    if (path.extname(filePath) === shared.extension.cbz && chapterPaths.indexOf(filePath) === -1) {
+    let fileExtension = path.extname(filePath);
+    if (fileExtension === shared.extension.cbz && chapterPaths.indexOf(filePath) === -1) {
       await fs.rename(filePath, filePath + shared.extension.del);
     }
   }
