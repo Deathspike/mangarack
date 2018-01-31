@@ -3,8 +3,8 @@ interface ISeries<T extends ISeriesChapter> {
   authors: string[];
   chapters: T[];
   genres: string[];
+  name: string;
   summary: string;
-  title: string;
   type: string;
   url: string;
 }

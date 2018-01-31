@@ -13,13 +13,13 @@ export class ScraperSeriesChapter implements mio.IScraperSeriesChapter {
   async iteratorAsync() {
     return new ScraperIterator(await this._browserTab.tabAsync(this._evaluatorSeriesChapter.url));
   }
+
+  get name() {
+    return this._evaluatorSeriesChapter.name;
+  }
   
   get number() {
     return this._evaluatorSeriesChapter.number;
-  }
-
-  get title() {
-    return this._evaluatorSeriesChapter.title;
   }
 
   get volume() {

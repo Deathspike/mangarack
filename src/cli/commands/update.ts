@@ -9,15 +9,15 @@ export async function updateAsync(urls: string[]) {
       let timer = new mio.Timer();
       console.log(`Awaiting ${url}`);
       await mio.usingAsync(mio.scrapeAsync(browser, url), async scraperSeries => {
-        console.log(`Fetching ${scraperSeries.title}`);
+        console.log(`Fetching ${scraperSeries.name}`);
         let metadataProviderPath = shared.path.normal(scraperSeries.providerName + shared.extension.json);
         let metadataProviderExists = await fs.pathExists(metadataProviderPath);
         let metadataProvider = metadataProviderExists ? await fs.readJson(metadataProviderPath) as shared.IMetadataProvider : {};
         if (metadataProvider[scraperSeries.url]) {
           await updateSeriesAsync(scraperSeries);
-          console.log(`Finished ${scraperSeries.title} (${timer})`);
+          console.log(`Finished ${scraperSeries.name} (${timer})`);
         } else {
-          console.log(`Canceled ${scraperSeries.title} (${timer})`);
+          console.log(`Canceled ${scraperSeries.name} (${timer})`);
         }
       });
     }
@@ -26,7 +26,7 @@ export async function updateAsync(urls: string[]) {
 
 export async function updateSeriesAsync(scraperSeries: mio.IScraperSeries) {
   let scraperSeriesImage = await scraperSeries.imageAsync();
-  let metadataSeriesPath = shared.path.normal(scraperSeries.providerName, scraperSeries.title + shared.extension.json);
+  let metadataSeriesPath = shared.path.normal(scraperSeries.providerName, scraperSeries.name + shared.extension.json);
   let metadataSeries = transformMetadata(scraperSeries, scraperSeriesImage);
   await fs.ensureDir(path.dirname(metadataSeriesPath));
   await fs.writeJson(metadataSeriesPath, metadataSeries, {spaces: 2})
@@ -37,11 +37,11 @@ function transformMetadata(scraperSeries: mio.IScraperSeries, scraperSeriesImage
   return {
     artists: scraperSeries.artists,
     authors: scraperSeries.authors,
-    chapters: scraperSeries.chapters.map(({number, title, volume}) => ({number, title, volume})),
+    chapters: scraperSeries.chapters.map(({name, number, volume}) => ({name, number, volume})),
     genres: scraperSeries.genres,
     imageBase64: scraperSeriesImage.toString('base64'),
+    name: scraperSeries.name,
     summary: scraperSeries.summary,
-    title: scraperSeries.title,
     type: scraperSeries.type,
     url: scraperSeries.url
   };

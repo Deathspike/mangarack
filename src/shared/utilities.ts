@@ -8,7 +8,7 @@ export function format(value: number, wholeNumberLength: number) {
 }
 
 export function nameOf(series: ISeries<ISeriesChapter>, seriesChapter: ISeriesChapter) {
-  let seriesName = sanitizeFilename(series.title);
+  let seriesName = sanitizeFilename(series.name);
   if (seriesName && typeof seriesChapter.volume !== 'undefined') {
     return `${seriesName} V${format(seriesChapter.volume, 2)} #${format(seriesChapter.number, 3)}`;
   } else if (seriesName) {

@@ -11,8 +11,8 @@
       chapters: getChapters(),
       genres: getGenres(),
       imageUrl: getImageUrl(),
+      name: getName(),
       summary: getSummary(),
-      title: getTitle(),
       type: getType(),
       url: getUrl()
     };
@@ -60,10 +60,10 @@
                 let number = numberMatch ? parseFloat(numberMatch[0]) : NaN;
                 if (isFinite(number)) {
                   let absoluteUrl = new window.URL(relativeUrl, window.location.href).href;
-                  let title = wipeString(anchor.nextElementSibling && anchor.nextElementSibling.textContent);
+                  let name = wipeString(anchor.nextElementSibling && anchor.nextElementSibling.textContent);
                   results.push({
+                    name: name && !/^Read Onl?ine$/i.test(name) ? name : undefined,
                     number: number,
-                    title: title && !/^Read Onl?ine$/i.test(title) ? title : undefined,
                     url: absoluteUrl + (/[0-9]+\.html$/i.test(absoluteUrl) ? '' : '1.html'),
                     volume: isFinite(volume) ? volume : undefined
                   });
@@ -100,6 +100,17 @@
     }
 
     /**
+     * Retrieves the name.
+     * @returns {string}
+     */
+    function getName() {
+      let title = window.document.querySelector('title');
+      let match = wipeString(title && title.textContent && title.textContent).match(/^(.+)\s+Manga\s+-/i);
+      if (match) return match[1];
+      throw new Error('Invalid series name');
+    }
+
+    /**
      * Retrieves the summary.
      * @returns {string}
      */
@@ -111,17 +122,6 @@
       throw new Error('Invalid series summary');
     }
     
-    /**
-     * Retrieves the title.
-     * @returns {string}
-     */
-    function getTitle() {
-      let title = window.document.querySelector('title');
-      let match = wipeString(title && title.textContent && title.textContent).match(/^(.+)\s+Manga\s+-/i);
-      if (match) return match[1];
-      throw new Error('Invalid series title');
-    }
-
     /**
      * Retrieves the type.
      * @returns {string}
