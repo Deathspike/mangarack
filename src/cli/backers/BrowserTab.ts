@@ -63,7 +63,7 @@ export class BrowserTab {
 		throw new Error('Invalid browser navigation response');
 	}
 
-	async runIsolatedAsync<T>(handler: (window: Window) => T): Promise<T> {
+	async runIsolatedAsync<T>(handler: (window: Window) => T) {
 		let html = await this._page.content();
 		let url = await this._page.url();
 		let dom = new jsdom.JSDOM(html, {url});
