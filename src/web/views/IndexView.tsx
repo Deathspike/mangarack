@@ -7,24 +7,24 @@ import * as rrd from 'react-router-dom';
 
 // TODO: rrd.Link is <a>, weird styles on ListItem, better way?
 @mobxReact.observer
-export class ProviderView extends React.Component<{vm: mio.ProviderViewModel}> {
+export class IndexView extends React.Component<{vm: mio.IndexViewModel}> {
   componentWillMount() {
     this.props.vm.fetchAsync();
   }
 
   render() {
     let vm = this.props.vm;
-    if (vm.currentData) {
+    if (vm.entries) {
       return (
         <mui.Paper>
           <mui.List>
-            {vm.currentData.map(item => (
-              <rrd.Link to={`/${encodeURIComponent(item.providerName)}/${encodeURIComponent(item.seriesName)}`}>
-                <mui.ListItem button key={`${item.providerName}/${item.seriesName}`}>
+            {vm.entries.map(entry => (
+              <rrd.Link key={entry.uniqueKey} to={entry.url}>
+                <mui.ListItem button>
                   <mui.ListItemIcon>
                     <muiIcon.Folder />
                   </mui.ListItemIcon>
-                  <mui.ListItemText primary={item.displayName} secondary={item.providerName} />
+                  <mui.ListItemText primary={entry.displayName} secondary={entry.providerName} />
                 </mui.ListItem>
               </rrd.Link>
             ))}

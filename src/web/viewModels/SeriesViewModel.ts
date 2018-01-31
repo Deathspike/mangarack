@@ -14,16 +14,11 @@ export class SeriesViewModel {
   @mobx.action
   async fetchAsync() {
     let request = await fetch(`/api/library/${encodeURIComponent(this._providerName)}/${encodeURIComponent(this._seriesName)}`);
-    let response = await request.json();
-    this.currentData = response;
+    let librarySeries = await request.json() as shared.ILibrarySeries;
+    let seriesChapters = librarySeries.chapters.map(librarySeriesChapter => new mio.SeriesChapterViewModel(this._providerName, this._providerName, librarySeries, librarySeriesChapter));
+    this.chapters = seriesChapters;
   }
 
   @mobx.observable
-  currentData: shared.ILibrarySeries | undefined;
-
-  @mobx.observable
-  providerName: string;
-
-  @mobx.observable
-  seriesName: string;
+  chapters: mio.SeriesChapterViewModel[] | undefined;
 }

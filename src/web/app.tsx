@@ -14,7 +14,7 @@ import 'typeface-roboto';
 
 class ProviderController extends React.Component {
   render() {
-    return <mio.ProviderView vm={new mio.ProviderViewModel()} />
+    return <mio.IndexView vm={new mio.IndexViewModel()} />
   }
 }
 
