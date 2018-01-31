@@ -10,16 +10,16 @@ export async function serveAsync(port: number) {
   return new Promise<void>((resolve, reject) => {
     let app = express();
     let server = app.listen(port);
-    app.use (webpackFactory());
     app.set ('json spaces', 4);
     app.set ('strict routing', true);
     app.set ('x-powered-by', false);
-    app.get ('/', express.static(publicPath));
     app.get ('/api/library', async(mio.api.libraryIndexAsync));
     app.get ('/api/library/:providerName/:seriesName', async(mio.api.librarySeriesAsync));
     app.get ('/api/library/:providerName/:seriesName/:chapterName', async(mio.api.libraryChapterAsync));
     app.get ('/api/library/:providerName/:seriesName/:chapterName/:pageName', async(mio.api.libraryPageAsync));
     app.post('/api/quit', quitFactory(server, resolve));
+    app.use (webpackFactory());
+    app.get ('/', express.static(publicPath));
     app.use (errorFactory(server, reject));
   });
 }
