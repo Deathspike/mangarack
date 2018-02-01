@@ -1,4 +1,4 @@
-export interface ILibraryChapterPage {
+export interface IApiChapterPage {
   name: string;
   height: number;
   width: number;

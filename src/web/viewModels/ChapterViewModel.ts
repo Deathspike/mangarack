@@ -15,8 +15,8 @@ export class ChapterViewModel {
   @mobx.action
   async fetchAsync() {
     let request = await fetch(this._apiUrl);
-    let libraryChapter = await request.json() as shared.ILibraryChapter;
-    this.chapter = libraryChapter;
+    let apiChapter = await request.json() as shared.IApiChapter;
+    this.chapter = apiChapter;
   }
 
   @mobx.computed
@@ -31,7 +31,7 @@ export class ChapterViewModel {
   }
 
   @mobx.observable
-  chapter: shared.ILibraryChapter | undefined;
+  chapter: shared.IApiChapter | undefined;
 
   @mobx.observable
   currentPageNumber = 1;

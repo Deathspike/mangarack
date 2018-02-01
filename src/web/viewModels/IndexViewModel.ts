@@ -6,8 +6,8 @@ export class IndexViewModel {
   @mobx.action
   async fetchAsync() {
     let request = await fetch('/api/library');
-    let libraryIndex = await request.json() as shared.ILibraryIndex;
-    let libaryIndexEntries = libraryIndex.map(libraryIndexEntry => new mio.IndexEntryViewModel(libraryIndexEntry));
+    let apiIndex = await request.json() as shared.IApiIndex;
+    let libaryIndexEntries = apiIndex.map(apiIndexEntry => new mio.IndexEntryViewModel(apiIndexEntry));
     this.entries = libaryIndexEntries.sort((a, b) => a.uniqueKey < b.uniqueKey ? -1 : 1);
   }
 

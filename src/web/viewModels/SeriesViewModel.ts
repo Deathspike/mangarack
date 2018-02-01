@@ -14,8 +14,8 @@ export class SeriesViewModel {
   @mobx.action
   async fetchAsync() {
     let request = await fetch(`/api/library/${encodeURIComponent(this._providerName)}/${encodeURIComponent(this._seriesName)}`);
-    let librarySeries = await request.json() as shared.ILibrarySeries;
-    let seriesChapters = librarySeries.chapters.map(librarySeriesChapter => new mio.SeriesChapterViewModel(this._providerName, this._seriesName, librarySeries, librarySeriesChapter));
+    let apiSeries = await request.json() as shared.IApiSeries;
+    let seriesChapters = apiSeries.chapters.map(apiSeriesChapter => new mio.SeriesChapterViewModel(this._providerName, this._seriesName, apiSeries, apiSeriesChapter));
     this.chapters = seriesChapters;
   }
 

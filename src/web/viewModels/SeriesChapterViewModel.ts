@@ -2,20 +2,20 @@ import * as mio from '../';
 import shared = mio.shared;
 
 export class SeriesChapterViewModel {
-  private _librarySeries: shared.ILibrarySeries;
-  private _librarySeriesChapter: shared.ILibrarySeriesChapter;
+  private _apiSeries: shared.IApiSeries;
+  private _apiSeriesChapter: shared.IApiSeriesChapter;
   private _providerName: string;
   private _seriesName: string;
 
-  constructor(providerName: string, seriesName: string, librarySeries: shared.ILibrarySeries, librarySeriesChapter: shared.ILibrarySeriesChapter) {
-    this._librarySeries = librarySeries;
-    this._librarySeriesChapter = librarySeriesChapter;
+  constructor(providerName: string, seriesName: string, apiSeries: shared.IApiSeries, apiSeriesChapter: shared.IApiSeriesChapter) {
+    this._apiSeries = apiSeries;
+    this._apiSeriesChapter = apiSeriesChapter;
     this._providerName = providerName;
     this._seriesName = seriesName;
   }
   
   get name() {
-    return shared.nameOf(this._librarySeries, this._librarySeriesChapter);
+    return shared.nameOf(this._apiSeries, this._apiSeriesChapter);
   }
 
   get uniqueKey() {

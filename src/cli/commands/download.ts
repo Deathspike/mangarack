@@ -8,14 +8,14 @@ import shared = mio.shared;
 export async function downloadAsync() {
   await mio.usingAsync(mio.Browser.createAsync(), async browser => {
     for (let providerName of shared.settings.providerNames) {
-      let metadataProviderPath = shared.path.normal(providerName + shared.extension.json);
-      let metadataProviderExists = await fs.pathExists(metadataProviderPath);
-      let metadataProvider = metadataProviderExists ? await fs.readJson(metadataProviderPath) as shared.IMetadataProvider : {};
-      for (let url in metadataProvider) {
+      let metaProviderPath = shared.path.normal(providerName + shared.extension.json);
+      let metaProviderExists = await fs.pathExists(metaProviderPath);
+      let metaProvider = metaProviderExists ? await fs.readJson(metaProviderPath) as shared.IMetaProvider : {};
+      for (let url in metaProvider) {
         let timer = new mio.Timer();
         console.log(`Awaiting ${url}`);
         await mio.usingAsync(mio.scrapeAsync(browser, url), async scraperSeries => {
-          if (scraperSeries.name !== metadataProvider[url]) throw new Error(`Series at ${url} property changed: name`)
+          if (scraperSeries.name !== metaProvider[url]) throw new Error(`Series at ${url} property changed: name`)
           if (scraperSeries.url !== url) throw new Error(`Series at ${url} property changed: url`);
           console.log(`Fetching ${scraperSeries.name}`);
           await mio.commands.updateSeriesAsync(scraperSeries);
@@ -44,10 +44,10 @@ export async function downloadSeriesItemAsync(scraperSeries: mio.IScraperSeries,
     chapter.pipe(fs.createWriteStream(chapterPath + shared.extension.tmp));
     await mio.usingAsync(scraperSeriesChapter.iteratorAsync(), async scraperIterator => {
       try {
-        let metadataChapterPages = await archiveAsync(chapter, scraperIterator);
-        let metadataChapter = transformMetadata(scraperSeriesChapter, metadataChapterPages);
+        let metaChapterPages = await archiveAsync(chapter, scraperIterator);
+        let metaChapter = transformMetadata(scraperSeriesChapter, metaChapterPages);
         chapter.finalize();
-        await fs.writeJson(chapterPath + shared.extension.json, metadataChapter, {spaces: 2});
+        await fs.writeJson(chapterPath + shared.extension.json, metaChapter, {spaces: 2});
         await fs.rename(chapterPath + shared.extension.tmp, chapterPath);
         console.log(`Finished ${chapterName} (${timer})`);
       } catch (error) {
@@ -85,7 +85,7 @@ async function cleanAsync(scraperSeries: mio.IScraperSeries) {
   }
 }
 
-function transformMetadata(scraperSeriesChapter: mio.IScraperSeriesChapter, pages: shared.IMetadataChapterPage[]): shared.IMetadataChapter {
+function transformMetadata(scraperSeriesChapter: mio.IScraperSeriesChapter, pages: shared.IMetaChapterPage[]): shared.IMetaChapter {
   return {
     name: scraperSeriesChapter.name,
     number: scraperSeriesChapter.number,

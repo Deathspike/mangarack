@@ -2,25 +2,25 @@ import * as mio from '../';
 import shared = mio.shared;
 
 export class IndexEntryViewModel {
-  private _libraryIndexEntry: shared.ILibraryIndexEntry;
+  private _apiIndexEntry: shared.IApiIndexEntry;
 
-  constructor(libraryIndexEntry: shared.ILibraryIndexEntry) {
-    this._libraryIndexEntry = libraryIndexEntry;
+  constructor(apiIndexEntry: shared.IApiIndexEntry) {
+    this._apiIndexEntry = apiIndexEntry;
   }
 
   get displayName() {
-    return this._libraryIndexEntry.displayName;
+    return this._apiIndexEntry.displayName;
   }
 
   get providerName() {
-    return this._libraryIndexEntry.providerName;
+    return this._apiIndexEntry.providerName;
   }
 
   get uniqueKey() {
-    return `${this._libraryIndexEntry.providerName}/${this._libraryIndexEntry.seriesName}`;
+    return `${this._apiIndexEntry.providerName}/${this._apiIndexEntry.seriesName}`;
   }
 
   get url() {
-    return `/${encodeURIComponent(this._libraryIndexEntry.providerName)}/${encodeURIComponent(this._libraryIndexEntry.seriesName)}`;
+    return `/${encodeURIComponent(this._apiIndexEntry.providerName)}/${encodeURIComponent(this._apiIndexEntry.seriesName)}`;
   }
 }

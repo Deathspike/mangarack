@@ -5,23 +5,23 @@ import * as path from 'path';
 import * as sanitizeFilename from 'sanitize-filename';
 import shared = mio.shared;
 
-export async function libraryIndexAsync(_: express.Request, response: express.Response) {
+export async function indexAsync(_: express.Request, response: express.Response) {
   let fileNames = await fs.readdir(shared.path.normal());
-  let libraryIndex = [] as shared.ILibraryIndex;
+  let apiIndex = [] as shared.IApiIndex;
   for (let fileName of fileNames) {
     let fileExtension = path.extname(fileName);
     if (fileExtension === shared.extension.json) {
-      let metadataProviderPath = shared.path.normal(fileName);
-      let metadataProvider = await fs.readJson(metadataProviderPath) as shared.IMetadataProvider;
+      let metaProviderPath = shared.path.normal(fileName);
+      let metaProvider = await fs.readJson(metaProviderPath) as shared.IMetaProvider;
       let providerName = fileName.substr(0, fileName.length - fileExtension.length);
-      for (let url in metadataProvider) {
-        libraryIndex.push({
-          displayName: metadataProvider[url],
+      for (let url in metaProvider) {
+        apiIndex.push({
+          displayName: metaProvider[url],
           providerName: providerName,
-          seriesName: sanitizeFilename(metadataProvider[url])
+          seriesName: sanitizeFilename(metaProvider[url])
         });
       }
     }
   }
-  response.send(libraryIndex);
+  response.send(apiIndex);
 }

@@ -10,10 +10,10 @@ export async function updateAsync(urls: string[]) {
       console.log(`Awaiting ${url}`);
       await mio.usingAsync(mio.scrapeAsync(browser, url), async scraperSeries => {
         console.log(`Fetching ${scraperSeries.name}`);
-        let metadataProviderPath = shared.path.normal(scraperSeries.providerName + shared.extension.json);
-        let metadataProviderExists = await fs.pathExists(metadataProviderPath);
-        let metadataProvider = metadataProviderExists ? await fs.readJson(metadataProviderPath) as shared.IMetadataProvider : {};
-        if (metadataProvider[scraperSeries.url]) {
+        let metaProviderPath = shared.path.normal(scraperSeries.providerName + shared.extension.json);
+        let metaProviderExists = await fs.pathExists(metaProviderPath);
+        let metaProvider = metaProviderExists ? await fs.readJson(metaProviderPath) as shared.IMetaProvider : {};
+        if (metaProvider[scraperSeries.url]) {
           await updateSeriesAsync(scraperSeries);
           console.log(`Finished ${scraperSeries.name} (${timer})`);
         } else {
@@ -26,14 +26,14 @@ export async function updateAsync(urls: string[]) {
 
 export async function updateSeriesAsync(scraperSeries: mio.IScraperSeries) {
   let scraperSeriesImage = await scraperSeries.imageAsync();
-  let metadataSeriesPath = shared.path.normal(scraperSeries.providerName, scraperSeries.name + shared.extension.json);
-  let metadataSeries = transformMetadata(scraperSeries, scraperSeriesImage);
-  await fs.ensureDir(path.dirname(metadataSeriesPath));
-  await fs.writeJson(metadataSeriesPath, metadataSeries, {spaces: 2})
+  let metaSeriesPath = shared.path.normal(scraperSeries.providerName, scraperSeries.name + shared.extension.json);
+  let metaSeries = transformMetadata(scraperSeries, scraperSeriesImage);
+  await fs.ensureDir(path.dirname(metaSeriesPath));
+  await fs.writeJson(metaSeriesPath, metaSeries, {spaces: 2})
   return true;
 }
 
-function transformMetadata(scraperSeries: mio.IScraperSeries, scraperSeriesImage: Buffer): shared.IMetadataSeries {
+function transformMetadata(scraperSeries: mio.IScraperSeries, scraperSeriesImage: Buffer): shared.IMetaSeries {
   return {
     artists: scraperSeries.artists,
     authors: scraperSeries.authors,

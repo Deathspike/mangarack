@@ -6,12 +6,12 @@ import * as unzip from 'unzip';
 import shared = mio.shared;
 
 // TODO: Don't forget to add image processing. Or is that going on the client?
-export async function libraryPageAsync(request: express.Request, response: express.Response) {
-  let metadataChapterName = request.params.chapterName + shared.extension.cbz;
-  let metadataChapterPath = shared.path.normal(request.params.providerName, request.params.seriesName, metadataChapterName);
-  let metadataChapterExists = await fs.pathExists(metadataChapterPath);
-  if (metadataChapterExists) {
-    let chapterStream = fs.createReadStream(metadataChapterPath)
+export async function pageAsync(request: express.Request, response: express.Response) {
+  let metaChapterName = request.params.chapterName + shared.extension.cbz;
+  let metaChapterPath = shared.path.normal(request.params.providerName, request.params.seriesName, metaChapterName);
+  let metaChapterExists = await fs.pathExists(metaChapterPath);
+  if (metaChapterExists) {
+    let chapterStream = fs.createReadStream(metaChapterPath)
       .on('end', () => response.sendStatus(404))
       .pipe(unzip.Parse())
       .on('entry', (entry: unzip.Entry) => {
