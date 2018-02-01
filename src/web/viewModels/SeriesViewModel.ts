@@ -15,7 +15,7 @@ export class SeriesViewModel {
   async fetchAsync() {
     let request = await fetch(`/api/library/${encodeURIComponent(this._providerName)}/${encodeURIComponent(this._seriesName)}`);
     let librarySeries = await request.json() as shared.ILibrarySeries;
-    let seriesChapters = librarySeries.chapters.map(librarySeriesChapter => new mio.SeriesChapterViewModel(this._providerName, this._providerName, librarySeries, librarySeriesChapter));
+    let seriesChapters = librarySeries.chapters.map(librarySeriesChapter => new mio.SeriesChapterViewModel(this._providerName, this._seriesName, librarySeries, librarySeriesChapter));
     this.chapters = seriesChapters;
   }
 

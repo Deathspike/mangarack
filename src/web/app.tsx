@@ -12,17 +12,64 @@ import 'typeface-roboto';
 // TODO: stepper (back button, etc)
 // TODO: the series page should be tabbed, info and chapters.
 
-class ProviderController extends React.Component {
+function AppBar() {
+  return (
+    <mui.AppBar color="primary" position="static">
+      <mui.Toolbar>
+        <mui.Typography color="inherit" type="title">
+          MangaRack
+        </mui.Typography>
+      </mui.Toolbar>
+    </mui.AppBar>
+  );
+}
+
+class AppContainer extends React.Component {
   render() {
-    return <mio.IndexView vm={new mio.IndexViewModel()} />
+    return (
+      <div style={{margin: '0 auto', maxWidth: '640px'}}>
+        {this.props.children}
+      </div>
+    );
   }
 }
 
+class ProviderController extends React.Component {
+  render() {
+    return (
+      <div>
+        <AppBar />
+        <AppContainer>
+          <mio.IndexView vm={new mio.IndexViewModel()} />
+        </AppContainer>
+      </div>
+    );
+  }
+}
 
 class SeriesController extends React.Component<{match: {params: {providerName: string, seriesName: string}}}> {
   render() {
     let params = this.props.match.params;
-    return <mio.SeriesView vm={new mio.SeriesViewModel(params.providerName, params.seriesName)} />;
+    let providerName = decodeURIComponent(params.providerName);
+    let seriesName = decodeURIComponent(params.seriesName);
+    return (
+      <div>
+        <AppBar />
+        <AppContainer>
+        <mio.SeriesView vm={new mio.SeriesViewModel(providerName, seriesName)} />
+        </AppContainer>
+      </div>
+    );
+  }
+}
+
+class ChapterController extends React.Component<{match: {params: {providerName: string, seriesName: string, chapterName: string}}}> {
+  render() {
+    let params = this.props.match.params;
+    let providerName = decodeURIComponent(params.providerName);
+    let seriesName = decodeURIComponent(params.seriesName);
+    let chapterName = decodeURIComponent(params.chapterName);
+    return <mio.ChapterView vm={new mio.ChapterViewModel(providerName, seriesName, chapterName)} />;
   }
 }
 
@@ -30,6 +77,7 @@ function Router() {
   return (
     <rrd.HashRouter>
       <rrd.Switch>
+        <rrd.Route path="/:providerName/:seriesName/:chapterName" component={ChapterController} />
         <rrd.Route path="/:providerName/:seriesName" component={SeriesController} />
         <rrd.Route path="/" component={ProviderController} />
       </rrd.Switch>
@@ -41,16 +89,7 @@ function App() {
   return (
     <div>
       <mui.Reboot />
-      <mui.AppBar color="primary" position="static">
-        <mui.Toolbar>
-          <mui.Typography color="inherit" type="title">
-            MangaRack
-          </mui.Typography>
-        </mui.Toolbar>
-      </mui.AppBar>
-      <div style={{margin: '0 auto', maxWidth: '640px'}}>
-        <Router />
-      </div>
+      <Router />
     </div>
   );
 }

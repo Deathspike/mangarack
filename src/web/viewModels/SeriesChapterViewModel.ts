@@ -21,4 +21,8 @@ export class SeriesChapterViewModel {
   get uniqueKey() {
     return `${this._providerName}/${this._seriesName}/${this.name}`;
   }
+
+  get url() {
+    return `/${encodeURIComponent(this._providerName)}/${encodeURIComponent(this._seriesName)}/${encodeURIComponent(this.name)}`;
+  }
 }
