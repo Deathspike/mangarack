@@ -14,6 +14,8 @@ export async function updateAsync(urls: string[]) {
         let metaProviderExists = await fs.pathExists(metaProviderPath);
         let metaProvider = metaProviderExists ? await fs.readJson(metaProviderPath) as shared.IMetaProvider : {};
         if (metaProvider[scraperSeries.url]) {
+          if (scraperSeries.name !== metaProvider[url]) throw new Error(`Series at ${url} property changed: name`)
+          if (scraperSeries.url !== url) throw new Error(`Series at ${url} property changed: url`);
           await updateSeriesAsync(scraperSeries);
           console.log(`Finished ${scraperSeries.name} (${timer})`);
         } else {
