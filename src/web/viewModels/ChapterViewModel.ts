@@ -13,10 +13,33 @@ export class ChapterViewModel {
   }
 
   @mobx.action
+  close() {
+    alert('TODO: Close chapter');
+  }
+
+  @mobx.action
   async fetchAsync() {
     let request = await fetch(this._apiUrl);
     let apiChapter = await request.json() as shared.IApiChapter;
     this.chapter = apiChapter;
+  }
+
+  @mobx.action
+  nextPage() {
+    if (this.chapter && this.currentPageNumber < this.chapter.pages.length) {
+      this.currentPageNumber++;
+    } else {
+      alert('TODO: Next chapter');
+    }
+  }
+
+  @mobx.action
+  previousPage() {
+    if (this.chapter && this.currentPageNumber > 1) {
+      this.currentPageNumber--
+    } else {
+      alert('TODO: Previous chapter');
+    }
   }
 
   @mobx.computed
