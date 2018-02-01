@@ -6,6 +6,22 @@
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
     <title>MangaRack</title>
+    <style>
+      /* TODO: (Re)move full screen mode */
+      body {
+        height: 100%;
+        width: 100%;
+      }
+      html:fullscreen {
+        background-color: white;
+      }
+      html:-webkit-full-screen-ancestor {
+        background-color: white;
+      }
+      html:-moz-full-screen-ancestor {
+        background-color: white;
+      }
+    </style>
   </head>
   <body>
     <div id="container"></div>

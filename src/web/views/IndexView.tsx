@@ -29,6 +29,9 @@ export class IndexView extends React.Component<{vm: mio.IndexViewModel}> {
               </rrd.Link>
             ))}
           </mui.List>
+          <mui.Button raised color="primary" onClick={() => this._tempFullScreen()}>
+            Go Full Screen
+          </mui.Button>
         </mui.Paper>
       )
     } else {
@@ -38,6 +41,19 @@ export class IndexView extends React.Component<{vm: mio.IndexViewModel}> {
           <mui.CircularProgress />
         </mui.Paper>
       );
+    }
+  }
+
+  // TODO: (Re)move full screen mode.
+  private _tempFullScreen() {
+    this.requestFullScreen(document.body);
+  }
+
+  requestFullScreen(element: any) {
+    // Supports most browsers and their versions.
+    var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+    if (requestMethod) {
+        requestMethod.call(element);
     }
   }
 }
