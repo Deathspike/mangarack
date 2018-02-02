@@ -11,8 +11,12 @@ export class ChapterView extends React.Component<{vm: mio.ChapterViewModel}> {
   // TODO: Inline styles like this are pretty bad, eh.
   render() {
     return (
-      <div onClick={e => this._onClick(e)} style={{bottom: 0, left: 0, right: 0, position: 'absolute', textAlign: 'center', top: 0}}>
-        <img src={this.props.vm.imageUrl} style={{height: '100%'}} />
+      <div onClick={e => this._onClick(e)} style={{bottom: 0, left: 0, right: 0, position: 'absolute', top: 0}}>
+        <img src={this.props.vm.imageUrl} style={{
+          display: 'block',
+          height: '100%',
+          margin: '0 auto'
+        }} />
       </div>
     );
   }
