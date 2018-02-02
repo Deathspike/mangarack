@@ -8,7 +8,7 @@ export class ChapterView extends React.Component<{vm: mio.ChapterViewModel}> {
   render() {
     return (
       <div onClick={e => this._onClick(e)} style={{bottom: 0, left: 0, right: 0, position: 'absolute', top: 0}}>
-        <img src={this.props.vm.imageUrl} style={{
+        <img src={this.props.vm.img} style={{
           display: 'block',
           height: '100%',
           margin: '0 auto'
@@ -23,9 +23,9 @@ export class ChapterView extends React.Component<{vm: mio.ChapterViewModel}> {
     if (e.clientY < tresholdY) {
       this.props.vm.close();
     } else if (e.clientX < tresholdX) {
-      this.props.vm.nextPage();
+      this.props.vm.nextPageAsync();
     } else {
-      this.props.vm.previousPage();
+      this.props.vm.previousPageAsync();
     }
   }
 }

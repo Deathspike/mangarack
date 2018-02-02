@@ -1,15 +1,18 @@
 import * as mio from '../';
 import * as mobx from 'mobx';
 import shared = mio.shared;
+import {processMangafoxImageAsync} from '../utilities/mangafoxImageProcessor';
 
 export class ChapterViewModel {
   private _apiUrl: string;
+  private _providerName: string;
 
   constructor(providerName: string, seriesName: string, chapterName: string) {
     let providerPiece = encodeURIComponent(providerName)
     let seriesPiece = encodeURIComponent(seriesName);
     let chapterPiece = encodeURIComponent(chapterName);
     this._apiUrl = `/api/library/${providerPiece}/${seriesPiece}/${chapterPiece}`;
+    this._providerName = providerName;
   }
 
   @mobx.action
@@ -22,34 +25,37 @@ export class ChapterViewModel {
     let request = await fetch(this._apiUrl);
     let apiChapter = await request.json() as shared.IApiChapter;
     this.chapter = apiChapter;
+    await this._updateImageAsync();
+  }
+
+  private async _updateImageAsync() {
+    let pageName = this.chapter.pages[this.currentPageNumber - 1].name;
+    let request = await fetch(`${this._apiUrl}/${encodeURIComponent(pageName)}`);
+    let buffer = await request.blob();
+    if (this._providerName === 'mangafox') {
+      this.img = await processMangafoxImageAsync(buffer)
+    } else {
+      this.img = URL.createObjectURL(buffer);
+    }
   }
 
   @mobx.action
-  nextPage() {
+  async nextPageAsync() {
     if (this.chapter && this.currentPageNumber < this.chapter.pages.length) {
       this.currentPageNumber++;
+      await this._updateImageAsync();
     } else {
       alert('TODO: Next chapter');
     }
   }
 
   @mobx.action
-  previousPage() {
+  async previousPageAsync() {
     if (this.chapter && this.currentPageNumber > 1) {
       this.currentPageNumber--
+      await this._updateImageAsync();
     } else {
       alert('TODO: Previous chapter');
-    }
-  }
-
-  @mobx.computed
-  get imageUrl() {
-    if (this.chapter) {
-      let pageName = this.chapter.pages[this.currentPageNumber - 1].name;
-      let pagePiece = encodeURIComponent(pageName);
-      return `${this._apiUrl}/${pagePiece}`;
-    } else {
-      return undefined;
     }
   }
 
@@ -58,4 +64,7 @@ export class ChapterViewModel {
 
   @mobx.observable
   currentPageNumber = 1;
+
+  @mobx.observable
+  img: string;
 }
