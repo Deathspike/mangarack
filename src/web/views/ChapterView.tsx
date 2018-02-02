@@ -10,8 +10,12 @@ export class ChapterView extends React.Component<{vm: mio.ChapterViewModel}> {
       <div onClick={e => this._onClick(e)} style={{bottom: 0, left: 0, right: 0, position: 'absolute', top: 0}}>
         <img src={this.props.vm.img} style={{
           display: 'block',
-          height: '100%',
-          margin: '0 auto'
+          maxHeight: '100%',
+          maxWidth: '100%',
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)'
         }} />
       </div>
     );
