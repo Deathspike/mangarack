@@ -6,8 +6,8 @@ import * as sanitizeFilename from 'sanitize-filename';
 import shared = mio.shared;
 
 export async function indexAsync(_: express.Request, response: express.Response) {
-  let fileNames = await fs.readdir(shared.path.normal());
   let apiIndex = [] as shared.IApiIndex;
+  let fileNames = await fs.readdir(shared.path.normal());
   for (let fileName of fileNames) {
     let fileExtension = path.extname(fileName);
     if (fileExtension === shared.extension.json) {

@@ -7,9 +7,9 @@ export async function seriesAsync(request: express.Request, response: express.Re
   let metaSeriesPath = shared.path.normal(request.params.providerName, request.params.seriesName + shared.extension.json);
   let metaSeriesExists = await fs.pathExists(metaSeriesPath);
   if (metaSeriesExists) {
-    let metaSeries = await fs.readJson(metaSeriesPath) as shared.IMetaSeries;
     let seriesPath = shared.path.normal(request.params.providerName, request.params.seriesName);
     let seriesExists = await fs.pathExists(seriesPath);
+    let metaSeries = await fs.readJson(metaSeriesPath) as shared.IMetaSeries;
     let apiSeries = metaSeries as shared.IApiSeries;
     if (seriesExists) {
       let fileNames = await fs.readdir(shared.path.normal(request.params.providerName, request.params.seriesName));
