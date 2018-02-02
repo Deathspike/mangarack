@@ -4,10 +4,6 @@ import * as mio from '../';
 
 @mobxReact.observer
 export class ChapterView extends React.Component<{vm: mio.ChapterViewModel}> {
-  componentWillMount() {
-    this.props.vm.fetchAsync();
-  }
-
   // TODO: Inline styles like this are pretty bad, eh.
   render() {
     return (

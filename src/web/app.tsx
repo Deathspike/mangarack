@@ -34,42 +34,89 @@ class AppContainer extends React.Component {
   }
 }
 
-class ProviderController extends React.Component {
+abstract class BaseController<TParams, TViewModel> extends React.Component<{match: {params: TParams}}, {vm?: TViewModel}> {
+  constructor(props: {match: {params: TParams}}, context?: any) {
+    super(props, context)
+    this.state = {};
+  }
+
+  componentWillMount() {
+    (async () => {
+      let vm = await this.initAsync();
+      this.setState({vm});
+    })();
+  }
+
+  abstract initAsync(): Promise<TViewModel>;
+}
+
+// TODO: Make a nice loading view.
+class LoadingView extends React.Component {
+  render() {
+    return (
+      <mui.Paper>
+        <mui.CircularProgress />
+      </mui.Paper>
+    );
+  }
+}
+
+class ProviderController extends BaseController<{}, mio.IndexViewModel> {
+  async initAsync() {
+    let vm = new mio.IndexViewModel();
+    await vm.refreshAsync();
+    return vm;
+  }
+
   render() {
     return (
       <div>
         <AppBar />
         <AppContainer>
-          <mio.IndexView vm={new mio.IndexViewModel()} />
+          {this.state.vm ? <mio.IndexView vm={this.state.vm} /> : <LoadingView />}
         </AppContainer>
       </div>
     );
   }
 }
 
-class SeriesController extends React.Component<{match: {params: {providerName: string, seriesName: string}}}> {
+class SeriesController extends BaseController<{providerName: string, seriesName: string}, mio.SeriesViewModel> {
+  async initAsync() {
+    let providerName = decodeURIComponent(this.props.match.params.providerName);
+    let seriesName = decodeURIComponent(this.props.match.params.seriesName);
+    let vm = new mio.SeriesViewModel(providerName, seriesName);
+    await vm.refreshAsync();
+    return vm;
+  }
+
   render() {
-    let params = this.props.match.params;
-    let providerName = decodeURIComponent(params.providerName);
-    let seriesName = decodeURIComponent(params.seriesName);
     return (
       <div>
         <AppBar />
         <AppContainer>
-        <mio.SeriesView vm={new mio.SeriesViewModel(providerName, seriesName)} />
+          {this.state.vm ? <mio.SeriesView vm={this.state.vm} /> : <LoadingView />}
         </AppContainer>
       </div>
     );
   }
 }
 
-class ChapterController extends React.Component<{match: {params: {providerName: string, seriesName: string, chapterName: string}}}> {
+class ChapterController extends BaseController<{providerName: string, seriesName: string, chapterName: string}, mio.ChapterViewModel> {
+  async initAsync() {
+    let providerName = decodeURIComponent(this.props.match.params.providerName);
+    let seriesName = decodeURIComponent(this.props.match.params.seriesName);
+    let chapterName = decodeURIComponent(this.props.match.params.chapterName);
+    let vm = new mio.ChapterViewModel(providerName, seriesName, chapterName);
+    await vm.refreshAsync();
+    return vm;
+  }
+
   render() {
-    let params = this.props.match.params;
-    let providerName = decodeURIComponent(params.providerName);
-    let seriesName = decodeURIComponent(params.seriesName);
-    let chapterName = decodeURIComponent(params.chapterName);
-    return <mio.ChapterView vm={new mio.ChapterViewModel(providerName, seriesName, chapterName)} />;
+    if (this.state.vm) {
+      return <mio.ChapterView vm={this.state.vm} />;
+    } else {
+      return <LoadingView />;
+    }
   }
 }
 
