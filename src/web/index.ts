@@ -8,4 +8,5 @@ export * from './viewModels/SeriesChapterViewModel';
 export * from './viewModels/SeriesViewModel';
 export * from './views/ChapterView';
 export * from './views/IndexView';
+export * from './views/SeriesChapterView';
 export * from './views/SeriesView';

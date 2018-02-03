@@ -14,6 +14,16 @@ export class SeriesChapterViewModel {
     this._seriesName = seriesName;
   }
   
+  tryNavigateTo() {
+    if (this.exists) {
+      location.href = '#'+ this.url;
+    }
+  }
+
+  get exists() {
+    return this._apiSeriesChapter.exists;
+  }
+  
   get name() {
     return shared.nameOf(this._apiSeries, this._apiSeriesChapter);
   }

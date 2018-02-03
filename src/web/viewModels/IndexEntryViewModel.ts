@@ -20,8 +20,8 @@ export class IndexEntryViewModel {
     return `${this._apiIndexEntry.providerName}/${this._apiIndexEntry.seriesName}`;
   }
 
-  open() {
-    location.href = `#${this.url}`;
+  navigateTo() {
+    location.href = '#' + this.url;
   }
 
   get url() {

@@ -11,7 +11,7 @@ export class IndexView extends React.Component<{vm: mio.IndexViewModel}> {
       <mui.Paper>
         <mui.List>
           {this.props.vm.entries.map(entry => (
-            <mui.ListItem button key={entry.uniqueKey} onClick={() => entry.open()}>
+            <mui.ListItem button key={entry.uniqueKey} onClick={() => entry.navigateTo()}>
               <mui.ListItemIcon>
                 <muiIcon.Folder />
               </mui.ListItemIcon>
