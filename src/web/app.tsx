@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as mui from 'material-ui';
+import * as muiIcon from 'material-ui-icons';
 import * as mio from './';
 import * as rrd from 'react-router-dom';
 import 'typeface-roboto';
@@ -12,16 +13,27 @@ import 'typeface-roboto';
 // TODO: stepper (back button, etc)
 // TODO: the series page should be tabbed, info and chapters.
 
-function AppBar() {
-  return (
-    <mui.AppBar color="primary" position="static">
-      <mui.Toolbar>
-        <mui.Typography color="inherit" type="title">
-          MangaRack
-        </mui.Typography>
-      </mui.Toolbar>
-    </mui.AppBar>
-  );
+class AppBar extends React.Component {
+  render() {
+    return (
+      <mui.AppBar color="primary" position="static">
+        <mui.Toolbar>
+          <mui.IconButton color="inherit" onClick={() => this._onClick()}>
+            <muiIcon.Fullscreen />
+          </mui.IconButton>
+          <mui.Typography color="inherit" type="title">
+            MangaRack
+          </mui.Typography>
+        </mui.Toolbar>
+      </mui.AppBar>
+    );
+  }
+
+  private _onClick() {
+    let element = document.body as any;
+    let request = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+    if (request) request.call(element);
+  }
 }
 
 class AppContainer extends React.Component {
@@ -50,18 +62,21 @@ abstract class BaseController<TParams, TViewModel> extends React.Component<{matc
   abstract initAsync(): Promise<TViewModel>;
 }
 
-// TODO: Make a nice loading view.
-class LoadingView extends React.Component {
+
+class LoadingComponent extends React.Component {
   render() {
     return (
-      <mui.Paper>
-        <mui.CircularProgress />
-      </mui.Paper>
+      <mui.CircularProgress style={{
+        left: '50%',
+        position: 'absolute',
+        top: '50%',
+        transform: 'translate(-50%, -50%)'
+      }} />
     );
   }
 }
 
-class ProviderController extends BaseController<{}, mio.IndexViewModel> {
+class IndexController extends BaseController<{}, mio.IndexViewModel> {
   async initAsync() {
     let vm = new mio.IndexViewModel();
     await vm.refreshAsync();
@@ -73,7 +88,7 @@ class ProviderController extends BaseController<{}, mio.IndexViewModel> {
       <div>
         <AppBar />
         <AppContainer>
-          {this.state.vm ? <mio.IndexView vm={this.state.vm} /> : <LoadingView />}
+          {this.state.vm ? <mio.IndexView vm={this.state.vm} /> : <LoadingComponent />}
         </AppContainer>
       </div>
     );
@@ -94,7 +109,7 @@ class SeriesController extends BaseController<{providerName: string, seriesName:
       <div>
         <AppBar />
         <AppContainer>
-          {this.state.vm ? <mio.SeriesView vm={this.state.vm} /> : <LoadingView />}
+          {this.state.vm ? <mio.SeriesView vm={this.state.vm} /> : <LoadingComponent />}
         </AppContainer>
       </div>
     );
@@ -115,28 +130,22 @@ class ChapterController extends BaseController<{providerName: string, seriesName
     if (this.state.vm) {
       return <mio.ChapterView vm={this.state.vm} />;
     } else {
-      return <LoadingView />;
+      return <LoadingComponent />;
     }
   }
-}
-
-function Router() {
-  return (
-    <rrd.HashRouter>
-      <rrd.Switch>
-        <rrd.Route path="/:providerName/:seriesName/:chapterName" component={ChapterController} />
-        <rrd.Route path="/:providerName/:seriesName" component={SeriesController} />
-        <rrd.Route path="/" component={ProviderController} />
-      </rrd.Switch>
-    </rrd.HashRouter>
-  );
 }
 
 function App() {
   return (
     <div>
       <mui.Reboot />
-      <Router />
+      <rrd.HashRouter>
+        <rrd.Switch>
+          <rrd.Route path="/:providerName/:seriesName/:chapterName" component={ChapterController} />
+          <rrd.Route path="/:providerName/:seriesName" component={SeriesController} />
+          <rrd.Route path="/" component={IndexController} />
+        </rrd.Switch>
+      </rrd.HashRouter>
     </div>
   );
 }
