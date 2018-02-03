@@ -5,7 +5,6 @@ import * as mio from '../';
 import * as unzip from 'unzip';
 import shared = mio.shared;
 
-// TODO: Don't forget to add image processing. Or is that going on the client?
 export async function pageAsync(request: express.Request, response: express.Response) {
   let metaChapterName = request.params.chapterName + shared.extension.cbz;
   let metaChapterPath = shared.path.normal(request.params.providerName, request.params.seriesName, metaChapterName);

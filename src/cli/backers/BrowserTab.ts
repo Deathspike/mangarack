@@ -55,8 +55,7 @@ export class BrowserTab {
 			let request = await this._waitForRequest(await this._page.url());
 			let response = request.response();
 			if (response && response.status === 200) return;
-			this._requests = {};
-			await this._page.reload();
+			await this.reloadAsync();
 		}
 
 		// Invalid response.
@@ -68,6 +67,11 @@ export class BrowserTab {
 		let url = await this._page.url();
 		let dom = new jsdom.JSDOM(html, {url});
 		return handler(dom.window);
+	}
+
+	async reloadAsync() {
+		this._requests = {};
+		await this._page.reload();
 	}
 
 	async tabAsync(url: string) {

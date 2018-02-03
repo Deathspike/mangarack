@@ -3,6 +3,7 @@ import * as fs from 'fs-extra';
 import * as mio from '../';
 import shared = mio.shared;
 
+// TODO: Show 'deleted' chapters? Chapters that exist on-disk not in metadata (.cbz and .cbz.del).
 export async function seriesAsync(request: express.Request, response: express.Response) {
   let metaSeriesPath = shared.path.normal(request.params.providerName, request.params.seriesName + shared.extension.json);
   let metaSeriesExists = await fs.pathExists(metaSeriesPath);

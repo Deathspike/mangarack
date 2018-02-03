@@ -3,6 +3,7 @@ import * as mobx from 'mobx';
 import shared = mio.shared;
 import {processMangafoxImageAsync} from '../utilities/mangafoxImageProcessor';
 
+// TODO: Cache next image.
 export class ChapterViewModel {
   private _apiUrl: string;
   private _providerName: string;
