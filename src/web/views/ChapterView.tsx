@@ -13,8 +13,8 @@ export class ChapterView extends React.Component<{vm: mio.ChapterViewModel}> {
   }
 
   private _onClick(e: React.MouseEvent<HTMLDivElement>) {
-    let tresholdX = window.innerWidth / 2;
-    let tresholdY = window.innerHeight / 3;
+    let tresholdX = innerWidth / 2;
+    let tresholdY = innerHeight / 3;
     if (e.clientY < tresholdY) {
       this.props.vm.close();
     } else if (e.clientX < tresholdX) {

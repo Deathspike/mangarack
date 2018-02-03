@@ -20,6 +20,10 @@ export class IndexEntryViewModel {
     return `${this._apiIndexEntry.providerName}/${this._apiIndexEntry.seriesName}`;
   }
 
+  open() {
+    location.href = `#${this.url}`;
+  }
+
   get url() {
     return `/${encodeURIComponent(this._apiIndexEntry.providerName)}/${encodeURIComponent(this._apiIndexEntry.seriesName)}`;
   }
