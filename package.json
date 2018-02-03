@@ -24,7 +24,7 @@
     "puppeteer": "0.13.0",
     "sanitize-filename": "1.6.1",
     "tslib": "1.8.1",
-    "unzip": "0.1.11"
+    "unzipper": "0.8.11"
   },
   "devDependencies": {
     "@types/archiver": "2.1.0",
@@ -38,7 +38,7 @@
     "@types/react-dom": "16.0.3",
     "@types/react-router-dom": "4.2.3",
     "@types/sanitize-filename": "1.1.28",
-    "@types/unzip": "0.1.0",
+    "@types/unzipper": "0.8.0",
     "@types/webpack": "3.8.4",
     "@types/webpack-dev-middleware": "2.0.0",
     "css-loader": "0.28.9",
