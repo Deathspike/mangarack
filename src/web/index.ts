@@ -1,4 +1,6 @@
 export * from '../shared';
+export * from './utilities';
+export * from './styles/chapterStyle';
 export * from './viewModels/ChapterViewModel';
 export * from './viewModels/IndexEntryViewModel';
 export * from './viewModels/IndexViewModel';
