@@ -1,3 +1,4 @@
+import * as compression from 'compression';
 import * as express from 'express';
 import * as mio from './';
 import * as http from 'http';
@@ -13,13 +14,14 @@ export async function serveAsync(port: number) {
     app.set ('json spaces', 4);
     app.set ('strict routing', true);
     app.set ('x-powered-by', false);
+    app.use (compression({threshold: 0}));
     app.get ('/api/library', async(mio.api.indexAsync));
     app.get ('/api/library/:providerName/:seriesName', async(mio.api.seriesAsync));
     app.get ('/api/library/:providerName/:seriesName/:chapterName', async(mio.api.chapterAsync));
     app.get ('/api/library/:providerName/:seriesName/:chapterName/:pageName', async(mio.api.pageAsync));
     app.post('/api/quit', quitFactory(server, resolve));
     app.use (webpackFactory());
-    app.get ('/', express.static(publicPath));
+    app.use (express.static(publicPath));
     app.use (errorFactory(server, reject));
   });
 }
