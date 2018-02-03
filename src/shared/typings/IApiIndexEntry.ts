@@ -1,5 +1,5 @@
 export interface IApiIndexEntry {
-  displayName: string,
-  providerName: string,
-  seriesName: string
+  providerName: string;
+  seriesName: string;
+  seriesTitle: string;
 }

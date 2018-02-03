@@ -52,7 +52,7 @@ You can help! I'm putting down the foundation for each component, but I won't be
   * `GET /` redirects to `/web`
   * `GET /api/library`
     * Provides a list of provider names.
-    * Provides a list of series names (reads `/{providerName}.json`).
+    * Provides a list of series titles (reads `/{providerName}.json`).
   * `GET /api/library/{providerName}/{seriesName}`
     * Provides series and chapter metadata (reads `/{providerName}/{seriesName}.json`).
     * Provides chapter availability (iterates `/{providerName}/{seriesName}`).

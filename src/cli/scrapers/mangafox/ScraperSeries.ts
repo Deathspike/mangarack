@@ -38,14 +38,14 @@ export class ScraperSeries implements mio.IScraperSeries {
     return 'mangafox';
   }
   
-  get name() {
-    return this._evaluatorSeries.name;
-  }
-
   get summary() {
     return this._evaluatorSeries.summary;
   }
 
+  get title() {
+    return this._evaluatorSeries.title;
+  }
+  
   get type() {
     return this._evaluatorSeries.type;
   }

@@ -9,7 +9,7 @@ export class IndexEntryViewModel {
   }
 
   get displayName() {
-    return this._apiIndexEntry.displayName;
+    return this._apiIndexEntry.seriesTitle;
   }
 
   get providerName() {

@@ -16,9 +16,9 @@ export async function indexAsync(_: express.Request, response: express.Response)
       let providerName = fileName.substr(0, fileName.length - fileExtension.length);
       for (let url in metaProvider) {
         apiIndex.push({
-          displayName: metaProvider[url],
           providerName: providerName,
-          seriesName: sanitizeFilename(metaProvider[url])
+          seriesName: sanitizeFilename(metaProvider[url]),
+          seriesTitle: metaProvider[url]
         });
       }
     }

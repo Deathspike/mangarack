@@ -9,17 +9,17 @@ export async function updateAsync(urls: string[]) {
       let timer = new mio.Timer();
       console.log(`Awaiting ${url}`);
       await mio.usingAsync(mio.scrapeAsync(browser, url), async scraperSeries => {
-        console.log(`Fetching ${scraperSeries.name}`);
+        console.log(`Fetching ${scraperSeries.title}`);
         let metaProviderPath = shared.path.normal(scraperSeries.providerName + shared.extension.json);
         let metaProviderExists = await fs.pathExists(metaProviderPath);
         let metaProvider = metaProviderExists ? await fs.readJson(metaProviderPath) as shared.IMetaProvider : {};
         if (metaProvider[scraperSeries.url]) {
-          if (scraperSeries.name !== metaProvider[url]) throw new Error(`Series at ${url} property changed: name`)
+          if (scraperSeries.title !== metaProvider[url]) throw new Error(`Series at ${url} property changed: title`)
           if (scraperSeries.url !== url) throw new Error(`Series at ${url} property changed: url`);
           await updateSeriesAsync(scraperSeries);
-          console.log(`Finished ${scraperSeries.name} (${timer})`);
+          console.log(`Finished ${scraperSeries.title} (${timer})`);
         } else {
-          console.log(`Canceled ${scraperSeries.name} (${timer})`);
+          console.log(`Canceled ${scraperSeries.title} (${timer})`);
         }
       });
     }
@@ -28,7 +28,7 @@ export async function updateAsync(urls: string[]) {
 
 export async function updateSeriesAsync(scraperSeries: mio.IScraperSeries) {
   let scraperSeriesImage = await scraperSeries.imageAsync();
-  let metaSeriesPath = shared.path.normal(scraperSeries.providerName, scraperSeries.name + shared.extension.json);
+  let metaSeriesPath = shared.path.normal(scraperSeries.providerName, scraperSeries.title + shared.extension.json);
   let metaSeries = transformMetadata(scraperSeries, scraperSeriesImage);
   await fs.ensureDir(path.dirname(metaSeriesPath));
   await fs.writeJson(metaSeriesPath, metaSeries, {spaces: 2})
@@ -39,11 +39,11 @@ function transformMetadata(scraperSeries: mio.IScraperSeries, scraperSeriesImage
   return {
     artists: scraperSeries.artists,
     authors: scraperSeries.authors,
-    chapters: scraperSeries.chapters.map(({name, number, volume}) => ({name, number, volume})),
+    chapters: scraperSeries.chapters.map(({number, title, volume}) => ({number, title, volume})),
     genres: scraperSeries.genres,
     imageBase64: scraperSeriesImage.toString('base64'),
-    name: scraperSeries.name,
     summary: scraperSeries.summary,
+    title: scraperSeries.title,
     type: scraperSeries.type,
     url: scraperSeries.url
   };
