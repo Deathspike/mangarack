@@ -2,13 +2,18 @@ import * as mobx from 'mobx';
 
 export const layerViewModel = {
   close: mobx.action(() => {
-    if (layerViewModel.layers.length <= 1) return;
     layerViewModel.layers.pop();
   }),
 
-  open: mobx.action((component: JSX.Element) => {
-    layerViewModel.layers.push(component);
+  openAsync: mobx.action(async (awaiter: () => Promise<JSX.Element>) => {
+    try {
+      layerViewModel.loading.set(true);
+      layerViewModel.layers.push(await awaiter());
+    } finally {
+      layerViewModel.loading.set(false);
+    }
   }),
 
-  layers: mobx.observable([] as JSX.Element[])
+  layers: mobx.observable([] as JSX.Element[]),
+  loading: mobx.observable(false)
 }
