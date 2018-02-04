@@ -15,7 +15,7 @@ export async function serveAsync(port: number) {
     app.set ('strict routing', true);
     app.set ('x-powered-by', false);
     app.use (compression());
-    app.get ('/api/library', async(mio.api.indexAsync));
+    app.get ('/api/library', async(mio.api.listAsync));
     app.get ('/api/library/:providerName/:seriesName', async(mio.api.seriesAsync));
     app.get ('/api/library/:providerName/:seriesName/:chapterName', async(mio.api.chapterAsync));
     app.get ('/api/library/:providerName/:seriesName/:chapterName/:pageName', async(mio.api.pageAsync));

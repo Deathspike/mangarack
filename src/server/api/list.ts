@@ -5,8 +5,8 @@ import * as path from 'path';
 import * as sanitizeFilename from 'sanitize-filename';
 import shared = mio.shared;
 
-export async function indexAsync(_: express.Request, response: express.Response) {
-  let apiIndex = [] as shared.IApiIndex;
+export async function listAsync(_: express.Request, response: express.Response) {
+  let apiList = [] as shared.IApiList;
   let fileNames = await fs.readdir(shared.path.normal());
   for (let fileName of fileNames) {
     let fileExtension = path.extname(fileName);
@@ -15,7 +15,7 @@ export async function indexAsync(_: express.Request, response: express.Response)
       let metaProvider = await fs.readJson(metaProviderPath) as shared.IMetaProvider;
       let providerName = fileName.substr(0, fileName.length - fileExtension.length);
       for (let url in metaProvider) {
-        apiIndex.push({
+        apiList.push({
           providerName: providerName,
           seriesName: sanitizeFilename(metaProvider[url]),
           seriesTitle: metaProvider[url]
@@ -23,5 +23,5 @@ export async function indexAsync(_: express.Request, response: express.Response)
       }
     }
   }
-  response.send(apiIndex);
+  response.send(apiList);
 }

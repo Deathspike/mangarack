@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as mio from '../';
 
-export class IndexController extends mio.MatchController<{}, mio.IndexViewModel> {
+export class ListController extends mio.MatchController<{}, mio.ListViewModel> {
   async createAsync() {
-    let vm = new mio.IndexViewModel();
+    let vm = new mio.ListViewModel();
     await vm.refreshAsync();
     return vm;
   }
@@ -12,7 +12,7 @@ export class IndexController extends mio.MatchController<{}, mio.IndexViewModel>
     if (this.state.vm) {
       return (
         <mio.ContainerComponent refresh={() => this.refresh()}>
-          <mio.IndexView vm={this.state.vm} />
+          <mio.ListView vm={this.state.vm} />
         </mio.ContainerComponent>
       );
     } else {

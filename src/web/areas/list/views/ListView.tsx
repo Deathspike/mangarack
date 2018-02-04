@@ -5,17 +5,17 @@ import * as mui from 'material-ui';
 import * as muiIcon from 'material-ui-icons';
 
 @mobxReact.observer
-export class IndexView extends React.Component<{vm: mio.IndexViewModel}> {
+export class ListView extends React.Component<{vm: mio.ListViewModel}> {
   render() {
     return (
       <mui.Paper>
         <mui.List>
-          {this.props.vm.entries.map(entry => (
-            <mui.ListItem button key={entry.uniqueKey} onClick={() => entry.navigateTo()}>
+          {this.props.vm.entries.map(listEntry => (
+            <mui.ListItem button key={listEntry.uniqueKey} onClick={() => listEntry.navigateTo()}>
               <mui.ListItemIcon>
                 <muiIcon.Folder />
               </mui.ListItemIcon>
-              <mui.ListItemText primary={entry.displayName} secondary={entry.providerName} />
+              <mui.ListItemText primary={listEntry.displayName} secondary={listEntry.providerName} />
             </mui.ListItem>
           ))}
         </mui.List>
