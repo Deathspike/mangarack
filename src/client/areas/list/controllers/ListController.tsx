@@ -4,7 +4,7 @@ import * as mio from '../';
 export class ListController extends React.Component<{vm: mio.ListViewModel}> {
   render() {
     return (
-      <mio.ContainerComponent enableBack={false} title={'MangaRack'} refresh={() => this.props.vm.refreshAsync()}>
+      <mio.ContainerComponent enableBack={false} title={'MangaRack'} refreshAsync={() => this.props.vm.refreshAsync()}>
         <mio.ListView vm={this.props.vm} />
       </mio.ContainerComponent>
     );

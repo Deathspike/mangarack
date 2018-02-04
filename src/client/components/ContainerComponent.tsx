@@ -4,7 +4,7 @@ import * as mui from 'material-ui';
 import * as muiIcon from 'material-ui-icons';
 import {containerStyle} from './styles/containerStyle';
 
-export class ContainerComponent extends React.Component<{enableBack: boolean, title: string, refresh: Function}> {
+export class ContainerComponent extends React.Component<{enableBack: boolean, title: string, refreshAsync: () => Promise<void>}> {
   render() {
     return (
       <div>
@@ -36,7 +36,7 @@ export class ContainerComponent extends React.Component<{enableBack: boolean, ti
   }
 
   private _onRefreshClick() {
-    let refresh = this.props.refresh;
-    if (refresh) refresh();
+    let refreshAsync = this.props.refreshAsync;
+    if (refreshAsync) mio.loadingViewModel.loadAsync(refreshAsync);
   }
 }
