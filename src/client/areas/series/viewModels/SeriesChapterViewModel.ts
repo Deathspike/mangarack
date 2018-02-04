@@ -1,6 +1,7 @@
 import * as mio from '../';
-import {createAsync} from '../../chapter';
+import {openAsync} from '../../chapter';
 import shared = mio.shared;
+import { toastViewModel } from '../../../viewModels/ToastViewModel';
 
 export class SeriesChapterViewModel {
   private _apiSeries: shared.IApiSeries;
@@ -15,14 +16,20 @@ export class SeriesChapterViewModel {
     this._seriesName = seriesName;
   }
   
-  tryNavigateTo() {
-    if (this.exists) {
-      createAsync(this._providerName, this._seriesName, shared.nameOf(this._apiSeries, this._apiSeriesChapter));
+  openAsync() {
+    if (this.downloaded) {
+      openAsync(this._providerName, this._seriesName, shared.nameOf(this._apiSeries, this._apiSeriesChapter));
+    } else {
+      toastViewModel.show(`${this.name} has not been downloaded`);
     }
   }
 
-  get exists() {
+  get downloaded() {
     return this._apiSeriesChapter.downloaded;
+  }
+
+  get exists() {
+    return this._apiSeriesChapter.exists;
   }
   
   get name() {

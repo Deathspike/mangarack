@@ -1,5 +1,5 @@
 import * as mio from '../';
-import {createAsync} from '../../series';
+import {openAsync} from '../../series';
 import shared = mio.shared;
 
 export class ListEntryViewModel {
@@ -9,19 +9,19 @@ export class ListEntryViewModel {
     this._apiListEntry = apiListEntry;
   }
 
-  get displayName() {
-    return this._apiListEntry.seriesTitle;
+  openAsync() {
+    return openAsync(this._apiListEntry.providerName, this._apiListEntry.seriesName);
+  }
+
+  get key() {
+    return `${this._apiListEntry.seriesTitle}/${this._apiListEntry.providerName}`;
   }
 
   get providerName() {
     return this._apiListEntry.providerName;
   }
 
-  get uniqueKey() {
-    return `${this._apiListEntry.providerName}/${this._apiListEntry.seriesName}`;
-  }
-
-  navigateTo() {
-    createAsync(this._apiListEntry.providerName, this._apiListEntry.seriesName);
+  get seriesTitle() {
+    return this._apiListEntry.seriesTitle;
   }
 }

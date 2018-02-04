@@ -1,5 +1,5 @@
 export * from '../../';
-export * from './create';
+export * from './open';
 export * from './controllers/SeriesController';
 export * from './viewModels/SeriesChapterViewModel';
 export * from './viewModels/SeriesViewModel';

@@ -8,7 +8,7 @@ export class ListViewModel {
     let request = await fetch('/api/library');
     let apiList = await request.json() as shared.IApiList;
     let apiListEntries = apiList.map(apiListEntry => new mio.ListEntryViewModel(apiListEntry));
-    this.entries = apiListEntries.sort((a, b) => a.uniqueKey < b.uniqueKey ? -1 : 1);
+    this.entries = apiListEntries.sort((a, b) => a.key < b.key ? -1 : 1);
   }
 
   @mobx.observable

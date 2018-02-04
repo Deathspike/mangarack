@@ -1,6 +1,6 @@
 import * as mio from '../../';
 
-export const listStyle = {
+export const listEntryStyle = {
   listItem: mio.withStyle({
     overflow: 'hidden',
     textOverflow: 'ellipsis',

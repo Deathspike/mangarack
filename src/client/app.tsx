@@ -8,13 +8,13 @@ import 'typeface-roboto';
 // TODO: chapter loading indicator.
 // TODO: chapter listing name is way too long for what's necessary.. V01 #001
 // TODO: make an entry point for client, much like cli/server?
-// TODO: the series page should be tabbed, info and chapters.
 // TODO: export {
 
 ReactDOM.render(<div>
   <mui.Reboot />
   <mio.LoadingView />
   <mio.LayerView />
+  <mio.ToastView />
 </div>, document.getElementById('container'));
 
-mio.areas.list.createAsync();
+mio.areas.list.openAsync();

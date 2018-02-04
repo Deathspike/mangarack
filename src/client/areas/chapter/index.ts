@@ -1,5 +1,5 @@
 export * from '../../';
-export * from './create';
+export * from './open';
 export * from './controllers/ChapterController'
 export * from './images/mangafoxImage'
 export * from './viewModels/ChapterViewModel';
