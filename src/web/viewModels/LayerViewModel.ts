@@ -1,9 +1,9 @@
 import * as mobx from 'mobx';
+let layers: LayerViewModel | undefined;
 
 export class LayerViewModel {
-  @mobx.action
-  create(component: React.Component) {
-    this.layers.push(component);
+  private constructor() {
+    this.layers = [];
   }
 
   @mobx.action
@@ -12,6 +12,15 @@ export class LayerViewModel {
     this.layers.pop();
   }
 
+  @mobx.action
+  open(component: JSX.Element) {
+    this.layers.push(component);
+  }
+
   @mobx.observable
-  public layers = [] as React.Component[];
+  layers: JSX.Element[];
+
+  public static get() {
+    return layers || (layers = new LayerViewModel());
+  }
 }

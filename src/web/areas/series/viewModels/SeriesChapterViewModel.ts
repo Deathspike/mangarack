@@ -1,4 +1,5 @@
 import * as mio from '../';
+import {createAsync} from '../../chapter';
 import shared = mio.shared;
 
 export class SeriesChapterViewModel {
@@ -16,7 +17,7 @@ export class SeriesChapterViewModel {
   
   tryNavigateTo() {
     if (this.exists) {
-      location.href = '#'+ this.url;
+      createAsync(this._providerName, this._seriesName, this.name);
     }
   }
 

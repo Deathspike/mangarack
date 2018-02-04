@@ -17,7 +17,8 @@ export class ChapterViewModel {
 
   @mobx.action
   close() {
-    history.back(); // TODO: double tap with notification
+    let layerViewModel = mio.LayerViewModel.get()
+    layerViewModel.close(); // TODO: Double tap with notification to close.
   }
 
   @mobx.action

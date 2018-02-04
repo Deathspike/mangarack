@@ -5,7 +5,7 @@ export async function mangafoxImageAsync(blob: Blob) {
   canvas.width = image.width;
   
   let context = canvas.getContext('2d');
-  if (context == null) throw new Error('Invalid image context');
+  if (!context) throw new Error('Invalid image context');
   context.drawImage(image, 0, 0, image.width, image.height);
 
   let imageData = context.getImageData(0, 0, image.width, image.height);

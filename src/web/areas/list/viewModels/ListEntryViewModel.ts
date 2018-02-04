@@ -1,4 +1,5 @@
 import * as mio from '../';
+import {createAsync} from '../../series';
 import shared = mio.shared;
 
 export class ListEntryViewModel {
@@ -21,7 +22,7 @@ export class ListEntryViewModel {
   }
 
   navigateTo() {
-    location.href = '#' + this.url;
+    createAsync(this._apiListEntry.providerName, this._apiListEntry.seriesName);
   }
 
   get url() {
