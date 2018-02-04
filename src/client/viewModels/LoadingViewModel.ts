@@ -6,7 +6,7 @@ export const loadingViewModel = {
       loadingViewModel.isLoading.set(true);
       await awaiter();
     } finally {
-      loadingViewModel.isLoading.set(false);
+      mobx.runInAction(() => loadingViewModel.isLoading.set(false));
     }
   }),
 

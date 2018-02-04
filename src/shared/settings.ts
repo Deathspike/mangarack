@@ -6,3 +6,4 @@ export let browserViewport = {width: 1920, height: 974};
 export let mangafoxIteratorRetries = 10;
 export let providerNames = ['mangafox'];
 export let serverPort = 7782;
+export let clientToastTimeout = 5000;

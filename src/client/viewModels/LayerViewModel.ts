@@ -8,7 +8,8 @@ export const layerViewModel = {
 
   openAsync: mobx.action(async (awaiter: () => Promise<JSX.Element>) => {
     mio.loadingViewModel.loadAsync(async () => {
-      layerViewModel.items.push(await awaiter());
+      let item = await awaiter();
+      mobx.runInAction(() => layerViewModel.items.push(item));
     });
   }),
 

@@ -28,19 +28,25 @@ export class ChapterViewModel {
     let url = `/api/library/${providerComponent}/${seriesComponent}/${chapterComponent}`;
 
     let request = await fetch(url);
-    this.chapter = await request.json() as shared.IApiChapter;
+    let chapter = await request.json() as shared.IApiChapter;
 
-    this._cache = await new ImageCache(this.chapter.pages, url, this._providerName);
-    this.img = await this._cache.getImageAsync(this.currentPageNumber);
+    this._cache = await new ImageCache(chapter.pages, url, this._providerName);
+    let img = await this._cache.getImageAsync(this.currentPageNumber);
     this._cache.preloadImage(this.currentPageNumber + 1);
+
+    mobx.runInAction(() => {
+      this.chapter = chapter;
+      this.img = img;
+    });
   }
 
   @mobx.action
   async nextPageAsync() {
     if (this.chapter && this.currentPageNumber < this.chapter.pages.length) {
       this.currentPageNumber++;
-      this.img = await this._cache.getImageAsync(this.currentPageNumber);
+      let img = await this._cache.getImageAsync(this.currentPageNumber);
       this._cache.preloadImage(this.currentPageNumber + 1);
+      mobx.runInAction(() => this.img = img);
     } else {
       alert('TODO: Next chapter');
     }
@@ -50,8 +56,9 @@ export class ChapterViewModel {
   async previousPageAsync() {
     if (this.chapter && this.currentPageNumber > 1) {
       this.currentPageNumber--
-      this.img = await this._cache.getImageAsync(this.currentPageNumber);
+      let img = await this._cache.getImageAsync(this.currentPageNumber);
       this._cache.preloadImage(this.currentPageNumber - 1);
+      mobx.runInAction(() => this.img = img);
     } else {
       alert('TODO: Previous chapter');
     }
