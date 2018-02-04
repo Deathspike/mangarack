@@ -1,23 +1,24 @@
 import * as React from 'react';
+import * as mio from '../';
 import * as mui from 'material-ui';
 import * as muiIcon from 'material-ui-icons';
 import {containerStyle} from './styles/containerStyle';
 
-export class ContainerComponent extends React.Component<{refresh?: Function}> {
+export class ContainerComponent extends React.Component<{enableBack: boolean, title: string, refresh: Function}> {
   render() {
     return (
       <div>
         <mui.AppBar color="primary" position="static">
           <mui.Toolbar>
-            <mui.IconButton color="inherit" onClick={() => this._onMaximizeClick()}>
-              <muiIcon.Fullscreen />
+            <mui.IconButton color="inherit" onClick={() => this._onMenuClick()} style={containerStyle.menuIcon}>
+              {this.props.enableBack ? <muiIcon.ArrowBack /> : <muiIcon.Fullscreen />}
             </mui.IconButton>
             <mui.Typography color="inherit" type="title" style={containerStyle.header}>
-              MangaRack
+              {this.props.title}
             </mui.Typography>
-            {this.props.refresh && <mui.IconButton color="inherit" onClick={() => this._onRefreshClick()}>
+            <mui.IconButton color="inherit" onClick={() => this._onRefreshClick()}>
               <muiIcon.Refresh />
-            </mui.IconButton>}
+            </mui.IconButton>
           </mui.Toolbar>
         </mui.AppBar>
         <div style={containerStyle.container}>
@@ -27,10 +28,14 @@ export class ContainerComponent extends React.Component<{refresh?: Function}> {
     );
   }
 
-  private _onMaximizeClick() {
-    let element = document.body as any;
-    let request = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
-    if (request) request.call(element);
+  private _onMenuClick() {
+    if (!this.props.enableBack) {
+      let element = document.body as any;
+      let request = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+      if (request) request.call(element);
+    } else {
+      mio.layerViewModel.close();
+    }
   }
 
   private _onRefreshClick() {

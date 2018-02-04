@@ -1,14 +1,14 @@
 import * as mio from '../../';
 
 export const chapterStyle = {
-  imageContainer: mio.createStyle({
+  imageContainer: mio.withStyle({
     bottom: 0,
     left: 0,
     right: 0,
     position: 'absolute',
     top: 0
   }),
-  image: mio.createStyle({
+  image: mio.withStyle({
     display: 'block',
     maxHeight: '100%',
     maxWidth: '100%',

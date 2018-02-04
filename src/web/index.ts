@@ -1,5 +1,5 @@
 export * from '../shared';
-export * from './utilities';
+export * from './style';
 export * from './components/ContainerComponent';
 export * from './components/LoadingComponent';
 export * from './viewModels/LayerViewModel';

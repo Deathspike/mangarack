@@ -3,6 +3,7 @@ import * as mobx from 'mobx';
 import shared = mio.shared;
 
 export class SeriesViewModel {
+  private _apiSeries: shared.IApiSeries;
   private _providerName: string;
   private _seriesName: string;
 
@@ -14,9 +15,13 @@ export class SeriesViewModel {
   @mobx.action
   async refreshAsync() {
     let request = await fetch(`/api/library/${encodeURIComponent(this._providerName)}/${encodeURIComponent(this._seriesName)}`);
-    let apiSeries = await request.json() as shared.IApiSeries;
-    let seriesChapters = apiSeries.chapters.map(apiSeriesChapter => new mio.SeriesChapterViewModel(this._providerName, this._seriesName, apiSeries, apiSeriesChapter));
-    this.chapters = seriesChapters;
+    this._apiSeries = await request.json() as shared.IApiSeries;
+    this.chapters = this._apiSeries.chapters.map(apiSeriesChapter => new mio.SeriesChapterViewModel(this._providerName, this._seriesName, this._apiSeries, apiSeriesChapter));
+  }
+
+  @mobx.computed
+  get title() {
+    return this._apiSeries.title;
   }
 
   @mobx.observable
