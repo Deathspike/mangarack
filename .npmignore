@@ -1,4 +1,4 @@
-dist/web
+dist/client
 src
 typings
 tsconfig.json

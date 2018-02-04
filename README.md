@@ -49,8 +49,10 @@ You can help! I'm putting down the foundation for each component, but I won't be
 # Phase 02 (11-02-2018)
 
 * [Server] Add `mangarack-server`:
-  * `GET /` redirects to `/web`
-  * `GET /api/library`
+  * `GET /` serves the user interface.
+    * Supports series list.
+    * Supports series details.
+    * Supports clicking through pages (basic reader).  * `GET /api/library`
     * Provides a list of provider names.
     * Provides a list of series titles (reads `/{providerName}.json`).
   * `GET /api/library/{providerName}/{seriesName}`
@@ -61,10 +63,6 @@ You can help! I'm putting down the foundation for each component, but I won't be
   * `GET /api/library/{providerName}/{seriesName}/{chapterName}/{pageNumber}`
     * Serves a page (reads `/{providerName}/{seriesName}/{chapterName}.cbz`)
     * Performs *image processing* when applicable.
-  * `GET /web` serves the user interface.
-    * Supports series list.
-    * Supports series details.
-    * Supports clicking through pages (basic reader).
     
 # Phase 03 (25-02-2018)
 
