@@ -13,7 +13,7 @@ import 'typeface-roboto';
 
 ReactDOM.render(<div>
   <mui.Reboot />
-  <mio.LayerView vm={mio.LayerViewModel.get()} />
+  <mio.LayerView vm={mio.layerViewModel} />
 </div>, document.getElementById('container'));
 
 mio.areas.list.createAsync();

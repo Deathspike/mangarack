@@ -1,26 +1,14 @@
 import * as mobx from 'mobx';
-let layers: LayerViewModel | undefined;
 
-export class LayerViewModel {
-  private constructor() {
-    this.layers = [];
-  }
+export const layerViewModel = {
+  close: mobx.action(() => {
+    if (layerViewModel.layers.length <= 1) return;
+    layerViewModel.layers.pop();
+  }),
 
-  @mobx.action
-  close() {
-    if (this.layers.length <= 1) return;
-    this.layers.pop();
-  }
+  open: mobx.action((component: JSX.Element) => {
+    layerViewModel.layers.push(component);
+  }),
 
-  @mobx.action
-  open(component: JSX.Element) {
-    this.layers.push(component);
-  }
-
-  @mobx.observable
-  layers: JSX.Element[];
-
-  public static get() {
-    return layers || (layers = new LayerViewModel());
-  }
+  layers: mobx.observable([] as JSX.Element[])
 }
