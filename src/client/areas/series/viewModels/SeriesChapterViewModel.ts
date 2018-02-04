@@ -1,7 +1,6 @@
 import * as mio from '../';
 import {openAsync} from '../../chapter';
 import shared = mio.shared;
-import { toastViewModel } from '../../../viewModels/ToastViewModel';
 
 export class SeriesChapterViewModel {
   private _apiSeries: shared.IApiSeries;
@@ -20,7 +19,7 @@ export class SeriesChapterViewModel {
     if (this.downloaded) {
       openAsync(this._providerName, this._seriesName, shared.nameOf(this._apiSeries, this._apiSeriesChapter));
     } else {
-      toastViewModel.show(`${this.name} has not been downloaded`);
+      mio.toastViewModel.show(`${this.name} is not locally available`);
     }
   }
 

@@ -3,21 +3,24 @@ import * as mobx from 'mobx';
 import shared = mio.shared;
 let toastId = 0;
 
-export const toastViewModel = {
-  show: mobx.action((text: string) => {
+export class ToastViewModel {
+  @mobx.action
+  show(text: string)  {
     let id = toastId++;
-    toastViewModel.items.push({id, text});
-    setTimeout(() => cleanUp(id), shared.settings.clientToastTimeout);
-  }),
+    this.items.push({id, text});
+    setTimeout(() => this._removeToast(id), shared.settings.clientToastTimeout);
+  }
 
-  items: mobx.observable([] as {id: number, text: string}[]),
-}
-
-function cleanUp(id: number) {
-  for (let i = 0; i < toastViewModel.items.length; i++) {
-    if (toastViewModel.items[i].id === id) {
-      mobx.runInAction(() => toastViewModel.items.splice(i, 1));
-      return;
+  @mobx.action
+  private _removeToast(id: number) {
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i].id === id) {
+        this.items.splice(i, 1);
+        return;
+      }
     }
   }
+  
+  @mobx.observable
+  items = [] as {id: number, text: string}[];
 }

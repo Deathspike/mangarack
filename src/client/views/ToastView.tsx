@@ -9,7 +9,9 @@ export class ToastView extends React.Component {
   render() {
     return (
       <div style={toastStyle.container}>
-        {mio.toastViewModel.items.map(item => <mui.Typography key={item.id} type="body1" style={toastStyle.item}>{item.text}</mui.Typography>)}
+        {mio.toastViewModel.items.map(item => <mui.Typography key={item.id} type="body1" style={toastStyle.item}>
+          {item.text}
+        </mui.Typography>)}
       </div>
     );
   }

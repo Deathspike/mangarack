@@ -1,14 +1,16 @@
 import * as mobx from 'mobx';
 
-export const loadingViewModel = {
-  loadAsync: mobx.action(async (awaiter: () => Promise<void>) => {
+export class LoadingViewModel {
+  @mobx.action
+  async loadAsync(awaiter: () => Promise<void>) {
     try {
-      loadingViewModel.isLoading.set(true);
+      this.isLoading = true;
       await awaiter();
     } finally {
-      mobx.runInAction(() => loadingViewModel.isLoading.set(false));
+      mobx.runInAction(() => this.isLoading = false);
     }
-  }),
+  }
 
-  isLoading: mobx.observable(false)
-};
+  @mobx.observable
+  isLoading = false
+}

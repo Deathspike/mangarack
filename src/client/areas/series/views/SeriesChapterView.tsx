@@ -10,7 +10,7 @@ export class SeriesChapterView extends React.Component<{vm: mio.SeriesChapterVie
     return (
       <mui.ListItem button onClick={() => this.props.vm.openAsync()}>
         <mui.ListItemIcon>
-          {this.props.vm.downloaded ? <muiIcon.InsertDriveFile /> : <muiIcon.Error />}
+          {this.props.vm.downloaded ? <muiIcon.InsertDriveFile /> : <muiIcon.Cloud />}
         </mui.ListItemIcon>
         <mui.ListItemText primary={this.props.vm.name} />
       </mui.ListItem>

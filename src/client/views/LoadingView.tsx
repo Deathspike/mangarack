@@ -8,7 +8,7 @@ import {loadingStyle} from './styles/loadingStyle';
 export class LoadingView extends React.Component {
   render() {
     return (
-      mio.loadingViewModel.isLoading.get() && <div style={loadingStyle.container}>
+      mio.loadingViewModel.isLoading && <div style={loadingStyle.container}>
         <mui.CircularProgress style={loadingStyle.icon} />;
       </div>
     );
