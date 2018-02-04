@@ -5,7 +5,6 @@ import * as mio from './';
 import 'typeface-roboto';
 
 // TODO: web->client
-// TODO: listitem overflow texts..
 // TODO: chapter loading indicator.
 // TODO: chapter listing name is way too long for what's necessary.. V01 #001
 // TODO: make an entry point for web, much like cli/server?

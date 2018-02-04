@@ -3,6 +3,7 @@ import * as mobxReact from 'mobx-react';
 import * as mio from '../';
 import * as mui from 'material-ui';
 import * as muiIcon from 'material-ui-icons';
+import {listStyle} from './style/listStyle';
 
 @mobxReact.observer
 export class ListView extends React.Component<{vm: mio.ListViewModel}> {
@@ -15,7 +16,7 @@ export class ListView extends React.Component<{vm: mio.ListViewModel}> {
               <mui.ListItemIcon>
                 <muiIcon.Folder />
               </mui.ListItemIcon>
-              <mui.ListItemText primary={listEntry.displayName} secondary={listEntry.providerName} />
+              <mui.ListItemText primary={listEntry.displayName} secondary={listEntry.providerName} style={listStyle.listItem} />
             </mui.ListItem>
           ))}
         </mui.List>

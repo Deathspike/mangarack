@@ -14,6 +14,9 @@ export const containerStyle = {
     marginRight: 20,
   }),
   header: mio.withStyle({
-    flex: 1
+    flex: 1,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
   })
 };
