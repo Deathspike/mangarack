@@ -1,5 +1,7 @@
 export * from '../shared';
 export * from './utilities';
+export * from './components/ContainerComponent';
+export * from './components/LoadingComponent';
 export * from './styles/chapterStyle';
 export * from './viewModels/ChapterViewModel';
 export * from './viewModels/IndexEntryViewModel';
