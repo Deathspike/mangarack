@@ -21,7 +21,7 @@ export class SeriesChapterViewModel {
   }
 
   get exists() {
-    return this._apiSeriesChapter.exists;
+    return this._apiSeriesChapter.downloaded;
   }
   
   get name() {

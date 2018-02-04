@@ -7,6 +7,7 @@ const parentPath = path.resolve(__dirname, '../../../');
 const publicPath = path.resolve(__dirname, '../../public');
 const webpackPath = path.resolve(__dirname, '../../webpack.dev.js');
 
+// TODO: On error, server isn't closing properly.
 export async function serveAsync(port: number) {
   return new Promise<void>((resolve, reject) => {
     let app = express();

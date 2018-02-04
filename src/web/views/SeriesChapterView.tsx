@@ -4,6 +4,7 @@ import * as mio from '../';
 import * as mui from 'material-ui';
 import * as muiIcon from 'material-ui-icons';
 
+// TODO: Switch icon on downloaded/exists.
 @mobxReact.observer
 export class SeriesChapterView extends React.Component<{vm: mio.SeriesChapterViewModel}> {
   render() {
