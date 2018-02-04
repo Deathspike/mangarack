@@ -45,6 +45,7 @@ function errorFactory(server: http.Server, reject: (reason: Error) => void) {
 
 function quitFactory(server: http.Server, resolve: () => void) {
   return (_: express.Request, response: express.Response) => {
+    console.log('Quitting server ...');
     response.sendStatus(200);
     server.close();
     resolve();

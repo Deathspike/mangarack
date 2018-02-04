@@ -12,22 +12,21 @@ export async function pageAsync(request: express.Request, response: express.Resp
   if (metaChapterExists) {
     fs.createReadStream(metaChapterPath)
       .pipe(unzipper.Parse())
-      .on('close', () => close(response))
-      .on('entry', (entry: unzipper.Entry) => process(request, response, entry));
+      .on('close', () => closeResponse(response))
+      .on('entry', (entry: unzipper.Entry) => processEntry(request, response, entry));
   } else {
     response.sendStatus(404);
   }
 }
 
-function close(response: express.Response) {
-  if (!response.headersSent) {
-    response.sendStatus(404);
-  }
+function closeResponse(response: express.Response) {
+  if (response.headersSent) return;
+  response.sendStatus(404);
 }
 
-function process(request: express.Request, response: express.Response, entry: unzipper.Entry) {
+function processEntry(request: express.Request, response: express.Response, entry: unzipper.Entry) {
   if (entry.path === request.params.pageName) {
-    response.set('Content-Type', mime.getType(request.params.pageName) || 'application/octet-stream');
+    response.set('Content-Type', mime.getType(entry.path) || 'application/octet-stream');
     entry.pipe(response);
   } else {
     entry.autodrain();

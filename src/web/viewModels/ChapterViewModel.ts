@@ -3,6 +3,7 @@ import * as mobx from 'mobx';
 import shared = mio.shared;
 import {processMangafoxImageAsync} from '../utilities/mangafoxImageProcessor';
 
+// TODO: I should probably already render the next page too, to avoid those delays, and just swap out the image buffers..
 export class ChapterViewModel {
   private _cache: ImageCache;
   private _providerName: string;
@@ -68,6 +69,7 @@ export class ChapterViewModel {
 }
 
 // TODO: Due to the preload saving mechanism, the previous page is always lost. Not that useful.
+// TODO: Move pre-loads into the cache mechanism upon accessing a page.
 class ImageCache {
   private _apiPages: shared.IApiChapterPage[];
   private _apiUrl: string;
