@@ -10,7 +10,7 @@ export class ContainerComponent extends React.Component<{enableBack: boolean, ti
       <div>
         <mui.AppBar color="primary" position="static">
           <mui.Toolbar>
-            <mui.IconButton color="inherit" onClick={() => this._onMenuClick()} style={containerStyle.menuIcon}>
+            <mui.IconButton color="inherit" onClick={() => this._onButtonClick()} style={containerStyle.menuIcon}>
               {this.props.enableBack ? <muiIcon.ArrowBack /> : <muiIcon.Fullscreen />}
             </mui.IconButton>
             <mui.Typography color="inherit" type="title" style={containerStyle.header}>
@@ -28,7 +28,7 @@ export class ContainerComponent extends React.Component<{enableBack: boolean, ti
     );
   }
 
-  private _onMenuClick() {
+  private _onButtonClick() {
     if (this.props.enableBack) return mio.layerViewModel.close();
     let element = document.body as any;
     let request = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;

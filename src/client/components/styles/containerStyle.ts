@@ -7,7 +7,7 @@ export const containerStyle = {
     overflowY: 'scroll',
     position: 'absolute',
     right: 0,
-    top: 64 // TODO: 64 is not entirely correct with different screensizes
+    top: 56
   }),
   menuIcon: mio.withStyle({
     marginLeft: -20,

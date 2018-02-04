@@ -1,7 +1,6 @@
 import * as mobx from 'mobx';
 
 export const loadingViewModel = {
-  isLoading: mobx.observable(false),
   loadAsync: mobx.action(async (awaiter: () => Promise<void>) => {
     try {
       loadingViewModel.isLoading.set(true);
@@ -9,5 +8,7 @@ export const loadingViewModel = {
     } finally {
       loadingViewModel.isLoading.set(false);
     }
-  })
+  }),
+
+  isLoading: mobx.observable(false)
 };

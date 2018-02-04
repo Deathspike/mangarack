@@ -9,7 +9,7 @@ export class SeriesView extends React.Component<{vm: mio.SeriesViewModel}> {
     return (
       <mui.Paper>
         <mui.List>
-          {this.props.vm.chapters.map(seriesChapterViewModel => <mio.SeriesChapterView key={seriesChapterViewModel.uniqueKey} vm={seriesChapterViewModel} />)}
+          {this.props.vm.chapters.map(seriesChapterViewModel => <mio.SeriesChapterView key={seriesChapterViewModel.name} vm={seriesChapterViewModel} />)}
         </mui.List>
       </mui.Paper>
     );

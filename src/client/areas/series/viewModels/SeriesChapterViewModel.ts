@@ -17,7 +17,7 @@ export class SeriesChapterViewModel {
   
   tryNavigateTo() {
     if (this.exists) {
-      createAsync(this._providerName, this._seriesName, this.name);
+      createAsync(this._providerName, this._seriesName, shared.nameOf(this._apiSeries, this._apiSeriesChapter));
     }
   }
 
@@ -26,10 +26,6 @@ export class SeriesChapterViewModel {
   }
   
   get name() {
-    return shared.nameOf(this._apiSeries, this._apiSeriesChapter);
-  }
-
-  get uniqueKey() {
-    return `${this._providerName}/${this._seriesName}/${this.name}`;
+    return shared.nameOf(this._apiSeries, this._apiSeriesChapter, true);
   }
 }
