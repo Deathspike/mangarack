@@ -7,7 +7,7 @@ export const containerStyle = {
     overflowY: 'scroll',
     position: 'absolute',
     right: 0,
-    top: 64
+    top: 64 // TODO: 64 is not entirely correct with different screensizes
   }),
   header: mio.createStyle({
     flex: 1

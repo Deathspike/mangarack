@@ -1,4 +1,4 @@
-import * as mio from '../';
+import * as mio from '../../';
 
 export const chapterStyle = {
   imageContainer: mio.createStyle({

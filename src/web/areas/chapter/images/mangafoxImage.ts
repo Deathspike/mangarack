@@ -1,4 +1,4 @@
-export async function processMangafoxImageAsync(blob: Blob) {
+export async function mangafoxImageAsync(blob: Blob) {
   let image = await getImageAsync(blob);
   let canvas = document.createElement('canvas');
   canvas.height = image.height;

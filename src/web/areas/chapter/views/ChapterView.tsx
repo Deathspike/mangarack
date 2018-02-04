@@ -2,13 +2,14 @@ import * as Hammer from 'hammerjs';
 import * as React from 'react';
 import * as mobxReact from 'mobx-react';
 import * as mio from '../';
+import {chapterStyle} from './styles/chapterStyle';
 
 @mobxReact.observer
 export class ChapterView extends React.Component<{vm: mio.ChapterViewModel}> {
   render() {
     return (
-      <div ref={divElement => this._onLoad(divElement)} onClick={e => this._onClick(e)} style={mio.chapterStyle.imageContainer}>
-        <img src={this.props.vm.img} style={mio.chapterStyle.image} />
+      <div ref={divElement => this._onLoad(divElement)} onClick={e => this._onClick(e)} style={chapterStyle.imageContainer}>
+        <img src={this.props.vm.img} style={chapterStyle.image} />
       </div>
     );
   }

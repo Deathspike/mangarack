@@ -1,7 +1,6 @@
 import * as mio from '../';
 import * as mobx from 'mobx';
 import shared = mio.shared;
-import {processMangafoxImageAsync} from '../utilities/mangafoxImageProcessor';
 
 // TODO: I should probably already render the next page too, to avoid those delays, and just swap out the image buffers..
 export class ChapterViewModel {
@@ -121,7 +120,7 @@ class ImageCache {
     let request = await fetch(`${this._apiUrl}/${encodeURIComponent(pageName)}`);
     let buffer = await request.blob();
     if (this._providerName === 'mangafox') {
-      return await processMangafoxImageAsync(buffer)
+      return await mio.mangafoxImageAsync(buffer)
     } else {
       return URL.createObjectURL(buffer);
     }
