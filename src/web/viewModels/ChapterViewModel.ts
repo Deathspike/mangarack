@@ -18,7 +18,7 @@ export class ChapterViewModel {
 
   @mobx.action
   close() {
-    alert('TODO: Close chapter');
+    history.back(); // TODO: double tap with notification
   }
 
   @mobx.action

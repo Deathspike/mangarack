@@ -5,6 +5,8 @@ import * as mio from './';
 import * as rrd from 'react-router-dom';
 import 'typeface-roboto';
 
+// TODO: listitem overflow texts..
+// TODO: chapter listing name is way too long for what's necessary.. V01 #001
 // todo: fixed appbar
 // TODO: make an entry point for web, much like cli/server?
 // TODO: stepper (back button, etc)
@@ -92,6 +94,7 @@ class SeriesController extends MatchController<{providerName: string, seriesName
   }
 }
 
+// TODO: Open me on top of existing.. stacked, so closing chapter can go back to where you were.. scrolled and all.
 class ChapterController extends MatchController<{providerName: string, seriesName: string, chapterName: string}, mio.ChapterViewModel> {
   async createAsync(params: {providerName: string, seriesName: string, chapterName: string}) {
     let vm = new mio.ChapterViewModel(params.providerName, params.seriesName, params.chapterName);
