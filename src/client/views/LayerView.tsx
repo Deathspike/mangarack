@@ -5,14 +5,10 @@ import * as mio from '../';
 @mobxReact.observer
 export class LayerView extends React.Component {
   render() {
-    return (
-      <div>
-        {mio.layerViewModel.loading.get() && <mio.LoadingComponent />}
-        {mio.layerViewModel.layers.map((layer, index) => {
-          let display = index === mio.layerViewModel.layers.length - 1 ? 'block' : 'none';
-          return <div key={index} style={{display}}>{layer}</div>;
-        })}
-      </div>
-    );
+    let topIndex = mio.layerViewModel.items.length - 1;
+    return mio.layerViewModel.items.map((layer, index) => {
+      let display = index === topIndex ? 'block' : 'none';
+      return <div key={index} style={{display}}>{layer}</div>;
+    })
   }
 }

@@ -1,19 +1,16 @@
+import * as mio from '../';
 import * as mobx from 'mobx';
 
 export const layerViewModel = {
   close: mobx.action(() => {
-    layerViewModel.layers.pop();
+    layerViewModel.items.pop();
   }),
 
   openAsync: mobx.action(async (awaiter: () => Promise<JSX.Element>) => {
-    try {
-      layerViewModel.loading.set(true);
-      layerViewModel.layers.push(await awaiter());
-    } finally {
-      layerViewModel.loading.set(false);
-    }
+    mio.loadingViewModel.loadAsync(async () => {
+      layerViewModel.items.push(await awaiter());
+    });
   }),
 
-  layers: mobx.observable([] as JSX.Element[]),
-  loading: mobx.observable(false)
+  items: mobx.observable([] as JSX.Element[]),
 }

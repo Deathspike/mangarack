@@ -24,8 +24,4 @@ export class ListEntryViewModel {
   navigateTo() {
     createAsync(this._apiListEntry.providerName, this._apiListEntry.seriesName);
   }
-
-  get url() {
-    return `/${encodeURIComponent(this._apiListEntry.providerName)}/${encodeURIComponent(this._apiListEntry.seriesName)}`;
-  }
 }
