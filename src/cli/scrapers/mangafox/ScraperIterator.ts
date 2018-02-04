@@ -2,13 +2,14 @@ import * as mio from '../../';
 import {evaluatePage} from './evaluators/page';
 import shared = mio.shared;
 
-// TODO: Protect against an iterator with JUST ONE page. That's a scraper issue.
 export class ScraperIterator implements mio.IScraperIterator {
   private _browserTab: mio.BrowserTab;
+  private _currentPage: number;
   private _evaluatorPage?: IEvaluatorPage;
-
+  
   constructor(browserTab: mio.BrowserTab) {
     this._browserTab = browserTab;
+    this._currentPage = 1;
     this._evaluatorPage = undefined;
   }
 
@@ -35,7 +36,7 @@ export class ScraperIterator implements mio.IScraperIterator {
         }
       }
     } else {
-      throw new Error('Call `moveAsync` before `currentAsync`');
+      throw new Error('Invalid scraper iterator call');
     }
   }
 
@@ -46,9 +47,12 @@ export class ScraperIterator implements mio.IScraperIterator {
     } else if (this._evaluatorPage.nextPageUrl) {
       await this._browserTab.navigateAsync(this._evaluatorPage.nextPageUrl);
       await this._evaluateAsync();
+      this._currentPage++;
       return true;
-    } else {
+    } else if (this._currentPage >= 2) {
       return false;
+    } else {
+      throw new Error('Invalid scraper iterator response');
     }
   }
 
