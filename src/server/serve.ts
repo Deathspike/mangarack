@@ -7,7 +7,7 @@ const parentPath = path.resolve(__dirname, '../../../');
 const publicPath = path.resolve(__dirname, '../../public');
 const webpackPath = path.resolve(__dirname, '../../webpack.dev.js');
 
-export async function serveAsync(port: number) {
+export async function serveAsync(port: number, useWebpack: boolean) {
   return new Promise<void>((resolve, reject) => {
     let app = express();
     let server = app.listen(port);
@@ -20,7 +20,7 @@ export async function serveAsync(port: number) {
     app.get ('/api/library/:providerName/:seriesName/:chapterName', async(mio.api.chapterAsync));
     app.get ('/api/library/:providerName/:seriesName/:chapterName/:pageName', async(mio.api.pageAsync));
     app.post('/api/quit', quitFactory(server, resolve));
-    app.use (webpackFactory());
+    app.use (webpackFactory(useWebpack));
     app.use (express.static(publicPath));
     app.use (errorFactory(server, reject));
   });
@@ -52,8 +52,8 @@ function quitFactory(server: http.Server, resolve: () => void) {
   };
 }
 
-function webpackFactory(): express.RequestHandler {
-  if (path.basename(parentPath) === 'node_modules') return (_1, _2, next) => next();
+function webpackFactory(useWebpack: boolean): express.RequestHandler {
+  if (!useWebpack || path.basename(parentPath) === 'node_modules') return (_1, _2, next) => next();
   let webpack = require('webpack');
   let webpackData = require(webpackPath);
   let webpackMiddleware = require('webpack-dev-middleware');
