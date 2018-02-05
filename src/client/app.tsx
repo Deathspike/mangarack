@@ -8,7 +8,6 @@ mobx.useStrict(true);
 
 // TODO: clean up entire chapter area.. check paper notes!
 // TODO: error handling
-// TODO: chapter loading indicator.
 // TODO: make an entry point for client, much like cli/server?
 // TODO: export {
 // TODO: android back button.

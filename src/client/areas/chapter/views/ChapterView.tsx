@@ -7,13 +7,18 @@ import {chapterStyle} from './styles/chapterStyle';
 export class ChapterView extends React.Component<{vm: mio.ChapterViewModel}> {
   render() {
     return (
-      <div ref={divElement => this._onLoad(divElement)} onClick={e => this._onClick(e)} style={chapterStyle.imageContainer}>
-        <img src={this.props.vm.image} style={chapterStyle.image} />
+      <div ref={divElement => this._onLoad(divElement)} onMouseDown={e => this._onMouseEvent(e)} style={chapterStyle.imageContainer}>
+        <img onContextMenu={e => this._onContextMenu(e)} src={this.props.vm.image} style={chapterStyle.image} />
       </div>
     );
   }
 
-  private _onClick(e: React.MouseEvent<HTMLDivElement>) {
+  private _onContextMenu(e: React.MouseEvent<HTMLImageElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  private _onMouseEvent(e: React.MouseEvent<HTMLDivElement>) {
     let tresholdX = innerWidth / 2;
     let tresholdY = innerHeight / 3;
     if (e.clientY < tresholdY) {

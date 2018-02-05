@@ -16,14 +16,14 @@ export class ImageCache {
 
   async getImageAsync(number: number) {
     let index = number - 1;
-    let value = this._images[index];
+    let image = this._images[index];
     this._expireCache(index);
-    if (typeof value === 'string') {
+    if (typeof image === 'string') {
       this._startPreloadImage(index - 1);
       this._startPreloadImage(index + 1);
-      return value;
-    } else if (value) {
-      let wrapValue = value;
+      return image;
+    } else if (image) {
+      let wrapValue = image;
       return mio.loadingViewModel.loadAsync(() => wrapValue);
     } else {
       return this._images[index] = mio.loadingViewModel.loadAsync(async () => {
