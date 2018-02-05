@@ -1,0 +1,12 @@
+body {
+  height: 100%;
+  width: 100%;
+}
+
+html:fullscreen {
+  background-color: white;
+}
+
+html:-webkit-full-screen-ancestor {
+  background-color: white;
+}

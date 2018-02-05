@@ -29,10 +29,17 @@ export class ContainerComponent extends React.Component<{enableBack: boolean, ti
   }
 
   private _onButtonClick() {
-    if (this.props.enableBack) return mio.layerViewModel.close();
-    let element = document.body as any;
-    let request = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
-    if (request) request.call(element);
+    if (this.props.enableBack) {
+      mio.layerViewModel.close();
+    } else if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else if (document.webkitFullscreenElement) {
+      document.webkitCancelFullScreen();
+    } else {
+      let element = document.body as any;
+      let request = element.requestFullScreen || element.webkitRequestFullScreen;
+      if (request) request.call(element);
+    }
   }
 
   private _onRefreshClick() {
