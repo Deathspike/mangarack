@@ -20,6 +20,6 @@ export class Browser {
 	}
 
 	async tabAsync(url: string) {
-		return mio.BrowserTab.createAsync(this._browser, url);
+		return await mio.BrowserTab.createAsync(this._browser, url);
 	}
 }

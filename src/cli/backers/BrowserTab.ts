@@ -32,7 +32,7 @@ export class BrowserTab {
 	}
 
 	async bufferAsync(url: string) {
-		let request = await this._waitForRequest(url);
+		let request = await this._waitForRequestAsync(url);
 		let response = request.response();
 		if (response && response.status === 200) {
 			return response.buffer();
@@ -52,7 +52,7 @@ export class BrowserTab {
 
 		// Initialize the response.
 		for (let i = 1; i <= shared.settings.browserNavigateRetries; i++) {
-			let request = await this._waitForRequest(await this._page.url());
+			let request = await this._waitForRequestAsync(await this._page.url());
 			let response = request.response();
 			if (response && response.status === 200) return;
 			await this.reloadAsync();
@@ -85,7 +85,7 @@ export class BrowserTab {
 		this._requests[request.url] = request;
 	}
 
-	async _waitForRequest(url: string) {
+	_waitForRequestAsync(url: string) {
 		return new Promise<puppeteer.Request>(resolve => {
 			let value = this._requests[url];
 			if (value instanceof Function) {

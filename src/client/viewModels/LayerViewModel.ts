@@ -9,7 +9,7 @@ export class LayerViewModel {
 
   @mobx.action
   async openAsync(awaiter: () => Promise<JSX.Element>) {
-    mio.loadingViewModel.loadAsync(async () => {
+    await mio.loadingViewModel.loadAsync(async () => {
       let item = await awaiter();
       mobx.runInAction(() => this.items.push(item));
     });

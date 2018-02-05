@@ -7,7 +7,7 @@ const parentPath = path.resolve(__dirname, '../../../');
 const publicPath = path.resolve(__dirname, '../../public');
 const webpackPath = path.resolve(__dirname, '../../webpack.dev.js');
 
-export async function serveAsync(port: number, useWebpack: boolean) {
+export function serveAsync(port: number, useWebpack: boolean) {
   return new Promise<void>((resolve, reject) => {
     let app = express();
     let server = app.listen(port);

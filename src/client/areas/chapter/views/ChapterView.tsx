@@ -8,7 +8,7 @@ export class ChapterView extends React.Component<{vm: mio.ChapterViewModel}> {
   render() {
     return (
       <div ref={divElement => this._onLoad(divElement)} onClick={e => this._onClick(e)} style={chapterStyle.imageContainer}>
-        <img src={this.props.vm.img} style={chapterStyle.image} />
+        <img src={this.props.vm.image} style={chapterStyle.image} />
       </div>
     );
   }
