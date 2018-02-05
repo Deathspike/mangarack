@@ -1,33 +1,36 @@
-export async function mangafoxImageAsync(blob: Blob) {
-  let image = await getImageAsync(blob);
-  let canvas = document.createElement('canvas');
-  canvas.height = image.height;
-  canvas.width = image.width;
+export async function mangafoxImageAsync(buffer: Blob) {
+  // Initialize the image and canvas.
+  let image = await convertImageAsync(buffer);
+  let imageCanvas = document.createElement('canvas');
+  imageCanvas.height = image.height;
+  imageCanvas.width = image.width;
   
-  let context = canvas.getContext('2d');
-  if (!context) throw new Error('Invalid image context');
-  context.drawImage(image, 0, 0, image.width, image.height);
+  // Initialize the image context.
+  let imageContext = imageCanvas.getContext('2d');
+  if (!imageContext) throw new Error('Invalid image context');
+  imageContext.drawImage(image, 0, 0, image.width, image.height);
 
-  let imageData = context.getImageData(0, 0, image.width, image.height);
-  let cropLines = readNumberOfCropLines(imageData.data, image.height, image.width);
-  if (cropLines) {
-    canvas.height -= cropLines;
-    context.putImageData(imageData, 0, 0);
-  }
+  // Initialize the image data.
+  let imageData = imageContext.getImageData(0, 0, image.width, image.height);
+  let numberOfCropLines = fetchNumberOfCropLines(imageData.data, image.height, image.width);
+  if (!numberOfCropLines) return imageCanvas.toDataURL();
 
-  return canvas.toDataURL();
+  // Process the image.
+  imageCanvas.height -= numberOfCropLines;
+  imageContext.putImageData(imageData, 0, 0);
+  return imageCanvas.toDataURL();
 }
 
-function getImageAsync(blob: Blob) {
+function convertImageAsync(buffer: Blob) {
   return new Promise<HTMLImageElement>((resolve, reject) => {
     let image = new Image();
     image.addEventListener('error', reject);
     image.addEventListener('load', () => resolve(image));
-    image.src = URL.createObjectURL(blob);
+    image.src = URL.createObjectURL(buffer);
   });
 }
 
-function readLineAverageOrContainsBlack(imageData: Uint8ClampedArray, width: number, y: number) {
+function fetchAverageOrContainsBlack(imageData: Uint8ClampedArray, width: number, y: number) {
   let totals = {b: 0, g: 0, r: 0};
   for (let x = 0, index = y * width * 4; x < width; x++, index += 4) {
     let r = imageData[index];
@@ -44,19 +47,16 @@ function readLineAverageOrContainsBlack(imageData: Uint8ClampedArray, width: num
   return {b: Math.round(totals.b / width), g: Math.round(totals.g / width), r: Math.round(totals.r / width)};
 }
 
-function readNumberOfCropLines(imageData: Uint8ClampedArray, height: number, width: number) {
+function fetchNumberOfCropLines(imageData: Uint8ClampedArray, height: number, width: number) {
   let count = -1;
   let firstBlackY = -1;
   let lastBlackY = -1;
   for (let y = 0; y < 80 && y < height; y += 1) {
-    let line = readLineAverageOrContainsBlack(imageData, width, height - y - 1);
+    let line = fetchAverageOrContainsBlack(imageData, width, height - y - 1);
     if (!line) {
-      if (y !== 0) {
-        firstBlackY = firstBlackY === -1 ? (firstBlackY > 5 ? 5 : y) : firstBlackY;
-        lastBlackY = y;
-      } else {
-        return 0;
-      }
+      if (y === 0) return 0;
+      firstBlackY = firstBlackY === -1 ? (firstBlackY > 5 ? 5 : y) : firstBlackY;
+      lastBlackY = y;
     } else if (lastBlackY !== -1 && line.r >= 245 && line.g >= 245 && line.b >= 245) {
       count = firstBlackY + lastBlackY;
     }

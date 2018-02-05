@@ -74,7 +74,6 @@ export class ChapterViewModel {
   img: string;
 }
 
-// TODO: Due to the preload saving mechanism, the previous page is always lost. Not that useful.
 // TODO: Move pre-loads into the cache mechanism upon accessing a page.
 class ImageCache {
   private _apiPages: shared.IApiChapterPage[];
@@ -92,19 +91,20 @@ class ImageCache {
   async getImageAsync(number: number) {
     let index = number - 1;
     let value = this._images[index];
+    this._cleanCache(index);
     if (typeof value === 'string') {
       return value;
     } else if (value) {
       return await value;
     } else {
-      return this._images[index] = this._fetchImage(index).then(image => this._storeImage(image, index));
+      return this._images[index] = mio.loadingViewModel.loadAsync(() => this._fetchImage(index));
     }
   }
 
   preloadImage(number: number) {
     let index = number - 1;
     if (index >= 0 && index < this._images.length) {
-      this.getImageAsync(number);
+      this._fetchImage(index);
     }
   }
 
@@ -116,16 +116,15 @@ class ImageCache {
     }
   }
 
-  private _storeImage(image: string, index: number) {
-    this._cleanCache(index);
+  private async _fetchImage(index: number) {
+    let request = await fetch(`${this._apiUrl}/${encodeURIComponent(this._apiPages[index].name)}`);
+    let image = await this._processImageAsync(await request.blob())
     this._images[index] = image;
+    console.log(this._images.map(x => Boolean(x)));
     return image;
   }
 
-  private async _fetchImage(index: number) {
-    let pageName = this._apiPages[index].name;
-    let request = await fetch(`${this._apiUrl}/${encodeURIComponent(pageName)}`);
-    let buffer = await request.blob();
+  private async _processImageAsync(buffer: Blob) {
     if (this._providerName === 'mangafox') {
       return await mio.mangafoxImageAsync(buffer)
     } else {

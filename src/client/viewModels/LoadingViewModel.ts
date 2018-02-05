@@ -2,10 +2,10 @@ import * as mobx from 'mobx';
 
 export class LoadingViewModel {
   @mobx.action
-  async loadAsync(awaiter: () => Promise<void>) {
+  async loadAsync<T>(awaiter: () => Promise<T>) {
     try {
       this.isLoading = true;
-      await awaiter();
+      return await awaiter();
     } finally {
       mobx.runInAction(() => this.isLoading = false);
     }

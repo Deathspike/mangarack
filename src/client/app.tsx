@@ -6,9 +6,9 @@ import * as mobx from 'mobx';
 import 'typeface-roboto';
 mobx.useStrict(true);
 
+// TODO: clean up entire chapter area.. check paper notes!
 // TODO: error handling
 // TODO: chapter loading indicator.
-// TODO: chapter listing name is way too long for what's necessary.. V01 #001
 // TODO: make an entry point for client, much like cli/server?
 // TODO: export {
 // TODO: android back button.
