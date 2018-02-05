@@ -1,5 +1,4 @@
 import * as Hammer from 'hammerjs';
-import * as mio from '../';
 
 // TODO: Clean up.
 export function pinchZoom(el: HTMLElement) {
@@ -28,7 +27,6 @@ export function pinchZoom(el: HTMLElement) {
     let limitX = el.clientWidth * (currentScale - 1) / 4;
     if (currentDeltaX < -limitX) currentDeltaX = -limitX;
     if (currentDeltaX > limitX) currentDeltaX = limitX;
-    mio.toastViewModel.show(`limitX=${limitX}`);
 
     let limitY = el.clientHeight * (currentScale - 1) / 4;
     if (currentDeltaY < -limitY) currentDeltaY = -limitY;
