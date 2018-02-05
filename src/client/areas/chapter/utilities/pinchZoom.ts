@@ -1,6 +1,6 @@
 import * as Hammer from 'hammerjs';
 
-// TODO: Boundaries. Clean up.
+// TODO: Clean up.
 export function pinchZoom(el: HTMLElement) {
   let mc = new Hammer.Manager(el);
   let pinch = new Hammer.Pinch();
@@ -23,6 +23,15 @@ export function pinchZoom(el: HTMLElement) {
     currentScale = Math.max(1, adjustScale * ev.scale);
     currentDeltaX = adjustDeltaX + (ev.deltaX / currentScale);
     currentDeltaY = adjustDeltaY + (ev.deltaY / currentScale);
+
+    let limitX = ((el.clientWidth * currentScale) - el.clientWidth) / 2;
+    if (currentDeltaX < -limitX) currentDeltaX = -limitX;
+    if (currentDeltaX > limitX) currentDeltaX = limitX;
+
+    let limitY = ((el.clientHeight * currentScale) - el.clientHeight) / 2;
+    if (currentDeltaY < -limitY) currentDeltaY = -limitY;
+    if (currentDeltaY > limitY) currentDeltaY = limitY;
+
     el.style.transform = `scale(${currentScale}) translate(${currentDeltaX}px,${currentDeltaY}px)`;
   });
 
