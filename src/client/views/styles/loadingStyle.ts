@@ -6,8 +6,7 @@ export const loadingStyle = {
     left: 0,
     right: 0,
     position: 'absolute',
-    top: 0,
-    zIndex: 1
+    top: 0
   }),
   icon: mio.withStyle({
     background: 'rgba(0, 0, 0, 0.75)',

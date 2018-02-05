@@ -15,9 +15,9 @@ export class SeriesChapterViewModel {
     this._seriesName = seriesName;
   }
   
-  openAsync() {
+  async openAsync() {
     if (this.downloaded) {
-      openAsync(this._providerName, this._seriesName, shared.nameOf(this._apiSeries, this._apiSeriesChapter));
+      await openAsync(this._providerName, this._seriesName, shared.nameOf(this._apiSeries, this._apiSeriesChapter));
     } else {
       mio.toastViewModel.show(`${this.name} is not locally available`);
     }

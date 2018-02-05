@@ -6,17 +6,24 @@ import * as mobx from 'mobx';
 import 'typeface-roboto';
 mobx.useStrict(true);
 
-// TODO: clean up entire chapter area.. check paper notes!
+// TODO: remove pinch zoom / reorganize chapter area.. mainly the excess folders.
 // TODO: error handling
 // TODO: make an entry point for client, much like cli/server?
 // TODO: export {
-// TODO: android back button.
 
-ReactDOM.render(<div>
-  <mui.Reboot />
-  <mio.LoadingView />
-  <mio.LayerView />
-  <mio.ToastView />
-</div>, document.getElementById('container'));
+function App() {
+  return (
+    <div>
+      <mui.Reboot />
+      <mio.LayerView />
+      <mio.ToastView />
+      <mio.LoadingView />
+    </div>
+  );
+}
 
-mio.areas.list.openAsync();
+(function() {
+  ReactDOM.render(<App />, document.getElementById('container'));
+  document.addEventListener('backbutton', mio.layerViewModel.close);
+  mio.areas.list.openAsync();
+})();

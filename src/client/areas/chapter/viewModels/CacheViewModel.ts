@@ -1,7 +1,7 @@
 import * as mio from '../';
 import shared = mio.shared;
 
-export class ImageCache {
+export class CacheViewModel {
   private _apiPages: shared.IApiChapterPage[];
   private _apiUrl: string;
   private _images: (Promise<string> | string | undefined)[];

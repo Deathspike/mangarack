@@ -9,8 +9,8 @@ export class ListEntryViewModel {
     this._apiListEntry = apiListEntry;
   }
 
-  openAsync() {
-    return openAsync(this._apiListEntry.providerName, this._apiListEntry.seriesName);
+  async openAsync() {
+    await openAsync(this._apiListEntry.providerName, this._apiListEntry.seriesName);
   }
 
   get key() {
