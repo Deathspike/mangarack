@@ -1,6 +1,7 @@
 import * as Hammer from 'hammerjs';
 
 // TODO: Clean up. Zoom out when changing page. Perhaps zoom to image width/height rather than container?
+// TODO: zoom towards ev.center.x/y
 export function pinchZoom(el: HTMLElement) {
   let mc = new Hammer.Manager(el);
   let pinch = new Hammer.Pinch();
