@@ -3,26 +3,26 @@ import {ScraperIterator} from './ScraperIterator';
 
 export class ScraperSeriesChapter implements mio.IScraperSeriesChapter {
   private _browserTab: mio.BrowserTab;
-  private _evaluatorSeriesChapter: IEvaluatorSeriesChapter;
+  private _seriesChapter: IEvaluatorSeriesChapter;
 
   constructor(page: mio.BrowserTab, seriesItem: IEvaluatorSeriesChapter) {
     this._browserTab = page;
-    this._evaluatorSeriesChapter = seriesItem;
+    this._seriesChapter = seriesItem;
   }
 
   async iteratorAsync() {
-    return new ScraperIterator(await this._browserTab.tabAsync(this._evaluatorSeriesChapter.url));
+    return new ScraperIterator(await this._browserTab.tabAsync(this._seriesChapter.url));
   }
   
   get number() {
-    return this._evaluatorSeriesChapter.number;
+    return this._seriesChapter.number;
   }
 
   get title() {
-    return this._evaluatorSeriesChapter.title;
+    return this._seriesChapter.title;
   }
   
   get volume() {
-    return this._evaluatorSeriesChapter.volume;
+    return this._seriesChapter.volume;
   }
 }

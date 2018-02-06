@@ -3,35 +3,33 @@ import {openAsync} from '../../chapter';
 import shared = mio.shared;
 
 export class SeriesChapterViewModel {
-  private _apiSeries: shared.IApiSeries;
-  private _apiSeriesChapter: shared.IApiSeriesChapter;
-  private _providerName: string;
-  private _seriesName: string;
+  private _listEntry: shared.IApiListEntry;
+  private _series: shared.IApiSeries;
+  private _seriesChapter: shared.IApiSeriesChapter;
 
-  constructor(providerName: string, seriesName: string, apiSeries: shared.IApiSeries, apiSeriesChapter: shared.IApiSeriesChapter) {
-    this._apiSeries = apiSeries;
-    this._apiSeriesChapter = apiSeriesChapter;
-    this._providerName = providerName;
-    this._seriesName = seriesName;
+  constructor(listEntry: shared.IApiListEntry, series: shared.IApiSeries, seriesChapter: shared.IApiSeriesChapter) {
+    this._listEntry = listEntry;
+    this._series = series;
+    this._seriesChapter = seriesChapter;
   }
   
   async openAsync() {
     if (this.downloaded) {
-      await openAsync(this._providerName, this._seriesName, shared.nameOf(this._apiSeries, this._apiSeriesChapter));
+      await openAsync(this._listEntry, this._seriesChapter);
     } else {
-      mio.toastViewModel.show(`${this.name} is not locally available`);
+      mio.toastViewModel.show(`${this.name} is available`);
     }
   }
 
   get downloaded() {
-    return this._apiSeriesChapter.downloaded;
+    return this._seriesChapter.downloaded;
   }
 
   get exists() {
-    return this._apiSeriesChapter.exists;
+    return this._seriesChapter.exists;
   }
   
   get name() {
-    return shared.nameOf(this._apiSeries, this._apiSeriesChapter, true);
+    return shared.nameOf(this._series.title, this._seriesChapter, true);
   }
 }

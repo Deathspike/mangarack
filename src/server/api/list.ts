@@ -6,7 +6,7 @@ import * as sanitizeFilename from 'sanitize-filename';
 import shared = mio.shared;
 
 export async function listAsync(_: express.Request, response: express.Response) {
-  let apiList = [] as shared.IApiList;
+  let list = [] as shared.IApiList;
   let fileNames = await fs.readdir(shared.path.normal());
   for (let fileName of fileNames) {
     let fileExtension = path.extname(fileName);
@@ -15,7 +15,7 @@ export async function listAsync(_: express.Request, response: express.Response) 
       let metaProvider = await fs.readJson(metaProviderPath) as shared.IMetaProvider;
       let providerName = fileName.substr(0, fileName.length - fileExtension.length);
       for (let url in metaProvider) {
-        apiList.push({
+        list.push({
           providerName: providerName,
           seriesName: sanitizeFilename(metaProvider[url]),
           seriesTitle: metaProvider[url]
@@ -23,5 +23,5 @@ export async function listAsync(_: express.Request, response: express.Response) 
       }
     }
   }
-  response.send(apiList);
+  response.send(list);
 }

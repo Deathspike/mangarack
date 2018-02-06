@@ -9,8 +9,8 @@ export async function chapterAsync(request: express.Request, response: express.R
   let metaChapterExists = await fs.pathExists(metaChapterPath);
   if (metaChapterExists) {
     let metaChapter = await fs.readJson(metaChapterPath) as shared.IMetaChapter;
-    let apiChapter = metaChapter as shared.IApiChapter;
-    response.send(apiChapter);
+    let chapter = metaChapter as shared.IApiChapter;
+    response.send(chapter);
   } else {
     response.sendStatus(404);
   }

@@ -10,6 +10,7 @@ mobx.useStrict(true);
 // TODO: error handling
 // TODO: make an entry point for client, much like cli/server?
 // TODO: export {
+// TODO: backbutton listener detach?
 
 function App() {
   return (

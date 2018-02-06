@@ -11,15 +11,15 @@ export async function seriesAsync(request: express.Request, response: express.Re
     let seriesPath = shared.path.normal(request.params.providerName, request.params.seriesName);
     let seriesExists = await fs.pathExists(seriesPath);
     let metaSeries = await fs.readJson(metaSeriesPath) as shared.IMetaSeries;
-    let apiSeries = metaSeries as shared.IApiSeries;
+    let series = metaSeries as shared.IApiSeries;
     if (seriesExists) {
       let chapterFileMap = {} as {[fileName: string]: shared.IApiSeriesChapter};
       let fileNames = await fs.readdir(shared.path.normal(request.params.providerName, request.params.seriesName));
-      for (let apiSeriesChapter of apiSeries.chapters) {
-        let chapterName = shared.nameOf(apiSeries, apiSeriesChapter) + shared.extension.cbz;
-        apiSeriesChapter.downloaded = fileNames.indexOf(chapterName) !== -1;
-        apiSeriesChapter.exists = true;
-        chapterFileMap[chapterName] = apiSeriesChapter;
+      for (let seriesChapter of series.chapters) {
+        let chapterName = shared.nameOf(series.title, seriesChapter) + shared.extension.cbz;
+        seriesChapter.downloaded = fileNames.indexOf(chapterName) !== -1;
+        seriesChapter.exists = true;
+        chapterFileMap[chapterName] = seriesChapter;
       }
       for (let fileName of fileNames) {
         let fileExtension = path.extname(fileName);
@@ -28,12 +28,12 @@ export async function seriesAsync(request: express.Request, response: express.Re
           let metaChapterName = (isDeleted ? fileName.substr(0, fileName.length - fileExtension.length) : fileName) + shared.extension.json;
           let metaChapterPath = shared.path.normal(request.params.providerName, request.params.seriesName, metaChapterName);
           let metaChapter = await fs.readJson(metaChapterPath) as shared.IMetaChapter;
-          apiSeries.chapters.push({downloaded: true, exists: false, number: metaChapter.number, title: metaChapter.title, volume: metaChapter.volume});
+          series.chapters.push({downloaded: true, exists: false, number: metaChapter.number, title: metaChapter.title, volume: metaChapter.volume});
         }
       }
     }
-    apiSeries.chapters.sort(orderVolumeAndNumber);
-    response.send(apiSeries);
+    series.chapters.sort(orderVolumeAndNumber);
+    response.send(series);
   } else {
     response.sendStatus(404);
   }

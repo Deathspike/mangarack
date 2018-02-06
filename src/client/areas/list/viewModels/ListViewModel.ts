@@ -6,9 +6,9 @@ export class ListViewModel {
   @mobx.action
   async refreshAsync() {
     let request = await fetch('/api/library');
-    let apiList = await request.json() as shared.IApiList;
-    let apiListEntries = apiList.map(apiListEntry => new mio.ListEntryViewModel(apiListEntry));
-    this.entries = apiListEntries.sort((a, b) => a.key < b.key ? -1 : 1);
+    let list = await request.json() as shared.IApiList;
+    let listEntries = list.map(listEntry => new mio.ListEntryViewModel(listEntry));
+    this.entries = listEntries.sort((a, b) => a.key < b.key ? -1 : 1);
   }
 
   @mobx.observable

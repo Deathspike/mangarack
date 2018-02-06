@@ -6,8 +6,8 @@ export async function scrapeAsync(browser: mio.Browser, url: string) {
   let cleanUrl = rewriteUrl(url);
   if (!/^http:\/\/fanfox\.net\/manga\/.+\/$/i.test(cleanUrl)) return undefined;
   let browserTab = await browser.tabAsync(cleanUrl);
-  let evaluatorSeries = await browserTab.runIsolatedAsync(evaluateSeries);
-  return new ScraperSeries(browserTab, evaluatorSeries);
+  let series = await browserTab.runIsolatedAsync(evaluateSeries);
+  return new ScraperSeries(browserTab, series);
 }
 
 function rewriteUrl(url: string) {

@@ -1,17 +1,18 @@
 import * as mio from '../';
 import shared = mio.shared;
 
+// TODO: This is not a view model.
 export class CacheViewModel {
-  private _apiPages: shared.IApiChapterPage[];
-  private _apiUrl: string;
+  private _listEntry: shared.IApiListEntry;
+  private _pages: shared.IApiChapterPage[];
+  private _url: string;
   private _images: (Promise<string> | string | undefined)[];
-  private _providerName: string;
 
-  constructor(apiPages: shared.IApiChapterPage[], apiUrl: string, providerName: string) {
-    this._apiPages = apiPages;
-    this._apiUrl = apiUrl;
-    this._images = apiPages.map(() => undefined);
-    this._providerName = providerName;
+  constructor(listEntry: shared.IApiListEntry, pages: shared.IApiChapterPage[], url: string) {
+    this._listEntry = listEntry;
+    this._images = pages.map(() => undefined);
+    this._pages = pages;
+    this._url = url;
   }
 
   async getImageAsync(number: number) {
@@ -44,14 +45,14 @@ export class CacheViewModel {
   }
 
   private async _fetchImage(index: number) {
-    let request = await fetch(`${this._apiUrl}/${encodeURIComponent(this._apiPages[index].name)}`);
+    let request = await fetch(`${this._url}/${encodeURIComponent(this._pages[index].name)}`);
     let image = await this.processAsync(await request.blob())
     this._images[index] = image;
     return image;
   }
 
   private async processAsync(buffer: Blob) {
-    if (this._providerName === 'mangafox') {
+    if (this._listEntry.providerName === 'mangafox') {
       return await mio.mangafoxImageAsync(buffer)
     } else {
       return URL.createObjectURL(buffer);

@@ -7,8 +7,8 @@ export function format(value: number, wholeNumberLength: number) {
   return result;
 }
 
-export function nameOf(series: ISeries<ISeriesChapter>, seriesChapter: ISeriesChapter, skipPrefix?: boolean) { 
-  let seriesName = sanitizeFilename(series.title);
+export function nameOf(seriesTitle: string, seriesChapter: ISeriesChapter, skipPrefix?: boolean) { 
+  let seriesName = sanitizeFilename(seriesTitle);
   let seriesPrefix = skipPrefix ? '' : seriesName + ' ';
   if (seriesName && typeof seriesChapter.volume !== 'undefined') {
     return `${seriesPrefix}V${format(seriesChapter.volume, 2)} #${format(seriesChapter.number, 3)}`;

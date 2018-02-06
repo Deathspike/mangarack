@@ -4,14 +4,12 @@ import shared = mio.shared;
 
 export class ChapterViewModel {
   private _cache: mio.CacheViewModel;
-  private _providerName: string;
-  private _seriesName: string;
-  private _chapterName: string;
+  private _listEntry: shared.IApiListEntry;
+  private _seriesChapter: shared.IApiSeriesChapter;
 
-  constructor(providerName: string, seriesName: string, chapterName: string) {
-    this._providerName = providerName;
-    this._seriesName = seriesName;
-    this._chapterName = chapterName;
+  constructor(listEntry: shared.IApiListEntry, seriesChapter: shared.IApiSeriesChapter) {
+    this._listEntry = listEntry;
+    this._seriesChapter = seriesChapter;
   }
 
   @mobx.action
@@ -22,17 +20,18 @@ export class ChapterViewModel {
   @mobx.action
   async refreshAsync() {
     // Initialize the chapter.
-    let request = await fetch(`/api/library/${encodeURIComponent(this._providerName)}/${encodeURIComponent(this._seriesName)}/${encodeURIComponent(this._chapterName)}`);
-    let apiChapter = await request.json() as shared.IApiChapter;
+    let chapterName = shared.nameOf(this._listEntry.seriesTitle, this._seriesChapter);
+    let request = await fetch(`/api/library/${encodeURIComponent(this._listEntry.providerName)}/${encodeURIComponent(this._listEntry.seriesName)}/${encodeURIComponent(chapterName)}`);
+    let chapter = await request.json() as shared.IApiChapter;
 
     // Initialize the image cache.
-    let imageCache = await new mio.CacheViewModel(apiChapter.pages, request.url, this._providerName);
+    let imageCache = await new mio.CacheViewModel(this._listEntry, chapter.pages, request.url);
     let image = await imageCache.getImageAsync(this.currentPageNumber);
     this._cache = imageCache;
 
     // Initialize the view model.
     mobx.runInAction(() => {
-      this.chapter = apiChapter;
+      this.chapter = chapter;
       this.image = image;
     });
   }

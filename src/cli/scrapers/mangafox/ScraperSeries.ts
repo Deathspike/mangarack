@@ -3,23 +3,23 @@ import {ScraperSeriesChapter} from './ScraperSeriesChapter';
 
 export class ScraperSeries implements mio.IScraperSeries {
   private _browserTab: mio.BrowserTab;
-  private _evaluatorSeries: IEvaluatorSeries;
+  private _series: IEvaluatorSeries;
 
   constructor(browserTab: mio.BrowserTab, series: IEvaluatorSeries) {
     this._browserTab = browserTab;
-    this._evaluatorSeries = series;
+    this._series = series;
   }
 
   get artists() {
-    return this._evaluatorSeries.artists;
+    return this._series.artists;
   }
 
   get authors() {
-    return this._evaluatorSeries.authors;
+    return this._series.authors;
   }
 
   get chapters() {
-    return this._evaluatorSeries.chapters.map(evaluatorSeriesChapter => new ScraperSeriesChapter(this._browserTab, evaluatorSeriesChapter));
+    return this._series.chapters.map(seriesChapter => new ScraperSeriesChapter(this._browserTab, seriesChapter));
   }
 
   closeAsync() {
@@ -27,11 +27,11 @@ export class ScraperSeries implements mio.IScraperSeries {
   }
 
   imageAsync() {
-    return this._browserTab.bufferAsync(this._evaluatorSeries.imageUrl);
+    return this._browserTab.bufferAsync(this._series.imageUrl);
   }
 
   get genres() {
-    return this._evaluatorSeries.genres;
+    return this._series.genres;
   }
 
   get providerName() {
@@ -39,18 +39,18 @@ export class ScraperSeries implements mio.IScraperSeries {
   }
   
   get summary() {
-    return this._evaluatorSeries.summary;
+    return this._series.summary;
   }
 
   get title() {
-    return this._evaluatorSeries.title;
+    return this._series.title;
   }
   
   get type() {
-    return this._evaluatorSeries.type;
+    return this._series.type;
   }
 
   get url() {
-    return this._evaluatorSeries.url;
+    return this._series.url;
   }
 }

@@ -7,27 +7,27 @@ export async function createAsync(urls: string[]) {
     for (let url of urls) {
       let timer = new mio.Timer();
       console.log(`Awaiting ${url}`);
-      await mio.usingAsync(mio.scrapeAsync(browser, url), async scraperSeries => {
-        console.log(`Fetching ${scraperSeries.title}`);
-        let metaProviderPath = shared.path.normal(scraperSeries.providerName + shared.extension.json);
+      await mio.usingAsync(mio.scrapeAsync(browser, url), async series => {
+        console.log(`Fetching ${series.title}`);
+        let metaProviderPath = shared.path.normal(series.providerName + shared.extension.json);
         let metaProviderExists = await fs.pathExists(metaProviderPath);
         let metaProvider = metaProviderExists ? await fs.readJson(metaProviderPath) as shared.IMetaProvider : {};
-        if (!metaProvider[scraperSeries.url]) {
-          await createSeriesAsync(scraperSeries);
-          console.log(`Finished ${scraperSeries.title} (${timer})`);
+        if (!metaProvider[series.url]) {
+          await createSeriesAsync(series);
+          console.log(`Finished ${series.title} (${timer})`);
         } else {
-          console.log(`Canceled ${scraperSeries.title} (${timer})`);
+          console.log(`Canceled ${series.title} (${timer})`);
         }
       });
     }
   });
 }
 
-export async function createSeriesAsync(scraperSeries: mio.IScraperSeries) {
-  let metaProviderPath = shared.path.normal(scraperSeries.providerName + shared.extension.json);
+export async function createSeriesAsync(series: mio.IScraperSeries) {
+  let metaProviderPath = shared.path.normal(series.providerName + shared.extension.json);
   let metaProviderExists = await fs.pathExists(metaProviderPath);
   let metaProvider = metaProviderExists ? await fs.readJson(metaProviderPath) as shared.IMetaProvider : {};
-  metaProvider[scraperSeries.url] = scraperSeries.title;
-  await mio.commands.updateSeriesAsync(scraperSeries);
+  metaProvider[series.url] = series.title;
+  await mio.commands.updateSeriesAsync(series);
   await fs.writeJson(metaProviderPath, metaProvider, {spaces: 2});
 }
