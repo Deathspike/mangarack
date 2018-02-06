@@ -10,7 +10,7 @@ export class ListEntryViewModel {
   }
 
   async openAsync() {
-    await openAsync(this._listEntry.providerName, this._listEntry.seriesName);
+    await openAsync(this._listEntry);
   }
 
   get key() {
