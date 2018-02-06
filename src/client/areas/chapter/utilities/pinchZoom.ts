@@ -1,6 +1,6 @@
 import * as Hammer from 'hammerjs';
 
-// TODO: Clean up.
+// TODO: Clean up. Zoom out when changing page. Perhaps zoom to image width/height rather than container?
 export function pinchZoom(el: HTMLElement) {
   let mc = new Hammer.Manager(el);
   let pinch = new Hammer.Pinch();
@@ -21,14 +21,14 @@ export function pinchZoom(el: HTMLElement) {
   mc.on('pan pinch', ev => {
     if (ev.type === 'pan' && panDelay >= Date.now()) return;
     currentScale = Math.min(Math.max(1, adjustScale * ev.scale), 2);
-    currentDeltaX = adjustDeltaX + (ev.deltaX / currentScale);
-    currentDeltaY = adjustDeltaY + (ev.deltaY / currentScale);
+    currentDeltaX = Math.round(adjustDeltaX + (ev.deltaX / currentScale));
+    currentDeltaY = Math.round(adjustDeltaY + (ev.deltaY / currentScale));
 
-    let limitX = el.clientWidth * (currentScale - 1) / 4;
+    let limitX = Math.round(el.clientWidth * (currentScale - 1) / 4);
     if (currentDeltaX < -limitX) currentDeltaX = -limitX;
     if (currentDeltaX > limitX) currentDeltaX = limitX;
 
-    let limitY = el.clientHeight * (currentScale - 1) / 4;
+    let limitY = Math.round(el.clientHeight * (currentScale - 1) / 4);
     if (currentDeltaY < -limitY) currentDeltaY = -limitY;
     if (currentDeltaY > limitY) currentDeltaY = limitY;
 
