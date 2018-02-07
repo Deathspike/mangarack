@@ -5,7 +5,7 @@ import shared = mio.shared;
 
 export async function chapterAsync(request: express.Request, response: express.Response) {
   let metaChapterName = request.params.chapterName + shared.extension.cbz + shared.extension.json;
-  let metaChapterPath = shared.path.normal(request.params.providerName, request.params.seriesName, metaChapterName);
+  let metaChapterPath = shared.path.normal(request.params.providerName, request.params.seriesTitle, metaChapterName);
   let metaChapterExists = await fs.pathExists(metaChapterPath);
   if (metaChapterExists) {
     let metaChapter = await fs.readJson(metaChapterPath) as shared.IMetaChapter;

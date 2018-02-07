@@ -7,7 +7,7 @@ import shared = mio.shared;
 
 export async function pageAsync(request: express.Request, response: express.Response) {
   // Initialize the downloade meta chapter.
-  let metaChapterPath = shared.path.normal(request.params.providerName, request.params.seriesName, request.params.chapterName + shared.extension.cbz);
+  let metaChapterPath = shared.path.normal(request.params.providerName, request.params.seriesTitle, request.params.chapterName + shared.extension.cbz);
   let metaChapterExists = await fs.pathExists(metaChapterPath);
   if (metaChapterExists) return process(request, response, metaChapterPath);
   

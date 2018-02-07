@@ -17,7 +17,6 @@ export async function listAsync(_: express.Request, response: express.Response) 
       for (let url in metaProvider) {
         list.push({
           providerName: providerName,
-          seriesName: sanitizeFilename(metaProvider[url]),
           seriesTitle: metaProvider[url]
         });
       }

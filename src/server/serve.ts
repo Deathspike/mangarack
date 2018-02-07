@@ -16,9 +16,9 @@ export function serveAsync(port: number, useWebpack: boolean) {
     app.set ('x-powered-by', false);
     app.use (compression());
     app.get ('/api/library', async(mio.api.listAsync));
-    app.get ('/api/library/:providerName/:seriesName', async(mio.api.seriesAsync));
-    app.get ('/api/library/:providerName/:seriesName/:chapterName', async(mio.api.chapterAsync));
-    app.get ('/api/library/:providerName/:seriesName/:chapterName/:pageName', async(mio.api.pageAsync));
+    app.get ('/api/library/:providerName/:seriesTitle', async(mio.api.seriesAsync));
+    app.get ('/api/library/:providerName/:seriesTitle/:chapterName', async(mio.api.chapterAsync));
+    app.get ('/api/library/:providerName/:seriesTitle/:chapterName/:pageName', async(mio.api.pageAsync));
     app.post('/api/quit', quitFactory(server, resolve));
     app.use (webpackFactory(useWebpack));
     app.use (express.static(publicPath));

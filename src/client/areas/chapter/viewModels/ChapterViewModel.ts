@@ -25,7 +25,7 @@ export class ChapterViewModel {
   async refreshAsync() {
     // Initialize the chapter.
     let chapterName = shared.nameOf(this._listEntry.seriesTitle, this._seriesChapter);
-    let request = await fetch(`/api/library/${encodeURIComponent(this._listEntry.providerName)}/${encodeURIComponent(this._listEntry.seriesName)}/${encodeURIComponent(chapterName)}`);
+    let request = await fetch(`/api/library/${encodeURIComponent(this._listEntry.providerName)}/${encodeURIComponent(this._listEntry.seriesTitle)}/${encodeURIComponent(chapterName)}`);
     let chapter = await request.json() as shared.IApiChapter;
 
     // Initialize the image cache.
