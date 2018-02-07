@@ -2,6 +2,7 @@ export * from '../shared';
 export * from './viewModels/LoadingViewModel';
 export * from './viewModels/LayerViewModel';
 export * from './viewModels/ToastViewModel';
+export * from './language';
 export * from './store';
 export * from './style';
 export * from './components/ContainerComponent';

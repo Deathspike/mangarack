@@ -7,3 +7,4 @@ export let mangafoxIteratorRetries = 10;
 export let providerNames = ['mangafox'];
 export let serverPort = 7782;
 export let clientToastTimeout = 5000;
+export let clientActionTimeout = 5000;
