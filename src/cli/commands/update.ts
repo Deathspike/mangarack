@@ -39,7 +39,7 @@ function transformMetadata(series: mio.IScraperSeries, seriesImage: Buffer): sha
   return {
     artists: series.artists,
     authors: series.authors,
-    chapters: series.chapters.map(({name, number, title, volume}) => ({name, number, title, volume})),
+    chapters: series.chapters.map(({name, title}) => ({name, title})),
     genres: series.genres,
     imageBase64: seriesImage.toString('base64'),
     summary: series.summary,

@@ -9,7 +9,7 @@ export const toastStyle = {
     position: 'absolute',
     right: 0
   }),
-  item: mio.withStyle({
+  typography: mio.withStyle({
     background: 'rgba(0, 0, 0, 0.75)',
     color: 'white',
     padding: 8,

@@ -18,15 +18,7 @@ export class ScraperSeriesChapter implements mio.IScraperSeriesChapter {
     return this._seriesChapter.name;
   }
   
-  get number() {
-    return this._seriesChapter.number;
-  }
-
   get title() {
     return this._seriesChapter.title;
-  }
-  
-  get volume() {
-    return this._seriesChapter.volume;
   }
 }

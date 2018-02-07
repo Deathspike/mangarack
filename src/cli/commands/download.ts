@@ -87,9 +87,7 @@ async function cleanAsync(series: mio.IScraperSeries) {
 function transformMetadata(seriesChapter: mio.IScraperSeriesChapter, pageNames: string[]): shared.IMetaChapter {
   return {
     name: seriesChapter.name,
-    number: seriesChapter.number,
-    title: seriesChapter.title,
     pageNames: pageNames,
-    volume: seriesChapter.volume
+    title: seriesChapter.title
   };
 }

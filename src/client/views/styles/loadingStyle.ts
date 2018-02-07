@@ -8,7 +8,7 @@ export const loadingStyle = {
     position: 'absolute',
     top: 0
   }),
-  icon: mio.withStyle({
+  circularProgress: mio.withStyle({
     background: 'rgba(0, 0, 0, 0.75)',
     borderRadius: 4,
     color: 'white',

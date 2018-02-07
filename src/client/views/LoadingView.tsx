@@ -9,7 +9,7 @@ export class LoadingView extends React.Component {
   render() {
     return (
       mio.loadingViewModel.isLoading && <div style={loadingStyle.container}>
-        <mui.CircularProgress style={loadingStyle.icon} />
+        <mui.CircularProgress style={loadingStyle.circularProgress} />
       </div>
     );
   }

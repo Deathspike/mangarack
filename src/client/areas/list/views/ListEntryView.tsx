@@ -3,7 +3,7 @@ import * as mobxReact from 'mobx-react';
 import * as mio from '../';
 import * as mui from 'material-ui';
 import * as muiIcon from 'material-ui-icons';
-import {listEntryStyle} from './style/listEntryStyle';
+import {listEntryStyle} from './styles/listEntryStyle';
 
 @mobxReact.observer
 export class ListEntryView extends React.Component<{vm: mio.ListEntryViewModel}> {
@@ -13,7 +13,7 @@ export class ListEntryView extends React.Component<{vm: mio.ListEntryViewModel}>
         <mui.ListItemIcon>
           <muiIcon.Folder />
         </mui.ListItemIcon>
-        <mui.ListItemText primary={this.props.vm.seriesTitle} secondary={this.props.vm.providerName} style={listEntryStyle.listItem} />
+        <mui.ListItemText primary={this.props.vm.seriesTitle} secondary={this.props.vm.providerName} style={listEntryStyle.listItemText} />
       </mui.ListItem>
     );
   }

@@ -63,10 +63,8 @@
                   let title = wipeString(anchor.nextElementSibling && anchor.nextElementSibling.textContent);
                   results.push({
                     name: makeSeriesChapterName(number, volume),
-                    number: number,
                     title: title && !/^Read Onl?ine$/i.test(title) ? title : undefined,
-                    url: absoluteUrl + (/[0-9]+\.html$/i.test(absoluteUrl) ? '' : '1.html'),
-                    volume: volume
+                    url: absoluteUrl + (/[0-9]+\.html$/i.test(absoluteUrl) ? '' : '1.html')
                   });
                 }
               }
