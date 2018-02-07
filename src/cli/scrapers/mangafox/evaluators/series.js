@@ -72,7 +72,7 @@
           }
         }
       });
-      if (results.length > 0 ) return makeSeriesChaptersUnique(results).reverse();
+      if (results.length > 0 ) return testUnique(results).reverse();
       throw new Error('Invalid series chapters');
     }
 
@@ -155,21 +155,19 @@
      * @returns {string}
      */
     function makeSeriesChapterName(number, volume) {
-      let numberValue = number < 10 ? '00' + number : (number < 100 ? '0' + number : number);
       if (typeof volume !== 'undefined') {
-        let volumeValue = volume < 10 ? '0' + volume : volume;
-        return `${getTitle()} v${volumeValue} c${numberValue}`;
+        return `${getTitle()} v${String(volume).padStart(2, '0')} c${String(number).padStart(3, '0')}`;
       } else {
-        return `${getTitle()} c${numberValue}`;
+        return `${getTitle()} c${String(number).padStart(3, '0')}`;
       }
     }
     
     /**
-     * Makes the series chapters unique.
+     * Tests the series chapter names on uniqueness.
      * @param {IEvaluatorSeriesChapter[]} chapters 
      * @returns {IEvaluatorSeriesChapter[]}
      */
-    function makeSeriesChaptersUnique(chapters) {
+    function testUnique(chapters) {
       let names = chapters.map(x => x.name);
       if (names.every((name, index) => names.indexOf(name) === index)) {
         return chapters;

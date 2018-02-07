@@ -8,7 +8,7 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "jsx": "react",
-    "lib": ["dom", "es2016"],
+    "lib": ["dom", "es2017"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
