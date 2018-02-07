@@ -2,8 +2,8 @@ import * as mio from '../../';
 import {ScraperSeriesChapter} from './ScraperSeriesChapter';
 
 export class ScraperSeries implements mio.IScraperSeries {
-  private _browserTab: mio.BrowserTab;
-  private _series: IEvaluatorSeries;
+  private readonly _browserTab: mio.BrowserTab;
+  private readonly _series: IEvaluatorSeries;
 
   constructor(browserTab: mio.BrowserTab, series: IEvaluatorSeries) {
     this._browserTab = browserTab;

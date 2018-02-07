@@ -3,9 +3,9 @@ import {openAsync} from '../../chapter';
 import shared = mio.shared;
 
 export class SeriesChapterViewModel {
-  private _listEntry: shared.IApiListEntry;
-  private _series: shared.IApiSeries;
-  private _seriesChapter: shared.IApiSeriesChapter;
+  private readonly _listEntry: shared.IApiListEntry;
+  private readonly _series: shared.IApiSeries;
+  private readonly _seriesChapter: shared.IApiSeriesChapter;
 
   constructor(listEntry: shared.IApiListEntry, series: shared.IApiSeries, seriesChapter: shared.IApiSeriesChapter) {
     this._listEntry = listEntry;

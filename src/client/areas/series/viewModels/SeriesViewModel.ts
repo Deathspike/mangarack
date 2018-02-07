@@ -3,7 +3,7 @@ import * as mobx from 'mobx';
 import shared = mio.shared;
 
 export class SeriesViewModel {
-  private _listEntry: shared.IApiListEntry;
+  private readonly _listEntry: shared.IApiListEntry;
 
   constructor(listEntry: shared.IApiListEntry) {
     this._listEntry = listEntry;

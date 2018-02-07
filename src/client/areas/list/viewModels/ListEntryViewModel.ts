@@ -3,7 +3,7 @@ import {openAsync} from '../../series';
 import shared = mio.shared;
 
 export class ListEntryViewModel {
-  private _listEntry: shared.IApiListEntry;
+  private readonly _listEntry: shared.IApiListEntry;
 
   constructor(listEntry: shared.IApiListEntry) {
     this._listEntry = listEntry;

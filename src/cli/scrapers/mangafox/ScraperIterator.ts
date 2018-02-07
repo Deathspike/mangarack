@@ -3,7 +3,7 @@ import {evaluatePage} from './evaluators/page';
 import shared = mio.shared;
 
 export class ScraperIterator implements mio.IScraperIterator {
-  private _browserTab: mio.BrowserTab;
+  private readonly _browserTab: mio.BrowserTab;
   private _currentPageNumber: number;
   private _page?: IEvaluatorPage;
   

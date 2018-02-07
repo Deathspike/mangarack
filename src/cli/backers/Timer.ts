@@ -2,7 +2,7 @@ import * as mio from '../';
 import shared = mio.shared;
 
 export class Timer {
-  private _creationTime: number;
+  private readonly _creationTime: number;
 
   constructor() {
     this._creationTime = Date.now();

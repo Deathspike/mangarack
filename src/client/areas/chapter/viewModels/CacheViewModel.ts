@@ -3,10 +3,10 @@ import shared = mio.shared;
 
 // TODO: This is not a view model.
 export class CacheViewModel {
-  private _listEntry: shared.IApiListEntry;
-  private _pages: shared.IApiChapterPage[];
-  private _url: string;
-  private _images: (Promise<string> | string | undefined)[];
+  private readonly _listEntry: shared.IApiListEntry;
+  private readonly _images: (Promise<string> | string | undefined)[];
+  private readonly _pages: shared.IApiChapterPage[];
+  private readonly _url: string;
 
   constructor(listEntry: shared.IApiListEntry, pages: shared.IApiChapterPage[], url: string) {
     this._listEntry = listEntry;

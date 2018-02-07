@@ -4,9 +4,9 @@ import * as puppeteer from 'puppeteer';
 import shared = mio.shared;
 
 export class BrowserTab {
-	private _browser: puppeteer.Browser;
-	private _page: puppeteer.Page;
-	private _requests: {[url: string]: puppeteer.Request | ((request: puppeteer.Request) => void)};
+	private readonly _browser: puppeteer.Browser;
+	private readonly _page: puppeteer.Page;
+	private readonly _requests: {[url: string]: puppeteer.Request | ((request: puppeteer.Request) => void)};
 
 	private constructor(browser: puppeteer.Browser, page: puppeteer.Page) {
 		this._browser = browser;
@@ -47,7 +47,7 @@ export class BrowserTab {
 		if (referer !== 'about:blank') await this._page.setExtraHTTPHeaders({Referer: referer});
 
 		// Initialize the navigation.
-		this._requests = {};
+		this._emptyRequests();
 		await this._page.goto(url, {waitUntil: 'domcontentloaded'});
 
 		// Initialize the response.
@@ -70,7 +70,7 @@ export class BrowserTab {
 	}
 
 	async reloadAsync() {
-		this._requests = {};
+		this._emptyRequests();
 		await this._page.reload();
 	}
 
@@ -83,6 +83,12 @@ export class BrowserTab {
 		let value = this._requests[request.url];
 		if (value instanceof Function) value(request);
 		this._requests[request.url] = request;
+	}
+
+	_emptyRequests() {
+		for (let key in this._requests) {
+			delete this._requests[key];
+		}
 	}
 
 	_waitForRequestAsync(url: string) {

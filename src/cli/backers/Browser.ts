@@ -3,7 +3,7 @@ import * as puppeteer from 'puppeteer';
 import shared = mio.shared;
 
 export class Browser {
-	private _browser: puppeteer.Browser;
+	private readonly _browser: puppeteer.Browser;
 
 	private constructor(browser: puppeteer.Browser) {
 		this._browser = browser;
