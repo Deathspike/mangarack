@@ -15,7 +15,7 @@ export class SeriesChapterViewModel {
   
   async openAsync() {
     if (this.downloaded) {
-      await openAsync(this._listEntry, this._seriesChapter);
+      await openAsync(this._listEntry, this._series, this._seriesChapter);
     } else {
       mio.toastViewModel.show(`${this.name} is available`);
     }
