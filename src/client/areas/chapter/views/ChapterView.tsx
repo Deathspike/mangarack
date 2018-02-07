@@ -5,9 +5,22 @@ import {chapterStyle} from './styles/chapterStyle';
 
 @mobxReact.observer
 export class ChapterView extends React.Component<{vm: mio.ChapterViewModel}> {
+  private _pinchZoom?: mio.PinchZoom;
+
+  componentWillMount() {
+    this._pinchZoom = new mio.PinchZoom();
+  }
+
+  componentWillUnmount() {
+    if (this._pinchZoom) {
+      this._pinchZoom.detach();
+      this._pinchZoom = undefined;
+    }
+  }
+
   render() {
     return (
-      <div ref={divElement => this._onLoad(divElement)} onMouseDown={e => this._onMouseEvent(e)} style={chapterStyle.imageContainer}>
+      <div ref={divElement => this._onRef(divElement)} onMouseDown={e => this._onMouseEvent(e)} style={chapterStyle.imageContainer}>
         <img onContextMenu={e => this._onContextMenu(e)} src={this.props.vm.image} style={chapterStyle.image} />
       </div>
     );
@@ -30,9 +43,10 @@ export class ChapterView extends React.Component<{vm: mio.ChapterViewModel}> {
     }
   }
 
-  private _onLoad(divElement: HTMLDivElement | null) {
-    if (divElement) {
-      mio.pinchZoom(divElement);
+  private _onRef(divElement: HTMLDivElement | null) {
+    if (this._pinchZoom && divElement) {
+      this._pinchZoom.attach(divElement);
+      this._pinchZoom.reset();
     }
   }
 }
