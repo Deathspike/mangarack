@@ -1,8 +1,8 @@
 import * as Hammer from 'hammerjs';
 
-// [Improvement] Zoom with constraints of the image rather than the container.
-// [Improvement] Zoom towards the center of the pinch (ev.center).
-// [Improvement] Enable a zoom factor of more than two.
+// [Improvement] Zoom with constraints of the image instead of the container.
+// [Improvement] Zoom to the center of the pinch (ev.center).
+// [Improvement] Zoom to a higher scale than two.
 export class PinchZoom {
   private _adjustScale = 1;
   private _adjustDeltaX = 0;

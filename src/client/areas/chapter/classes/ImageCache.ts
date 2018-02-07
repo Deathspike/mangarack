@@ -1,8 +1,7 @@
 import * as mio from '../';
 import shared = mio.shared;
 
-// TODO: This is not a view model.
-export class CacheViewModel {
+export class ImageCache {
   private readonly _listEntry: shared.IApiListEntry;
   private readonly _images: (Promise<string> | string | undefined)[];
   private readonly _pageNames: string[];

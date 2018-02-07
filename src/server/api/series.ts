@@ -73,6 +73,7 @@ function orderVolumeAndNumber(a: shared.IApiSeriesChapter, b: shared.IApiSeriesC
   }
 }
 
+// [Improvement] Scan should handle other providers and formats too.
 function scan(name: string) {
   let match = name.match(/(?:v([0-9]+)\s)?c([0-9]+(?:\.[0-9+]+)?)$/);
   if (match) {

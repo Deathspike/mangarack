@@ -6,7 +6,7 @@ export class ChapterViewModel {
   private readonly _listEntry: shared.IApiListEntry;
   private readonly _series: shared.IApiSeries;
   private readonly _seriesChapter: shared.IApiSeriesChapter;
-  private _cache: mio.CacheViewModel;
+  private _cache: mio.ImageCache;
   private _previousPageTime?: number;
   private _nextPageTime?: number;
 
@@ -28,7 +28,7 @@ export class ChapterViewModel {
     let chapter = await request.json() as shared.IApiChapter;
 
     // Initialize the image cache.
-    let imageCache = await new mio.CacheViewModel(this._listEntry, chapter.pageNames, request.url);
+    let imageCache = await new mio.ImageCache(this._listEntry, chapter.pageNames, request.url);
     let image = await imageCache.getImageAsync(this.currentPageNumber);
     this._cache = imageCache;
 

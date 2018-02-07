@@ -2,6 +2,8 @@ import * as mio from '../';
 import * as puppeteer from 'puppeteer';
 import shared = mio.shared;
 
+// [Improvement] Scraper should use puppeteer directly.
+// [Improvement] Scraper should use mouse emulation to open links.
 export class Browser {
 	private readonly _browser: puppeteer.Browser;
 
