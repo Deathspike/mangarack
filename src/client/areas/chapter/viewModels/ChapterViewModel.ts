@@ -24,12 +24,11 @@ export class ChapterViewModel {
   @mobx.action
   async refreshAsync() {
     // Initialize the chapter.
-    let chapterName = shared.nameOf(this._listEntry.seriesTitle, this._seriesChapter);
-    let request = await fetch(`/api/library/${encodeURIComponent(this._listEntry.providerName)}/${encodeURIComponent(this._listEntry.seriesTitle)}/${encodeURIComponent(chapterName)}`);
+    let request = await fetch(`/api/library/${encodeURIComponent(this._listEntry.providerName)}/${encodeURIComponent(this._listEntry.seriesTitle)}/${encodeURIComponent(this._seriesChapter.name)}`);
     let chapter = await request.json() as shared.IApiChapter;
 
     // Initialize the image cache.
-    let imageCache = await new mio.CacheViewModel(this._listEntry, chapter.pages, request.url);
+    let imageCache = await new mio.CacheViewModel(this._listEntry, chapter.pageNames, request.url);
     let image = await imageCache.getImageAsync(this.currentPageNumber);
     this._cache = imageCache;
 
@@ -48,7 +47,7 @@ export class ChapterViewModel {
   @mobx.action
   async nextPageAsync() {
     if (this.chapter) {
-      if (this.currentPageNumber < this.chapter.pages.length) {
+      if (this.currentPageNumber < this.chapter.pageNames.length) {
         let image = await this._cache.getImageAsync(++this.currentPageNumber);
         mobx.runInAction(() => this.image = image);
       } else {

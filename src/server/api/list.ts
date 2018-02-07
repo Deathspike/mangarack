@@ -2,7 +2,6 @@ import * as express from 'express';
 import * as fs from 'fs-extra';
 import * as mio from '../';
 import * as path from 'path';
-import * as sanitizeFilename from 'sanitize-filename';
 import shared = mio.shared;
 
 export async function listAsync(_: express.Request, response: express.Response) {

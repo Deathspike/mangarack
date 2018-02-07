@@ -24,12 +24,8 @@ export class SeriesChapterViewModel {
   get downloaded() {
     return this._seriesChapter.downloaded;
   }
-
-  get exists() {
-    return this._seriesChapter.exists;
-  }
   
   get name() {
-    return shared.nameOf(this._series.title, this._seriesChapter, true);
+    return this._seriesChapter.name;
   }
 }

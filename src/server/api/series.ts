@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as fs from 'fs-extra';
 import * as mio from '../';
 import * as path from 'path';
+import * as sanitizeFilename from 'sanitize-filename';
 import shared = mio.shared;
 
 export async function seriesAsync(request: express.Request, response: express.Response) {
@@ -16,9 +17,9 @@ export async function seriesAsync(request: express.Request, response: express.Re
       let chapterFileMap = {} as {[fileName: string]: shared.IApiSeriesChapter};
       let fileNames = await fs.readdir(shared.path.normal(request.params.providerName, request.params.seriesTitle));
       for (let seriesChapter of series.chapters) {
-        let chapterName = shared.nameOf(series.title, seriesChapter) + shared.extension.cbz;
+        let chapterName = sanitizeFilename(seriesChapter.name) + shared.extension.cbz;
+        seriesChapter.available = true;
         seriesChapter.downloaded = fileNames.indexOf(chapterName) !== -1;
-        seriesChapter.exists = true;
         chapterFileMap[chapterName] = seriesChapter;
       }
       for (let fileName of fileNames) {
@@ -28,7 +29,7 @@ export async function seriesAsync(request: express.Request, response: express.Re
           let metaChapterName = (isDeleted ? fileName.substr(0, fileName.length - fileExtension.length) : fileName) + shared.extension.json;
           let metaChapterPath = shared.path.normal(request.params.providerName, request.params.seriesTitle, metaChapterName);
           let metaChapter = await fs.readJson(metaChapterPath) as shared.IMetaChapter;
-          series.chapters.push({downloaded: true, exists: false, number: metaChapter.number, title: metaChapter.title, volume: metaChapter.volume});
+          series.chapters.push({available: false, downloaded: true, name: metaChapter.name, number: metaChapter.number, title: metaChapter.title, volume: metaChapter.volume});
         }
       }
     }

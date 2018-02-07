@@ -1,6 +1,6 @@
 (function() {
   /**
-   * Evaluates the page.
+   * Evaluates the page. Cannot validate invalid `nextPageUrl`.
    * @param {Window} window
    * @returns {IEvaluatorPage}
    */

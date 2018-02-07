@@ -52,20 +52,21 @@
           let ul = h3.parentElement && h3.parentElement.nextElementSibling;
           if (ul && /^ul$/i.test(ul.nodeName)) {
             let anchors = Array.from(ul.querySelectorAll('a[href*=\'/manga/\']'));
-            let volume = volumeMatch[1] ? parseFloat(volumeMatch[1]) : NaN;
+            let volume = /^[0-9\.]+/.test(volumeMatch[1]) ? parseFloat(volumeMatch[1]) : undefined;
             anchors.forEach(anchor => {
               let relativeUrl = wipeString(anchor.getAttribute('href'));
               if (relativeUrl) {
                 let numberMatch = wipeString(anchor.textContent).match(/[0-9\.]+$/);
-                let number = numberMatch ? parseFloat(numberMatch[0]) : NaN;
-                if (isFinite(number)) {
+                let number = numberMatch ? parseFloat(numberMatch[0]) : undefined;
+                if (typeof number !== 'undefined') {
                   let absoluteUrl = new window.URL(relativeUrl, window.location.href).href;
                   let title = wipeString(anchor.nextElementSibling && anchor.nextElementSibling.textContent);
                   results.push({
+                    name: makeSeriesChapterName(number, volume),
                     number: number,
                     title: title && !/^Read Onl?ine$/i.test(title) ? title : undefined,
                     url: absoluteUrl + (/[0-9]+\.html$/i.test(absoluteUrl) ? '' : '1.html'),
-                    volume: isFinite(volume) ? volume : undefined
+                    volume: volume
                   });
                 }
               }
@@ -73,8 +74,8 @@
           }
         }
       });
-      if (results.length > 0 ) return results.reverse();
-      throw new Error('Invalid series items');
+      if (results.length > 0 ) return makeSeriesChaptersUnique(results).reverse();
+      throw new Error('Invalid series chapters');
     }
 
     /**
@@ -147,6 +148,36 @@
      */
     function makeSeriesChapterArray() {
       return [];
+    }
+
+    /**
+     * Makes the series chapter name.
+     * @param {number} number 
+     * @param {number | undefined} volume 
+     * @returns {string}
+     */
+    function makeSeriesChapterName(number, volume) {
+      let numberValue = number < 10 ? '00' + number : (number < 100 ? '0' + number : number);
+      if (typeof volume !== 'undefined') {
+        let volumeValue = volume < 10 ? '0' + volume : volume;
+        return `${getTitle()} v${volumeValue} c${numberValue}`;
+      } else {
+        return `${getTitle()} c${numberValue}`;
+      }
+    }
+    
+    /**
+     * Makes the series chapters unique.
+     * @param {IEvaluatorSeriesChapter[]} chapters 
+     * @returns {IEvaluatorSeriesChapter[]}
+     */
+    function makeSeriesChaptersUnique(chapters) {
+      let names = chapters.map(x => x.name);
+      if (names.every((name, index) => names.indexOf(name) === index)) {
+        return chapters;
+      } else {
+        throw new Error('Invalid series chapter names');
+      }
     }
 
     /**

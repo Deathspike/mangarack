@@ -33,11 +33,10 @@ export async function downloadSeriesAsync(series: mio.IScraperSeries) {
 }
 
 export async function downloadSeriesItemAsync(series: mio.IScraperSeries, seriesChapter: mio.IScraperSeriesChapter) {
-  let chapterName = shared.nameOf(series.title, seriesChapter);
-  let chapterPath = shared.path.normal(series.providerName, series.title, chapterName + shared.extension.cbz);
+  let chapterPath = shared.path.normal(series.providerName, series.title, seriesChapter.name + shared.extension.cbz);
   let chapterExists = await fs.pathExists(chapterPath);
   if (!chapterExists) {
-    console.log(`Fetching ${chapterName}`);
+    console.log(`Fetching ${seriesChapter.name}`);
     let chapter = archiver.create('zip', {store: true});
     let timer = new mio.Timer();
     await fs.ensureDir(path.dirname(chapterPath));
@@ -49,7 +48,7 @@ export async function downloadSeriesItemAsync(series: mio.IScraperSeries, series
         chapter.finalize();
         await fs.writeJson(chapterPath + shared.extension.json, metaChapter, {spaces: 2});
         await fs.rename(chapterPath + shared.extension.tmp, chapterPath);
-        console.log(`Finished ${chapterName} (${timer})`);
+        console.log(`Finished ${seriesChapter.name} (${timer})`);
       } catch (error) {
         await fs.unlink(chapterPath + shared.extension.tmp);
         throw error;
@@ -66,15 +65,15 @@ async function archiveAsync(chapter: archiver.Archiver, iterator: mio.IScraperIt
   while (await iterator.moveAsync()) {
     let buffer = await iterator.currentAsync();
     let imageInfo = imageSize(buffer);
-    let name = `${shared.format(currentPageNumber++, 3)}.${imageInfo.type}`;
-    chapter.append(buffer, {name});
-    pages.push({name, height: imageInfo.height, width: imageInfo.width});
+    let pageName = `${mio.format(currentPageNumber++, 3)}.${imageInfo.type}`;
+    chapter.append(buffer, {name: pageName});
+    pages.push(pageName);
   }
   return pages;
 }
 
 async function cleanAsync(series: mio.IScraperSeries) {
-  let chapterPaths = series.chapters.map(seriesChapter => shared.path.normal(series.providerName, series.title, shared.nameOf(series.title, seriesChapter) + shared.extension.cbz));
+  let chapterPaths = series.chapters.map(seriesChapter => shared.path.normal(series.providerName, series.title, seriesChapter.name + shared.extension.cbz));
   let fileNames = await fs.readdir(shared.path.normal(series.providerName, series.title));
   let filePaths = fileNames.map(fileName => shared.path.normal(series.providerName, series.title, fileName));
   for (let filePath of filePaths) {
@@ -85,11 +84,12 @@ async function cleanAsync(series: mio.IScraperSeries) {
   }
 }
 
-function transformMetadata(seriesChapter: mio.IScraperSeriesChapter, pages: shared.IMetaChapterPage[]): shared.IMetaChapter {
+function transformMetadata(seriesChapter: mio.IScraperSeriesChapter, pageNames: string[]): shared.IMetaChapter {
   return {
+    name: seriesChapter.name,
     number: seriesChapter.number,
     title: seriesChapter.title,
-    pages: pages,
+    pageNames: pageNames,
     volume: seriesChapter.volume
   };
 }

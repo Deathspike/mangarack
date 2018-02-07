@@ -5,13 +5,13 @@ import shared = mio.shared;
 export class CacheViewModel {
   private readonly _listEntry: shared.IApiListEntry;
   private readonly _images: (Promise<string> | string | undefined)[];
-  private readonly _pages: shared.IApiChapterPage[];
+  private readonly _pageNames: string[];
   private readonly _url: string;
 
-  constructor(listEntry: shared.IApiListEntry, pages: shared.IApiChapterPage[], url: string) {
+  constructor(listEntry: shared.IApiListEntry, pageNames: string[], url: string) {
     this._listEntry = listEntry;
-    this._images = pages.map(() => undefined);
-    this._pages = pages;
+    this._images = pageNames.map(() => undefined);
+    this._pageNames = pageNames;
     this._url = url;
   }
 
@@ -45,7 +45,7 @@ export class CacheViewModel {
   }
 
   private async _fetchImage(index: number) {
-    let request = await fetch(`${this._url}/${encodeURIComponent(this._pages[index].name)}`);
+    let request = await fetch(`${this._url}/${encodeURIComponent(this._pageNames[index])}`);
     let image = await this.processAsync(await request.blob())
     this._images[index] = image;
     return image;
