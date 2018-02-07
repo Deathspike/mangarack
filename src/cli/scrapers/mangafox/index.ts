@@ -12,8 +12,8 @@ export async function scrapeAsync(browser: mio.Browser, url: string) {
 
 function rewriteUrl(url: string) {
   let match: RegExpMatchArray | null;
-  if ((match = url.match(/^http:\/\/mangafox\.la\/manga\/(.+\/)$/i))) {
-    return `http://fanfox.net/manga/${match[1]}`;
+  if ((match = url.match(/^http:\/\/mangafox\.la\/manga\/(.+\/)\/$/i))) {
+    return `http://fanfox.net/manga/${match[1]}/`;
   } else {
     return url;
   }
