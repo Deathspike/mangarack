@@ -74,27 +74,19 @@ You can help! I'm putting down the foundation for each component, but I won't be
 # Phase 04 (11-03-2018)
 
 * [Cli] Add log file.
-* [App] Add `mangarack`:
-  * Desktop application using `electron`.
-  * Provide connection string and downloads client from `{serverUrl}/ui`.
-  * Support automatic login and persist connection strings.
-  * Automatically show `Local Server`.
-
-# Phase 05 (25-03-2018)
-
 * [Server] Add support for progress tracking:
   * Updates `/{providerName}/{seriesName}.json` (`mangarack-cli update` now merges with status).
   * Support unread/reading/completed status and page number.
   * Uses `PATCH /api/library/{providerName}/{seriesName}/{chapterName}` with `{progress: {page, status}}`.
 * [Server] Add support for PIN code security (exclude `127.0.0.1`).
 
-# Phase 06 (08-04-2018)
+# Phase 05 (25-03-2018)
 
 * [Cli] Add support for `kissmanga`.
 * [Cli] Add support for series title changes (and consider duplicate entries).
 * [Cli] Add support for series url changes (and consider duplicate entries).
 
-# Phase 07 (22-04-2018)
+# Phase 06 (08-04-2018)
 
 * [Cli] Add support for `mangarack-cli delete <url>`:
   * Remove `/{providerName/{seriesName}`}
@@ -106,7 +98,7 @@ You can help! I'm putting down the foundation for each component, but I won't be
 * [Cli] Add support for `mangarack-cli update`:
   * Updates metadata for all series.
   
-# Phase 08 (06-05-2018)
+# Phase 07 (22-04-2018)
 
 * [Server] Add support for series management:
   * Support create series
@@ -121,9 +113,17 @@ You can help! I'm putting down the foundation for each component, but I won't be
     * `POST /api/update`.
     * `POST /api/update` with `{url}`.
 
-# Phase 09 (20-05-2018)
+# Phase 08 (06-05-2018)
 
 * [Cli] Connect to `mangarack-server` via management API.
+* [App] Add `mangarack`:
+  * Desktop application using `electron`.
+  * Provide connection string and downloads client from `{serverUrl}/ui`.
+  * Support automatic login and persist connection strings.
+  * Automatically show `Local Server`.
+
+# Phase 09 (20-05-2018)
+
 * [Server] Add support for searching series.
   * `GET /api/search?d=`.
 
