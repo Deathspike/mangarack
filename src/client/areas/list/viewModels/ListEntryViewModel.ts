@@ -1,5 +1,5 @@
 import * as mio from '../';
-import {openAsync} from '../../series';
+import {initializeAsync} from '../../series';
 import shared = mio.shared;
 
 export class ListEntryViewModel {
@@ -10,7 +10,7 @@ export class ListEntryViewModel {
   }
 
   async openAsync() {
-    await openAsync(this._listEntry);
+    await mio.layerViewModel.openAsync(initializeAsync(this._listEntry));
   }
 
   get key() {

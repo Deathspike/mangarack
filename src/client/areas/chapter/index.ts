@@ -1,5 +1,6 @@
 export * from '../../';
-export * from './open';
+export * from './initialize';
+export * from './classes/ChapterSelector';
 export * from './classes/ImageCache';
 export * from './classes/PinchZoom';
 export * from './controllers/ChapterController'

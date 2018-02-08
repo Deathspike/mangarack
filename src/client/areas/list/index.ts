@@ -1,5 +1,5 @@
 export * from '../../';
-export * from './open';
+export * from './initialize';
 export * from './controllers/ListController';
 export * from './viewModels/ListEntryViewModel';
 export * from './viewModels/ListViewModel';

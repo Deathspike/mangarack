@@ -1,5 +1,5 @@
 import * as mio from '../';
-import {openAsync} from '../../chapter';
+import {initializeAsync} from '../../chapter';
 import shared = mio.shared;
 
 export class SeriesChapterViewModel {
@@ -15,7 +15,7 @@ export class SeriesChapterViewModel {
   
   async openAsync() {
     if (this.downloaded) {
-      await openAsync(this._listEntry, this._series, this._seriesChapter);
+      await mio.layerViewModel.openAsync(initializeAsync(this._listEntry, this._series, this._seriesChapter));
     } else {
       mio.toastViewModel.show(mio.language.SERIESCHAPTER_NOTAVAILABLE);
     }

@@ -6,6 +6,7 @@ export class ChapterViewModel {
   private readonly _listEntry: shared.IApiListEntry;
   private readonly _series: shared.IApiSeries;
   private readonly _seriesChapter: shared.IApiSeriesChapter;
+  private readonly _seriesChapterSelector: mio.ChapterSelector;
   private _cache: mio.ImageCache;
   private _previousPageTime?: number;
   private _nextPageTime?: number;
@@ -14,11 +15,12 @@ export class ChapterViewModel {
     this._listEntry = listEntry;
     this._series = series;
     this._seriesChapter = seriesChapter;
+    this._seriesChapterSelector = new mio.ChapterSelector(series, seriesChapter);
   }
 
   @mobx.action
   close() {
-    mio.layerViewModel.close(); // TODO: Double tap with notification to close.
+    mio.layerViewModel.close();
   }
 
   @mobx.action
@@ -40,8 +42,13 @@ export class ChapterViewModel {
   }
 
   @mobx.action
-  nextChapter() {
-    mio.toastViewModel.show('TODO - NEXT CHAPTER ACTION');
+  async nextChapterAsync() {
+    let nextSeriesChapter = this._seriesChapterSelector.fetchNext();
+    if (nextSeriesChapter) {
+      await mio.layerViewModel.replaceAsync(mio.initializeAsync(this._listEntry, this._series, nextSeriesChapter));
+    } else {
+      mio.layerViewModel.close();
+    }
   }
 
   @mobx.action
@@ -51,23 +58,29 @@ export class ChapterViewModel {
         let image = await this._cache.getImageAsync(++this.currentPageNumber);
         mobx.runInAction(() => this.image = image);
       } else {
-        let index = this._series.chapters.indexOf(this._seriesChapter);
-        if (index !== -1) {
-          if (index - 1 < 0) {
-            this._nextPageTime = this._toastOrAction(() => this.close(), this._nextPageTime, 'TODO - NEXT CHAPTER (END REACHED)');
-          } else if (this._series.chapters[index - 1].downloaded) {
-            this._nextPageTime = this._toastOrAction(() => this.nextChapter(), this._nextPageTime, 'TODO - NEXT CHAPTER');
-          } else {
-            mio.toastViewModel.show('TODO - NEXT CHAPTER (NOT AVAILABLE)');
-          }
+        let nextSeriesChapter = this._seriesChapterSelector.fetchNext();
+        if (!nextSeriesChapter) {
+          mio.toastViewModel.show(mio.language.CHAPTER_NEXTCHAPTERNOT);
+        } else if (!nextSeriesChapter.downloaded) {
+          mio.toastViewModel.show(mio.language.CHAPTER_NEXTCHAPTERUNAVAILABLE);
+        } else if (!this._nextPageTime || this._nextPageTime < Date.now()) {
+          mio.toastViewModel.show(mio.language.CHAPTER_NEXTCHAPTER);
+          this._nextPageTime = Date.now() + shared.settings.clientToastTimeout;
+        } else {
+          await this.nextChapterAsync();
         }
       }
     }
   }
 
   @mobx.action
-  previousChapter() {
-    mio.toastViewModel.show('TODO - PREVIOUS CHAPTER ACTION');
+  async previousChapterAsync() {
+    let previousSeriesChapter = this._seriesChapterSelector.fetchPrevious();
+    if (previousSeriesChapter) {
+      await mio.layerViewModel.replaceAsync(mio.initializeAsync(this._listEntry, this._series, previousSeriesChapter));
+    } else {
+      mio.layerViewModel.close();
+    }
   }
 
   @mobx.action
@@ -76,15 +89,16 @@ export class ChapterViewModel {
       let image = await this._cache.getImageAsync(--this.currentPageNumber);
       mobx.runInAction(() => this.image = image);
     } else {
-      let index = this._series.chapters.indexOf(this._seriesChapter);
-      if (index !== -1) {
-        if (index + 1 >= this._series.chapters.length) {
-          this._previousPageTime = this._toastOrAction(() => this.close(), this._previousPageTime, 'TODO - PREVIOUS CHAPTER (END REACHED)');
-        } else if (this._series.chapters[index + 1].downloaded) {
-          this._previousPageTime = this._toastOrAction(() => this.previousChapter(), this._previousPageTime, 'TODO - PREVIOUS CHAPTER');
-        } else {
-          mio.toastViewModel.show('TODO - PREVIOUS CHAPTER (NOT AVAILABLE)');
-        }
+      let previousSeriesChapter = this._seriesChapterSelector.fetchPrevious();
+      if (!previousSeriesChapter) {
+        mio.toastViewModel.show(mio.language.CHAPTER_PREVIOUSCHAPTERNOT);
+      } else if (!previousSeriesChapter.downloaded) {
+        mio.toastViewModel.show(mio.language.CHAPTER_PREVIOUSCHAPTERUNAVAILABLE);
+      } else if (!this._previousPageTime || this._previousPageTime < Date.now()) {
+        mio.toastViewModel.show(mio.language.CHAPTER_PREVIOUSCHAPTER);
+        this._previousPageTime = Date.now() + shared.settings.clientToastTimeout;
+      } else {
+        await this.previousChapterAsync();
       }
     }
   }
@@ -97,15 +111,4 @@ export class ChapterViewModel {
 
   @mobx.observable
   image: string;
-
-  private _toastOrAction(action: () => void, clickTime: number | undefined, message: string) {
-    let now = Date.now();
-    if (clickTime && clickTime + shared.settings.clientActionTimeout >= now) {
-      action();
-      return now;
-    } else {
-      mio.toastViewModel.show(message);
-      return now;
-    }
-  }
 }

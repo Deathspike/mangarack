@@ -6,12 +6,12 @@ import * as mobx from 'mobx';
 import 'typeface-roboto';
 mobx.useStrict(true);
 
+// TODO: Cli should tell when an URL is not recognized.
+// TODO: Chapter top-tap expand menu (show page number, page jump, next/previous chapter, read direction, close).
 // TODO: disable text select?
-// TODO: reorganize chapter area.. mainly the excess folders.
 // TODO: error handling
 // TODO: make an entry point for client, much like cli/server?
 // TODO: export {
-// TODO: backbutton listener detach?
 
 function App() {
   return (
@@ -26,6 +26,5 @@ function App() {
 
 (function() {
   ReactDOM.render(<App />, document.getElementById('container'));
-  document.addEventListener('backbutton', mio.layerViewModel.close);
-  mio.areas.list.openAsync();
+  mio.layerViewModel.openAsync(mio.areas.list.initializeAsync());
 })();

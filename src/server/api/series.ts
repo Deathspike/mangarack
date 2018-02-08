@@ -57,6 +57,7 @@ export async function seriesAsync(request: express.Request, response: express.Re
   }
 }
 
+// [Improvement] orderVolumeAndNumber should be moved to a more logical file.
 function orderVolumeAndNumber(a: shared.IApiSeriesChapter, b: shared.IApiSeriesChapter) {
   if (typeof a.volume !== 'undefined') {
     if (typeof b.volume === 'undefined') {
