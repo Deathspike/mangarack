@@ -37,7 +37,7 @@ export async function seriesAsync(request: express.Request, response: express.Re
           let metaChapterPath = shared.path.normal(request.params.providerName, request.params.seriesTitle, metaChapterName);
           let metaChapter = await fs.readJson(metaChapterPath) as shared.IMetaChapter;
           let scanResult = scan(metaChapter.name);
-          series.chapters.push({
+          seriesChapters.push({
             available: false,
             downloaded: true,
             name: metaChapter.name,
