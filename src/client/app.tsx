@@ -6,6 +6,7 @@ import * as mobx from 'mobx';
 import 'typeface-roboto';
 mobx.useStrict(true);
 
+// TODO: Check if there are numeric constants that need to be in settings.
 // TODO: Cli should tell when an URL is not recognized.
 // TODO: Chapter top-tap expand menu (show page number, page jump, next/previous chapter, read direction, close).
 // TODO: disable text select?

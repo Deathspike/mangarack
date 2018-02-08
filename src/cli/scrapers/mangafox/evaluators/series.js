@@ -155,10 +155,13 @@
      * @returns {string}
      */
     function makeSeriesChapterName(number, volume) {
+      let n = String(number);
+      let d = n.indexOf('.');
+      let numberString = d >= 0 ? n.substr(0, d).padStart(3, '0') + n.substr(d) : n.padStart(3, '0');
       if (typeof volume !== 'undefined') {
-        return `${getTitle()} v${String(volume).padStart(2, '0')} c${String(number).padStart(3, '0')}`;
+        return `${getTitle()} v${String(volume).padStart(2, '0')} c${numberString}`;
       } else {
-        return `${getTitle()} c${String(number).padStart(3, '0')}`;
+        return `${getTitle()} c${numberString}`;
       }
     }
     

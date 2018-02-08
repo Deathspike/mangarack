@@ -65,8 +65,9 @@ async function archiveAsync(chapter: archiver.Archiver, iterator: mio.IScraperIt
   while (await iterator.moveAsync()) {
     let buffer = await iterator.currentAsync();
     let imageInfo = imageSize(buffer);
-    let pageName = `${String(currentPageNumber++).padStart(3, '0')}.${imageInfo.type}`;
+    let pageName = `${String(currentPageNumber).padStart(3, '0')}.${imageInfo.type}`;
     chapter.append(buffer, {name: pageName});
+    currentPageNumber++;
     pages.push(pageName);
   }
   return pages;
