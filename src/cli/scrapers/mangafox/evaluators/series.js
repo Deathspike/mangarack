@@ -156,12 +156,11 @@
      */
     function makeSeriesChapterName(number, volume) {
       let n = String(number);
-      let d = n.indexOf('.');
-      let numberString = d >= 0 ? n.substr(0, d).padStart(3, '0') + n.substr(d) : n.padStart(3, '0');
+      let c =  n.indexOf('.') >= 0 ? n.substr(0, n.indexOf('.')).padStart(3, '0') + n.substr( n.indexOf('.')) : n.padStart(3, '0');
       if (typeof volume !== 'undefined') {
-        return `${getTitle()} v${String(volume).padStart(2, '0')} c${numberString}`;
+        return `${getTitle()} v${String(volume).padStart(2, '0')} c${c}`;
       } else {
-        return `${getTitle()} c${numberString}`;
+        return `${getTitle()} c${c}`;
       }
     }
     

@@ -13,7 +13,7 @@ export class SeriesChapterView extends React.Component<{vm: mio.SeriesChapterVie
         <mui.ListItemIcon>
           {this.props.vm.downloaded ? <muiIcon.InsertDriveFile /> : <muiIcon.Cloud />}
         </mui.ListItemIcon>
-        <mui.ListItemText primary={this.props.vm.name} style={seriesChapterStyle.listItemText} />
+        <mui.ListItemText primary={this.props.vm.friendlyName} secondary={this.props.vm.name} style={seriesChapterStyle.listItemText} />
       </mui.ListItem>
     );
   }
