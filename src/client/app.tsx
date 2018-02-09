@@ -9,7 +9,6 @@ mobx.useStrict(true);
 // TODO: Check if there are numeric constants that need to be in settings.
 // TODO: Chapter top-tap expand menu (show page number, page jump, next/previous chapter, read direction, close).
 // TODO: error handling
-// TODO: make an entry point for client, much like cli/server?
 // TODO: export {
 
 function App() {

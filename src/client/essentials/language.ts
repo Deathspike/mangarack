@@ -5,6 +5,5 @@ export const language = {
   CHAPTER_PREVIOUSCHAPTER: 'Tap to open the previous chapter.',
   CHAPTER_PREVIOUSCHAPTERNOT: 'Previous chapter does not exist.',
   CHAPTER_PREVIOUSCHAPTERUNAVAILABLE: 'Previous chapter is not available.',
-  LIST_TITLE: 'MangaRack',
   SERIESCHAPTER_UNAVAILABLE: 'Chapter is not available.'
 };
