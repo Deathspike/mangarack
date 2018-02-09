@@ -7,25 +7,28 @@ import shared = mio.shared;
 
 export async function downloadAsync() {
   await mio.usingAsync(mio.Browser.createAsync(), async browser => {
-    for (let providerName of shared.settings.providerNames) {
-      let metaProviderPath = shared.path.normal(providerName + shared.extension.json);
-      let metaProviderExists = await fs.pathExists(metaProviderPath);
-      let metaProvider = metaProviderExists ? await fs.readJson(metaProviderPath) as shared.IMetaProvider : {};
-      for (let url in metaProvider) {
-        let timer = new mio.Timer();
-        let awaiter = mio.scrapeAsync(browser, url);
-        if (awaiter) {
-          console.log(`Awaiting ${url}`);
-          await mio.usingAsync(awaiter, async series => {
-            if (series.title !== metaProvider[url]) throw new Error(`Series at ${url} property changed: title`)
-            if (series.url !== url) throw new Error(`Series at ${url} property changed: url`);
-            console.log(`Fetching ${series.title}`);
-            await mio.commands.updateSeriesAsync(series);
-            await downloadSeriesAsync(series);
-            console.log(`Finished ${series.title} (${timer})`);
-          });
-        } else {
-          console.log(`Rejected ${url}`);
+    let fileNames = await fs.readdir(shared.path.normal());
+    for (let fileName of fileNames) {
+      let fileExtension = path.extname(fileName);
+      if (fileExtension === shared.extension.json) {
+        let metaProviderPath = shared.path.normal(fileName);
+        let metaProvider = await fs.readJson(metaProviderPath) as shared.IMetaProvider;
+        for (let url in metaProvider) {
+          let timer = new mio.Timer();
+          let awaiter = mio.scrapeAsync(browser, url);
+          if (awaiter) {
+            console.log(`Awaiting ${url}`);
+            await mio.usingAsync(awaiter, async series => {
+              if (series.title !== metaProvider[url]) throw new Error(`Series at ${url} property changed: title`)
+              if (series.url !== url) throw new Error(`Series at ${url} property changed: url`);
+              console.log(`Fetching ${series.title}`);
+              await mio.commands.updateSeriesAsync(series);
+              await downloadSeriesAsync(series);
+              console.log(`Finished ${series.title} (${timer})`);
+            });
+          } else {
+            console.log(`Rejected ${url}`);
+          }
         }
       }
     }
