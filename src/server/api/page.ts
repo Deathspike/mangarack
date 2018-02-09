@@ -18,8 +18,8 @@ export async function pageAsync(request: express.Request, response: express.Resp
   response.sendStatus(404);
 }
 
-function process(request: express.Request, response: express.Response, chapterPath: string) {
-  fs.createReadStream(chapterPath)
+function process(request: express.Request, response: express.Response, filePath: string) {
+  fs.createReadStream(filePath)
     .pipe(unzipper.Parse())
     .on('close', () => {
       if (response.headersSent) return;

@@ -32,7 +32,7 @@ export async function seriesAsync(request: express.Request, response: express.Re
       for (let fileName of fileNames) {
         let fileExtension = path.extname(fileName);
         if (!seriesChapterFileNames[fileName] && (fileExtension === shared.extension.cbz || fileExtension === shared.extension.del)) {
-          let chapterName = path.basename(fileName);
+          let chapterName = fileName.substr(0, fileName.length - fileExtension.length);
           let scanResult = scan(chapterName);
           seriesChapters.push({
             available: false,

@@ -83,7 +83,7 @@ async function cleanAsync(series: mio.IScraperSeries) {
   for (let filePath of filePaths) {
     let fileExtension = path.extname(filePath);
     if (fileExtension === shared.extension.cbz && chapterPaths.indexOf(filePath) === -1) {
-      await fs.rename(filePath, path.basename(filePath) + shared.extension.del);
+      await fs.rename(filePath, filePath.substr(0, filePath.length - fileExtension.length) + shared.extension.del);
     }
   }
 }
