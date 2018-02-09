@@ -1,5 +1,6 @@
 export * from '../shared';
 export * from './language';
+export * from './settings';
 export * from './style';
 export * from './components/ContainerComponent';
 export * from './viewModels/LoadingViewModel';

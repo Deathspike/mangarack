@@ -1,7 +1,6 @@
 import * as jsdom from 'jsdom';
 import * as mio from '../';
 import * as puppeteer from 'puppeteer';
-import shared = mio.shared;
 
 export class BrowserTab {
 	private readonly _browser: puppeteer.Browser;
@@ -18,8 +17,8 @@ export class BrowserTab {
 	static async createAsync(browser: puppeteer.Browser, url: string, previousUrl?: string) {
 		// Initialize the page.
 		let page = await browser.newPage();
-		await page.setUserAgent(shared.settings.browserUserAgent);	
-		await page.setViewport(shared.settings.browserViewport);
+		await page.setUserAgent(mio.settings.browserUserAgent);	
+		await page.setViewport(mio.settings.browserViewport);
 
 		// Initialize the browser tab.
 		let browserTab = new BrowserTab(browser, page);
@@ -51,7 +50,7 @@ export class BrowserTab {
 		await this._page.goto(url, {waitUntil: 'domcontentloaded'});
 
 		// Initialize the response.
-		for (let i = 1; i <= shared.settings.browserNavigateRetries; i++) {
+		for (let i = 1; i <= mio.settings.browserNavigateRetries; i++) {
 			let request = await this._waitForRequestAsync(await this._page.url());
 			let response = request.response();
 			if (response && response.status === 200) return;

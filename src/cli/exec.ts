@@ -2,7 +2,6 @@ import * as commander from 'commander';
 import * as mio from './';
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import shared = mio.shared;
 const packagePath = path.resolve(__dirname, '../../package.json');
 
 export function execAsync(argv: string[]) {
@@ -25,7 +24,7 @@ export function execAsync(argv: string[]) {
 
 function exec<T>(callback: (args: T) => void) {
   return function() {
-    shared.settings.browserHeadless = commander.headless;
+    mio.settings.browserHeadless = commander.headless;
     callback.apply(undefined, arguments);
   };
 }

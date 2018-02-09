@@ -65,7 +65,7 @@ export class ChapterViewModel {
           mio.toastViewModel.show(mio.language.CHAPTER_NEXTCHAPTERUNAVAILABLE);
         } else if (!this._nextPageTime || this._nextPageTime < Date.now()) {
           mio.toastViewModel.show(mio.language.CHAPTER_NEXTCHAPTER);
-          this._nextPageTime = Date.now() + shared.settings.clientToastTimeout;
+          this._nextPageTime = Date.now() + mio.settings.toastTimeout;
         } else {
           await this.nextChapterAsync();
         }
@@ -96,7 +96,7 @@ export class ChapterViewModel {
         mio.toastViewModel.show(mio.language.CHAPTER_PREVIOUSCHAPTERUNAVAILABLE);
       } else if (!this._previousPageTime || this._previousPageTime < Date.now()) {
         mio.toastViewModel.show(mio.language.CHAPTER_PREVIOUSCHAPTER);
-        this._previousPageTime = Date.now() + shared.settings.clientToastTimeout;
+        this._previousPageTime = Date.now() + mio.settings.toastTimeout;
       } else {
         await this.previousChapterAsync();
       }

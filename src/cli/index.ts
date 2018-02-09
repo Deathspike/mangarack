@@ -2,6 +2,7 @@ export * from '../shared';
 import * as commands from './commands';
 export {commands};
 export * from './exec';
+export * from './settings';
 export * from './backers/Browser';
 export * from './backers/BrowserTab';
 export * from './backers/Timer';

@@ -1,6 +1,5 @@
 import * as mio from '../';
 import * as mobx from 'mobx';
-import shared = mio.shared;
 let toastId = 0;
 
 export class ToastViewModel {
@@ -8,7 +7,7 @@ export class ToastViewModel {
   show(text: string)  {
     let id = toastId++;
     this.items.push({id, text});
-    setTimeout(() => this._removeToast(id), shared.settings.clientToastTimeout);
+    setTimeout(() => this._removeToast(id), mio.settings.toastTimeout);
   }
 
   @mobx.action
