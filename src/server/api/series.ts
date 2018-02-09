@@ -78,8 +78,8 @@ function orderVolumeAndNumber(a: shared.IApiSeriesChapter, b: shared.IApiSeriesC
 function scan(name: string) {
   let match = name.match(/(?:v([0-9]+)\s)?c([0-9]+(?:\.[0-9+]+)?)$/);
   if (match) {
-    let number = parseFloat(match[1]);
-    let volume = parseFloat(match[2]);
+    let number = parseFloat(match[2]);
+    let volume = match[1] ? parseFloat(match[1]) : undefined;
     return {number, volume};
   } else {
     throw new Error('Invalid series chapter name');

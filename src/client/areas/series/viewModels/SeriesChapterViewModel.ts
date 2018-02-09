@@ -27,7 +27,7 @@ export class SeriesChapterViewModel {
   
   get friendlyName() {
     let n = String(this._seriesChapter.number);
-    let c =  n.indexOf('.') >= 0 ? n.substr(0, n.indexOf('.')).padStart(3, '0') + n.substr( n.indexOf('.')) : n.padStart(3, '0');
+    let c = n.indexOf('.') >= 0 ? n.substr(0, n.indexOf('.')).padStart(3, '0') + n.substr(n.indexOf('.')) : n.padStart(3, '0');
     if (typeof this._seriesChapter.volume !== 'undefined') {
       return `v${String(this._seriesChapter.volume).padStart(2, '0')} c${c}`;
     } else {
