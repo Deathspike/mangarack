@@ -25,7 +25,11 @@ export class SeriesChapterViewModel {
     return this._seriesChapter.downloaded;
   }
   
-  get friendlyName() {
+  get name() {
+    return this._seriesChapter.name;
+  }
+    
+  get shortName() {
     let n = String(this._seriesChapter.number);
     let c = n.indexOf('.') >= 0 ? n.substr(0, n.indexOf('.')).padStart(3, '0') + n.substr(n.indexOf('.')) : n.padStart(3, '0');
     if (typeof this._seriesChapter.volume !== 'undefined') {
@@ -33,9 +37,5 @@ export class SeriesChapterViewModel {
     } else {
       return `#${c}`;
     }
-  }
-  
-  get name() {
-    return this._seriesChapter.name;
   }
 }
