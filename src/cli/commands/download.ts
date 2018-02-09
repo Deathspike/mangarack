@@ -13,15 +13,20 @@ export async function downloadAsync() {
       let metaProvider = metaProviderExists ? await fs.readJson(metaProviderPath) as shared.IMetaProvider : {};
       for (let url in metaProvider) {
         let timer = new mio.Timer();
-        console.log(`Awaiting ${url}`);
-        await mio.usingAsync(mio.scrapeAsync(browser, url), async series => {
-          if (series.title !== metaProvider[url]) throw new Error(`Series at ${url} property changed: title`)
-          if (series.url !== url) throw new Error(`Series at ${url} property changed: url`);
-          console.log(`Fetching ${series.title}`);
-          await mio.commands.updateSeriesAsync(series);
-          await downloadSeriesAsync(series);
-          console.log(`Finished ${series.title} (${timer})`);
-        });
+        let awaiter = mio.scrapeAsync(browser, url);
+        if (awaiter) {
+          console.log(`Awaiting ${url}`);
+          await mio.usingAsync(awaiter, async series => {
+            if (series.title !== metaProvider[url]) throw new Error(`Series at ${url} property changed: title`)
+            if (series.url !== url) throw new Error(`Series at ${url} property changed: url`);
+            console.log(`Fetching ${series.title}`);
+            await mio.commands.updateSeriesAsync(series);
+            await downloadSeriesAsync(series);
+            console.log(`Finished ${series.title} (${timer})`);
+          });
+        } else {
+          console.log(`Rejected ${url}`);
+        }
       }
     }
   });

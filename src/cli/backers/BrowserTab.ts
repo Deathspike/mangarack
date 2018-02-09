@@ -85,13 +85,13 @@ export class BrowserTab {
 		this._requests[request.url] = request;
 	}
 
-	_emptyRequests() {
+	private _emptyRequests() {
 		for (let key in this._requests) {
 			delete this._requests[key];
 		}
 	}
 
-	_waitForRequestAsync(url: string) {
+	private _waitForRequestAsync(url: string) {
 		return new Promise<puppeteer.Request>(resolve => {
 			let value = this._requests[url];
 			if (value instanceof Function) {
