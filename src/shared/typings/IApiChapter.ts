@@ -1,3 +1,1 @@
-export interface IApiChapter extends ISeriesChapter {
-  pageNames: string[];
-}
+export interface IApiChapter extends Array<string> {}

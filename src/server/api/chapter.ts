@@ -9,12 +9,12 @@ export async function chapterAsync(request: express.Request, response: express.R
   let chapterPath = shared.path.normal(request.params.providerName, request.params.seriesTitle, chapterName);
   let chapterExists = await fs.pathExists(chapterPath);
   if (chapterExists) {
-    let chapter = {name: request.params.chapterName, pageNames: []} as shared.IApiChapter;
+    let chapterPages = [] as shared.IApiChapter;
     fs.createReadStream(chapterPath)
       .pipe(unzipper.Parse())
-      .on('close', () => response.send(chapter))
+      .on('close', () => response.send(chapterPages))
       .on('entry', (entry: unzipper.Entry) => {
-        chapter.pageNames.push(entry.path);
+        chapterPages.push(entry.path);
         entry.autodrain();
       });
   } else {

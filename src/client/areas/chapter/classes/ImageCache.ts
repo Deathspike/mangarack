@@ -2,15 +2,15 @@ import * as mio from '../';
 import shared = mio.shared;
 
 export class ImageCache {
+  private readonly _chapter: shared.IApiChapter;
   private readonly _listEntry: shared.IApiListEntry;
   private readonly _images: (Promise<string> | string | undefined)[];
-  private readonly _pageNames: string[];
   private readonly _url: string;
 
-  constructor(listEntry: shared.IApiListEntry, pageNames: string[], url: string) {
+  constructor(chapter: shared.IApiChapter, listEntry: shared.IApiListEntry, url: string) {
+    this._chapter = chapter;
     this._listEntry = listEntry;
-    this._images = pageNames.map(() => undefined);
-    this._pageNames = pageNames;
+    this._images = chapter.map(() => undefined);
     this._url = url;
   }
 
@@ -44,7 +44,7 @@ export class ImageCache {
   }
 
   private async _fetchImage(index: number) {
-    let request = await fetch(`${this._url}/${encodeURIComponent(this._pageNames[index])}`);
+    let request = await fetch(`${this._url}/${encodeURIComponent(this._chapter[index])}`);
     let image = await this.processAsync(await request.blob())
     this._images[index] = image;
     return image;
