@@ -48,10 +48,8 @@ export async function downloadSeriesItemAsync(series: mio.IScraperSeries, series
     chapter.pipe(fs.createWriteStream(chapterPath + shared.extension.tmp));
     await mio.usingAsync(seriesChapter.iteratorAsync(), async iterator => {
       try {
-        let metaChapterPages = await archiveAsync(chapter, iterator);
-        let metaChapter = transformMetadata(seriesChapter, metaChapterPages);
+        await archiveAsync(chapter, iterator);
         chapter.finalize();
-        await fs.writeJson(chapterPath + shared.extension.json, metaChapter, {spaces: 2});
         await fs.rename(chapterPath + shared.extension.tmp, chapterPath);
         console.log(`Finished ${seriesChapter.name} (${timer})`);
       } catch (error) {
@@ -66,16 +64,13 @@ export async function downloadSeriesItemAsync(series: mio.IScraperSeries, series
 
 async function archiveAsync(chapter: archiver.Archiver, iterator: mio.IScraperIterator) {
   let currentPageNumber = 1;
-  let pages = [];
   while (await iterator.moveAsync()) {
     let buffer = await iterator.currentAsync();
     let imageInfo = imageSize(buffer);
-    let pageName = `${String(currentPageNumber).padStart(3, '0')}.${imageInfo.type}`;
-    chapter.append(buffer, {name: pageName});
+    let name = `${String(currentPageNumber).padStart(3, '0')}.${imageInfo.type}`;
+    chapter.append(buffer, {name});
     currentPageNumber++;
-    pages.push(pageName);
   }
-  return pages;
 }
 
 async function cleanAsync(series: mio.IScraperSeries) {
@@ -85,15 +80,7 @@ async function cleanAsync(series: mio.IScraperSeries) {
   for (let filePath of filePaths) {
     let fileExtension = path.extname(filePath);
     if (fileExtension === shared.extension.cbz && chapterPaths.indexOf(filePath) === -1) {
-      await fs.rename(filePath, filePath + shared.extension.del);
+      await fs.rename(filePath, path.basename(filePath) + shared.extension.del);
     }
   }
-}
-
-function transformMetadata(seriesChapter: mio.IScraperSeriesChapter, pageNames: string[]): shared.IMetaChapter {
-  return {
-    name: seriesChapter.name,
-    pageNames: pageNames,
-    title: seriesChapter.title
-  };
 }

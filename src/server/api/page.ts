@@ -2,24 +2,25 @@ import * as express from 'express';
 import * as fs from 'fs-extra';
 import * as mime from 'mime';
 import * as mio from '../';
+import * as path from 'path';
 import * as unzipper from 'unzipper';
 import shared = mio.shared;
 
 export async function pageAsync(request: express.Request, response: express.Response) {
-  // Initialize the downloade meta chapter.
-  let metaChapterPath = shared.path.normal(request.params.providerName, request.params.seriesTitle, request.params.chapterName + shared.extension.cbz);
-  let metaChapterExists = await fs.pathExists(metaChapterPath);
-  if (metaChapterExists) return process(request, response, metaChapterPath);
+  // Initialize the downloaded chapter.
+  let chapterPath = shared.path.normal(request.params.providerName, request.params.seriesTitle, request.params.chapterName + shared.extension.cbz);
+  let chapterExists = await fs.pathExists(chapterPath);
+  if (chapterExists) return process(request, response, chapterPath);
   
-  // Initialize the deleted meta chapter.
-  let deletedmetaChapterPath = metaChapterPath + shared.extension.del;
-  let deletedmetaChapterExists = await fs.pathExists(deletedmetaChapterPath);
-  if (deletedmetaChapterExists) return process(request, response, deletedmetaChapterPath);
+  // Initialize the deleted chapter.
+  let deletedChapterPath = path.basename(chapterPath) + shared.extension.del;
+  let deletedChapterExists = await fs.pathExists(deletedChapterPath);
+  if (deletedChapterExists) return process(request, response, deletedChapterPath);
   response.sendStatus(404);
 }
 
-function process(request: express.Request, response: express.Response, filePath: string) {
-  fs.createReadStream(filePath)
+function process(request: express.Request, response: express.Response, chapterPath: string) {
+  fs.createReadStream(chapterPath)
     .pipe(unzipper.Parse())
     .on('close', () => {
       if (response.headersSent) return;

@@ -14,7 +14,7 @@ export async function seriesAsync(request: express.Request, response: express.Re
     let metaSeries = await fs.readJson(metaSeriesPath) as shared.IMetaSeries;
     let series = metaSeries as shared.IApiSeries;
     if (seriesExists) {
-      let fileNames = await fs.readdir(shared.path.normal(request.params.providerName, request.params.seriesTitle));
+      let fileNames = await fs.readdir(seriesPath);
       let seriesChapters = [] as shared.IApiSeriesChapter[];
       let seriesChapterFileNames = {} as {[fileName: string]: number};
       for (let seriesChapter of series.chapters) {
@@ -31,18 +31,14 @@ export async function seriesAsync(request: express.Request, response: express.Re
       }
       for (let fileName of fileNames) {
         let fileExtension = path.extname(fileName);
-        let isDeleted = fileExtension === shared.extension.del
-        if (!seriesChapterFileNames[fileName] && (fileExtension === shared.extension.cbz || isDeleted)) {
-          let metaChapterName = (isDeleted ? fileName.substr(0, fileName.length - fileExtension.length) : fileName) + shared.extension.json;
-          let metaChapterPath = shared.path.normal(request.params.providerName, request.params.seriesTitle, metaChapterName);
-          let metaChapter = await fs.readJson(metaChapterPath) as shared.IMetaChapter;
-          let scanResult = scan(metaChapter.name);
+        if (!seriesChapterFileNames[fileName] && (fileExtension === shared.extension.cbz || fileExtension === shared.extension.del)) {
+          let chapterName = path.basename(fileName);
+          let scanResult = scan(chapterName);
           seriesChapters.push({
             available: false,
             downloaded: true,
-            name: metaChapter.name,
+            name: chapterName,
             number: scanResult.number,
-            title: metaChapter.title,
             volume: scanResult.volume
           });
         }
