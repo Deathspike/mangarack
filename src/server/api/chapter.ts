@@ -9,10 +9,7 @@ export async function chapterAsync(request: express.Request, response: express.R
   let chapterPath = shared.path.normal(request.params.providerName, request.params.seriesTitle, chapterName);
   let chapterExists = await fs.pathExists(chapterPath);
   if (chapterExists) {
-    let chapter: shared.IApiChapter = {
-      name: request.params.chapterName,
-      pageNames: []
-    };
+    let chapter = {name: request.params.chapterName, pageNames: []} as shared.IApiChapter;
     fs.createReadStream(chapterPath)
       .pipe(unzipper.Parse())
       .on('close', () => response.send(chapter))

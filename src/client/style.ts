@@ -1,5 +1,5 @@
 import * as React from 'react';
 
-export function withStyle(item: React.CSSProperties): React.CSSProperties {
+export function withStyle(item: React.CSSProperties) {
   return item;
 }

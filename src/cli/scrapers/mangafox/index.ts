@@ -5,7 +5,7 @@ import {ScraperSeries} from './ScraperSeries';
 export function scrapeAsync(browser: mio.Browser, url: string) {
   let cleanUrl = rewriteUrl(url);
   if (!/^http:\/\/fanfox\.net\/manga\/.+\/$/i.test(cleanUrl)) return undefined;
-  return createAsync(browser, url);
+  return createAsync(browser, cleanUrl);
 }
 
 async function createAsync(browser: mio.Browser, url: string) {

@@ -24,12 +24,12 @@ export class ScraperIterator implements mio.IScraperIterator {
           return await this._browserTab.bufferAsync(this._page.imageUrl);
         } catch {
           try {
-            await mio.timeoutAsync(1000);
+            await mio.timeoutAsync(shared.settings.mangafoxIteratorTimeoutFallback);
             await this._evaluateAsync();
             return await this._browserTab.bufferAsync(this._page.imageUrl);
           } catch (error) {
             if (i === shared.settings.mangafoxIteratorRetries) throw error;
-            await mio.timeoutAsync(9000);
+            await mio.timeoutAsync(shared.settings.mangafoxIteratorTimeoutRetry);
             await this._browserTab.reloadAsync();
             await this._evaluateAsync();
           }

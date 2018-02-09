@@ -16,7 +16,7 @@ export class Browser {
 	}
 
 	static async createAsync() {
-		let userDataDir = shared.path.hidden('chromeCache');
+		let userDataDir = shared.path.hidden(shared.settings.browserUserDataDir);
 		let browser = await puppeteer.launch({headless: shared.settings.browserHeadless, userDataDir});
     return new Browser(browser);
 	}

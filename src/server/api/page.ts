@@ -2,7 +2,6 @@ import * as express from 'express';
 import * as fs from 'fs-extra';
 import * as mime from 'mime';
 import * as mio from '../';
-import * as path from 'path';
 import * as unzipper from 'unzipper';
 import shared = mio.shared;
 
@@ -13,7 +12,7 @@ export async function pageAsync(request: express.Request, response: express.Resp
   if (chapterExists) return process(request, response, chapterPath);
   
   // Initialize the deleted chapter.
-  let deletedChapterPath = path.basename(chapterPath) + shared.extension.del;
+  let deletedChapterPath = shared.path.normal(request.params.providerName, request.params.seriesTitle, request.params.chapterName + shared.extension.del);
   let deletedChapterExists = await fs.pathExists(deletedChapterPath);
   if (deletedChapterExists) return process(request, response, deletedChapterPath);
   response.sendStatus(404);
