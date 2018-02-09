@@ -17,15 +17,15 @@ export async function seriesAsync(request: express.Request, response: express.Re
       let fileNames = await fs.readdir(seriesPath);
       let seriesChapters = [] as shared.IApiSeriesChapter[];
       let seriesChapterFileNames = {} as {[fileName: string]: number};
-      for (let seriesChapter of series.chapters) {
-        let chapterName = sanitizeFilename(seriesChapter.name) + shared.extension.cbz;
-        let scanResult = scan(seriesChapter.name);
+      for (let metaSeriesChapter of metaSeries.chapters) {
+        let chapterName = sanitizeFilename(metaSeriesChapter.name) + shared.extension.cbz;
+        let scanResult = scan(metaSeriesChapter.name);
         seriesChapterFileNames[chapterName] = seriesChapters.push({
           available: true,
           downloaded: fileNames.indexOf(chapterName) !== -1,
-          name: seriesChapter.name,
+          name: metaSeriesChapter.name,
           number: scanResult.number,
-          title: seriesChapter.title,
+          title: metaSeriesChapter.title,
           volume: scanResult.volume
         });
       }
@@ -53,6 +53,7 @@ export async function seriesAsync(request: express.Request, response: express.Re
   }
 }
 
+// [Improvement] ordering and scanning should be moved to client-side.
 // [Improvement] orderVolumeAndNumber should be moved to a more logical file.
 function orderVolumeAndNumber(a: shared.IApiSeriesChapter, b: shared.IApiSeriesChapter) {
   if (typeof a.volume !== 'undefined') {

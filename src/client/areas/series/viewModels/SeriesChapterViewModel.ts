@@ -17,7 +17,7 @@ export class SeriesChapterViewModel {
     if (this.downloaded) {
       await mio.layerViewModel.openAsync(initializeAsync(this._listEntry, this._series, this._seriesChapter));
     } else {
-      mio.toastViewModel.show(mio.language.SERIESCHAPTER_NOTAVAILABLE);
+      mio.toastViewModel.show(mio.language.SERIESCHAPTER_UNAVAILABLE);
     }
   }
 

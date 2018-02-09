@@ -11,6 +11,7 @@ export const toastStyle = {
   }),
   typography: mio.withStyle({
     background: 'rgba(0, 0, 0, 0.75)',
+    borderRadius: 4,
     color: 'white',
     padding: 8,
     pointerEvents: 'none',

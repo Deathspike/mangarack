@@ -15,12 +15,12 @@ mobx.useStrict(true);
 
 function App() {
   return (
-    <div>
+    <mui.MuiThemeProvider theme={mio.theme}>
       <mui.Reboot />
       <mio.LayerView />
       <mio.ToastView />
       <mio.LoadingView />
-    </div>
+    </mui.MuiThemeProvider>
   );
 }
 

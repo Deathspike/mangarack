@@ -6,3 +6,7 @@ body {
 html:fullscreen {
   background-color: white;
 }
+
+html:-webkit-full-screen-ancestor {
+  background-color: white;
+}
