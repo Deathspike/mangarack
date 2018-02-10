@@ -2,6 +2,7 @@ import * as compression from 'compression';
 import * as express from 'express';
 import * as mio from './';
 import * as http from 'http';
+import * as os from 'os';
 import * as path from 'path';
 const parentPath = path.resolve(__dirname, '../../../');
 const publicPath = path.resolve(__dirname, '../../public');
@@ -10,7 +11,7 @@ const webpackPath = path.resolve(__dirname, '../../webpack.dev.js');
 export function serveAsync(port: number, useWebpack: boolean) {
   return new Promise<void>((resolve, reject) => {
     let app = express();
-    let server = app.listen(port);
+    let server = app.listen(port, () => bindingOutput(port));
     app.set ('json spaces', 4);
     app.set ('strict routing', true);
     app.set ('x-powered-by', false);
@@ -33,6 +34,15 @@ function async(handler: express.RequestHandler) {
       result.catch(next);
     }
   };
+}
+
+function bindingOutput(port: number) {
+  let interfaces = os.networkInterfaces().Ethernet;
+  let validInterfaces = interfaces.filter(x => !x.internal && x.family === 'IPv4');
+  console.log(`Listening on 127.0.0.1:${port}`);
+  for (let validInterface of validInterfaces) {
+    console.log(`Listening on ${validInterface.address}:${port}`);
+  }
 }
 
 function errorFactory(server: http.Server, reject: (reason: Error) => void) {
