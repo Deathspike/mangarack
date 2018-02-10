@@ -5,7 +5,7 @@ const rules = [
 ];
 
 module.exports = {
-  entry: './dist/client/app.js',
+  entry: './dist/client.js',
   output: {filename: 'client.min.js', path: __dirname + '/public'},
   module: {rules}
 };

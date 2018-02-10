@@ -1,7 +1,7 @@
 import * as mio from '../';
 import * as mobx from 'mobx';
 
-// [Improvement] Forward state should also work in every situation (e.g. reload), or not break things.
+// [Improvement] Forward state should also work in every situation (e.g. reload, reset), or not break things.
 // [Improvement] window.addEventListener should clean up on an application unload (to be written).
 export class LayerViewModel {
   constructor() {
@@ -31,6 +31,13 @@ export class LayerViewModel {
       let item = await awaiter;
       mobx.runInAction(() => this.items.splice(this.items.length - 1, 1, item));
     });
+  }
+
+  @mobx.action
+  reset() {
+    for (let i = this.items.length; i > 1; i--) {
+      this.close();
+    }
   }
 
   @mobx.observable

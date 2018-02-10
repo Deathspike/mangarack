@@ -1,4 +1,5 @@
 dist/client
+dist/client.js
 src
 typings
 tsconfig.json

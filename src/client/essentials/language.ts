@@ -1,4 +1,5 @@
 export const language = {
+  APP_ERROR: 'An error has occurred.',
   CHAPTER_NEXTCHAPTER: 'Tap to open the next chapter.',
   CHAPTER_NEXTCHAPTERNOT: 'Next chapter does not exist.',
   CHAPTER_NEXTCHAPTERUNAVAILABLE: 'Next chapter is not available.',

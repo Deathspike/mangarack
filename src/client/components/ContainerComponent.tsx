@@ -36,9 +36,9 @@ export class ContainerComponent extends React.Component<{enableBack: boolean, ti
     } else if (document.webkitFullscreenElement) {
       document.webkitCancelFullScreen();
     } else {
-      let element = document.body as any;
-      let request = element.requestFullScreen || element.webkitRequestFullScreen;
-      if (request) request.call(element);
+      let unsafeElement = document.body as any;
+      let request = unsafeElement.requestFullScreen || unsafeElement.webkitRequestFullScreen;
+      if (request) request.call(unsafeElement);
     }
   }
 
