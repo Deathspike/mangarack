@@ -1,5 +1,6 @@
 const rules = [
   {test: /\.css$/, use: 'css-loader'},
+  {test: /\.js$/, use: 'source-map-loader'},
   {test: /\.(woff|woff2)$/, use: 'url-loader'}
 ];
 

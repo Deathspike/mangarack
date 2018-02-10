@@ -52,6 +52,7 @@
     "react": "16.2.0",
     "react-dom": "16.2.0",
     "rimraf": "2.6.2",
+    "source-map-loader": "0.2.3",
     "typeface-roboto": "0.0.54",
     "typescript": "2.6.2",
     "uglifyjs-webpack-plugin": "1.1.6",

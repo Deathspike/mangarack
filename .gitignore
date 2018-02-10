@@ -1,3 +1,4 @@
 dist
 node_modules
 public/client.min.js
+public/client.min.js.map
