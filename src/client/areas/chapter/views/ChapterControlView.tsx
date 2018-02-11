@@ -5,8 +5,8 @@ import * as mui from 'material-ui';
 import * as muiIcon from 'material-ui-icons';
 import {chapterControlStyle} from './styles/chapterControlStyle';
 
-// [Improvement] Read direction selection (and respect ltr and rtl based on comic type).
-// TODO: Select must use secondary color.
+// [Improvement/HiPi] Read direction selection (and respect ltr and rtl based on comic type).
+// [Improvement/HiPi] Select must use secondary color.
 @mobxReact.observer
 export class ChapterControlView extends React.Component<{controlVm: mio.ChapterControlViewModel, pageVm: mio.ChapterPageViewModel}> {
   render() {

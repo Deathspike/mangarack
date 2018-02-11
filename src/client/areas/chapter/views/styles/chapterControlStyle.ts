@@ -1,6 +1,6 @@
 import * as mio from '../../';
 
-// [Improvement] Colors should be inherited from the theme.
+// [Improvement/HiPi] Colors should be inherited from the theme.
 export const chapterControlStyle = {
   primaryButton: mio.withStyle({
     marginLeft: -20,

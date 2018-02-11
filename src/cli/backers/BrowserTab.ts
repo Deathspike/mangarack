@@ -70,7 +70,7 @@ export class BrowserTab {
 		return handler(dom.window);
 	}
 
-	// [Improvement] Keep the referrer as it was intended here.
+	// [Improvement/HiPi] Keep the referrer as it was intended here.
 	async reloadAsync() {
 		let url = await this._page.url();
 		this._emptyRequests();
