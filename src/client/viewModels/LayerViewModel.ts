@@ -1,7 +1,6 @@
 import * as mio from '../';
 import * as mobx from 'mobx';
 
-// TODO: Forward state should also work in every situation (e.g. reload, reset), or not break things.
 // [Improvement] window.addEventListener should clean up on an application unload (to be written).
 export class LayerViewModel {
   constructor() {
@@ -18,9 +17,9 @@ export class LayerViewModel {
     await mio.loadingViewModel.loadAsync(async () => {
       let item = await awaiter;
       mobx.runInAction(() => {
-        if (this.items.length) history.pushState(this.items.length, '');
         this.items.push(item);
         this.historyItems = [];
+        history.pushState(`${this.sessionId}/${this.items.length}`, '');
       });
     });
   }
@@ -46,18 +45,35 @@ export class LayerViewModel {
   @mobx.observable
   historyItems = [] as JSX.Element[];
 
+  @mobx.observable
+  sessionId = uuidv4()
+
   @mobx.action
-  private _processHistory(length: number) {
-    if (length >= this.items.length) {
-      while (this.items.length <= length && this.historyItems.length) {
-        let lastHistoryItem = this.historyItems[this.historyItems.length - 1];
-        this.items.push(lastHistoryItem);
-        this.historyItems.pop();
+  private _processHistory(value: any) {
+    let index = String(value).indexOf('/');
+    let sessionId = index !== -1 ? String(value).substr(0, index) : undefined;
+    if (sessionId === this.sessionId) {
+      let length = parseInt(value.substr(index + 1));
+      if (length > this.items.length) {
+        while (this.items.length < length && this.historyItems.length) {
+          let lastHistoryItem = this.historyItems[this.historyItems.length - 1];
+          this.items.push(lastHistoryItem);
+          this.historyItems.pop();
+        }
+      } else {
+        let lastItem = this.items[this.items.length - 1];
+        this.historyItems.push(lastItem);
+        this.items.pop();
       }
     } else {
-      let lastItem = this.items[this.items.length - 1];
-      this.historyItems.push(lastItem);
-      this.items.pop();
+      history.back();
     }
   }
+}
+
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
 }
