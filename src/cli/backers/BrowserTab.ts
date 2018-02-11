@@ -17,7 +17,8 @@ export class BrowserTab {
 	static async createAsync(browser: puppeteer.Browser, url: string, previousUrl?: string) {
 		// Initialize the page.
 		let page = await browser.newPage();
-		await page.setUserAgent(mio.settings.browserUserAgent);	
+		let userAgent = await browser.userAgent();
+		await page.setUserAgent(userAgent.replace(/HeadlessChrome/g, 'Chrome'));
 		await page.setViewport(mio.settings.browserViewport);
 
 		// Initialize the browser tab.
@@ -33,7 +34,7 @@ export class BrowserTab {
 	async bufferAsync(url: string) {
 		let request = await this._waitForRequestAsync(url);
 		let response = request.response();
-		if (response && response.status === 200) {
+		if (response && response.status() === 200) {
 			return response.buffer();
 		} else {
 			throw new Error('Invalid browser buffer response');
@@ -47,13 +48,14 @@ export class BrowserTab {
 
 		// Initialize the navigation.
 		this._emptyRequests();
-		await this._page.goto(url, {waitUntil: 'domcontentloaded'});
+		await this._page.goto(url, {waitUntil: 'networkidle2', timeout: mio.settings.browserNavigationTimeoutGoto});
 
 		// Initialize the response.
-		for (let i = 1; i <= mio.settings.browserNavigateRetries; i++) {
-			let request = await this._waitForRequestAsync(await this._page.url());
+		for (let i = 1; i <= mio.settings.browserNavigationRetries; i++) {
+			let request = await this._waitForRequestAsync(await url);
 			let response = request.response();
-			if (response && response.status === 200) return;
+			if (response && response.status() === 200) return;
+			await mio.timeoutAsync(mio.settings.browserNavigationTimeoutRetry);
 			await this.reloadAsync();
 		}
 
@@ -79,9 +81,9 @@ export class BrowserTab {
 	}
 
 	private _onRequestFinished(request: puppeteer.Request) {
-		let value = this._requests[request.url];
+		let value = this._requests[request.url()];
 		if (value instanceof Function) value(request);
-		this._requests[request.url] = request;
+		this._requests[request.url()] = request;
 	}
 
 	private _emptyRequests() {
@@ -94,13 +96,16 @@ export class BrowserTab {
 		return new Promise<puppeteer.Request>(resolve => {
 			let value = this._requests[url];
 			if (value instanceof Function) {
-				let wrappedValue = value;
-				this._requests[url] = request => resolve() || wrappedValue(request);
+				let previousResolve = value;
+				this._requests[url] = request => {
+					previousResolve(request);
+					resolve();
+				};
 			} else if (value) {
 				resolve(value);
 			} else {
 				this._requests[url] = resolve;
 			}
-		})
+		});
 	}
 }
