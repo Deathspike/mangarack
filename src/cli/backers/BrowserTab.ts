@@ -53,7 +53,7 @@ export class BrowserTab {
 			await this._gotoAsync(url, referrer);
 
 			// Initialize the response.
-			let request = await this._waitForRequestAsync(await url);
+			let request = await this._waitForRequestAsync(url);
 			let response = request.response();
 			if (response && response.status() === 200) return await mio.timeoutAsync(mio.settings.browserNavigationResponseDelay);
 			await mio.timeoutAsync(mio.settings.browserNavigationTimeoutRetry);
