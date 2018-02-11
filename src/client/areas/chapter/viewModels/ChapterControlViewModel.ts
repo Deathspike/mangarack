@@ -15,13 +15,14 @@ export class ChapterControlViewModel {
 
   @mobx.action
   async changeChapterAsync(name: string) {
-    if (name === this.chapterName) return;
-    for (let seriesChapter of this._series.chapters) {
-      if (seriesChapter.name === name) {
-        if (seriesChapter.downloaded) {
-          await mio.layerViewModel.replaceAsync(mio.initializeAsync(this._listEntry, this._series, seriesChapter));
-        } else {
-          mio.toastViewModel.show(mio.language.SERIESCHAPTER_UNAVAILABLE);
+    if (name !== this.chapterName) {
+      for (let seriesChapter of this._series.chapters) {
+        if (seriesChapter.name === name) {
+          if (seriesChapter.downloaded) {
+            await mio.layerViewModel.replaceAsync(mio.initializeAsync(this._listEntry, this._series, seriesChapter));
+          } else {
+            mio.toastViewModel.show(mio.language.SERIESCHAPTER_UNAVAILABLE);
+          }
         }
       }
     }

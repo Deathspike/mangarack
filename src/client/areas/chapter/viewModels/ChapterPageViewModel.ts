@@ -2,7 +2,7 @@ import * as mio from '../';
 import * as mobx from 'mobx';
 import shared = mio.shared;
 
-export class ChapterViewModel {
+export class ChapterPageViewModel {
   private readonly _listEntry: shared.IApiListEntry;
   private readonly _series: shared.IApiSeries;
   private readonly _seriesChapter: shared.IApiSeriesChapter;
@@ -89,7 +89,7 @@ export class ChapterViewModel {
       let c = name.indexOf('.');
       if (c !== -1) name = name.substr(0, c);
       return {name, index};
-    })
+    }).reverse();
   }
 
   @mobx.observable

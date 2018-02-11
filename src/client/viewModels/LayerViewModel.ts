@@ -1,7 +1,7 @@
 import * as mio from '../';
 import * as mobx from 'mobx';
 
-// [Improvement] Forward state should also work in every situation (e.g. reload, reset), or not break things.
+// TODO: Forward state should also work in every situation (e.g. reload, reset), or not break things.
 // [Improvement] window.addEventListener should clean up on an application unload (to be written).
 export class LayerViewModel {
   constructor() {
