@@ -20,8 +20,11 @@ export class ChapterView extends React.Component<{vm: mio.ChapterViewModel}> {
 
   render() {
     return (
-      <div ref={divElement => this._onRef(divElement)} onMouseDown={e => this._onMouseEvent(e)} style={chapterStyle.imageContainer}>
-        <img onContextMenu={e => this._onContextMenu(e)} src={this.props.vm.image} style={chapterStyle.image} />
+      <div>
+        <mio.ChapterControlView />
+        <div ref={divElement => this._onRef(divElement)} onMouseDown={e => this._onMouseEvent(e)} style={chapterStyle.imageContainer}>
+          <img onContextMenu={e => this._onContextMenu(e)} src={this.props.vm.image} style={chapterStyle.image} />
+        </div>
       </div>
     );
   }

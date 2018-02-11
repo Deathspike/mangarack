@@ -48,7 +48,7 @@
     "@types/webpack-dev-middleware": "2.0.0",
     "css-loader": "0.28.9",
     "hammerjs": "2.0.8",
-    "material-ui": "1.0.0-beta.30",
+    "material-ui": "1.0.0-beta.33",
     "material-ui-icons": "1.0.0-beta.17",
     "mobx": "3.4.1",
     "mobx-react": "4.3.5",

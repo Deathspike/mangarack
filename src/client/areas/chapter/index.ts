@@ -6,4 +6,5 @@ export * from './classes/PinchZoom';
 export * from './controllers/ChapterController'
 export * from './images/mangafoxImage';
 export * from './viewModels/ChapterViewModel';
+export * from './views/ChapterControlView';
 export * from './views/ChapterView';

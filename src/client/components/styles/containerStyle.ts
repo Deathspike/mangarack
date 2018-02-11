@@ -1,7 +1,7 @@
 import * as mio from '../../';
 
 export const containerStyle = {
-  iconButton: mio.withStyle({
+  primaryButton: mio.withStyle({
     marginLeft: -20,
     marginRight: 20,
   }),
@@ -10,6 +10,9 @@ export const containerStyle = {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap'
+  }),
+  secondaryButton: mio.withStyle({
+    marginRight: -20
   }),
   container: mio.withStyle({
     bottom: 0,

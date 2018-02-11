@@ -8,15 +8,15 @@ export class ContainerComponent extends React.Component<{enableBack: boolean, ti
   render() {
     return (
       <div>
-        <mui.AppBar color="primary" position="static">
+        <mui.AppBar>
           <mui.Toolbar>
-            <mui.IconButton color="inherit" onClick={() => this._onButtonClick()} style={containerStyle.iconButton}>
+            <mui.IconButton color="inherit" onClick={() => this._onButtonClick()} style={containerStyle.primaryButton}>
               {this.props.enableBack ? <muiIcon.ArrowBack /> : <muiIcon.Fullscreen />}
             </mui.IconButton>
-            <mui.Typography color="inherit" type="title" style={containerStyle.typography}>
+            <mui.Typography color="inherit" variant="title" style={containerStyle.typography}>
               {this.props.title}
             </mui.Typography>
-            <mui.IconButton color="inherit" onClick={() => this._onRefreshClick()}>
+            <mui.IconButton color="inherit" onClick={() => this._onRefreshClick()} style={containerStyle.secondaryButton}>
               <muiIcon.Refresh />
             </mui.IconButton>
           </mui.Toolbar>

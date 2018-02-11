@@ -1,7 +1,6 @@
 {
   "display": "standalone",
   "name": "MangaRack",
-  "theme_color": "#0091ea",
   "icons": [{
     "density": "0.75",
     "sizes": "36x36",
