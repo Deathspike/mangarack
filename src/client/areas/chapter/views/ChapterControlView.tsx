@@ -10,17 +10,17 @@ import {chapterControlStyle} from './styles/chapterControlStyle';
 @mobxReact.observer
 export class ChapterControlView extends React.Component<{controlVm: mio.ChapterControlViewModel, pageVm: mio.ChapterPageViewModel}> {
   render() {
-    return this.props.controlVm.visible && (
-      <mui.AppBar color="secondary">
+    return (
+      <mui.AppBar color="secondary" style={{visibility: this.props.controlVm.visible ? 'visible' : 'hidden'}}>
         <mui.Toolbar>
           <mui.IconButton color="inherit" onClick={() => this.props.controlVm.close()} style={chapterControlStyle.primaryButton}>
             <muiIcon.Close />
           </mui.IconButton>
-          <mui.Select onChange={e => this._onChangeChapter(e.target.value)} value={this.props.controlVm.chapterName} style={chapterControlStyle.chapterSelect}>
-            {this.props.controlVm.seriesChapters.map(seriesChapter => <mui.MenuItem key={seriesChapter.name} value={seriesChapter.name}>{seriesChapter.shortName}</mui.MenuItem>)}
+          <mui.Select onChange={e => this._onChangeChapter(e.target.value)} native={true} value={this.props.controlVm.chapterName} style={chapterControlStyle.chapterSelect}>
+            {this.props.controlVm.seriesChapters.map(seriesChapter => <option key={seriesChapter.name} value={seriesChapter.name}>{seriesChapter.shortName}</option>)}
           </mui.Select>
-          <mui.Select onChange={e => this._onChangePage(e.target.value)} value={this.props.pageVm.pageIndex} style={chapterControlStyle.pageSelect}>
-            {this.props.pageVm.pages.map(pageData => <mui.MenuItem key={pageData.index} value={pageData.index}>{pageData.name}</mui.MenuItem>)}
+          <mui.Select onChange={e => this._onChangePageAsync(e.target.value)} native={true} value={this.props.pageVm.pageIndex} style={chapterControlStyle.pageSelect}>
+            {this.props.pageVm.pages.map(pageData => <option key={pageData.index} value={pageData.index}>{pageData.name}</option>)}
           </mui.Select>
         </mui.Toolbar>
       </mui.AppBar>
@@ -28,13 +28,12 @@ export class ChapterControlView extends React.Component<{controlVm: mio.ChapterC
   }
 
   private _onChangeChapter(value: string) {
-    this.props.controlVm.hide();
     this.props.controlVm.changeChapterAsync(value);
   }
 
-  private _onChangePage(value: string) {
+  private async _onChangePageAsync(value: string) {
     let index = parseInt(value);
+    await this.props.pageVm.changeAsync(index);
     this.props.controlVm.hide();
-    this.props.pageVm.changeAsync(index);
   }
 }
