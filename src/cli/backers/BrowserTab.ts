@@ -46,17 +46,17 @@ export class BrowserTab {
 		let referrer = previousUrl || (await this._page.url()) || undefined;
 		if (referrer === 'about:blank') referrer = undefined;
 
-		// Initialize the navigation.
-		this._emptyRequests();
-		await this._gotoAsync(url, referrer);
+		// Iterate for each attempt.
+		for (let i = 1; i <= mio.settings.browserNavigationAttempts; i++) {
+			// Initialize the request.
+			this._emptyRequests();
+			await this._gotoAsync(url, referrer);
 
-		// Initialize the response.
-		for (let i = 1; i <= mio.settings.browserNavigationRetries; i++) {
+			// Initialize the response.
 			let request = await this._waitForRequestAsync(await url);
 			let response = request.response();
 			if (response && response.status() === 200) return await mio.timeoutAsync(mio.settings.browserNavigationResponseDelay);
 			await mio.timeoutAsync(mio.settings.browserNavigationTimeoutRetry);
-			await this.reloadAsync();
 		}
 
 		// Invalid response.
@@ -70,9 +70,11 @@ export class BrowserTab {
 		return handler(dom.window);
 	}
 
+	// [Improvement] Keep the referrer as it was intended here.
 	async reloadAsync() {
+		let url = await this._page.url();
 		this._emptyRequests();
-		await this._page.reload();
+		await this.navigateAsync(url);
 	}
 
 	async tabAsync(url: string) {
