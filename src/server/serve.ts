@@ -37,10 +37,10 @@ function async(handler: express.RequestHandler) {
 }
 
 function bindingOutput(port: number) {
-  let interfaces = os.networkInterfaces().Ethernet;
-  let validInterfaces = interfaces.filter(x => !x.internal && x.family === 'IPv4');
+  let items = os.networkInterfaces().Ethernet;
+  let validItems = items.filter(item => !item.internal && item.family === 'IPv4');
   console.log(`Listening on 127.0.0.1:${port}`);
-  for (let validInterface of validInterfaces) {
+  for (let validInterface of validItems) {
     console.log(`Listening on ${validInterface.address}:${port}`);
   }
 }

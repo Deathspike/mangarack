@@ -6,10 +6,6 @@ export const chapterControlStyle = {
     marginLeft: -20,
     marginRight: 20,
   }),
-  menuPaper: mio.withStyle({
-    maxHeight: 216,
-    width: 200
-  }),
   chapterSelect: mio.withStyle({
     color: '#fafafa',
     flex: 1,

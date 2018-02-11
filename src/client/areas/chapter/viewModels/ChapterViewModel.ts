@@ -19,44 +19,17 @@ export class ChapterViewModel {
   }
 
   @mobx.action
-  close() {
-    mio.layerViewModel.close();
+  async changeAsync(pageNumber: number) {
+    this.pageNumber = pageNumber;
+    let image = await this._cache.getImageAsync(this.pageNumber);
+    mobx.runInAction(() => this.image = image);
   }
 
   @mobx.action
-  async refreshAsync() {
-    // Initialize the chapter.
-    let request = await fetch(`/api/library/${encodeURIComponent(this._listEntry.providerName)}/${encodeURIComponent(this._listEntry.seriesTitle)}/${encodeURIComponent(this._seriesChapter.name)}`);
-    let chapter = await request.json() as shared.IApiChapter;
-
-    // Initialize the image cache.
-    let imageCache = await new mio.ImageCache(chapter, this._listEntry, request.url);
-    let image = await imageCache.getImageAsync(this.currentPageNumber);
-    this._cache = imageCache;
-
-    // Initialize the view model.
-    mobx.runInAction(() => {
-      this.chapter = chapter;
-      this.image = image;
-    });
-  }
-
-  @mobx.action
-  async nextChapterAsync() {
-    let nextSeriesChapter = this._seriesChapterSelector.fetchNext();
-    if (nextSeriesChapter) {
-      await mio.layerViewModel.replaceAsync(mio.initializeAsync(this._listEntry, this._series, nextSeriesChapter));
-    } else {
-      mio.layerViewModel.close();
-    }
-  }
-
-  @mobx.action
-  async nextPageAsync() {
+  async nextAsync() {
     if (this.chapter) {
-      if (this.currentPageNumber < this.chapter.length) {
-        let image = await this._cache.getImageAsync(++this.currentPageNumber);
-        mobx.runInAction(() => this.image = image);
+      if (this.pageNumber < this.chapter.length) {
+        await this.changeAsync(this.pageNumber + 1);
       } else {
         let nextSeriesChapter = this._seriesChapterSelector.fetchNext();
         if (!nextSeriesChapter) {
@@ -67,27 +40,16 @@ export class ChapterViewModel {
           mio.toastViewModel.show(mio.language.CHAPTER_NEXTCHAPTER);
           this._nextPageTime = Date.now() + mio.settings.toastTimeout;
         } else {
-          await this.nextChapterAsync();
+          mio.layerViewModel.close();
         }
       }
     }
   }
 
   @mobx.action
-  async previousChapterAsync() {
-    let previousSeriesChapter = this._seriesChapterSelector.fetchPrevious();
-    if (previousSeriesChapter) {
-      await mio.layerViewModel.replaceAsync(mio.initializeAsync(this._listEntry, this._series, previousSeriesChapter));
-    } else {
-      mio.layerViewModel.close();
-    }
-  }
-
-  @mobx.action
-  async previousPageAsync() {
-    if (this.chapter && this.currentPageNumber > 1) {
-      let image = await this._cache.getImageAsync(--this.currentPageNumber);
-      mobx.runInAction(() => this.image = image);
+  async previousAsync() {
+    if (this.chapter && this.pageNumber > 1) {
+      await this.changeAsync(this.pageNumber - 1);
     } else {
       let previousSeriesChapter = this._seriesChapterSelector.fetchPrevious();
       if (!previousSeriesChapter) {
@@ -98,17 +60,35 @@ export class ChapterViewModel {
         mio.toastViewModel.show(mio.language.CHAPTER_PREVIOUSCHAPTER);
         this._previousPageTime = Date.now() + mio.settings.toastTimeout;
       } else {
-        await this.previousChapterAsync();
+        await mio.layerViewModel.replaceAsync(mio.initializeAsync(this._listEntry, this._series, previousSeriesChapter));
       }
     }
   }
 
+  @mobx.action
+  async refreshAsync() {
+    // Initialize the chapter.
+    let request = await fetch(`/api/library/${encodeURIComponent(this._listEntry.providerName)}/${encodeURIComponent(this._listEntry.seriesTitle)}/${encodeURIComponent(this._seriesChapter.name)}`);
+    let chapter = await request.json() as shared.IApiChapter;
+
+    // Initialize the image cache.
+    let imageCache = await new mio.ImageCache(chapter, this._listEntry, request.url);
+    let image = await imageCache.getImageAsync(this.pageNumber);
+    this._cache = imageCache;
+
+    // Initialize the view model.
+    mobx.runInAction(() => {
+      this.chapter = chapter;
+      this.image = image;
+    });
+  }
+  
   @mobx.observable
   chapter: shared.IApiChapter;
 
   @mobx.observable
-  currentPageNumber = 1;
+  image: string;
 
   @mobx.observable
-  image: string;
+  pageNumber = 1;
 }

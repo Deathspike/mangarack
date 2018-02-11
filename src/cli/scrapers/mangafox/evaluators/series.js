@@ -170,7 +170,7 @@
      * @returns {IEvaluatorSeriesChapter[]}
      */
     function testUnique(chapters) {
-      let names = chapters.map(x => x.name);
+      let names = chapters.map(chapter => chapter.name);
       if (names.every((name, index) => names.indexOf(name) === index)) {
         return chapters;
       } else {

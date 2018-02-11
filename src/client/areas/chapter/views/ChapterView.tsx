@@ -1,10 +1,10 @@
 import * as React from 'react';
-import * as mobxReact from 'mobx-react';
 import * as mio from '../';
+import * as mobxReact from 'mobx-react';
 import {chapterStyle} from './styles/chapterStyle';
 
 @mobxReact.observer
-export class ChapterView extends React.Component<{vm: mio.ChapterViewModel}> {
+export class ChapterView extends React.Component<{chapterControlVm: mio.ChapterControlViewModel, chapterVm: mio.ChapterViewModel}> {
   private _pinchZoom?: mio.PinchZoom;
 
   componentWillMount() {
@@ -20,11 +20,8 @@ export class ChapterView extends React.Component<{vm: mio.ChapterViewModel}> {
 
   render() {
     return (
-      <div>
-        <mio.ChapterControlView />
-        <div ref={divElement => this._onRef(divElement)} onMouseDown={e => this._onMouseEvent(e)} style={chapterStyle.imageContainer}>
-          <img onContextMenu={e => this._onContextMenu(e)} src={this.props.vm.image} style={chapterStyle.image} />
-        </div>
+      <div ref={divElement => this._onRef(divElement)} onMouseDown={e => this._onMouseEvent(e)} style={chapterStyle.imageContainer}>
+        <img onContextMenu={e => this._onContextMenu(e)} src={this.props.chapterVm.image} style={chapterStyle.image} />
       </div>
     );
   }
@@ -38,11 +35,13 @@ export class ChapterView extends React.Component<{vm: mio.ChapterViewModel}> {
     let tresholdX = innerWidth / 2;
     let tresholdY = innerHeight / 3;
     if (e.clientY < tresholdY) {
-      this.props.vm.close();
+      this.props.chapterControlVm.toggleVisible();
     } else if (e.clientX < tresholdX) {
-      this.props.vm.nextPageAsync();
+      this.props.chapterControlVm.hide();
+      this.props.chapterVm.nextAsync();
     } else {
-      this.props.vm.previousPageAsync();
+      this.props.chapterControlVm.hide();
+      this.props.chapterVm.previousAsync();
     }
   }
 
