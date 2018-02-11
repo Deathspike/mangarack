@@ -54,7 +54,7 @@ export class BrowserTab {
 		for (let i = 1; i <= mio.settings.browserNavigationRetries; i++) {
 			let request = await this._waitForRequestAsync(await url);
 			let response = request.response();
-			if (response && response.status() === 200) return await mio.timeoutAsync(mio.settings.browserNavigationResponseTimeout);
+			if (response && response.status() === 200) return await mio.timeoutAsync(mio.settings.browserNavigationResponseDelay);
 			await mio.timeoutAsync(mio.settings.browserNavigationTimeoutRetry);
 			await this.reloadAsync();
 		}
@@ -87,13 +87,9 @@ export class BrowserTab {
 	}
 
 	private async _gotoAsync(url: string, referrer?: string) {
-		try {
-			let client = (this._page as any)._client;
-			let response = await client.send('Page.navigate', {url, referrer});
-			if (response.errorText) throw new Error(response.errorText);
-		} catch (error) {
-			throw new Error(error);
-		}
+		let client = (this._page as any)._client as puppeteer.CDPSession;
+		let response = await client.send('Page.navigate', {url, referrer});
+		if (response.errorText) throw new Error(response.errorText);
 	}
 
 	private _onRequestFinished(request: puppeteer.Request) {

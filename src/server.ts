@@ -7,7 +7,7 @@ export {server}
     let mainName = path.basename(require.main.filename);
     if (mainName === 'mangarack-server' || require.main === module) {
       server.execAsync(process.argv).catch(error => {
-        console.error(error);
+        console.error((error && error.stack) || error);
         process.exit(1);
       });
     }

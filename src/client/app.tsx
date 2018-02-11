@@ -10,8 +10,8 @@ mobx.useStrict(true);
 // [Improvement] Clean up the `export {` pattern.
 // [Improvement] window.addEventListener should clean up on an application unload (to be written).
 
-export function processError(reason: any) {
-  console.error(reason);
+export function processError(error: any) {
+  console.error((error && error.stack) || error);
   mio.layerViewModel.reset();
   mio.toastViewModel.show(mio.language.APP_ERROR);
 }

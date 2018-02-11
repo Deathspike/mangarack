@@ -1,6 +1,6 @@
 export const settings = {
   browserHeadless: true,
-  browserNavigationResponseTimeout: 1000,
+  browserNavigationResponseDelay: 1000,
   browserNavigationRetries: 20,
   browserNavigationTimeoutRetry: 3000,
   browserUserDataDir: 'chromeCache',

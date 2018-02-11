@@ -1,6 +1,6 @@
-export function timeoutAsync(timeoutInMilliseconds: number) {
+export function timeoutAsync(timeout: number) {
   return new Promise<void>(resolve => {
-    setTimeout(resolve, timeoutInMilliseconds);
+    setTimeout(resolve, timeout);
   });
 }
 
