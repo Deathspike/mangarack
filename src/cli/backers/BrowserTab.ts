@@ -42,19 +42,19 @@ export class BrowserTab {
 	}
 
 	async navigateAsync(url: string, previousUrl?: string) {
-		// Initialize the referer.
-		let referer = previousUrl || await this._page.url();
-		if (referer !== 'about:blank') await this._page.setExtraHTTPHeaders({Referer: referer});
+		// Initialize the referrer.
+		let referrer = previousUrl || (await this._page.url()) || undefined;
+		if (referrer === 'about:blank') referrer = undefined;
 
 		// Initialize the navigation.
 		this._emptyRequests();
-		await this._page.goto(url, {waitUntil: 'networkidle2', timeout: mio.settings.browserNavigationTimeoutGoto});
+		await this._gotoAsync(url, referrer);
 
 		// Initialize the response.
 		for (let i = 1; i <= mio.settings.browserNavigationRetries; i++) {
 			let request = await this._waitForRequestAsync(await url);
 			let response = request.response();
-			if (response && response.status() === 200) return;
+			if (response && response.status() === 200) return await mio.timeoutAsync(mio.settings.browserNavigationResponseTimeout);
 			await mio.timeoutAsync(mio.settings.browserNavigationTimeoutRetry);
 			await this.reloadAsync();
 		}
@@ -80,16 +80,26 @@ export class BrowserTab {
 		return BrowserTab.createAsync(this._browser, url, previousUrl);
 	}
 
-	private _onRequestFinished(request: puppeteer.Request) {
-		let value = this._requests[request.url()];
-		if (value instanceof Function) value(request);
-		this._requests[request.url()] = request;
-	}
-
 	private _emptyRequests() {
 		for (let key in this._requests) {
 			delete this._requests[key];
 		}
+	}
+
+	private async _gotoAsync(url: string, referrer?: string) {
+		try {
+			let client = (this._page as any)._client;
+			let response = await client.send('Page.navigate', {url, referrer});
+			if (response.errorText) throw new Error(response.errorText);
+		} catch (error) {
+			throw new Error(error);
+		}
+	}
+
+	private _onRequestFinished(request: puppeteer.Request) {
+		let value = this._requests[request.url()];
+		if (value instanceof Function) value(request);
+		this._requests[request.url()] = request;
 	}
 
 	private _waitForRequestAsync(url: string) {
