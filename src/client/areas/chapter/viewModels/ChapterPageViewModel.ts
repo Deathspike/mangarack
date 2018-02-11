@@ -40,7 +40,7 @@ export class ChapterPageViewModel {
           mio.toastViewModel.show(mio.language.CHAPTER_NEXTCHAPTER);
           this._nextPageTime = Date.now() + mio.settings.toastTimeout;
         } else {
-          mio.layerViewModel.close();
+          await mio.layerViewModel.replaceAsync(mio.initializeAsync(this._listEntry, this._series, nextSeriesChapter));
         }
       }
     }
