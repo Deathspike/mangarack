@@ -5,7 +5,7 @@ export class ChapterController extends React.Component<{chapterControlVm: mio.Ch
   render() {
     return (
       <div>
-        <mio.ChapterControlView vm={this.props.chapterControlVm} />
+        <mio.ChapterControlView chapterControlVm={this.props.chapterControlVm} chapterVm={this.props.chapterVm} />
         <mio.ChapterView chapterControlVm={this.props.chapterControlVm} chapterVm={this.props.chapterVm} />
       </div>
     );

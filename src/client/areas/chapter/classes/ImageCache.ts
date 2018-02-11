@@ -14,8 +14,7 @@ export class ImageCache {
     this._url = url;
   }
 
-  async getImageAsync(number: number) {
-    let index = number - 1;
+  async getImageAsync(index: number) {
     let image = this._images[index];
     this._expireCache(index);
     if (typeof image === 'string') {

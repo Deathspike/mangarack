@@ -19,17 +19,17 @@ export class ChapterViewModel {
   }
 
   @mobx.action
-  async changeAsync(pageNumber: number) {
-    this.pageNumber = pageNumber;
-    let image = await this._cache.getImageAsync(this.pageNumber);
+  async changeAsync(index: number) {
+    this.pageIndex = index;
+    let image = await this._cache.getImageAsync(index);
     mobx.runInAction(() => this.image = image);
   }
 
   @mobx.action
   async nextAsync() {
     if (this.chapter) {
-      if (this.pageNumber < this.chapter.length) {
-        await this.changeAsync(this.pageNumber + 1);
+      if (this.pageIndex + 1 < this.chapter.length) {
+        await this.changeAsync(this.pageIndex + 1);
       } else {
         let nextSeriesChapter = this._seriesChapterSelector.fetchNext();
         if (!nextSeriesChapter) {
@@ -48,8 +48,8 @@ export class ChapterViewModel {
 
   @mobx.action
   async previousAsync() {
-    if (this.chapter && this.pageNumber > 1) {
-      await this.changeAsync(this.pageNumber - 1);
+    if (this.chapter && this.pageIndex > 1) {
+      await this.changeAsync(this.pageIndex - 1);
     } else {
       let previousSeriesChapter = this._seriesChapterSelector.fetchPrevious();
       if (!previousSeriesChapter) {
@@ -73,7 +73,7 @@ export class ChapterViewModel {
 
     // Initialize the image cache.
     let imageCache = await new mio.ImageCache(chapter, this._listEntry, request.url);
-    let image = await imageCache.getImageAsync(this.pageNumber);
+    let image = await imageCache.getImageAsync(this.pageIndex);
     this._cache = imageCache;
 
     // Initialize the view model.
@@ -83,6 +83,15 @@ export class ChapterViewModel {
     });
   }
   
+  @mobx.computed
+  get pages() {
+    return this.chapter.map((name, index) => {
+      let c = name.indexOf('.');
+      if (c !== -1) name = name.substr(0, c);
+      return {name, index};
+    })
+  }
+
   @mobx.observable
   chapter: shared.IApiChapter;
 
@@ -90,5 +99,5 @@ export class ChapterViewModel {
   image: string;
 
   @mobx.observable
-  pageNumber = 1;
+  pageIndex = 0;
 }

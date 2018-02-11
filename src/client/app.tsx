@@ -5,7 +5,6 @@ import * as mobx from 'mobx';
 import 'typeface-roboto';
 mobx.useStrict(true);
 
-// TODO: Chapter top-tap expand menu (show page number, page jump, next/previous chapter, read direction, close).
 // [Improvement] Clean up numeric constants that should be in settings.
 // [Improvement] Clean up the `export {` pattern.
 // [Improvement] window.addEventListener should clean up on an application unload (to be written).
