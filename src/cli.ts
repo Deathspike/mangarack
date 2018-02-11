@@ -7,7 +7,7 @@ export {cli}
     let mainName = path.basename(require.main.filename);
     if (mainName === 'mangarack-cli' || require.main === module) {
       cli.execAsync(process.argv).catch(error => {
-        console.log(error);
+        console.error(error);
         process.exit(1);
       });
     }

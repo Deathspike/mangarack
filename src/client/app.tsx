@@ -11,7 +11,7 @@ mobx.useStrict(true);
 // [Improvement] window.addEventListener should clean up on an application unload (to be written).
 
 export function processError(reason: any) {
-  console.log(reason);
+  console.error(reason);
   mio.layerViewModel.reset();
   mio.toastViewModel.show(mio.language.APP_ERROR);
 }
