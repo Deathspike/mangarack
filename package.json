@@ -25,6 +25,7 @@
     "mime": "2.2.0",
     "puppeteer": "1.0.0",
     "sanitize-filename": "1.6.1",
+    "source-map-support": "0.5.3",
     "tslib": "1.8.1",
     "unzipper": "0.8.11"
   },
