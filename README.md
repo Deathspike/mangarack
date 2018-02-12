@@ -1,3 +1,7 @@
+# mangarack 4.0
+
+Looking for *MangaRack* 4.0 documentation? See https://github.com/Deathspike/mangarack/tree/release/4.0
+
 # mangarack 5.0
 
 *MangaRack* has had four major versions over the years. The `4.0` version is a console line application capable of downloading manga series from popular manga scanlation sites. The upcoming `5.0` version aims to implement a *personal manga server* (*Linux*, *macOS* and *Windows*) with *desktop applications* (*macOS* and *Windows*) and *mobile applications* (*Android* and *iOS*). Think *Plex* meets *mangarack*, if that makes sense to you. This is what you will be able to do:
