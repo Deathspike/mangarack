@@ -48,7 +48,7 @@ export class ChapterPageViewModel {
 
   @mobx.action
   async previousAsync() {
-    if (this.chapter && this.pageIndex > 1) {
+    if (this.chapter && this.pageIndex > 0) {
       await this.changeAsync(this.pageIndex - 1);
     } else {
       let previousSeriesChapter = this._seriesChapterSelector.fetchPrevious();
