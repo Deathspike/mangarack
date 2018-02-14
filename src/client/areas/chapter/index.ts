@@ -4,7 +4,7 @@ export * from '../../';
 export * from './initialize';
 export * from './classes/ChapterSelector';
 export * from './classes/ImageCache';
-export * from './classes/PinchZoom';
+export * from './classes/TouchManager';
 export * from './controllers/ChapterController'
 export * from './images/mangafoxImage';
 export * from './viewModels/ChapterControlViewModel';

@@ -5,19 +5,19 @@ import {chapterStyle} from './styles/chapterStyle';
 
 @mobxReact.observer
 export class ChapterPageView extends React.Component<{controlVm: mio.ChapterControlViewModel, pageVm: mio.ChapterPageViewModel}> {
-  private _pinchZoom?: mio.PinchZoom;
+  private _touchManager?: mio.TouchManager;
 
   componentWillMount() {
     this._onKeyDownEvent = this._onKeyDownEvent.bind(this);
     this._onTapEvent = this._onTapEvent.bind(this);
-    this._pinchZoom = new mio.PinchZoom(this._onTapEvent);
+    this._touchManager = new mio.TouchManager(this._onTapEvent);
     document.addEventListener('keydown', this._onKeyDownEvent);
   }
 
   componentWillUnmount() {
-    if (this._pinchZoom) {
-      this._pinchZoom.detach();
-      this._pinchZoom = undefined;
+    if (this._touchManager) {
+      this._touchManager.detach();
+      this._touchManager = undefined;
       document.removeEventListener('keydown', this._onKeyDownEvent);
     }
   }
@@ -49,9 +49,9 @@ export class ChapterPageView extends React.Component<{controlVm: mio.ChapterCont
   }
 
   private _onRef(divElement: HTMLDivElement | null) {
-    if (this._pinchZoom && divElement) {
-      this._pinchZoom.attach(divElement);
-      this._pinchZoom.reset();
+    if (this._touchManager && divElement) {
+      this._touchManager.attachWithPinchZoom(divElement);
+      this._touchManager.reset();
     }
   }
 

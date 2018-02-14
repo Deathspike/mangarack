@@ -3,7 +3,7 @@ import * as Hammer from 'hammerjs';
 // [Improvement] Zoom with constraints of the image instead of the container.
 // [Improvement] Zoom to the center of the pinch (ev.center).
 // [Improvement] Zoom to a higher scale than two.
-export class PinchZoom {
+export class TouchManager {
   private _adjustScale = 1;
   private _adjustDeltaX = 0;
   private _adjustDeltaY = 0;
@@ -19,7 +19,7 @@ export class PinchZoom {
     this._tapEvent = tapEvent;
   }
 
-  attach(element: HTMLElement) {
+  attachWithPinchZoom(element: HTMLElement) {
     if (!this._elementManager) {
       // Initialize each gesture.
       let pinch = new Hammer.Pinch();
