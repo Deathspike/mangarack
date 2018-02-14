@@ -3,6 +3,7 @@ import * as mio from '../';
 import * as mobxReact from 'mobx-react';
 import {chapterStyle} from './styles/chapterStyle';
 
+// [iOS] Reset pinch-zoom level after page navigation occurs, not during.
 @mobxReact.observer
 export class ChapterPageView extends React.Component<{controlVm: mio.ChapterControlViewModel, pageVm: mio.ChapterPageViewModel}> {
   private _touchManager?: mio.TouchManager;

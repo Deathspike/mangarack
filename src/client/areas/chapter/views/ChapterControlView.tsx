@@ -7,6 +7,8 @@ import {chapterControlStyle} from './styles/chapterControlStyle';
 
 // [Improvement/HiPi] Read direction selection (and respect ltr and rtl based on comic type).
 // [Improvement/HiPi] Select must use secondary color.
+// [iOS] Prevent tap to show control panel, and immediately focusing a select due to that tap.
+// [iOS] Prevent focus on select expanding the boundaries after a portrait->landscape orientation change.
 @mobxReact.observer
 export class ChapterControlView extends React.Component<{controlVm: mio.ChapterControlViewModel, pageVm: mio.ChapterPageViewModel}> {
   render() {
