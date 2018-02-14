@@ -30,6 +30,11 @@ export class ChapterPageView extends React.Component<{controlVm: mio.ChapterCont
     );
   }
 
+  private _blurAndHide() {
+    if (document.activeElement) (document.activeElement as HTMLElement).blur();
+    this.props.controlVm.hide();
+  }
+
   private _onContextMenu(e: React.MouseEvent<HTMLImageElement>) {
     e.preventDefault();
     e.stopPropagation();
@@ -38,11 +43,11 @@ export class ChapterPageView extends React.Component<{controlVm: mio.ChapterCont
   private _onKeyDownEvent(e: KeyboardEvent) {
     switch (e.keyCode) {
       case 37:
-        this.props.controlVm.hide();
+        this._blurAndHide();
         this.props.pageVm.nextAsync();
         break;
       case 39:
-        this.props.controlVm.hide();
+        this._blurAndHide();
         this.props.pageVm.previousAsync();
         break;
     }
@@ -59,12 +64,16 @@ export class ChapterPageView extends React.Component<{controlVm: mio.ChapterCont
     let tresholdX = innerWidth / 2;
     let tresholdY = innerHeight / 3;
     if (y < tresholdY) {
-      this.props.controlVm.toggleVisible();
+      if (this.props.controlVm.visible) {
+        this._blurAndHide();
+      } else {
+        this.props.controlVm.show();
+      }
     } else if (x < tresholdX) {
-      this.props.controlVm.hide();
+      this._blurAndHide();
       this.props.pageVm.nextAsync();
     } else {
-      this.props.controlVm.hide();
+      this._blurAndHide();
       this.props.pageVm.previousAsync();
     }
   }

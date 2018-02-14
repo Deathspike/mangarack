@@ -27,13 +27,18 @@ export class ChapterControlView extends React.Component<{controlVm: mio.ChapterC
     );
   }
 
+  private _blurAndHide() {
+    if (document.activeElement) (document.activeElement as HTMLElement).blur();
+    this.props.controlVm.hide();
+  }
+
   private _onChangeChapter(value: string) {
+    this._blurAndHide();
     this.props.controlVm.changeChapterAsync(value);
   }
 
   private async _onChangePageAsync(value: string) {
-    let index = parseInt(value);
-    await this.props.pageVm.changeAsync(index);
-    this.props.controlVm.hide();
+    this._blurAndHide();
+    await this.props.pageVm.changeAsync(parseInt(value));
   }
 }
