@@ -13,12 +13,18 @@ export class PinchZoom {
   private _element?: HTMLElement;
   private _elementManager?: HammerManager;
   private _panTime = 0;
+  private _tapEvent?: (x: number, y: number) => void;
+
+  constructor(tapEvent?: (x: number, y: number) => void) {
+    this._tapEvent = tapEvent;
+  }
 
   attach(element: HTMLElement) {
     if (!this._elementManager) {
       // Initialize each gesture.
       let pinch = new Hammer.Pinch();
       let pan = new Hammer.Pan();
+      let tap = new Hammer.Tap();
       pinch.recognizeWith(pan);
 
       // Initialize the element and manager.
@@ -26,9 +32,10 @@ export class PinchZoom {
       this._elementManager = new Hammer.Manager(element);
 
       // Attach each gesture and event.
-      this._elementManager.add([pinch, pan]);
+      this._elementManager.add([pinch, pan, tap]);
       this._elementManager.on('pan pinch', ev => this._move(ev));
       this._elementManager.on('panend pinchend', ev => this._end(ev));
+      this._elementManager.on('tap', ev => this._tap(ev));
     }
   }
 
@@ -46,6 +53,13 @@ export class PinchZoom {
     this._update();
   }
 
+  private _end(ev: HammerInput) {
+    this._adjustScale = this._currentScale;
+    this._adjustDeltaX = this._currentDeltaX;
+    this._adjustDeltaY = this._currentDeltaY;
+    this._panTime = ev.type === 'pinchend' ? Date.now() + 200 : 0;
+  }
+  
   private _move(ev: HammerInput) {
     if (this._element && (this._panTime < Date.now() || ev.type !== 'pan')) {
       // Compute the scale and each delta.
@@ -66,11 +80,10 @@ export class PinchZoom {
     }
   }
 
-  private _end(ev: HammerInput) {
-    this._adjustScale = this._currentScale;
-    this._adjustDeltaX = this._currentDeltaX;
-    this._adjustDeltaY = this._currentDeltaY;
-    this._panTime = ev.type === 'pinchend' ? Date.now() + 200 : 0;
+  private _tap(ev: HammerInput) {
+    if (this._tapEvent) {
+      this._tapEvent(ev.center.x, ev.center.y);
+    }
   }
 
   private _update() {
