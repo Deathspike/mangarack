@@ -7,7 +7,7 @@
   "license": "MIT",
   "name": "mangarack",
   "repository": "git://github.com/Deathspike/mangarack",
-  "version": "5.0.0-p2.1",
+  "version": "5.0.0-p3",
   "bin": {
     "mangarack": "./bin/mangarack",
     "mangarack-cli": "./bin/mangarack-cli",

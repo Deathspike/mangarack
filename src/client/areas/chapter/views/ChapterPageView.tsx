@@ -3,27 +3,37 @@ import * as mio from '../';
 import * as mobxReact from 'mobx-react';
 import {chapterStyle} from './styles/chapterStyle';
 
+// [iOS] Reset pinch-zoom level after page navigation occurs, not during.
 @mobxReact.observer
 export class ChapterPageView extends React.Component<{controlVm: mio.ChapterControlViewModel, pageVm: mio.ChapterPageViewModel}> {
-  private _pinchZoom?: mio.PinchZoom;
+  private _touchManager?: mio.TouchManager;
 
   componentWillMount() {
-    this._pinchZoom = new mio.PinchZoom();
+    this._onKeyDownEvent = this._onKeyDownEvent.bind(this);
+    this._onTapEvent = this._onTapEvent.bind(this);
+    this._touchManager = new mio.TouchManager(this._onTapEvent);
+    document.addEventListener('keydown', this._onKeyDownEvent);
   }
 
   componentWillUnmount() {
-    if (this._pinchZoom) {
-      this._pinchZoom.detach();
-      this._pinchZoom = undefined;
+    if (this._touchManager) {
+      this._touchManager.detach();
+      this._touchManager = undefined;
+      document.removeEventListener('keydown', this._onKeyDownEvent);
     }
   }
 
   render() {
     return (
-      <div ref={divElement => this._onRef(divElement)} onMouseDown={e => this._onMouseEvent(e)} style={chapterStyle.imageContainer}>
+      <div ref={divElement => this._onRef(divElement)} style={chapterStyle.imageContainer}>
         <img onContextMenu={e => this._onContextMenu(e)} src={this.props.pageVm.image} style={chapterStyle.image} />
       </div>
     );
+  }
+
+  private _blurAndHide() {
+    if (document.activeElement) (document.activeElement as HTMLElement).blur();
+    this.props.controlVm.hide();
   }
 
   private _onContextMenu(e: React.MouseEvent<HTMLImageElement>) {
@@ -31,24 +41,41 @@ export class ChapterPageView extends React.Component<{controlVm: mio.ChapterCont
     e.stopPropagation();
   }
 
-  private _onMouseEvent(e: React.MouseEvent<HTMLDivElement>) {
-    let tresholdX = innerWidth / 2;
-    let tresholdY = innerHeight / 3;
-    if (e.clientY < tresholdY) {
-      this.props.controlVm.toggleVisible();
-    } else if (e.clientX < tresholdX) {
-      this.props.controlVm.hide();
-      this.props.pageVm.nextAsync();
-    } else {
-      this.props.controlVm.hide();
-      this.props.pageVm.previousAsync();
+  private _onKeyDownEvent(e: KeyboardEvent) {
+    switch (e.keyCode) {
+      case 37:
+        this._blurAndHide();
+        this.props.pageVm.nextAsync();
+        break;
+      case 39:
+        this._blurAndHide();
+        this.props.pageVm.previousAsync();
+        break;
     }
   }
 
   private _onRef(divElement: HTMLDivElement | null) {
-    if (this._pinchZoom && divElement) {
-      this._pinchZoom.attach(divElement);
-      this._pinchZoom.reset();
+    if (this._touchManager && divElement) {
+      this._touchManager.attachWithPinchZoom(divElement);
+      this._touchManager.reset();
+    }
+  }
+
+  private _onTapEvent(x: number, y: number) {
+    let tresholdX = innerWidth / 2;
+    let tresholdY = innerHeight / 3;
+    if (y < tresholdY) {
+      if (this.props.controlVm.visible) {
+        this._blurAndHide();
+      } else {
+        this.props.controlVm.show();
+      }
+    } else if (x < tresholdX) {
+      this._blurAndHide();
+      this.props.pageVm.nextAsync();
+    } else {
+      this._blurAndHide();
+      this.props.pageVm.previousAsync();
     }
   }
 }

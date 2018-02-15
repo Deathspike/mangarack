@@ -4,6 +4,9 @@ import * as mui from 'material-ui';
 import * as muiIcon from 'material-ui-icons';
 import {containerStyle} from './styles/containerStyle';
 
+// [iOS] Hide full-screen button if no full-screen API is available.
+// [iOS] Enable scroll momentum. Terrible performance right now (due to Position style?).
+// [iOS] Disable bounce out-of-bounds.
 export class ContainerComponent extends React.Component<{enableBack: boolean, title: string, refreshAsync: () => Promise<void>}> {
   render() {
     return (

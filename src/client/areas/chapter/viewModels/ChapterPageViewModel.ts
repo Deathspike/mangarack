@@ -7,15 +7,17 @@ export class ChapterPageViewModel {
   private readonly _series: shared.IApiSeries;
   private readonly _seriesChapter: shared.IApiSeriesChapter;
   private readonly _seriesChapterSelector: mio.ChapterSelector;
+  private readonly _wentBack: boolean;
   private _cache: mio.ImageCache;
   private _previousPageTime?: number;
   private _nextPageTime?: number;
 
-  constructor(listEntry: shared.IApiListEntry, series: shared.IApiSeries, seriesChapter: shared.IApiSeriesChapter) {
+  constructor(listEntry: shared.IApiListEntry, series: shared.IApiSeries, seriesChapter: shared.IApiSeriesChapter, wentBack: boolean) {
     this._listEntry = listEntry;
     this._series = series;
     this._seriesChapter = seriesChapter;
     this._seriesChapterSelector = new mio.ChapterSelector(series, seriesChapter);
+    this._wentBack = wentBack;
   }
 
   @mobx.action
@@ -48,7 +50,7 @@ export class ChapterPageViewModel {
 
   @mobx.action
   async previousAsync() {
-    if (this.chapter && this.pageIndex > 1) {
+    if (this.chapter && this.pageIndex > 0) {
       await this.changeAsync(this.pageIndex - 1);
     } else {
       let previousSeriesChapter = this._seriesChapterSelector.fetchPrevious();
@@ -60,7 +62,7 @@ export class ChapterPageViewModel {
         mio.toastViewModel.show(mio.language.CHAPTER_PREVIOUSCHAPTER);
         this._previousPageTime = Date.now() + mio.settings.toastTimeout;
       } else {
-        await mio.layerViewModel.replaceAsync(mio.initializeAsync(this._listEntry, this._series, previousSeriesChapter));
+        await mio.layerViewModel.replaceAsync(mio.initializeAsync(this._listEntry, this._series, previousSeriesChapter, true));
       }
     }
   }
@@ -70,16 +72,18 @@ export class ChapterPageViewModel {
     // Initialize the chapter.
     let request = await fetch(`/api/library/${encodeURIComponent(this._listEntry.providerName)}/${encodeURIComponent(this._listEntry.seriesTitle)}/${encodeURIComponent(this._seriesChapter.name)}`);
     let chapter = await request.json() as shared.IApiChapter;
+    let pageIndex = this._wentBack ? chapter.length - 1 : 0;
 
     // Initialize the image cache.
     let imageCache = await new mio.ImageCache(chapter, this._listEntry, request.url);
-    let image = await imageCache.getImageAsync(this.pageIndex);
+    let image = await imageCache.getImageAsync(pageIndex);
     this._cache = imageCache;
 
     // Initialize the view model.
     mobx.runInAction(() => {
       this.chapter = chapter;
       this.image = image;
+      this.pageIndex = pageIndex;
     });
   }
   
@@ -99,5 +103,5 @@ export class ChapterPageViewModel {
   image: string;
 
   @mobx.observable
-  pageIndex = 0;
+  pageIndex: number;
 }

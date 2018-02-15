@@ -7,34 +7,40 @@ import {chapterControlStyle} from './styles/chapterControlStyle';
 
 // [Improvement/HiPi] Read direction selection (and respect ltr and rtl based on comic type).
 // [Improvement/HiPi] Select must use secondary color.
+// [iOS] Prevent tap to show control panel, and immediately focusing a select due to that tap.
+// [iOS] Prevent focus on select expanding the boundaries after a portrait->landscape orientation change.
 @mobxReact.observer
 export class ChapterControlView extends React.Component<{controlVm: mio.ChapterControlViewModel, pageVm: mio.ChapterPageViewModel}> {
   render() {
-    return this.props.controlVm.visible && (
-      <mui.AppBar color="secondary">
+    return (
+      <mui.AppBar color="secondary" style={{visibility: this.props.controlVm.visible ? 'visible' : 'hidden'}}>
         <mui.Toolbar>
           <mui.IconButton color="inherit" onClick={() => this.props.controlVm.close()} style={chapterControlStyle.primaryButton}>
             <muiIcon.Close />
           </mui.IconButton>
-          <mui.Select onChange={e => this._onChangeChapter(e.target.value)} value={this.props.controlVm.chapterName} style={chapterControlStyle.chapterSelect}>
-            {this.props.controlVm.seriesChapters.map(seriesChapter => <mui.MenuItem key={seriesChapter.name} value={seriesChapter.name}>{seriesChapter.shortName}</mui.MenuItem>)}
+          <mui.Select onChange={e => this._onChangeChapter(e.target.value)} native={true} value={this.props.controlVm.chapterName} style={chapterControlStyle.chapterSelect}>
+            {this.props.controlVm.seriesChapters.map(seriesChapter => <option key={seriesChapter.name} value={seriesChapter.name}>{seriesChapter.shortName}</option>)}
           </mui.Select>
-          <mui.Select onChange={e => this._onChangePage(e.target.value)} value={this.props.pageVm.pageIndex} style={chapterControlStyle.pageSelect}>
-            {this.props.pageVm.pages.map(pageData => <mui.MenuItem key={pageData.index} value={pageData.index}>{pageData.name}</mui.MenuItem>)}
+          <mui.Select onChange={e => this._onChangePageAsync(e.target.value)} native={true} value={this.props.pageVm.pageIndex} style={chapterControlStyle.pageSelect}>
+            {this.props.pageVm.pages.map(pageData => <option key={pageData.index} value={pageData.index}>{pageData.name}</option>)}
           </mui.Select>
         </mui.Toolbar>
       </mui.AppBar>
     );
   }
 
-  private _onChangeChapter(value: string) {
+  private _blurAndHide() {
+    if (document.activeElement) (document.activeElement as HTMLElement).blur();
     this.props.controlVm.hide();
+  }
+
+  private _onChangeChapter(value: string) {
+    this._blurAndHide();
     this.props.controlVm.changeChapterAsync(value);
   }
 
-  private _onChangePage(value: string) {
-    let index = parseInt(value);
-    this.props.controlVm.hide();
-    this.props.pageVm.changeAsync(index);
+  private async _onChangePageAsync(value: string) {
+    this._blurAndHide();
+    await this.props.pageVm.changeAsync(parseInt(value));
   }
 }

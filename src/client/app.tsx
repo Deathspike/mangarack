@@ -5,6 +5,12 @@ import * as mobx from 'mobx';
 import 'typeface-roboto';
 mobx.useStrict(true);
 
+/*
+Previous chapter start at the last page.. because THAT makes sense.
+The ability to select reading direction (it's always right-to-left for now).
+The automatic detection of non-manga (thus using right-to-left reading).
+The ability to go full screen anywhere but the homescreen
+*/
 // [Improvement] Clean up numeric constants that should be in settings.
 // [Improvement] Clean up the `export {` pattern.
 // [Improvement] window.addEventListener should clean up on an application unload (to be written).

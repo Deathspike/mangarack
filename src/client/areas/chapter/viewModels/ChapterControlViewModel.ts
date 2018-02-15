@@ -39,8 +39,8 @@ export class ChapterControlViewModel {
   }
   
   @mobx.action
-  toggleVisible() {
-    this.visible = !this.visible;
+  show() {
+    this.visible = true;
   }
   
   @mobx.computed
